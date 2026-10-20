@@ -28,4 +28,3 @@ Welcome to the official GitHub documentation mirror for **[MyPresta.eu](https://
 - **Live Demo & Test Stores:** Available directly on each product's specification page.
 
 ---
-*Mirrored automatically with SEO cross-linking canonical signals for GitHub.*
