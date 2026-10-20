@@ -76,6 +76,3 @@ Every Markdown file in this repository is processed through an automated pipelin
 - **Official Store:** [https://mypresta.eu](https://mypresta.eu)
 - **Customer Support & Orders:** [https://mypresta.eu/my-account/orders/](https://mypresta.eu/my-account/orders/)
 - **Live Demo & Test Stores:** Available directly on each product's specification page.
-
----
-*Mirrored automatically with Astro & SEO cross-linking canonical signals for GitHub.*
