@@ -16,7 +16,7 @@ sidebar:
 
 ## 1. Requisiti e Compatibilità
 
-- **Versioni PrestaShop supportate**: PrestaShop 1.6.x, 1.7.x
+- **Versioni PrestaShop supportate**: PrestaShop 1.6.x, 1.7.x, 8.x, 9.x
 - **Compatibilità PHP**: PHP 5.6 - 8.5
 - **Requisiti di hosting**: Le estensioni PHP standard (cURL, JSON, OpenSSL) sono generalmente sufficienti. Non sono necessarie configurazioni speciali del server.
 
