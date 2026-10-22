@@ -67,6 +67,10 @@ Die Konfigurationsseite zeigt eine Warnung, wenn die View nicht angelegt werden 
 
 Öffnen Sie **Konfigurieren**. Auf der Seite stehen zwei Formulare, darunter das Panel **MyPresta-Updates**. **Speichern** im Einstellungsformular sendet `submitCombfeatSettings`. **Import** sendet `submitCombfeatImport`.
 
+![Einstellungsformular auf der Modulkonfiguration](https://mypresta.eu/docs/images/docs/configure-settings.webp)
+
+Die Abbildung zeigt das englische Backoffice. Die Beschriftungen auf dem Bild sind die englischen Quelltexte. Die deutschen Namen stehen in dieser Anleitung.
+
 ### 4.1 Eigenschaften für Kombinationen aktivieren
 
 Schlüssel: `combfeat_p_feat`. Standard: **Aktiviert**.
@@ -197,6 +201,8 @@ Ist der ursprüngliche Titel leer, wird nur der hinzugefügte Teil verwendet.
 
 Das zweite Formular auf der Konfigurationsseite. Diese Beschriftungen sind derzeit in jeder Sprache die englischen Quelltexte (sie stehen noch nicht in den Übersetzungsdateien).
 
+![Formular Import der Kombinations-Eigenschaften](https://mypresta.eu/docs/images/docs/configure-import.webp)
+
 Der Import weist Kombinationen Eigenschaftswerte zu. Er importiert keine Beschreibungen und keine Titel und schreibt keine Zeilen in die Produkteigenschaftenliste (`feature_product`). Eine fehlende Eigenschaft oder ein fehlender Wert wird im Katalog angelegt.
 
 ### 5.1 Import mode
@@ -263,6 +269,10 @@ Nach einem erfolgreichen Import wird der Block-Cache der Facettensuche geleert. 
 ## 6. Inhalt der Kombination am Produkt
 
 **Katalog > Produkte**, Produkt bearbeiten, Registerkarte **Module**. Blocktitel: **Inhalt der Kombination**. Untertitel: **Eigenschaften, Beschreibungen und Meta-Titel pro Kombination**.
+
+![Inhalt der Kombination auf der Registerkarte Module](https://mypresta.eu/docs/images/docs/product-combination-content.webp)
+
+Die Abbildung zeigt ein Produkt im englischen Backoffice. Der Eigenschaftswert in der geöffneten Zeile gehört zu diesem Produkt. **Description** und **Meta title** auf dem Bild sind die weiteren Registerkarten derselben Zeile. Deutsch heißen sie **Beschreibung** und **Meta-Titel**.
 
 Legen Sie zuerst die Kombinationen an (Registerkarte **Kombinationen** des Produkts). Hat das Produkt keine, sagt der Block das, und es gibt nichts zu bearbeiten.
 
@@ -371,6 +381,10 @@ Die Produktseite im Shop zeigt die Produkteigenschaften von PrestaShop weiter, b
 ## 9. MyPresta-Updates
 
 Das Panel unter den Formularen:
+
+![Panel MyPresta-Updates](https://mypresta.eu/docs/images/docs/configure-updates.webp)
+
+Die Abbildung zeigt das englische Backoffice. **Check now** ist **Jetzt prüfen**, **Updates notifications** ist **Update-Benachrichtigungen**, **Module page** ist **Modulseite**.
 
 | Steuerung | Verhalten |
 | --- | --- |

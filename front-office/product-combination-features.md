@@ -67,6 +67,8 @@ The configuration page shows a warning when the view cannot be created, the adap
 
 Open **Configure**. Two forms are on the page, then the **MyPresta updates** panel. **Save** on the settings form stores `submitCombfeatSettings`. **Import** stores `submitCombfeatImport`.
 
+![Settings form on the module configuration page](https://mypresta.eu/docs/images/docs/configure-settings.webp)
+
 ### 4.1 Turn on features for combinations
 
 Configuration key: `combfeat_p_feat`. Default: **Enabled**.
@@ -197,6 +199,8 @@ If the original title is empty, the added part is used alone.
 
 The second form on the configuration page. These labels are currently the English source strings in every language (they are not in the module translation files yet).
 
+![Import combination features form](https://mypresta.eu/docs/images/docs/configure-import.webp)
+
 Import assigns feature values to combinations. It does not import descriptions or titles, and it does not write rows into the product feature list (`feature_product`). A missing feature or a missing value is created in the catalog.
 
 ### 5.1 Import mode
@@ -263,6 +267,10 @@ After a successful import the Faceted Search block cache is cleared. The confirm
 ## 6. Combination content on the product
 
 **Catalog > Products**, edit the product, open the **Modules** tab. The block title is **Combination content**. The subtitle is **Features, descriptions and meta titles per combination**.
+
+![Combination content on the product Modules tab](https://mypresta.eu/docs/images/docs/product-combination-content.webp)
+
+The picture is one product in an English back office. The feature value on the open row belongs to that product. **Description** and **Meta title** are the other tabs on the same row.
 
 Create the combinations first (the **Combinations** tab of the product). If the product has none, the block says so and there is nothing to edit.
 
@@ -371,6 +379,8 @@ The product page in the shop still shows product features from PrestaShop until 
 ## 9. MyPresta updates
 
 The panel under the forms:
+
+![MyPresta updates panel](https://mypresta.eu/docs/images/docs/configure-updates.webp)
 
 | Control | Behaviour |
 | --- | --- |

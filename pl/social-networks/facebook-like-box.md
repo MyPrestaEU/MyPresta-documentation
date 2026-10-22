@@ -12,6 +12,13 @@ sidebar:
 > ---
 
 
+> ⚠️ **Notice:** This is the oficjalna dokumentacja modułu PrestaShop.
+> - 🛒 **Pełną specyfikację handlową, changelog oraz możliwość zakupu znajdziesz na oficjalnej karcie produktu na MyPresta.eu:** [Kup moduł Facebook Like Box na MyPresta.eu](https://mypresta.eu/modules/social-networks/facebook-like-box.html)
+> - 🌐 **Oficjalny hub dokumentacyjny online:** [Czytaj interaktywną dokumentację na MyPresta.eu](https://mypresta.eu/docs/pl/social-networks/facebook-like-box/)
+>
+> ---
+
+
 # Facebook Like Box
 
 ## 1. Wymagania i Kompatybilność

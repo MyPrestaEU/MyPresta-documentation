@@ -1,8 +1,8 @@
 ---
-title: "Pretty / Clean URLs PRO - Manual para el Comerciante y Guía de Configuración"
-description: "Manual de usuario completo, guía de configuración pantalla por pantalla y referencia para desarrolladores del módulo Pretty / Clean URLs PRO de PrestaShop por MyPresta.eu."
+title: "URLs amigables y limpias - manual del vendedor"
+description: "Instrucciones de configuración y resolución de problemas para quien ya tiene este módulo."
 sidebar:
-  label: "Pretty / Clean URLs PRO - Manual para el Comerciante y Guía de Configuración"
+  label: "URLs amigables y limpias - manual del vendedor"
 ---
 
 > ⚠️ **Notice:** This is the documentación oficial del módulo de PrestaShop.
@@ -12,262 +12,276 @@ sidebar:
 > ---
 
 
-# Pretty / Clean URLs PRO
+Nombre técnico `purls`, versión 3.0.0, nombre en el panel: URLs amigables y limpias.
 
-## 1. Requisitos y Compatibilidad
+## Dónde están las pantallas
 
--   **Versiones de PrestaShop Compatibles**: PrestaShop 1.5.x, 1.6.x, 1.7.0.0 - 1.7.4.x, 1.7.5.0 - 1.7.7.x, 1.7.8.x, 8.x, 9.x
--   **Compatibilidad PHP**: PHP 5.6 - 8.5
--   **Requisitos de Alojamiento**: Extensiones PHP estándar (cURL, JSON, OpenSSL). Tu servidor también debe tener `mod_rewrite` habilitado para Apache o una funcionalidad equivalente de reescritura de URL para Nginx, lo cual es estándar para la mayoría de las instalaciones de PrestaShop.
--   **URLs Amigables de PrestaShop**: La opción nativa de PrestaShop "URL amigable" (que se encuentra en **Parámetros de la tienda > SEO y URLs**) *debe estar habilitada* para que este módulo funcione correctamente. Este módulo mejora la funcionalidad nativa de PrestaShop, no la reemplaza.
+Entre en **Módulos > Gestor de módulos** y configure **URLs amigables y limpias**. La página es el formulario **Configuración**, debajo el panel **Posibles colisiones** y debajo el panel **Actualizaciones de MyPresta**. El módulo no añade una entrada de menú propia, una pantalla de importación ni un bloque en la ficha del producto.
 
-## 2. Guía Completa de Configuración
+Las etiquetas salen de `translations/es.php`. La frase «on documentation page of this module» no está en los archivos de traducción, así que la pantalla muestra el texto fuente en inglés.
 
-### 2.1 Página de Configuración del Módulo (Back Office > Módulos > Configurar)
+## Qué escribe el hecho de abrir la configuración
 
-Después de la instalación, al hacer clic en "Configurar" te llevará a la página de configuración principal de "Pretty / Clean URLs PRO". Aquí es donde controlas el comportamiento principal del módulo.
+`install()` no escribe estos valores. Al abrir la configuración, `getContent()` escribe una ruta cuando el valor actual falta o está vacío:
 
-**Configuración General**
+| Clave | Valor escrito |
+| --- | --- |
+| `PURLS_ROUTE_cms_rule` | `info/{rewrite}.html` |
+| `PURLS_ROUTE_cms_category_rule` | `info/{rewrite}` |
+| `PURLS_ROUTE_supplier_rule` | `supplier/{rewrite}/` |
+| `PURLS_ROUTE_manufacturer_rule` | `manufacturer/{rewrite}/` |
+| `PS_ROUTE_category_rule` | `{parent_categories:/}{rewrite}/` |
+| `PS_ROUTE_product_rule` | `{category:/}{rewrite}.html` |
 
--   **Habilitar URLs Bonitas:**
-    -   **Qué hace esta configuración:** Este es el interruptor principal del módulo. Controla si el módulo genera y utiliza activamente URLs limpias en toda tu tienda.
-    -   **Efecto de cambiar esta configuración:**
-        -   *Cuando está habilitado:* El módulo comenzará a generar y redirigir a URLs limpias para todos los tipos de página compatibles (productos, categorías, CMS, etc.).
-        -   *Cuando está deshabilitado:* El módulo estará inactivo, y PrestaShop volverá a su estructura de URL predeterminada (que puede incluir IDs).
-    -   **Valor recomendado:** **SÍ** (Esta es la función principal del módulo).
-    -   **Escenario / ejemplo del comerciante:** Acabas de instalar el módulo y quieres activar sus beneficios SEO. Habilitarías esta configuración. Si necesitas solucionar problemas temporalmente o volver al comportamiento predeterminado de PrestaShop, podrías deshabilitarlo.
--   **Eliminar IDs de las URLs:**
-    -   **Qué hace esta configuración:** Esta opción controla específicamente si el ID numérico (por ejemplo, `123` en `tutienda.com/123-mi-producto`) se elimina de las URLs.
-    -   **Efecto de cambiar esta configuración:**
-        -   *Cuando está habilitado:* Las URLs serán más cortas y limpias, como `tutienda.com/mi-producto`. Esto es generalmente mejor para el SEO y la estética.
-        -   *Cuando está deshabilitado:* Las URLs seguirán siendo "bonitas" pero conservarán el ID, por ejemplo, `tutienda.com/123-mi-producto`. Esto podría ser útil si tienes sistemas externos que dependen de que el ID esté presente en la URL, aunque es menos común.
-    -   **Valor recomendado:** **SÍ** (Para el máximo beneficio SEO y una estética limpia).
-    -   **Escenario / ejemplo del comerciante:** Quieres las URLs más limpias posibles para una mejor indexación en los motores de búsqueda y legibilidad para el usuario. Habilitarías esto.
--   **Redirección Automática 301:**
-    -   **Qué hace esta configuración:** Esta configuración crítica le dice al módulo que cree automáticamente redirecciones permanentes 301 de las URLs antiguas basadas en ID a las nuevas URLs limpias.
-    -   **Efecto de cambiar esta configuración:**
-        -   *Cuando está habilitado:* Cualquier visitante o bot de motor de búsqueda que intente acceder a una URL antigua (por ejemplo, una que fue indexada antes de que el módulo estuviera activo) será redirigido sin problemas a la nueva URL limpia. Esto evita errores 404 y preserva tu valor SEO de enlaces.
-        -   *Cuando está deshabilitado:* Las URLs antiguas llevarán a errores 404 "Página no encontrada", lo cual es malo para la experiencia del usuario y puede dañar gravemente tu SEO.
-    -   **Valor recomendado:** **SÍ** (Absolutamente esencial para mantener el SEO y la experiencia del usuario durante y después de la transición a URLs limpias).
-    -   **Escenario / ejemplo del comerciante:** Acabas de activar el módulo en una tienda existente con muchas páginas indexadas. Habilitar esto asegura que todos tus enlaces antiguos sigan funcionando y pasen su valor SEO a los nuevos enlaces.
--   **Forzar Barra Final:**
-    -   **Qué hace esta configuración:** Determina si siempre se añade una barra final (`/`) al final de tus URLs (por ejemplo, `tutienda.com/categoria/` vs. `tutienda.com/categoria`).
-    -   **Efecto de cambiar esta configuración:**
-        -   *Cuando está habilitado:* Todas las URLs generadas terminarán con una barra. Esto puede ayudar con la consistencia de las URLs y algunas herramientas SEO lo prefieren.
-        -   *Cuando está deshabilitado:* Las URLs no necesariamente terminarán con una barra, dependiendo del comportamiento predeterminado de PrestaShop para ese tipo de página.
-    -   **Valor recomendado:** **SÍ** (Para consistencia y para evitar posibles problemas de contenido duplicado si los motores de búsqueda tratan `url` y `url/` como páginas diferentes).
-    -   **Escenario / ejemplo del comerciante:** Quieres asegurarte de que todas las URLs de tus categorías y páginas CMS terminen consistentemente con una barra para una mejor gestión SEO y para prevenir posibles problemas de contenido duplicado.
--   **Eliminar Extensión .html:**
-    -   **Qué hace esta configuración:** Esta opción controla si la extensión `.html` se elimina de las URLs de productos y páginas CMS.
-    -   **Efecto de cambiar esta configuración:**
-        -   *Cuando está habilitado:* Las URLs serán aún más cortas, por ejemplo, `tutienda.com/mi-producto` en lugar de `tutienda.com/mi-producto.html`. Esto es generalmente preferido para el diseño web moderno y el SEO.
-        -   *Cuando está deshabilitado:* Las URLs de productos y páginas CMS conservarán la extensión `.html`.
-    -   **Valor recomendado:** **SÍ** (Para la estructura de URL más limpia y moderna).
-    -   **Escenario / ejemplo del comerciante:** Quieres que las páginas de tus productos se vean como `tutienda.com/mi-producto` en lugar de `tutienda.com/mi-producto.html` para una apariencia más elegante y un mejor SEO.
+`PS_ROUTE_product_rule` y `PS_ROUTE_category_rule` son claves de PrestaShop. Si están vacías, abrir esta página las sustituye por los valores de la tabla. Con más de un idioma, las cuatro claves `PURLS_ROUTE_*` se guardan por idioma. Con un idioma, como un solo texto.
 
-**Botón Guardar:**
+## Configuración
 
--   Haz clic siempre en el botón "Guardar" después de realizar cualquier cambio para aplicarlos a tu tienda.
+![La pantalla está en inglés. En este manual: Configuración.](https://mypresta.eu/docs/images/docs/purls-configure-settings.webp)
 
-### 2.2 Pantallas de Administración Dedicadas y Vistas de Controlador
+![Pantalla en inglés, después de guardar. ID de producto: ID of product + ID of attribute. Hash desactivado. Categorías, fabricantes, proveedores y CMS activados. 301 activado. En este manual: Configuración.](https://mypresta.eu/docs/images/docs/purls-configure-enabled.webp)
 
-Este módulo funciona principalmente anulando las clases y controladores principales de PrestaShop para modificar la generación y el enrutamiento de URLs. Aunque no introduce un nuevo elemento de menú dedicado en el Back Office para gestionar una lista de "URLs Bonitas", se integra directamente con las funcionalidades existentes de PrestaShop.
+La leyenda es **Configuración**. La descripción es **Selecciona de qué tipo de URLs quieres eliminar el ID**. El botón es **Guardar** (`submitCategoryFeatured`).
 
-**Integración con AdminProductsController (Back Office > Catálogo > Productos)**
+`install()` no crea estas claves. Hasta el primer guardado, `Configuration::get` devuelve false. La eliminación solo corre con los valores de abajo, así que una clave ausente deja el ID en la URL. En el formulario, false coincide con la opción `0` (**No eliminar números de ID** / **Desactivado**).
 
--   **Nombre de la Pantalla y Ubicación del Menú:** **Catálogo > Productos**
--   **Acciones y Configuraciones Disponibles:**
-    -   Cuando editas o creas un producto, el módulo influye en cómo se comporta el campo "URL amigable". En lugar de requerir que elimines manualmente los IDs o asegures una estructura limpia, la lógica del módulo generará y sugerirá automáticamente una URL limpia y sin ID basada en el nombre de tu producto y la configuración del módulo.
-    -   El módulo asegura que cuando guardas un producto, su URL se genera de acuerdo con la configuración de "Pretty / Clean URLs PRO" (por ejemplo, sin ID, sin extensión `.html` si está configurado).
--   **Efecto de los cambios:**
-    -   Cuando guardas un producto, la URL generada y utilizada por PrestaShop reflejará la estructura de URL limpia definida en la configuración del módulo.
-    -   Si cambias el nombre de un producto, el módulo ayudará a asegurar que la URL amigable se actualice limpiamente.
--   **Flujo de trabajo recomendado para la gestión diaria de la tienda:**
-    -   Continúa gestionando tus productos como de costumbre en **Catálogo > Productos**. El módulo funciona en segundo plano para asegurar que las URLs estén optimizadas.
-    -   Al crear o editar productos, asegúrate de que los nombres de tus productos sean descriptivos, ya que se utilizan para generar las URLs amigables.
-    -   Aún puedes ajustar manualmente el campo "URL amigable" para un producto si necesitas una URL específica, pero la lógica del módulo guiará la generación inicial.
+| Etiqueta | Clave | Valores |
+| --- | --- | --- |
+| ID de Producto | `purls_products` | `0` No eliminar números de ID. `1` ID de producto + ID de atributo. `2` Solo ID de atributo. `3` Solo ID de producto. |
+| Hashcode con atributos | `purls_product_hash` | `1` Activado, `0` Desactivado. |
+| Categorías | `purls_categories` | `1` Activado quita el ID de los enlaces de categoría. `0` Desactivado. |
+| Fabricantes | `purls_manufacturers` | `1` Activado quita el ID de los enlaces de fabricante. `0` Desactivado. |
+| Proveedores | `purls_suppliers` | `1` Activado quita el ID de los enlaces de proveedor. `0` Desactivado. |
+| CMS | `purls_cms` | `1` Activado quita el ID de los enlaces CMS. `0` Desactivado. |
+| Redirección 301 desde URLs antiguas | `purls_301` | Radio. `1` Activado, `0` Desactivado. Texto: Activar la redirección automática de URLs antiguas (con ID) a URLs nuevas (sin ID). |
 
-**Otros Controladores de Administración (Integración Implícita)**
+La ayuda de **ID de Producto** pide editar el esquema de productos:
 
-El módulo también afecta implícitamente otras áreas donde se generan URLs, como:
+- **ID de producto + ID de atributo**: quitar `{id}` y `{id_product_attribute}`.
+- **Solo ID de atributo**: quitar `{id_product_attribute}`.
+- **Solo ID de producto**: quitar `{id}` y usar `{id_product_attribute:-}` como id de atributo.
 
--   **Catálogo > Categorías**: Al crear o editar categorías.
--   **Catálogo > Marcas**: Al crear o editar marcas.
--   **Catálogo > Proveedores**: Al crear o editar proveedores.
--   **Diseño > Páginas (CMS)**: Al crear o editar páginas CMS.
+La misma ayuda abre `https://mypresta.eu/documentation/pretty-clean-urls/configuration-and-module-usage/schema-of-urls-settings.html`. El texto del enlace es la fuente inglesa «on documentation page of this module».
 
-En todos estos casos, el módulo asegura que las URLs amigables generadas por PrestaShop se adhieran a la configuración de "Pretty / Clean URLs PRO", eliminando IDs y extensiones según lo configurado.
+**Hashcode con atributos**: Activado corta la URL del producto en `#`. Desactivado, y solo si ID de Producto es `1` o `2`, conserva un hash como `#/size-s/color-white`. El texto de ayuda dice que la opción actúa cuando el id de atributo de producto se quita de la URL. En el código, `Link::getProductLink()` conserva el hash solo si `purls_product_hash` es `0` y `purls_products` es `1` o `2`. Con el valor `3`, el mismo método corta siempre la URL en `#`. El valor `0` de ID de Producto llama al método padre de PrestaShop.
 
-### 2.3 Integración de la Configuración de SEO y URLs de PrestaShop
-
-El módulo "Pretty / Clean URLs PRO" a partir de la versión 2.8.3 y superiores tiene su propia sección dedicada para definir esquemas de URL, lo que hace innecesario configurar manualmente estas opciones en la sección nativa de PrestaShop **Parámetros de la tienda > SEO y URLs**. Sin embargo, es crucial entender la interacción.
-
-:::caution Nota Importante
-Aunque el módulo gestiona el esquema de URL, la opción nativa de PrestaShop **URL amigable** en **Parámetros de la tienda > SEO y URLs** *debe estar habilitada* para que el módulo funcione. El módulo mejora esta funcionalidad central de PrestaShop.
-:::
-
-**Esquema de URLs (Gestionado por el Módulo)**
-
-Históricamente, los usuarios de PrestaShop definían los patrones de URL (rutas) para productos, categorías, páginas CMS, etc., en la sección **Parámetros de la tienda > SEO y URLs**. El módulo "Pretty / Clean URLs PRO" ahora asume esta responsabilidad, permitiéndote configurarlas directamente desde su propia página de configuración.
-
-El módulo asegura que las rutas se configuren para eliminar `{id}` de las URLs, lo cual es esencial para URLs verdaderamente limpias. Si, por alguna razón, encuentras que las rutas en **Parámetros de la tienda > SEO y URLs** todavía contienen `{id}` después de instalar y configurar el módulo, podría indicar un problema con las anulaciones del módulo (consulta la Sección 6 para solucionar problemas).
-
-Como referencia, aquí están las estructuras de ruta recomendadas que el módulo busca implementar:
-
-| Tipo de Ruta          | Valor Predeterminado de PrestaShop (Ejemplo) | Valor Deseado del Módulo (Limpio) |
-| :------------------ | :--------------------------------- | :----------------------------- |
-| Ruta a producto    | `{category:/}{id}-{rewrite}{-:ean13}.html` | `{category:/}{rewrite}.html` (o `{rewrite}.html`) |
-| Ruta a categoría   | `{id}-{rewrite}`                   | `{parent_categories:/}{rewrite}/` (o `{rewrite}/`) |
-| Ruta a proveedor   | `{id}__{rewrite}`                  | `supplier/{rewrite}/`          |
-| Ruta a fabricante | `{id}_{rewrite}`                   | `manufacturer/{rewrite}/`      |
-| Ruta a página CMS   | `content/{id}-{rewrite}`           | `info/{rewrite}.html`          |
-| Ruta a página de categoría CMS | `content/category/{id}-{rewrite}` | `info/{rewrite}`               |
-
-:::tip Entorno Multitienda
-Si estás ejecutando una Multitienda PrestaShop, recuerda verificar y, si es necesario, ajustar la configuración del esquema de URL para cada tienda individual. Puedes seleccionar la tienda que deseas configurar desde el menú de contexto de la tienda en tu Back Office.
-:::
-
-### 2.4 Tabla de Referencia Rápida de Configuración
-
-| Pantalla / Vista | Configuración / Opción | Predeterminado / Recomendado | Propósito e Impacto |
+| Etiqueta | Clave | Campo de idioma | Palabras del formulario |
 | --- | --- | --- | --- |
-| Config. del Módulo | Habilitar URLs Bonitas | SÍ | Activa/desactiva la funcionalidad principal del módulo. |
-| Config. del Módulo | Eliminar IDs de las URLs | SÍ | Elimina los IDs numéricos de las URLs (por ejemplo, `123-producto` se convierte en `producto`). |
-| Config. del Módulo | Redirección Automática 301 | SÍ | Redirige las URLs antiguas basadas en ID a nuevas URLs limpias, preservando el SEO. |
-| Config. del Módulo | Forzar Barra Final | SÍ | Asegura que todas las URLs terminen con `/` para consistencia y SEO. |
-| Config. del Módulo | Eliminar Extensión .html | SÍ | Elimina `.html` de las URLs de productos/páginas CMS para enlaces más limpios. |
-| Catálogo > Productos (Editar) | Campo URL amigable | Auto-generado | El módulo influye en la generación automática de URLs limpias para productos. |
-| Catálogo > Categorías (Editar) | Campo URL amigable | Auto-generado | El módulo influye en la generación automática de URLs limpias para categorías. |
-| Diseño > Páginas (Editar) | Campo URL amigable | Auto-generado | El módulo influye en la generación automática de URLs limpias para páginas CMS. |
-| Parámetros de la tienda > SEO y URLs | URL amigable | SÍ | **CRÍTICO:** Debe estar habilitado para que el módulo funcione. |
+| Regla de producto | `PS_ROUTE_product_rule` | No | `{rewrite}`, `{category}`, `{categories}`, `{id}`, `{-:id_product_attribute}` |
+| Regla de categoría | `PS_ROUTE_category_rule` | No | `{id}`, `{rewrite}`, `{parent_categories}` |
+| Regla de proveedor | `PURLS_ROUTE_supplier_rule` | Sí | `{id}`, `{rewrite}` |
+| Regla de marca | `PURLS_ROUTE_manufacturer_rule` | Sí | `{id}`, `{rewrite}` |
+| Regla de página CMS | `PURLS_ROUTE_cms_rule` | Sí | `{categories:/}`, `{id}`, `{rewrite}` |
+| Regla de página de categoría CMS | `PURLS_ROUTE_cms_category_rule` | Sí | `{id}`, `{rewrite}` |
 
-## 3. Solución de Problemas para Comerciantes y Preguntas Frecuentes (FAQ)
+En regla de producto y de categoría aparece: este campo también se configura en la sección de esquema de URLs, en Parámetros de la tienda > Tráfico y SEO.
 
-**P1: Después de instalar, mis URLs siguen igual o estoy recibiendo errores 404.**
+En proveedor, marca, página CMS y categoría CMS, con el interruptor a `0`, aparece **Para editar este campo, necesitas activar la opción de eliminar el ID de este tipo de URL**. El campo sigue siendo editable. El dispatcher y `Link` usan la ruta del módulo solo con el interruptor a `1`.
 
--   **R:** Primero, asegúrate de que "Habilitar URLs Bonitas" esté configurado en SÍ en la configuración del módulo.
--   Segundo, ve a **Parámetros Avanzados > Rendimiento** en tu Back Office de PrestaShop y haz clic en "Borrar caché" (o "Borrar caché de Smarty" en versiones anteriores).
--   Tercero, asegúrate de que la opción nativa de PrestaShop "URL amigable" esté habilitada en **Parámetros de la tienda > SEO y URLs**. Este módulo mejora la funcionalidad nativa de URL amigable de PrestaShop, no la reemplaza por completo.
--   Finalmente, verifica el archivo `.htaccess` de tu servidor (si usas Apache) o la configuración de Nginx. El módulo depende de la reescritura de URL del lado del servidor (mod_rewrite para Apache) para funcionar correctamente. Si no estás seguro, contacta a tu proveedor de hosting.
+### Esquemas de los campos de ruta
 
-**P2: Mi tema personalizado tiene algunos problemas extraños de visualización después de habilitar el módulo.**
+Son los patrones de la página de esquemas. En **Regla de producto** va una fila del grupo que corresponde a **ID de producto**. `{category}` es el rewrite de la categoría por defecto. `{categories}` son los rewrite de las categorías padre unidos con `/` (`Link::getProductLink()`). `{rewrite}` es `link_rewrite`. `{id}` es el id del producto. `{id_product_attribute:-}` es el id de la combinación, con `-` delante cuando ese id está presente. Un campo de producto vacío se rellena con `{category:/}{rewrite}.html` también si el ID de producto es `2` o `3`, así que en esas dos opciones hay que escribir en el campo una fila de su grupo.
 
--   **R:** Este módulo afecta principalmente la generación y redirección de URLs, no la visualización visual. Es poco probable que cause directamente problemas de visualización del tema. Sin embargo, si has borrado la caché, es posible que el CSS o JS de tu tema necesiten recargarse. Intenta borrar la caché de tu navegador. Si el problema persiste, podría ser un conflicto con otro módulo o una modificación de tema personalizada. Deshabilita temporalmente "Pretty / Clean URLs PRO" para ver si el problema se resuelve. Si lo hace, contacta al soporte de MyPresta.eu.
+| Campo | ID de producto | Esquema |
+| --- | --- | --- |
+| Regla de producto | `1` | `{rewrite}.html` |
+| Regla de producto | `1` | `{category:/}{rewrite}.html` |
+| Regla de producto | `1` | `{categories}{rewrite}.html` |
+| Regla de producto | `1` | `{categories}{rewrite}` |
+| Regla de producto | `2` | `{id}-{rewrite}.html` |
+| Regla de producto | `2` | `{category:/}{id}-{rewrite}.html` |
+| Regla de producto | `2` | `{categories}{id}-{rewrite}.html` |
+| Regla de producto | `2` | `{categories}{id}-{rewrite}` |
+| Regla de producto | `3` | `{id_product_attribute:-}{rewrite}.html` |
+| Regla de producto | `3` | `{category:/}{id_product_attribute:-}{rewrite}.html` |
+| Regla de producto | `3` | `{categories}{id_product_attribute:-}{rewrite}.html` |
+| Regla de producto | `3` | `{categories}{id_product_attribute:-}{rewrite}` |
 
-**P3: ¿Funcionará este módulo con mis URLs personalizadas o redirecciones existentes?**
+| Campo | Esquema |
+| --- | --- |
+| Regla de categoría | `{parent_categories:/}{rewrite}/` |
+| Regla de categoría | `{rewrite}/` |
+| Regla de proveedor | `supplier/{rewrite}/` |
+| Regla de proveedor | `any-text/{rewrite}/` |
+| Regla de marca | `manufacturer/{rewrite}/` |
+| Regla de marca | `any-text/{rewrite}/` |
+| Regla de página CMS | `info/{rewrite}.html` |
+| Regla de página de categoría CMS | `info/{rewrite}` |
 
--   **R:** El módulo se centra en generar URLs limpias para las entidades principales de PrestaShop (productos, categorías, CMS, etc.). Si has creado manualmente redirecciones personalizadas o URLs amigables específicas fuera del sistema estándar de PrestaShop, la redirección automática 301 del módulo priorizará sus propias URLs limpias generadas. Generalmente, es mejor dejar que el módulo gestione todas las URLs de las entidades principales para mantener la consistencia. Si tienes redirecciones personalizadas muy específicas, es posible que debas probar cómo interactúan.
+Un campo de categoría vacío se rellena con `{parent_categories:/}{rewrite}/`. La otra fila de categoría es la alternativa. `{parent_categories}` son los rewrite de las categorías padre unidos con `/`, sin los id 1, 2 y la propia categoría. Un campo de proveedor vacío se rellena con `supplier/{rewrite}/`, un campo de marca vacío con `manufacturer/{rewrite}/`. `any-text` no es una palabra de la ruta. Es un prefijo fijo que se escribe en lugar de esas palabras, por ejemplo `marca/{rewrite}/`. La página de esquemas no da alternativa para las dos reglas CMS. Los campos CMS vacíos se rellenan con `info/{rewrite}.html` e `info/{rewrite}`.
 
-**P4: Cambié el nombre de un producto, pero la URL no se actualizó automáticamente.**
+`parent::loadRoutes()` lee `PS_ROUTE_` más el id de la ruta. Si ese valor no está vacío, esa cadena es la regla compilada, así que un esquema de producto o de categoría guardado sustituye la regla que asignó `loadRoutes()`. Este módulo no escribe `PS_ROUTE_supplier_rule_{id_lang}`, `PS_ROUTE_manufacturer_rule_{id_lang}`, `PS_ROUTE_cms_rule_{id_lang}` ni `PS_ROUTE_cms_category_rule_{id_lang}`. Esas rutas de idioma siguen siendo los valores `PURLS_ROUTE_*`. Las rutas base `supplier_rule` y `manufacturer_rule` siguen siendo `supplier/{rewrite}/` y `manufacturer/{rewrite}/`.
 
--   **R:** Cuando cambias el nombre de un producto, PrestaShop suele sugerir una nueva URL amigable. Debes guardar explícitamente el producto para que los cambios surtan efecto y para que el módulo procese la nueva URL. Si el campo de URL amigable no se actualiza automáticamente, es posible que debas hacer clic manualmente en "Generar URL" junto al campo de URL amigable en la página de edición del producto, y luego guardar el producto. El módulo se asegurará entonces de que esta nueva URL sea limpia y gestionará la redirección desde la antigua.
+## Qué hace Guardar
 
-**P5: ¿Afecta este módulo a mis URLs multilingües?**
+**Guardar** hace esto, en este orden:
 
--   **R:** ¡No, las mejora! El módulo funciona con las capacidades multilingües de PrestaShop. Generará URLs limpias para cada idioma, respetando el código de idioma en la URL (por ejemplo, `/es/mi-producto` y `/fr/mon-produit`). Asegúrate de que los nombres de tus productos, categorías y páginas CMS estén traducidos para cada idioma para obtener las mejores URLs amigables.
+1. Borra los nombres de configuración `PURLS_ROUTE_cms_category_rule`, `PURLS_ROUTE_cms_rule`, `PURLS_ROUTE_supplier_rule` y `PURLS_ROUTE_manufacturer_rule`. Los valores de esos cuatro claves, en todos los idiomas, desaparecen antes de escribir los nuevos.
+2. Vuelve a escribir esas cuatro claves desde los campos enviados. Con varios idiomas, los campos se llaman `PURLS_ROUTE_..._{id_lang}`. Con un idioma, el campo usa el id del idioma de contexto. Un campo vacío se guarda como cadena vacía.
+3. Escribe `purls_product_hash`, `PS_ROUTE_category_rule`, `PS_ROUTE_product_rule`, `purls_products`, `purls_categories`, `purls_manufacturers`, `purls_suppliers`, `purls_cms` y `purls_301`.
 
-**P6: Veo un mensaje de error "la palabra clave {id} es obligatoria para la ruta (...)" al intentar guardar esquemas de URL.**
+Guardar sustituye el esquema de producto y de categoría de PrestaShop. El formulario no escribe `PS_ROUTE_supplier_rule`, `PS_ROUTE_manufacturer_rule`, `PS_ROUTE_cms_rule` ni `PS_ROUTE_cms_category_rule`. El texto de confirmación es **Tus ajustes han sido actualizados.**
 
--   **R:** Este error suele ocurrir si las anulaciones del módulo (una parte central de su funcionalidad) no están correctamente instaladas o están deshabilitadas en tu tienda PrestaShop. El módulo se basa en estas anulaciones para modificar el comportamiento de enrutamiento de URL predeterminado de PrestaShop, lo que le permite eliminar el `{id}` de las rutas.
-    -   **Solución:**
-        1.  **Verificar Anulaciones:** Asegúrate de que el sistema de anulación de PrestaShop esté habilitado. Normalmente puedes encontrar esta configuración en **Parámetros Avanzados > Rendimiento**. Busca una opción relacionada con "Desactivar módulos no PrestaShop" o "Desactivar anulaciones" y asegúrate de que esté configurada en "No".
-        2.  **Reinstalar Módulo:** A veces, reinstalar el módulo puede resolver problemas de anulación. Desinstala el módulo, borra la caché de PrestaShop y luego vuelve a instalarlo.
-        3.  **Verificación Manual de Anulaciones:** Verifica que los archivos de anulación del módulo estén presentes en tus directorios `override/classes/` y `override/controllers/` (por ejemplo, `override/classes/Dispatcher.php`, `override/controllers/front/ProductController.php`). Si faltan, indica un problema de instalación.
-    -   Si el problema persiste, contacta al soporte de MyPresta.eu.
+## Avisos del formulario
 
-## 4. Guía para Desarrolladores y Webmasters (Arquitectura Técnica y Mapa de Código)
+El aviso sale cuando el interruptor correspondiente está apagado (`0` o ausente) y `strpos` de la palabra en la ruta de PrestaShop es `== false`. En PHP esa comparación también es verdadera cuando la palabra está en la posición 0, así que un esquema que empieza por `{id}` muestra el aviso igualmente.
 
-Esta sección es estrictamente para desarrolladores, webmasters de tiendas y agencias técnicas que mantienen o extienden la tienda.
+La comprobación lee claves de PrestaShop, no los campos `PURLS_ROUTE_*`:
 
-### 4.1 Resumen de la Arquitectura
+- ID de Producto es `0` y `PS_ROUTE_product_rule` no tiene `{id}`: «La URL de reescritura de tu producto no contiene la variable {id}. Es necesaria cuando no quieres eliminar el ID de la URL de las páginas de producto».
+- ID de Producto es `0` y falta `{-:id_product_attribute}`: «La URL de reescritura de tu producto no contiene la variable {-:id_product_attribute}. Es necesaria cuando no quieres eliminar el ID del atributo del producto de la URL de las páginas de producto».
+- Categorías es `0` y `PS_ROUTE_category_rule` no tiene `{id}`: «La URL de reescritura de tu categoría no contiene la variable {id}. Es necesaria cuando no quieres eliminar el ID de la URL de las páginas de categoría».
+- Fabricantes es `0` y `PS_ROUTE_manufacturer_rule` no tiene `{id}`: «La URL de reescritura de tu fabricante no contiene la variable {id}. Es necesaria cuando no quieres eliminar el ID de la URL de las páginas de fabricante».
+- Proveedores es `0` y `PS_ROUTE_supplier_rule` no tiene `{id}`: «La URL de reescritura de tu proveedor no contiene la variable {id}. Es necesaria cuando no quieres eliminar el ID de la URL de las páginas de proveedor».
+- CMS es `0` y `PS_ROUTE_cms_category_rule` no tiene `{id}`: «La URL de reescritura de tu categoría de CMS no contiene la variable {id}. Es necesaria cuando no quieres eliminar el ID de la URL de las páginas de proveedor».
+- CMS es `0` y `PS_ROUTE_cms_rule` no tiene `{id}`: «La URL de reescritura de tu CMS no contiene la variable {id}. Es necesaria cuando no quieres eliminar el ID de la URL de las páginas de proveedor».
 
-El módulo "Pretty / Clean URLs PRO" opera anulando las clases principales de PrestaShop, específicamente `Dispatcher` y `Link`, para modificar cómo se generan y analizan las URLs. Intercepta la lógica predeterminada de enrutamiento y generación de URLs para eliminar IDs y extensiones basándose en su configuración. El módulo aprovecha el sistema de anulación de PrestaShop (`/override/`) para inyectar su lógica personalizada sin modificar directamente los archivos principales, asegurando la compatibilidad con las actualizaciones. También incluye una anulación del controlador de administración para `AdminProductsController` para asegurar que la generación de URL amigable en el back office se alinee con la configuración del módulo.
+Los dos últimos textos hablan de páginas de proveedor. Así está en `translations/es.php`.
 
-### 4.2 Controladores (`controllers/`)
+## Posibles colisiones
 
-El módulo utiliza principalmente anulaciones de controladores de front-office para modificar la generación y el enrutamiento de URLs.
+![La pantalla está en inglés. En este manual: Posibles colisiones.](https://mypresta.eu/docs/images/docs/purls-collisions.webp)
 
--   **Controladores de Front-Office**:
+El panel **Posibles colisiones** es `views/purls.tpl`, debajo del formulario. Lista `link_rewrite` duplicados por idioma activo de la tienda actual.
 
-    -   `purls/override/controllers/front/CartController.php`
-        -   **Nombre de la clase y clase padre**: `CartController` (anula `CartControllerCore`)
-        -   **Responsabilidad**: Modifica la generación de URL para enlaces relacionados con el carrito para asegurar que sean limpios y sin ID cuando corresponda.
-    -   `purls/override/controllers/front/CmsController.php`
-        -   **Nombre de la clase y clase padre**: `CmsController` (anula `CmsControllerCore`)
-        -   **Responsabilidad**: Modifica la generación de URL para páginas CMS, eliminando IDs y extensiones `.html` según lo configurado.
-    -   `purls/override/controllers/front/listing/CategoryController.php`
-        -   **Nombre de la clase y clase padre**: `CategoryController` (anula `CategoryControllerCore`)
-        -   **Responsabilidad**: Modifica la generación de URL para páginas de categoría, eliminando IDs y asegurando URLs limpias.
-    -   `purls/override/controllers/front/listing/index.php`
-        -   **Nombre de la clase y clase padre**: No es un controlador directo, probablemente un archivo vacío o un marcador de posición. El autocargador de PrestaShop podría recoger otros archivos en este directorio.
-        -   **Responsabilidad**: Sin responsabilidad directa; sirve como marcador de directorio.
-    -   `purls/override/controllers/front/listing/ManufacturerController.php`
-        -   **Nombre de la clase y clase padre**: `ManufacturerController` (anula `ManufacturerControllerCore`)
-        -   **Responsabilidad**: Modifica la generación de URL para páginas de fabricante, eliminando IDs y asegurando URLs limpias.
-    -   `purls/override/controllers/front/listing/SupplierController.php`
-        -   **Nombre de la clase y clase padre**: `SupplierController` (anula `SupplierControllerCore`)
-        -   **Responsabilidad**: Modifica la generación de URL para páginas de proveedor, eliminando IDs y asegurando URLs limpias.
-    -   `purls/override/controllers/front/ProductController.php`
-        -   **Nombre de la clase y clase padre**: `ProductController` (anula `ProductControllerCore`)
-        -   **Responsabilidad**: Modifica la generación de URL para páginas de producto, eliminando IDs y extensiones `.html` según lo configurado.
--   **Controladores de Administración (Back-Office)**:
+El texto **Añade esta URL a tu tabla de trabajos cron para corregir automáticamente las colisiones** imprime un enlace de la tienda al controlador `cron` del módulo, con `key` igual a `Tools::hash('purls')`. Este paquete no contiene `controllers/front/cron.php`. El método `cronJob()` llama a la misma rutina para productos y categorías en cada idioma activo, y ningún archivo de este paquete llama a `cronJob()`.
 
-    -   `purls/override/controllers/admin/AdminProductsController.php`
-        -   **Nombre de la clase y clase padre**: `AdminProductsController` (anula `AdminProductsControllerCore`)
-        -   **Responsabilidad**: Se integra con la interfaz de gestión de productos para asegurar que cuando se generan o actualizan URLs amigables en el back office, estas se adhieran a la configuración del módulo (por ejemplo, eliminando IDs). Probablemente modifica el método `generateFriendlyUrl` o una lógica similar.
+**URLs de Productos**. Columnas: **ID**, **Nombre**, **Reescritura de Enlace**, **Ocurrencia**, **Acción**. Por idioma, el menú **Corregir todas las colisiones** tiene **Corregir todo de una vez** y **Corregir parcialmente**. **Mostrar productos** recarga la página con `product_rewrite` e `id_lang`. Si la lista está vacía: **No se encontraron colisiones**.
 
-### 4.3 Clases y Modelos Principales (`classes/`)
+**URLs de Categorías** usa las mismas columnas. El botón es **Hacer únicos los campos de reescritura**. **Mostrar categorías** añade `category_rewrite`. `getAllCategoryCollisionsRewrite()` recibe un argumento `id_lang` y ejecuta el SQL con el id de idioma del contexto, no con ese argumento.
 
-La lógica central del módulo reside en sus anulaciones de clase, que son fundamentales para cómo PrestaShop maneja las URLs.
+**Corregir todo de una vez**, **Hacer únicos los campos de reescritura** y **Corregir parcialmente** llaman a `makeUnique()`. En cada rewrite duplicado, la primera fila conserva `link_rewrite`. Cada fila siguiente se guarda con ese rewrite más `-1`, `-2`, y así, en el idioma del botón. `save()` se ejecuta para cada fila del grupo, incluida la primera. Eso cambia `product_lang.link_rewrite` o `category_lang.link_rewrite`. La desinstalación no devuelve el rewrite anterior.
 
--   `purls/override/classes/Dispatcher.php`
-    -   **Nombre de la clase y clase padre**: `Dispatcher` (anula `DispatcherCore`)
-    -   **Interacción con la base de datos**: Ninguna directamente, pero interactúa con `ps_configuration` para la configuración del módulo.
-    -   **Métodos públicos clave y lógica de negocio**: Esta clase es responsable de enrutar las solicitudes entrantes al controlador correcto y de generar URLs. La anulación probablemente modifica métodos como `getFriendlyUrl` o `createUrl` para eliminar IDs y extensiones, y para manejar la lógica de redirección 301 para URLs antiguas. Es el punto central para el análisis y la generación de URLs.
--   `purls/override/classes/Link.php`
-    -   **Nombre de la clase y clase padre**: `Link` (anula `LinkCore`)
-    -   **Interacción con la base de datos**: Ninguna directamente, pero interactúa con `ps_configuration` para la configuración del módulo.
-    -   **Métodos públicos clave y lógica de negocio**: La clase `Link` se utiliza en todo PrestaShop para construir URLs para varias entidades (productos, categorías, CMS, etc.). La anulación en este módulo modifica métodos como `getProductLink`, `getCategoryLink`, `getCMSLink`, etc., para generar URLs que sean limpias, sin ID y sin extensiones `.html` según la configuración del módulo. Funciona en conjunto con la anulación de `Dispatcher` para asegurar una generación de URL consistente.
+**Corregir parcialmente** envía una petición AJAX por fila de producto (`AjaxCollisions`, `id_lang`, `id_product`) y oculta la fila tras la respuesta.
 
-### 4.4 Activos JavaScript (`views/js/`)
+La consulta de productos agrupa `link_rewrite` en `product_lang` de la tienda y el idioma actuales y se queda con grupos de recuento 2 o más. No filtra por categoría. Las categorías hacen lo mismo sobre `category_lang`.
 
--   `purls/views/js/purls.js`
-    -   **Alcance**: Back-office (probablemente en páginas de edición de productos/categorías/CMS).
-    -   **Detalles**: Este script probablemente contiene lógica del lado del cliente para mejorar el proceso de generación de URL amigable dentro del Back Office de PrestaShop. Podría:
-        -   Escuchar los cambios en los nombres de productos/categorías/CMS y actualizar automáticamente el campo "URL amigable" basándose en la configuración del módulo.
-        -   Proporcionar retroalimentación o validación en tiempo real para las URLs generadas.
-        -   Potencialmente interactuar con llamadas AJAX al servidor para obtener URLs amigables sugeridas.
-        -   Asegurar que el botón "Generar URL" (si está presente) active la lógica del módulo.
+## Rutas, redirecciones y el hash del producto
 
-### 4.5 Hojas de Estilo CSS (`views/css/`)
+El emparejamiento propio de `Dispatcher::getController()` corre cuando PrestaShop usa URLs amigables (`use_routes`), el controlador aún no está elegido y la petición no es del back office. La sobreescritura copia las rutas originales y las vuelve a registrar con el sufijo `_original`.
 
-No se encontraron archivos CSS personalizados en el archivo del módulo, lo que indica que el módulo no introduce nuevos elementos visuales que requieran un estilo específico. Se basa en el estilo predeterminado del Back Office de PrestaShop para su página de configuración.
+Estas pantallas de la tienda son posteriores al guardado de Configuración. El idioma de la tienda es inglés. Las rutas no llevan id numérico.
 
-### 4.6 Estructura de Plantillas Smarty (`views/templates/`)
+![Tienda en inglés. Ruta: men/hummingbird-printed-t-shirt.html#/color-white/size-s. Seleccionados Size S y Color White.](https://mypresta.eu/docs/images/docs/purls-front-product.webp)
 
--   **Plantillas de administración (`views/templates/admin/`)**:
-    -   `purls/views/purls.tpl`
-        -   **Alcance**: Back-office, página de configuración del módulo.
-        -   **Detalles**: Esta plantilla renderiza el formulario de configuración principal para el módulo "Pretty / Clean URLs PRO". Contiene la estructura HTML para todas las configuraciones descritas en la Sección 4.1, incluyendo interruptores para habilitar/deshabilitar funciones y el botón "Guardar". Utiliza los ayudantes de formulario y el estilo estándar de PrestaShop.
+![Tienda en inglés. Ruta: clothes/men/. Título: Men.](https://mypresta.eu/docs/images/docs/purls-front-category.webp)
 
-### 4.7 Esquema de Base de Datos y Mapa de Hooks
+![Tienda en inglés. Ruta: manufacturer/studio-design/. Título: List of products by brand Studio Design.](https://mypresta.eu/docs/images/docs/purls-front-manufacturer.webp)
 
--   **Tablas de Base de Datos**:
+![Tienda en inglés. Ruta: info/delivery.html. Título: Delivery.](https://mypresta.eu/docs/images/docs/purls-front-cms.webp)
 
-    -   El módulo no crea ninguna tabla SQL personalizada.
-    -   Almacena su configuración en la tabla estándar `ps_configuration` de PrestaShop. Las claves de configuración suelen seguir un patrón como `PURLS_ENABLE`, `PURLS_REMOVE_IDS`, `PURLS_301_REDIRECT`, etc.
--   **Tabla de Hooks Registrados**:
-    El módulo opera principalmente a través de anulaciones de clase en lugar de un registro directo de hooks para su funcionalidad principal. Sin embargo, podría interactuar implícitamente con hooks que activan la generación o redirección de URL.
+Con el interruptor a `1`, `Dispatcher::loadRoutes()` asigna estas `default_routes` y luego llama a `parent::loadRoutes()`:
 
-| Nombre del Hook | Momento de Ejecución | Propósito Técnico |
-| :-------- | :--------------- | :---------------- |
-| `displayHeader` | En cada carga de página en el front office, dentro de la sección `<head>`. | Aunque no registra directamente un elemento visual, las anulaciones de `Dispatcher` y `Link` del módulo están activas durante la renderización de la página, influyendo en cualquier URL generada dentro del encabezado (por ejemplo, URLs canónicas, selectores de idioma). |
-| `actionDispatcherBefore` | Antes de que el despachador procese la solicitud. | La anulación de `Dispatcher` está activa en esta etapa, lo que permite al módulo interceptar y modificar la lógica de análisis y enrutamiento de URL antes de que PrestaShop determine qué controlador cargar. Esto es crucial para manejar las redirecciones 301 desde URLs antiguas. |
-| `actionDispatcherAfter` | Después de que el despachador ha procesado la solicitud. | La anulación de `Dispatcher` también puede estar activa aquí, potencialmente para post-procesamiento o registro relacionado con el manejo de URL. |
-| `actionProductUpdate` / `actionProductAdd` | Después de que un producto se actualiza o se añade en el Back Office. | La anulación de `AdminProductsController` asegura que cuando se guarda un producto, su URL amigable se genera de acuerdo con la configuración del módulo. Esta es una interacción implícita en lugar de un registro directo de hook por parte del módulo. |
-| `actionCategoryUpdate` / `actionCategoryAdd` | Después de que una categoría se actualiza o se añade en el Back Office. | Similar a los productos, el módulo asegura URLs limpias para las categorías. |
-| `actionCmsUpdate` / `actionCmsAdd` | Después de que una página CMS se actualiza o se añade en el Back Office. | Similar a los productos, el módulo asegura URLs limpias para las páginas CMS. |
+| Interruptor | Id de ruta | Regla asignada |
+| --- | --- | --- |
+| `purls_products` = `1` | `product_rule` | `{category:/}{rewrite}.html` |
+| `purls_products` = `2` | `product_rule` | `{category:/}{id}-{rewrite}.html` |
+| `purls_products` = `3` | `product_rule` | `{category:/}{id_product_attribute:-}{rewrite}.html` |
+| `purls_categories` = `1` | `category_rule` | `{parent_categories:/}{rewrite}/` |
+| `purls_suppliers` = `1` | `supplier_rule` y `supplier_rule_{id_lang}` | base `supplier/{rewrite}/`, regla de idioma desde `PURLS_ROUTE_supplier_rule` |
+| `purls_manufacturers` = `1` | `manufacturer_rule` y `manufacturer_rule_{id_lang}` | base `manufacturer/{rewrite}/`, regla de idioma desde `PURLS_ROUTE_manufacturer_rule` |
+| `purls_cms` = `1` | `cms_rule`, `cms_category_rule` y las mismas con `_{id_lang}` | base `info/{rewrite}.html` e `info/{rewrite}` |
 
-## 5. Soporte Oficial y Recursos
+Los demás esquemas de estos campos están en Configuración, en **Esquemas de los campos de ruta**. Un esquema de producto o de categoría guardado sustituye la regla de esta tabla.
 
-Para actualizaciones oficiales, soporte técnico y cualquier consulta relacionada con el módulo "Pretty / Clean URLs PRO", consulta tu cuenta de cliente en [MyPresta.eu](https://mypresta.eu/my-account/orders/). Nuestro equipo de soporte está disponible para ayudarte con cualquier problema o pregunta que puedas tener.
+`Link` construye la dirección solo con el interruptor encendido. Si no, llama al método padre de PrestaShop.
+
+- Productos (`purls_products` `1`, `2` o `3`): `getProductLink()` usa `product_rule`. Los parámetros que no son palabras de esa ruta se omiten. Los `extraParams` que no son palabras de la ruta se conservan.
+- Categorías (`purls_categories` = `1`): `getCategoryLink()` usa `category_rule`. Si la ruta tiene la palabra `parent_categories`, la ruta se arma con las categorías padre, sin los id 1, 2 y la propia categoría.
+- Proveedores, fabricantes, páginas CMS y categorías CMS usan `supplier_rule_{id_lang}`, `manufacturer_rule_{id_lang}`, `cms_rule_{id_lang}` y `cms_category_rule_{id_lang}`.
+
+Búsqueda cuando el id no está en la URL:
+
+- Productos en modos `1` y `3`: el último segmento, sin `.html`, se compara con `product_lang.link_rewrite`. Si hay un segmento de categoría, también se compara el `link_rewrite` de la categoría por defecto. Si no hay resultado, una segunda consulta usa solo `link_rewrite`. El resultado va a `$_GET['id_product']`.
+- Categorías: la ruta se compara con `category_lang.link_rewrite`, con los segmentos padre si hay más de una parte.
+- Páginas CMS: `cms_lang.link_rewrite`, sin `.html`.
+- Categorías CMS: `cms_category_lang.link_rewrite`.
+- Fabricantes y proveedores: `Tools::str2url()` del **nombre**, no de la columna `link_rewrite`. El primer segmento `supplier` lo rechaza la comprobación de fabricante. Si varios nombres dan el mismo slug, queda la última fila del bucle.
+
+`purls_301` = `1` envía `HTTP/1.1 301 Moved Permanently` solo en estos casos:
+
+- La ruta de proveedor trae `id_supplier` y la eliminación de proveedores está activa: redirección a `getSupplierLink()`.
+- La ruta de fabricante trae `id_manufacturer` y la eliminación de fabricantes está activa: redirección a `getManufacturerLink()`.
+- La ruta CMS trae `id_cms`: redirección a `getCmsLink()`. Trae `id_cms_category`: redirección a `getCmsCategoryLink()`. La eliminación CMS tiene que estar activa.
+- Modo de producto `1`: la ruta trae `id_product` e `isProductLink()` devolvió false: redirección a `getProductLink()`. Los modos `2` y `3` no llaman a esa redirección.
+- La eliminación de categorías está activa, la ruta trae `id_category` e `isCategoryLink()` devolvió false: redirección a `getCategoryLink()`.
+
+El modo de producto `3`, si el emparejamiento trae `id_product_attribute` no vacío, llama a `isProductLinkAttribute()`. Ese método escribe `$_GET['id_product']` y `$_GET['id_product_attriubte']` (la clave está escrita así en el archivo). No escribe `id_product_attribute`.
+
+En la ficha de producto, `displayHeader` añade `views/js/purls.js` solo si el controlador es `product`, la petición no es AJAX, hay id de producto, `purls_product_hash` es `0`, `purls_products` es `1` o `2` y el producto tiene combinaciones. El separador es `PS_ATTRIBUTE_ANCHOR_SEPARATOR`, o `-` si ese valor falta o está vacío. El script lee el hash, marca el `select` o el `radio` `group[groupId]` y emite `prestashop.updateProduct` si un control cambió.
+
+`CartController::displayAjaxProductRefresh()` reconstruye la URL del producto y añade `idpa` con el id de combinación. `ProductController::init()` copia `idpa` a `id_product_attribute` cuando `id_product_attribute` no está. `getIdProductAttributeByRequest()` lee primero `idpa`.
+
+Si `pm_advancedsearch4` está instalado, `hookModuleRoutes()` añade tres rutas con `/filter-{id}/s-{id_search}/{as4_sq}` a las reglas de categoría, proveedor y fabricante. Si no está instalado, el hook no devuelve nada.
+
+## Hooks
+
+`install()` registra solo estos hooks:
+
+| Hook | Método | Qué hace |
+| --- | --- | --- |
+| `displayHeader` | `hookdisplayHeader` | En la ficha de producto, con las condiciones de arriba, añade `views/js/purls.js` y el mapa `purls_attributes`. |
+| `ModuleRoutes` | `hookModuleRoutes` | Devuelve rutas de Advanced Search 4 si ese módulo está instalado. |
+| `actionAdminControllerSetMedia` | `hookactionAdminControllerSetMedia` | Método vacío. |
+
+## Clases y archivos sustituidos
+
+PrestaShop copia estos archivos a `override/` de la tienda durante la instalación:
+
+| Archivo | Clase | Qué cambia |
+| --- | --- | --- |
+| `override/classes/Dispatcher.php` | `Dispatcher` extiende `DispatcherCore` | `loadRoutes()`, `getController()` y `isProductLink`, `isProductLinkAttribute`, `isCategoryLink`, `isCmsLink`, `isCmsCategoryLink`, `isManufacturerLink`, `isSupplierLink`. |
+| `override/classes/Link.php` | `Link` extiende `LinkCore` | `getProductLink`, `getCategoryLink`, `getSupplierLink`, `getManufacturerLink`, `getCMSLink`, `getCMSCategoryLink`, `getPaginationLink`, `getAnchor`. Omite parámetros que no son palabras de la ruta compilada. |
+| `override/controllers/front/ProductController.php` | `ProductController` | Lee `idpa` en `init()`, `getIdProductAttributeByRequest()` y `getIdProductAttribute()`. |
+| `override/controllers/front/CartController.php` | `CartController` | `displayAjaxProductRefresh()` añade `idpa`. |
+| `override/controllers/front/CmsController.php` | `CmsController` | Con `purls_cms` a `1`, resuelve `id_cms` / `id_cms_category` desde `link_rewrite`. También lee rutas antiguas `content/{id}-{rewrite}` y `content/category/{id}-{rewrite}`. |
+| `override/controllers/front/listing/CategoryController.php` | `CategoryController` | Con `purls_categories` a `1`, resuelve `id_category` desde `category_rewrite` y la ruta. |
+| `override/controllers/front/listing/ManufacturerController.php` | `ManufacturerController` | Con `purls_manufacturers` a `1`, resuelve `id_manufacturer` con `Tools::str2url(name)`. |
+| `override/controllers/front/listing/SupplierController.php` | `SupplierController` | Con `purls_suppliers` a `1`, resuelve `id_supplier` con `Tools::str2url(name)`. |
+| `override/controllers/admin/AdminProductsController.php` | `AdminProductsController` | Solo `getPreviewUrl()`. Construye el enlace del producto en el idioma por defecto de la tienda, id de combinación `0` y `force_routes` igual a `PS_REWRITING_SETTINGS`. Un producto inactivo recibe `adtoken`, `ad` e `id_employee`. |
+
+No hay panel en el formulario del producto. No hay archivo CSS. La configuración es `views/purls.tpl` más el helper de formulario de PrestaShop. El script de la tienda es `views/js/purls.js`. `purls.tpl` incluye además la función `FixProductsCollisions`.
+
+`Link::psversion()` y `ProductController::psversion()` parten `_PS_VERSION_`. `getCategoryLink()` usa una rama de meta title cuando la versión menor es 6 o 7, o la mayor es 8 o superior, y otra rama en el resto. Los comentarios de `Dispatcher.php` y `ProductController.php` nombran PrestaShop 9 y, en un método privado, PrestaShop 1.7.
+
+El módulo no crea ninguna tabla SQL. Lee y escribe `configuration`, y lee `product_lang`, `category_lang`, `cms_lang`, `cms_category_lang`, `manufacturer`, `supplier` y las tablas de atributos al armar el hash. La reparación de colisiones escribe `link_rewrite` mediante `Product::save()` y `Category::save()`.
+
+En el back office, el constructor crea `override/controllers/front/listing` con modo `0777` si existe `override/controllers/front/` y no existe `listing`.
+
+## Actualizaciones de MyPresta
+
+![La pantalla está en inglés. En este manual: Actualizaciones de MyPresta.](https://mypresta.eu/docs/images/docs/purls-updates.webp)
+
+El panel **Actualizaciones de MyPresta** está entre el formulario de configuración y el panel de colisiones.
+
+| Etiqueta | Control |
+| --- | --- |
+| Comprobar actualizaciones | Botón **Comprobar ahora** (`submit_settings_updates_now`). Muestra **¡Nueva versión disponible!** o **¡El módulo está actualizado!** |
+| Notificaciones de actualizaciones | Lista `mypresta_updates`: **-- seleccionar --** (`-`), **Activar** (`1`), **Desactivar** (`0`). |
+| Página del módulo | Enlace a la página del producto. La dirección está en la sección de soporte. |
+| Guardar | `submit_settings_updates` escribe solo `mypresta_updates`. |
+
+En cada petición del back office el constructor llama a `checkforupdates()`. Si `update_purls` falta o tiene más de 259200 segundos, `purlsUpdate::verify()` pide `http://dev.mypresta.eu/update/get.php` si hay `allow_url_fopen` y `file_get_contents`. Guarda el tiempo Unix en `update_purls` y el cuerpo de la respuesta en `updatev_purls`. El valor de licencia de este paquete es `nlc` (`$this->mkey`), salvo que un `key.php` junto al módulo lo cambie. Este paquete no trae `key.php`.
+
+Si `mypresta_updates` no es `0` ni false, la versión remota guardada es mayor que 3.0.0 y la petición no es AJAX, el back office muestra **Nueva versión disponible, consulta http://MyPresta.eu para más información** y **Más detalles en el changelog**. El valor `0` ejecuta igual la petición temporizada y no añade ese aviso. Una clave ausente es false, y false equivale a `0`, así que no añade el aviso.
+
+## Instalación, desactivar, activar, desinstalar
+
+`install()` llama a `parent::install()` y registra `displayHeader`, `ModuleRoutes` y `actionAdminControllerSetMedia`. Si algo de eso falla, la instalación devuelve false. No inserta configuración y no crea una tabla.
+
+El archivo no define `enable()` ni `disable()`. Desactivar el módulo en el panel no ejecuta un método de este archivo. Las clases de override siguen en `override/` de la tienda, porque este módulo no tiene un `disable()` que las quite. Los tres hooks no se ejecutan mientras el módulo está desactivado.
+
+`uninstall()` devuelve solo `parent::uninstall()`. Eso quita el módulo, da de baja los hooks y borra las copias de override que instaló PrestaShop. No borra la configuración. No restaura `PS_ROUTE_product_rule` ni `PS_ROUTE_category_rule`. No restaura los `link_rewrite` cambiados por los botones de colisiones. Quedan: `purls_products`, `purls_product_hash`, `purls_categories`, `purls_manufacturers`, `purls_suppliers`, `purls_cms`, `purls_301`, las cuatro claves `PURLS_ROUTE_*`, `mypresta_updates`, `update_purls`, `updatev_purls` y las dos claves `PS_ROUTE_*` escritas por el formulario.
+
+## Cuando una página no resuelve
+
+- El ID sigue en la URL: ID de Producto es `0` o la clave no se guardó, o el esquema de producto/categoría todavía contiene `{id}`. El emparejamiento propio de `getController()` solo corre con las URLs amigables (`use_routes`) activas.
+- Una URL limpia cae en el controlador de no encontrado: dos productos o categorías comparten `link_rewrite`. El panel de colisiones lista esas filas. Los botones de corrección cambian `link_rewrite` en la base.
+- Una URL antigua con id no redirige: `purls_301` no es `1`, o el tipo de página es el modo de producto `2` o `3` (esas ramas no llaman a `Tools::redirect`).
+- La URL de fabricante o proveedor abre el registro equivocado, o ninguno: el emparejamiento usa `Tools::str2url()` del nombre.
+- El módulo está desactivado y las URLs siguen pasando por este código: los overrides siguen en `override/` hasta la desinstalación.
+- Tras desinstalar, los esquemas de producto y categoría son los últimos valores guardados por este formulario.
+
+## Soporte
+
+Página del producto: [https://mypresta.eu/modules/seo/pretty-clean-urls-pro.html](https://mypresta.eu/modules/seo/pretty-clean-urls-pro.html). El campo **Página del módulo** del panel de actualizaciones abre esta dirección. La ayuda de la configuración abre también `https://mypresta.eu/documentation/pretty-clean-urls/configuration-and-module-usage/schema-of-urls-settings.html`.

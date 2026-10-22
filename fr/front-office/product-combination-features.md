@@ -67,6 +67,10 @@ La page de configuration affiche un avertissement si la vue ne peut pas être cr
 
 Ouvrez **Configurer**. Deux formulaires sont sur la page, puis le panneau **Mises à jour MyPresta**. **Enregistrer** sur le formulaire des paramètres envoie `submitCombfeatSettings`. **Import** envoie `submitCombfeatImport`.
 
+![Formulaire des paramètres sur la page de configuration](https://mypresta.eu/docs/images/docs/configure-settings.webp)
+
+L’image montre le back-office en anglais. Les libellés de l’image sont les textes sources anglais. Les noms français sont dans ce manuel.
+
 ### 4.1 Activer les caractéristiques pour les déclinaisons
 
 Clé : `combfeat_p_feat`. Défaut : **Activé**.
@@ -199,6 +203,8 @@ Si le titre d’origine est vide, seule la partie ajoutée est utilisée.
 
 Deuxième formulaire de la page de configuration. Ces libellés sont pour l’instant les textes sources anglais dans toutes les langues (ils ne sont pas encore dans les fichiers de traduction).
 
+![Formulaire d’import des caractéristiques de déclinaison](https://mypresta.eu/docs/images/docs/configure-import.webp)
+
 L’import affecte des valeurs de caractéristiques à des déclinaisons. Il n’importe ni descriptions ni titres, et il n’écrit pas de lignes dans la liste de caractéristiques du produit (`feature_product`). Une caractéristique ou une valeur absente est créée dans le catalogue.
 
 ### 5.1 Import mode
@@ -265,6 +271,10 @@ Après un import réussi, le cache de blocs de la navigation à facettes est vid
 ## 6. Contenu de la déclinaison sur le produit
 
 **Catalogue > Produits**, modifier le produit, onglet **Modules**. Titre du bloc : **Contenu de la déclinaison**. Sous-titre : **Caractéristiques, descriptions et méta titres par déclinaison**.
+
+![Contenu de la déclinaison dans l’onglet Modules](https://mypresta.eu/docs/images/docs/product-combination-content.webp)
+
+L’image montre un produit dans le back-office en anglais. La valeur de caractéristique de la ligne ouverte appartient à ce produit. **Description** et **Meta title** sur l’image sont les autres onglets de la même ligne. En français : **Description** et **Méta titre**.
 
 Créez d’abord les déclinaisons (onglet **Déclinaisons** du produit). Si le produit n’en a pas, le bloc le dit et il n’y a rien à modifier.
 
@@ -373,6 +383,10 @@ La fiche produit en boutique continue d’afficher les caractéristiques produit
 ## 9. Mises à jour MyPresta
 
 Le panneau sous les formulaires :
+
+![Panneau Mises à jour MyPresta](https://mypresta.eu/docs/images/docs/configure-updates.webp)
+
+L’image montre le back-office en anglais. **Check now** est **Vérifier maintenant**, **Updates notifications** est **Notifications de mise à jour**, **Module page** est **Page du module**.
 
 | Commande | Comportement |
 | --- | --- |

@@ -67,6 +67,10 @@ Na stronie konfiguracji pojawia się ostrzeżenie, gdy widoku nie da się utworz
 
 Otwórz **Konfiguruj**. Na stronie są dwa formularze, a pod nimi panel **Aktualizacje MyPresta**. **Zapisz** w ustawieniach wysyła `submitCombfeatSettings`. **Import** wysyła `submitCombfeatImport`.
 
+![Formularz ustawień na stronie konfiguracji modułu](https://mypresta.eu/docs/images/docs/configure-settings.webp)
+
+Zrzut jest z angielskiego panelu. Napisy na ekranie są angielskim źródłem. Nazwy w języku polskim są w tej instrukcji.
+
 ### 4.1 Włącz cechy dla kombinacji
 
 Klucz: `combfeat_p_feat`. Domyślnie: **Włączone**.
@@ -199,6 +203,8 @@ Gdy pierwotny tytuł jest pusty, zostaje sama dodawana część.
 
 Drugi formularz na stronie konfiguracji. Te etykiety są na razie angielskimi napisami źródłowymi w każdym języku (nie ma ich w plikach tłumaczeń modułu).
 
+![Formularz importu cech kombinacji](https://mypresta.eu/docs/images/docs/configure-import.webp)
+
 Import przypisuje wartości cech do kombinacji. Nie importuje opisów ani tytułów i nie zapisuje wierszy na liście cech produktu (`feature_product`). Brakująca cecha albo brakująca wartość jest tworzona w katalogu.
 
 ### 5.1 Import mode
@@ -265,6 +271,10 @@ Po udanym imporcie pamięć bloków nawigacji fasetowej jest czyszczona. Potwier
 ## 6. Zawartość kombinacji przy produkcie
 
 **Katalog > Produkty**, edycja produktu, zakładka **Moduły**. Tytuł bloku: **Zawartość kombinacji**. Podtytuł: **Cechy, opisy i meta tytuły dla danej kombinacji**.
+
+![Zawartość kombinacji w zakładce Moduły produktu](https://mypresta.eu/docs/images/docs/product-combination-content.webp)
+
+Zrzut jest z angielskiego panelu, z jednego produktu, który ma kombinacje. Wartość cechy w otwartym wierszu należy do tego produktu. **Description** i **Meta title** na ekranie to pozostałe zakładki tego samego wiersza. Po polsku są to **Opis** i **Meta tytuł**.
 
 Najpierw utwórz kombinacje (zakładka **Kombinacje** produktu). Gdy produkt ich nie ma, blok o tym informuje i nie ma czego edytować.
 
@@ -373,6 +383,10 @@ Karta produktu w sklepie nadal pokazuje cechy produktu z PrestaShop, dopóki nie
 ## 9. Aktualizacje MyPresta
 
 Panel pod formularzami:
+
+![Panel aktualizacji MyPresta](https://mypresta.eu/docs/images/docs/configure-updates.webp)
+
+Zrzut jest z angielskiego panelu. **Check now** to **Sprawdź teraz**, **Updates notifications** to **Powiadomienia o aktualizacjach**, **Module page** to **Strona modułu**.
 
 | Kontrolka | Działanie |
 | --- | --- |

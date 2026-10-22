@@ -67,6 +67,10 @@ La pagina di configurazione mostra un avviso se la vista non si può creare, se 
 
 Apri **Configura**. Nella pagina ci sono due formulari, poi il pannello **Aggiornamenti MyPresta**. **Salva** nel formulario **Impostazioni** invia `submitCombfeatSettings`. **Import** invia `submitCombfeatImport`.
 
+![Formulario delle impostazioni nella configurazione del modulo](https://mypresta.eu/docs/images/docs/configure-settings.webp)
+
+L’immagine è il back-office in inglese. I testi sull’immagine sono la fonte inglese. I nomi italiani sono in questo manuale.
+
 ### 4.1 Attiva le caratteristiche per le combinazioni
 
 Chiave: `combfeat_p_feat`. Predefinito: **Abilitato**.
@@ -197,6 +201,8 @@ Se il titolo originale è vuoto, si usa solo la parte aggiunta.
 
 Secondo formulario della pagina di configurazione. Queste etichette sono per ora i testi sorgente inglesi in ogni lingua (non sono ancora nei file di traduzione).
 
+![Formulario di importazione delle caratteristiche di combinazione](https://mypresta.eu/docs/images/docs/configure-import.webp)
+
 L’importazione assegna valori di caratteristiche alle combinazioni. Non importa descrizioni né titoli e non scrive righe nell’elenco delle caratteristiche del prodotto (`feature_product`). Una caratteristica o un valore mancante viene creato nel catalogo.
 
 ### 5.1 Import mode
@@ -263,6 +269,10 @@ Dopo un’importazione riuscita la cache dei blocchi della navigazione a faccett
 ## 6. Contenuto della combinazione sul prodotto
 
 **Catalogo > Prodotti**, modifica il prodotto, scheda **Moduli**. Titolo del blocco: **Contenuto della combinazione**. Sottotitolo: **Caratteristiche, descrizioni e meta titoli per combinazione**.
+
+![Contenuto della combinazione nella scheda Moduli](https://mypresta.eu/docs/images/docs/product-combination-content.webp)
+
+L’immagine mostra un prodotto nel back-office in inglese. Il valore della caratteristica nella riga aperta appartiene a quel prodotto. **Description** e **Meta title** nell’immagine sono le altre schede della stessa riga. In italiano sono **Descrizione** e **Meta titolo**.
 
 Crea prima le combinazioni (scheda **Combinazioni** del prodotto). Se il prodotto non ne ha, il blocco lo dice e non c’è nulla da modificare.
 
@@ -371,6 +381,10 @@ La scheda prodotto nel negozio continua a mostrare le caratteristiche prodotto d
 ## 9. Aggiornamenti MyPresta
 
 Il pannello sotto i formulari:
+
+![Pannello Aggiornamenti MyPresta](https://mypresta.eu/docs/images/docs/configure-updates.webp)
+
+L’immagine è il back-office in inglese. **Check now** è **Controlla ora**, **Updates notifications** è **Notifiche di aggiornamento**, **Module page** è **Pagina del modulo**.
 
 | Controllo | Comportamento |
 | --- | --- |
