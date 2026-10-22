@@ -1,8 +1,8 @@
 ---
-title: "HTML Box Pro - Instrukcja dla Sprzedawcy i Przewodnik Konfiguracji"
-description: "Kompletna instrukcja obsługi, przewodnik konfiguracji krok po kroku oraz odniesienie dla programistów dla modułu PrestaShop HTML Box Pro od MyPresta.eu."
+title: "HTML Box Pro - instrukcja sprzedawcy"
 sidebar:
-  label: "HTML Box Pro - Instrukcja dla Sprzedawcy i Przewodnik Konfiguracji"
+  label: "HTML Box Pro - instrukcja sprzedawcy"
+description: "Konfiguracja boksów HTML, pozycji hooków i warunków widoczności dla sklepu, który ma już ten moduł."
 ---
 
 > ⚠️ **Notice:** This is the oficjalna dokumentacja modułu PrestaShop.
@@ -12,278 +12,202 @@ sidebar:
 > ---
 
 
-# HTML Box Pro
+Nazwa techniczna modułu to `htmlboxpro`, wersja 4.0.5. W tym języku lista modułów pokazuje **HTML Box Pro**.
 
-## 1. Wymagania i kompatybilność
+## Gdzie są ekrany
 
-- **Obsługiwane wersje PrestaShop**: PrestaShop 1.5.x, 1.6.x, 1.7.x, 8.x, 9.x
-- **Kompatybilność z PHP**: PHP 5.6 - 8.5
-- **Wymagania hostingowe**: Standardowe rozszerzenia PHP (cURL, JSON, OpenSSL) są zazwyczaj wymagane przez sam PrestaShop i są wystarczające dla tego modułu.
+Moduły, potem Menedżer modułów, potem moduł **HTML Box Pro**, potem Konfiguruj. Strona to konfiguracja modułu (`configure=htmlboxpro`).
 
-## 2. Kompletny przewodnik konfiguracji (każde ustawienie pogrupowane według ekranu)
+Pasek pod tytułem ma dwa przyciski: **Ustawienia** i **Boxy**. **Ustawienia** zapisują `hbp_lasttab` = 1. **Boxy** zapisują `hbp_lasttab` = 2. Gdy klucza nie ma, otwarcie strony zapisuje 1, więc pierwszy widok to **Ustawienia**.
 
-### 2.1 Strona konfiguracji modułu (Panel administracyjny > Moduły > Konfiguruj > HTML Box Pro)
+Na tym samym pasku jest **Pomoc**. Otwiera `https://mypresta.eu/contact.html` w nowej karcie. **Aktualizacje** otwierają stronę modułu w MyPresta w nowej karcie. Sprawdzenie wersji jest panelem na dole **Ustawień**, nie tym przyciskiem.
 
-To jest główny ekran, na którym zarządzasz wszystkimi swoimi Pudełkami HTML. Moduł przedstawia listę istniejących pudełek oraz opcje dodawania nowych lub modyfikowania ustawień globalnych.
+Nie ma ekranu importu i nie ma bloku na edycji produktu. Bok na sklepie pojawia się dopiero wtedy, gdy hook jest włączony, blok ma **Aktywny** i przechodzi filtry opisane niżej.
 
-#### Sekcja Ustawienia globalne
+Gdy `firsttime_hbp` nie jest 1, strona pokazuje alert z adresem `https://www.youtube.com/watch?v=uxzhSr5TrF4`. Zamknięcie wysyła `firsttime_hbp` = 1 i alert nie wraca.
 
-Na górze strony konfiguracji znajdziesz kilka ustawień globalnych, które wpływają na działanie modułu.
+## Co zapisuje instalacja
 
--   **Użyj modułu wewnętrznego**
+Instalacja uruchamia instalację rodzica, tworzy tabele, zapisuje `hbp_notinyjs` = 1 i rejestruje `actionAdminControllerSetMedia` oraz każdy hook z listy niżej.
 
-    *   **Co robi to ustawienie:** Jest to starsze ustawienie, które zazwyczaj odnosi się do wewnętrznego mechanizmu aktualizacji modułu.
-    *   **Efekt zmiany tego ustawienia:**
-        *   *Gdy włączone („Wł.”):* Moduł może używać własnych wewnętrznych metod do sprawdzania aktualizacji.
-        *   *Gdy wyłączone („Wył.”):* Moduł będzie polegał na standardowych mechanizmach aktualizacji PrestaShop lub ręcznych aktualizacjach.
-    *   **Zalecana wartość:** „Wł.” (chyba że występują problemy, wtedy spróbuj „Wył.”).
-    *   **Scenariusz/przykład dla sprzedawcy:** Zazwyczaj pozostaw to włączone. Jeśli napotkasz problemy z aktualizacjami modułu lub powiadomieniami, Twój webmaster może zasugerować przełączenie tego.
--   **Zapobiegaj usuwaniu adresów URL z obrazów**
+Nie włącza tych hooków. Hook wypisuje boksy tylko wtedy, gdy klucz konfiguracji `hbp_` plus nazwa hooka jest równy 1. Dopóki pole na **Boxach** nie zostanie zapisane, klucza nie ma i hook zwraca pustkę.
 
-    *   **Co robi to ustawienie:** Kiedy używasz wbudowanego edytora TinyMCE (edytora tekstu sformatowanego) do dodawania obrazów, czasami może on automatycznie usuwać pełną ścieżkę URL, zwłaszcza jeśli kopiujesz i wklejasz zawartość. To ustawienie zapobiega takiemu zachowaniu.
-    *   **Efekt zmiany tego ustawienia:**
-        *   *Gdy włączone („Wł.”):* Adresy URL obrazów, które wstawiasz do zawartości pola HTML, zostaną zachowane dokładnie tak, jak je wpiszesz, zapobiegając uszkodzonym linkom do obrazów.
-        *   *Gdy wyłączone („Nie”):* Edytor może modyfikować lub usuwać części adresów URL obrazów, co potencjalnie prowadzi do nieprawidłowego wyświetlania obrazów.
-    *   **Zalecana wartość:** „Wł.”
-    *   **Scenariusz/przykład dla sprzedawcy:** Jeśli dodajesz obrazy ze źródeł zewnętrznych (np. CDN lub innej strony internetowej) lub nawet wewnętrzne obrazy z absolutnymi ścieżkami, włączenie tego zapewnia, że Twoje obrazy zawsze się wyświetlają.
--   **Nie ładuj bibliotek tinyMCE**
+Otwarcie konfiguracji zawsze sprawdza kolumny i dopisuje brakujące kolumny w `hbp_block`. Istniejące wiersze zostają.
 
-    *   **Co robi to ustawienie:** TinyMCE to edytor tekstu sformatowanego, który pozwala łatwo formatować tekst, dodawać obrazy i tworzyć tabele bez bezpośredniego pisania kodu HTML. To ustawienie kontroluje, czy moduł ładuje własną wersję edytora TinyMCE.
-    *   **Efekt zmiany tego ustawienia:**
-        *   *Gdy włączone („Wł.”):* Moduł NIE załaduje swojego edytora TinyMCE. Może to być przydatne, jeśli Twój szablon lub inny moduł już ładuje TinyMCE, zapobiegając konfliktom lub podwójnemu ładowaniu. Jednak stracisz wizualny edytor dla swoich pól HTML i będziesz musiał pisać surowy kod HTML.
-        *   *Gdy wyłączone („Wył.”):* Moduł załaduje swój edytor TinyMCE, zapewniając przyjazny dla użytkownika interfejs do tworzenia i edytowania zawartości pola HTML.
-    *   **Zalecana wartość:** „Wył.” (chyba że jesteś programistą i wolisz pisać surowy kod HTML, lub jeśli występują konflikty z innymi instancjami TinyMCE).
-    *   **Scenariusz/przykład dla sprzedawcy:** Jeśli chcesz używać edytora wizualnego do łatwego dodawania tekstu, pogrubienia, kursywy, obrazów i linków bez znajomości HTML, pozostaw to „Wył.”. Jeśli widzisz dziwne zachowanie edytora lub błędy w konsoli, programista może zasugerować włączenie tego w celu rozwiązania problemu.
+## Ustawienia
 
-#### Sekcja Zarządzanie Pudełkami HTML
+![Ekran w języku angielskim. Settings to Ustawienia. Global module settings to Ustawienia globalne. Updates notifications to Informuj o nowej wersji.](https://mypresta.eu/docs/images/docs/htmlboxpro-settings.webp)
 
-Poniżej ustawień globalnych znajdziesz tabelę zawierającą listę wszystkich utworzonych pudełek HTML. Z tego miejsca możesz dodawać nowe pudełka, edytować istniejące lub je usuwać.
+Nagłówek to **Ustawienia globalne**. Przycisk to **Zapisz**. Każdy przełącznik to **On** (1) albo **Off** (0). W pliku `translations/pl.php` te dwa słowa są zapisane jako On i Off.
 
--   **Dodaj nowe pudełko HTML** (Przycisk)
-
-    *   **Co to robi:** Kliknięcie tego przycisku przenosi Cię do nowego formularza, w którym możesz zdefiniować zupełnie nowe pudełko HTML.
-    *   **Efekt:** Otwiera formularz „Dodaj nowe pudełko HTML”.
--   **Edytuj** (Ikona obok każdego pudełka)
-
-    *   **Co to robi:** Pozwala modyfikować ustawienia i zawartość istniejącego pudełka HTML.
-    *   **Efekt:** Otwiera formularz „Edytuj pudełko HTML”, wstępnie wypełniony bieżącymi ustawieniami pudełka.
--   **Usuń** (Ikona obok każdego pudełka)
-
-    *   **Co to robi:** Trwale usuwa pudełko HTML z Twojego sklepu.
-    *   **Efekt:** Pudełko HTML nie będzie już wyświetlane w Twoim front office. Ta akcja jest nieodwracalna.
-    *   **Zalecana wartość:** Usuwaj tylko te pudełka, których już nie potrzebujesz.
-
-#### Formularz Dodaj/Edytuj Pudełko HTML
-
-Po kliknięciu „Dodaj nowe pudełko HTML” lub „Edytuj” istniejące, zobaczysz formularz z następującymi polami:
-
--   **Nazwa**
-
-    *   **Co robi to ustawienie:** Jest to wewnętrzna nazwa Twojego pudełka HTML, widoczna tylko w Panelu administracyjnym. Pomaga Ci identyfikować różne pudełka.
-    *   **Efekt zmiany tego ustawienia:** Zmienia etykietę dla tego pudełka na liście konfiguracji modułu. Brak efektu w front office.
-    *   **Zalecana wartość:** Opisowa nazwa (np. „Baner strony głównej - Letnia wyprzedaż”, „Odznaki zaufania na stronie produktu”, „Informacje kontaktowe w stopce”).
-    *   **Scenariusz/przykład dla sprzedawcy:** Jasne nazywanie pudełek pomaga szybko je znaleźć i zarządzać nimi, zwłaszcza gdy Twój sklep rośnie i dodajesz więcej niestandardowych treści.
--   **Sklep** (Widoczne tylko w środowiskach wielosklepowych)
-
-    *   **Co robi to ustawienie:** Jeśli prowadzisz wiele sklepów z jednej instalacji PrestaShop, pozwala to określić, na których sklepach to pudełko HTML ma się pojawić.
-    *   **Efekt zmiany tego ustawienia:** Pudełko HTML będzie wyświetlane tylko w wybranych sklepach.
-    *   **Zalecana wartość:** Wybierz konkretne sklepy, dla których treść jest istotna.
-    *   **Scenariusz/przykład dla sprzedawcy:** Możesz mieć inny baner promocyjny dla swojego francuskiego sklepu niż dla niemieckiego.
--   **Pozycja**
-
-    *   **Co robi to ustawienie:** Jest to najważniejsze ustawienie, określające *gdzie* w Twoim sklepie pojawi się pudełko HTML. Jest to lista rozwijana wszystkich dostępnych hooków PrestaShop.
-    *   **Efekt zmiany tego ustawienia:** Zawartość Twojego pudełka HTML zostanie wyrenderowana w wybranej lokalizacji hooka.
-    *   **Zalecana wartość:** Wybierz hook, który najlepiej pasuje do celu treści (np. `displayHeader` dla górnego banera, `displayLeftColumn` dla bloku bocznego).
-    *   **Scenariusz/przykład dla sprzedawcy:** Jeśli chcesz dodać wiadomość „Darmowa wysyłka” powyżej opisów produktów, wybierz `displayProductAdditionalInfo`.
--   **Aktywny**
-
-    *   **Co robi to ustawienie:** Kontroluje, czy pudełko HTML jest aktualnie widoczne w Twoim sklepie.
-    *   **Efekt zmiany tego ustawienia:**
-        *   *Gdy włączone („Wł.”):* Pudełko HTML zostanie wyświetlone w Twoim front office.
-        *   *Gdy wyłączone („Wył.”):* Pudełko HTML zostanie ukryte, ale jego zawartość i ustawienia są zapisane, co pozwala na ponowne aktywowanie go później.
-    *   **Zalecana wartość:** „Wł.” dla aktywnej treści, „Wył.” dla treści, którą chcesz tymczasowo ukryć lub przygotować do przyszłego użycia.
-    *   **Scenariusz/przykład dla sprzedawcy:** Możesz przygotować pudełko z promocją świąteczną z wyprzedzeniem, pozostawić je „Wył.”, a następnie przełączyć na „Wł.”, gdy nadejdzie czas, bez konieczności ponownego tworzenia.
--   **Tylko na stronach zabezpieczonych (SSL)**
-
-    *   **Co robi to ustawienie:** Ogranicza wyświetlanie pudełka HTML do stron ładowanych przez HTTPS (bezpieczne połączenie).
-    *   **Efekt zmiany tego ustawienia:**
-        *   *Gdy włączone („Wł.”):* Pudełko pojawi się tylko na stronach z `https://` w adresie URL.
-        *   *Gdy wyłączone („Wył.”):* Pudełko pojawi się zarówno na stronach bezpiecznych (HTTPS), jak i niezabezpieczonych (HTTP) (jeśli Twój sklep nadal używa HTTP, co nie jest zalecane).
-    *   **Zalecana wartość:** „Wł.”, jeśli treść zawiera wrażliwe informacje lub jeśli chcesz upewnić się, że ładuje się tylko na bezpiecznych stronach. Ogólnie rzecz biorąc, wszystkie nowoczesne sklepy powinny być w pełni HTTPS, więc może to nie być ściśle konieczne, ale dodaje dodatkową warstwę kontroli.
-    *   **Scenariusz/przykład dla sprzedawcy:** Jeśli Twoje pudełko HTML zawiera odznakę płatności lub pieczęć bezpieczeństwa, możesz chcieć upewnić się, że pojawia się tylko na bezpiecznych stronach, aby wzmocnić zaufanie.
--   **Tylko na stronie głównej**
-
-    *   **Co robi to ustawienie:** Ogranicza wyświetlanie pudełka HTML tylko do strony głównej Twojego sklepu.
-    *   **Efekt zmiany tego ustawienia:**
-        *   *Gdy włączone („Wł.”):* Pudełko pojawi się tylko wtedy, gdy klienci odwiedzą Twoją główną stronę główną.
-        *   *Gdy wyłączone („Wył.”):* Pudełko pojawi się na wszystkich stronach, na których dostępna jest wybrana „Pozycja” (hook).
-    *   **Zalecana wartość:** „Wył.”, chyba że treść jest specjalnie zaprojektowana dla strony głównej.
-    *   **Scenariusz/przykład dla sprzedawcy:** Duży baner promocyjny dla wyprzedaży w całym sklepie byłby zazwyczaj ustawiony na „Wł.” dla tej opcji, jeśli chcesz go tylko na stronie głównej, lub „Wył.”, jeśli chcesz, aby pojawiał się w nagłówku na każdej stronie.
--   **Zawartość** (To jest główny edytor treści)
-
-    *   **Co robi to ustawienie:** To tutaj wprowadzasz rzeczywisty kod HTML, JavaScript lub CSS, który zostanie wyświetlony. Używa edytora tekstu sformatowanego TinyMCE (jeśli nie jest globalnie wyłączony) do łatwego tworzenia treści.
-    *   **Efekt zmiany tego ustawienia:** Wprowadzona tutaj treść zostanie wyrenderowana w Twoim front office w wybranym hooku.
-    *   **Zalecana wartość:** Wprowadź pożądaną treść. Możesz użyć:
-        *   Zwykłego tekstu
-        *   HTML (np. `<p>Witaj Świecie!</p>`, tagi `<img>`, linki `<a>`)
-        *   CSS (zawarte w tagach `<style>`, np. `<style>.moja-klasa { color: red; }</style>`)
-        *   JavaScript (zawarte w tagach `<script>`, np. `<script>alert('Witaj!');</script>`)
-    *   **Scenariusz/przykład dla sprzedawcy:**
-        *   *HTML:* Dodawanie niestandardowego obrazu banera: `<img src="https://twojskep.com/img/cms/baner.jpg" alt="Letnia wyprzedaż" style="width:100%;">`
-        *   *JavaScript:* Osadzanie kodu śledzącego Google Analytics: `<script> (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m) })(window,document,'script','//www.google-analytics.com/analytics.js','ga'); ga('create', 'UA-XXXXX-Y', 'auto'); ga('send', 'pageview'); </script>`
-        *   *CSS:* Zmiana koloru konkretnego elementu: `<style> #header .logo { border: 2px solid blue; } </style>`
-
-#### 2.1.1 Tabela szybkiego odniesienia do konfiguracji
-
-| Ekran / Widok | Ustawienie / Opcja | Domyślne / Zalecane | Cel i wpływ |
-| --- | --- | --- | --- |
-| Główna strona konfig. | Użyj modułu wewnętrznego | Wł. | Kontroluje wewnętrzny mechanizm aktualizacji. |
-| Główna strona konfig. | Zapobiegaj usuwaniu adresów URL z obrazów | Wł. | Zapewnia zachowanie adresów URL obrazów w edytorze. |
-| Główna strona konfig. | Nie ładuj bibliotek tinyMCE | Wył. | Włącza edytor wizualny do łatwego tworzenia treści. |
-| Formularz Dodaj/Edytuj | Nazwa | Opisowa nazwa | Wewnętrzna etykieta dla pudełka HTML. |
-| Formularz Dodaj/Edytuj | Sklep | Wszystkie sklepy | Wybiera, które sklepy wyświetlają treść (wielosklepowość). |
-| Formularz Dodaj/Edytuj | Pozycja | (Wybierz Hook) | Określa, gdzie treść pojawia się w front office. |
-| Formularz Dodaj/Edytuj | Aktywny | Wł. | Przełącza widoczność pudełka HTML w front office. |
-| Formularz Dodaj/Edytuj | Tylko na stronach zabezpieczonych (SSL) | Wył. (lub Wł. jeśli krytyczne) | Ogranicza wyświetlanie do stron HTTPS. |
-| Formularz Dodaj/Edytuj | Tylko na stronie głównej | Wył. | Ogranicza wyświetlanie tylko do strony głównej. |
-| Formularz Dodaj/Edytuj | Zawartość | (Twój HTML/JS/CSS) | Rzeczywista treść do wyświetlenia. |
-
-## 3. Rozwiązywanie problemów dla sprzedawców i często zadawane pytania (FAQ)
-
-**P1: Moje pudełko HTML nie wyświetla się w front office. Co powinienem sprawdzić?**
-O1:
-
--   **Czy jest aktywne?** Przejdź do konfiguracji modułu i upewnij się, że przełącznik „Aktywny” dla Twojego pudełka jest ustawiony na „Wł.”.
--   **Poprawna pozycja (Hook)?** Sprawdź dokładnie, czy wybrałeś poprawną „Pozycję” (hook), w której spodziewasz się, że treść się pojawi. Niektóre hooki są specyficzne dla określonych stron (np. `displayProductAdditionalInfo` tylko na stronach produktów).
--   **Tylko strona główna?** Jeśli ustawiłeś „Tylko na stronie głównej” na „Wł.”, pojawi się tylko na Twojej głównej stronie głównej.
--   **Tylko SSL?** Jeśli „Tylko na stronach zabezpieczonych (SSL)” jest ustawione na „Wł.”, upewnij się, że przeglądasz stronę HTTPS.
--   **Pamięć podręczna:** Wyczyść pamięć podręczną PrestaShop (Zaawansowane > Wydajność > Wyczyść pamięć podręczną) i pamięć podręczną przeglądarki.
--   **Błędy w treści:** Jeśli Twoja treść HTML/JS/CSS zawiera błędy, może to uniemożliwić renderowanie pudełka. Spróbuj prostego tekstu „Witaj Świecie”, aby przetestować.
-
-**P2: Edytor TinyMCE (edytor wizualny) nie działa lub wygląda dziwnie.**
-O2:
-
--   **Ustawienie „Nie ładuj bibliotek tinyMCE”:** Upewnij się, że jest ustawione na „Wył.” w globalnych ustawieniach modułu, jeśli chcesz używać edytora wizualnego.
--   **Konflikty z szablonem:** Czasami niestandardowe szablony lub inne moduły mogą kolidować z TinyMCE. Spróbuj tymczasowo wyłączyć inne moduły, aby sprawdzić, czy problem zostanie rozwiązany.
--   **Problemy z przeglądarką:** Spróbuj innej przeglądarki lub wyczyść pamięć podręczną i pliki cookie przeglądarki.
-
-**P3: Moje obrazy lub linki są uszkodzone po zapisaniu zawartości pudełka HTML.**
-O3:
-
--   **Ustawienie „Zapobiegaj usuwaniu adresów URL z obrazów”:** Upewnij się, że jest ustawione na „Wł.” w globalnych ustawieniach modułu.
--   **Ścieżki absolutne vs. względne:** Zawsze używaj absolutnych adresów URL (zaczynających się od `http://` lub `https://`) dla obrazów i linków, zwłaszcza jeśli są zewnętrzne lub jeśli chcesz, aby działały spójnie w całym Twoim sklepie.
--   **Sprawdź HTML:** Sprawdź wygenerowany kod HTML w edytorze (zazwyczaj przycisk „Kod źródłowy”), aby upewnić się, że atrybuty `src` i `href` są poprawne.
-
-**P4: Jak przetłumaczyć zawartość moich pudełek HTML na różne języki?**
-O4:
-
--   HTML Box Pro obsługuje treści wielojęzyczne. Podczas edycji pudełka HTML zobaczysz zakładki językowe (np. angielski, francuski, hiszpański) obok pola „Zawartość”.
--   Kliknij każdą zakładkę językową i wprowadź przetłumaczoną treść dla tego konkretnego języka. Moduł automatycznie wyświetli poprawną wersję językową Twoim klientom, w oparciu o ich wybrany język sklepu.
-
-**P5: Treść wygląda dobrze na komputerze stacjonarnym, ale jest zniekształcona na urządzeniach mobilnych.**
-O5:
-
--   **Responsywny projekt:** Upewnij się, że dodawana treść HTML jest zaprojektowana tak, aby była responsywna. Użyj właściwości CSS, takich jak `max-width: 100%; height: auto;` dla obrazów, i rozważ użycie zapytań mediów CSS w tagach `<style>` dla bardziej złożonych układów.
--   **Responsywność szablonu:** Chociaż sam moduł jest responsywny, jeśli Twój niestandardowy HTML nie jest, może to zepsuć układ. Dokładnie przetestuj na różnych urządzeniach.
-
-## 4. Przewodnik dla programistów i webmasterów (Architektura techniczna i mapa kodu)
-
-### 4.1 Przegląd architektury
-
-Moduł HTML Box Pro wykorzystuje standardową architekturę modułów PrestaShop, głównie klasę `Module` dla swojej podstawowej funkcjonalności i `getContent()` dla konfiguracji w Panelu administracyjnym. Dynamicznie rejestruje hooki i renderuje zawartość na podstawie przechowywanej konfiguracji. Moduł używa niestandardowej biblioteki `SmartyTemplatesManager` do zarządzania formularzami i szablonami w Panelu administracyjnym, zapewniając spójny interfejs użytkownika do dodawania i edytowania pudełek HTML. Zawartość jest przechowywana w tabeli `ps_configuration`, przy czym każde pudełko HTML jest reprezentowane przez unikalny klucz konfiguracyjny.
-
-### 4.2 Kontrolery (`controllers/`)
-
-Ten moduł nie używa dedykowanych kontrolerów front-office ani back-office w katalogach `controllers/front` lub `controllers/admin`. Cała logika Panelu administracyjnego jest obsługiwana w metodzie `getContent()` pliku `htmlboxpro.php`, która renderuje formularze i przetwarza przesłane dane. Renderowanie zawartości front-office jest obsługiwane bezpośrednio poprzez wykonanie hooków w głównym pliku modułu.
-
-### 4.3 Klasy rdzenia i modele (`classes/`)
-
-Moduł nie definiuje niestandardowych klas `ObjectModel` ani innych klas rdzenia w katalogu `classes/`. Całe zarządzanie danymi i logika biznesowa są hermetyzowane w głównym pliku modułu `htmlboxpro.php`. Konfiguracje pudełek HTML są przechowywane bezpośrednio w tabeli `ps_configuration`, z kluczami takimi jak `hbp_name_X`, `hbp_content_X_Y`, `hbp_hook_X` itd., gdzie `X` to ID pudełka, a `Y` to ID języka.
-
-### 4.4 Zasoby JavaScript (`views/js/`)
-
--   `htmlboxpro/lib/smartyTemplatesManager/js/smartyTemplatesManager.js`
-    *   **Zakres:** Panel administracyjny.
-    *   **Odpowiedzialność:** Zapewnia funkcjonalność JavaScript dla biblioteki `SmartyTemplatesManager`, która jest używana do renderowania i zarządzania formularzami konfiguracyjnymi modułu (np. dodawanie/edycja pudełek HTML). Obejmuje to dynamiczne elementy formularzy, interakcje AJAX do zapisywania/ładowania danych szablonu i potencjalnie zarządzanie zakładkami.
--   `htmlboxpro/views/js/script.js`
-    *   **Zakres:** Panel administracyjny.
-    *   **Odpowiedzialność:** Zawiera JavaScript specyficzny dla modułu dla strony konfiguracji Panelu administracyjnego. Może to obejmować słuchacze zdarzeń dla przesyłania formularzy, dynamiczne aktualizacje listy pudełek HTML lub inne ulepszenia interfejsu użytkownika specyficzne dla HTML Box Pro.
--   `htmlboxpro/views/js/tinymce16-force-urls.inc.js`
-    *   **Zakres:** Panel administracyjny.
-    *   **Odpowiedzialność:** Ten skrypt jest ładowany, gdy opcja „Zapobiegaj usuwaniu adresów URL z obrazów” jest włączona. Zawiera konfigurację i wtyczki TinyMCE specjalnie zaprojektowane, aby zapobiec usuwaniu lub modyfikowaniu absolutnych adresów URL przez edytor, szczególnie dla obrazów. Zapewnia, że atrybuty `src` pozostają nienaruszone.
--   `htmlboxpro/views/js/tinymce16.inc.js`
-    *   **Zakres:** Panel administracyjny.
-    *   **Odpowiedzialność:** Ten skrypt zawiera podstawową inicjalizację i konfigurację edytora TinyMCE dla modułu. Definiuje pasek narzędzi edytora, wtyczki i ogólne zachowanie podczas edycji zawartości pudełka HTML. Jest ładowany, gdy opcja „Nie ładuj bibliotek tinyMCE” jest wyłączona.
-
-### 4.5 Arkusze stylów CSS (`views/css/`)
-
--   `htmlboxpro/lib/smartyTemplatesManager/css/smartyTemplatesManager.css`
-    *   **Zakres:** Stylizacja formularza administracyjnego w Panelu administracyjnym.
-    *   **Odpowiedzialność:** Zapewnia stylizację dla komponentów interfejsu użytkownika biblioteki `SmartyTemplatesManager`, zapewniając spójny wygląd formularzy konfiguracyjnych modułu w Panelu administracyjnym PrestaShop.
--   `htmlboxpro/views/css/styles.css`
-    *   **Zakres:** Stylizacja formularza administracyjnego w Panelu administracyjnym.
-    *   **Odpowiedzialność:** Zawiera reguły CSS specyficzne dla modułu dla strony konfiguracji HTML Box Pro, takie jak stylizacja listy pudełek HTML, przycisków lub innych niestandardowych elementów w interfejsie administracyjnym modułu.
-
-### 4.6 Struktura szablonów Smarty (`views/templates/`)
-
-Moduł intensywnie wykorzystuje szablony Smarty dla swojego interfejsu Panelu administracyjnego.
-
--   **Szablony hooków (`htmlboxpro/`)**:
-    *   `htmlboxpro/html.tpl`: To jest główny szablon front-office. Jest odpowiedzialny za renderowanie rzeczywistej zawartości pudełka HTML (`{$htmlboxpro_content}`) w wybranym hooku w front office.
--   **Szablony administracyjne (`views/templates/admin/`)**:
-    *   `htmlboxpro/views/templates/admin/_configure/helpers/form/form.tpl`: Ten szablon jest prawdopodobnie nadpisaniem lub specyficznym szablonem używanym przez formularz konfiguracyjny modułu, być może dostosowującym sposób, w jaki standardowy `HelperForm` PrestaShop renderuje swoje pola, zwłaszcza dla edytora TinyMCE.
--   **Szablony administracyjne (`views/templates/`)**:
-    *   `htmlboxpro/views/custom_hook_info.tpl`: Prawdopodobnie wyświetla informacje lub instrukcje dotyczące niestandardowych hooków.
-    *   `htmlboxpro/views/form-add-new.tpl`: Szablon dla formularza „Dodaj nowe pudełko HTML”.
-    *   `htmlboxpro/views/form-edit.tpl`: Szablon dla formularza „Edytuj pudełko HTML”.
-    *   `htmlboxpro/views/messages.tpl`: Używany do wyświetlania komunikatów o sukcesie, błędach lub informacyjnych w Panelu administracyjnym.
-    *   `htmlboxpro/views/scripts.tpl`: Prawdopodobnie zawiera zasoby JavaScript i CSS dla strony konfiguracji Panelu administracyjnego.
--   **Szablony biblioteki SmartyTemplatesManager (`htmlboxpro/lib/smartyTemplatesManager/tpl/`, `htmlboxpro/lib/smartyTemplatesManager/views/`)**:
-    *   `htmlboxpro/lib/smartyTemplatesManager/tpl/example.tpl`: Przykład szablonu, prawdopodobnie do celów rozwojowych lub demonstracyjnych w ramach biblioteki.
-    *   `htmlboxpro/lib/smartyTemplatesManager/views/buttonManager.tpl`: Renderuje przyciski lub linki akcji w interfejsie `SmartyTemplatesManager`.
-    *   `htmlboxpro/lib/smartyTemplatesManager/views/createTemplateForm.tpl`: Używany do tworzenia nowych szablonów/elementów w kontekście `SmartyTemplatesManager`.
-    *   `htmlboxpro/lib/smartyTemplatesManager/views/editTemplateForm.tpl`: Używany do edycji istniejących szablonów/elementów w kontekście `SmartyTemplatesManager`.
-    *   `htmlboxpro/lib/smartyTemplatesManager/views/mainForm.tpl`: Główna otoczka lub struktura dla formularzy zarządzanych przez `SmartyTemplatesManager`.
-    *   `htmlboxpro/lib/smartyTemplatesManager/views/selectInput.tpl`: Ogólny szablon do renderowania rozwijanego pola wyboru.
-    *   `htmlboxpro/lib/searchTool/views/scripts.tpl`: Prawdopodobnie zawiera zasoby JavaScript i CSS dla komponentu narzędzia wyszukiwania w Panelu administracyjnym.
-
-### 4.7 Schemat bazy danych i mapa hooków
-
--   **Tabele bazy danych**:
-
-    *   Moduł nie tworzy niestandardowych tabel SQL. Cała konfiguracja pudełek HTML jest przechowywana w standardowej tabeli PrestaShop `ps_configuration`.
-    *   Klucze konfiguracyjne mają wzorzec, taki jak:
-        *   `HBP_NAME_{ID}`: Nazwa pudełka HTML.
-        *   `HBP_CONTENT_{ID}_{LANG_ID}`: Rzeczywista zawartość HTML/JS/CSS dla konkretnego pudełka i języka.
-        *   `HBP_HOOK_{ID}`: Nazwa hooka, w którym wyświetlane jest pudełko.
-        *   `HBP_ACTIVE_{ID}`: Wartość logiczna (0/1) wskazująca, czy pudełko jest aktywne.
-        *   `HBP_SSL_{ID}`: Wartość logiczna (0/1) wskazująca, czy jest tylko na stronach SSL.
-        *   `HBP_HOMEPAGE_{ID}`: Wartość logiczna (0/1) wskazująca, czy jest tylko na stronie głównej.
-        *   `HBP_SHOP_{ID}`: Lista identyfikatorów sklepów oddzielonych przecinkami (dla wielu sklepów).
-        *   `HBP_LAST_ID`: Przechowuje ostatnio używany identyfikator dla pudełka HTML w celu generowania unikalnych identyfikatorów.
-        *   `HBP_NOTINYJS`: Globalne ustawienie dla „Nie ładuj bibliotek tinyMCE”.
-        *   `HBP_FORCEURLS`: Globalne ustawienie dla „Zapobiegaj usuwaniu adresów URL z obrazów”.
-        *   Inne klucze, takie jak `MYPRESTA_UPDATES`, `UPDATE_HTMLBOXPRO`, `UPDATEV_HTMLBOXPRO` do zarządzania aktualizacjami.
--   **Tabela zarejestrowanych hooków**:
-
-| Nazwa hooka | Czas wykonania | Cel techniczny |
+| Etykieta na ekranie | Klucz | Po instalacji |
 | --- | --- | --- |
-| `displayAfterCarrier` | Po wyborze przewoźnika w kasie. | Wyświetlaj treści związane z opcjami wysyłki lub ostatnimi krokami. |
-| `displayFooterBefore` | Przed główną zawartością stopki. | Dodaj treść powyżej standardowej stopki. |
-| `displayLeftColumn` | W lewej kolumnie bocznej odpowiednich stron. | Wyświetlaj bloki boczne (np. kategorie, filtry, niestandardowe informacje). |
-| `displayCustomerAccountForm` | W formularzu tworzenia/edycji konta klienta. | Dodaj niestandardowe pola lub informacje związane z kontami klientów. |
-| `displayRightColumnProduct` | W prawej kolumnie bocznej na stronach produktów. | Wyświetlaj treści boczne specyficzne dla produktu (np. powiązane produkty, odznaki zaufania). |
-| `displayBanner` | Na górze strony, zazwyczaj dla banera obejmującego całą witrynę. | Wyświetlaj banery promocyjne lub ogłoszenia. |
-| `actionAdminControllerSetMedia` | Gdy kontroler administracyjny ustawia swoje media (CSS/JS). | Wstrzyknij niestandardowy CSS/JS do Panelu administracyjnego (używany przez moduł dla własnych zasobów administracyjnych). |
-| `displayOrderConfirmation` | Na stronie potwierdzenia zamówienia po udanym zakupie. | Wyświetlaj wiadomości z podziękowaniami, informacje o śledzeniu lub oferty dodatkowe. |
-| `displayHeader` | W sekcji `<head>` każdej strony. | Idealny do wstrzykiwania meta tagów, skryptów śledzących lub globalnego CSS/JS. |
-| `displayCartExtraProductActions` | W podsumowaniu koszyka, w pobliżu akcji produktu. | Dodaj treści związane z produktami w koszyku (np. oferty dodatkowe, oferty krzyżowe, informacje o wysyłce). |
-| `displayFooter` | W głównej sekcji stopki sklepu. | Dodaj ogólną zawartość stopki, linki lub informacje o prawach autorskich. |
-| `displayPaymentByBinaries` | Podczas procesu wyboru płatności. | Wyświetlaj informacje związane z płatnościami lub pieczęcie zaufania. |
-| `displayCustomerLoginFormAfter` | Po formularzu logowania klienta. | Dodaj treść poniżej formularza logowania (np. linki „zapomniałem hasła”, zachęty do rejestracji). |
-| `displayReassurance` | W bloku zapewnienia produktu (często poniżej obrazu produktu). | Wyświetlaj elementy zaufania, takie jak darmowa wysyłka, bezpieczna płatność, łatwe zwroty. |
-| `displayProductAdditionalInfo` | Poniżej opisu produktu lub głównego bloku informacyjnego. | Dodaj dodatkowe szczegóły produktu, tabele rozmiarów lub niestandardową treść. |
+| Wykorzystaj rozszerzony edytor w module | `hbp_tiny` | brak klucza; formularz pokazuje **Off** |
+| Zapobiegnij usuwaniu adresu domeny z linków do obrazków | `hbp_forceurls` | brak klucza; formularz pokazuje **Off** |
+| Nie duplikuj bloków na stronie produktu podczas zapytań ajax | `hbp_noajax` | brak klucza; formularz pokazuje **Off** |
+| Nie ładuj bibliotek tinyMCE | `hbp_notinyjs` | 1, czyli **On** |
 
-## 5. Oficjalne wsparcie i aktualizacje
+**Zapisz** wysyła nazwy czterech przełączników. Moduł zapisuje każdą wysłaną wartość. `hbp_tiny` = 1 ładuje na tej stronie `views/js/tinymce16.inc.js`. Ten sam przełącznik razem z `hbp_forceurls` = 1 ładuje zamiast tego `views/js/tinymce16-force-urls.inc.js`. `hbp_tiny` = 0 ładuje plik sklepu `js/admin/tinymce.inc.js` i woła `tinySetup()`. `hbp_notinyjs` = 1 pomija `js/tiny_mce/tinymce.min.js`. Strona i tak dołącza `js/tiny_mce/tiny_mce.js`, `views/js/script.js` i `views/css/styles.css`.
 
-Aby uzyskać najnowsze aktualizacje modułu, poprawki błędów i oficjalne wsparcie, zaloguj się na swoje konto klienta na [MyPresta.eu](https://mypresta.eu/my-account/orders/). Nasz zespół wsparcia jest gotowy pomóc Ci w przypadku wszelkich problemów lub pytań dotyczących modułu HTML Box Pro.
+`hbp_noajax` = 1 sprawia, że `generateHookContents` zwraca pustkę, gdy żądanie ma `ajax` = 1 i `action` = refresh. Inne żądania nadal wypisują boksy.
+
+Pod przełącznikami strona dokleja panel aktualizacji z `checkforupdates`. Lista **Informuj o nowej wersji** ma `-- select --`, **Włącz** (1) i **Wyłącz** (0). **Sprawdź teraz** to przycisk `submit_settings_updates_now`. **Zapisz** w tym panelu to `submit_settings_updates` i zapisuje tylko `mypresta_updates`.
+
+Konstruktor modułu pyta serwer zdalny, gdy `mypresta_updates` nie jest 0 albo gdy klucza nie ma (`Configuration::get` zwraca false), a `update_htmlboxpro` jest starszy niż 259200 sekund. Zapytanie idzie, gdy włączone jest `allow_url_fopen`. Wartość licencji wysyłana przez tę paczkę to `nlc`. Ostrzeżenie pojawia się, gdy zwrócona wersja jest wyższa niż 4.0.5 i żądanie nie jest ajax. **Wyłącz** (0) nadal wchodzi w gałąź z czasem; warunek ostrzeżenia jest ten z tej gałęzi.
+
+## Boxy
+
+![Ekran w języku angielskim. Boxes to Boxy. Default positions to Standardowe hooki. Search hooks nie ma tłumaczenia w translations/pl.php, więc ekran pokazuje to angielskie źródło.](https://mypresta.eu/docs/images/docs/htmlboxpro-boxes.webp)
+
+**Boxy** to dwie kolumny. Tytuł lewej to **Standardowe hooki**. Nad wierszami jest pole szukania. Placeholder **Search hooks** nie ma wpisu w `translations/pl.php`, więc ekran pokazuje to angielskie źródło. **Własne hooki** to panel pod tą listą, w tej samej lewej kolumnie. Prawa kolumna to bloki wybranego hooka albo pusty stan. Główna kolumna zaczyna się od nagłówka **No box selected** i zdania **Wybierz z listy po lewej stronie blok do edycji, lub utwórz nowy**. Nagłówka **No box selected** nie ma w `translations/pl.php`, więc ekran pokazuje to angielskie źródło. Rozwinięty hook bez bloków pokazuje **No boxes in this position yet**. Tego ciągu też nie ma w pliku tłumaczenia.
+
+Każdy standardowy hook to wiersz: pole wyboru, nazwa hooka i przycisk dodania boksu. Nazwa hooka prowadzi do `https://mypresta.eu/prestashop/hook/` plus nazwa małymi literami. Pole wysyła `togglehook`. Zaznaczenie zapisuje `hbp_{hook}` = 1 i woła `registerHook` jeszcze raz. Odznaczenie nie wysyła `status`, więc klucz staje się 0. Wyłączenie hooka nie wyrejestrowuje go. Tekst sukcesu to **WIdczność hooka zmieniona poprawnie** (tak jest zapisane w pliku tłumaczenia, z wielkim I).
+
+Wiersz bloku ma nazwę wewnętrzną albo **brak nazwy własnej bloku**, gdy nazwa jest pusta. Przyciski to **Edytuj ten blok**, **Zduplikuj ten blok** i **Usuń ten blok**. Sukces przełącznika aktywności to **Widoczność bloku zmieniona poprawnie**. Przeciągnięcie wiersza wysyła `action=updateSlidesPosition` i `elements{hook}[]` oraz zapisuje `hbp_block.position`. Zakładka ładuje jQuery UI sortable. Pusty hook pokazuje **brak zdefiniowanych bloków**. W multisklepie wiersz może pokazać **w tym sklepie**.
+
+**Zduplikuj ten blok** kopiuje blok i dokleja z przodu nazwy `[duplikat] `. Tekst sukcesu to **Blok zduplikowany poprawnie**. **Usuń ten blok** kasuje wiersz przez model obiektu. Tekst sukcesu to **Blok został usunięty**. Przełącznik aktywności na liście puszcza `smart_clean` na treści każdego języka, zapisuje blok i ustawia `active` zapytaniem SQL.
+
+## Dodawanie i edycja bloku
+
+![Ekran w języku angielskim. Create new block to Utwórz nowy blok. Contents to Treść. Name to Nazwa. Smarty templates manager to Zarządzanie szablonami smarty. Placement nie ma tłumaczenia.](https://mypresta.eu/docs/images/docs/htmlboxpro-block-form.webp)
+
+Dodanie boksu otwiera formularz **Utwórz nowy blok**. Edycja otwiera **Edytuj istniejący blok**. Przycisk to **Zapisz**. Dodanie wysyła `submitAddNewHbox`. Edycja wysyła `submitEditHbox`. Tekst dodania to **Blok został utworzony poprawnie**. Tekst zapisu to **Blok został zapisany poprawnie**.
+
+Treść każdego języka sklepu ląduje w `hbp_block_lang.body`. Przed zapisem moduł wykonuje `addslashes(smart_clean(...))`. `smart_clean` zwija powtórzony znak białej spacji do jednej i obcina końce. Ostatnie podstawienie w `prepare()` przepisuje `\'`, `\\` i `\"`. Wcześniejsze linie w `prepare()` biorą oryginalny ciąg i nie zmieniają zwracanej wartości. Funkcja nie usuwa znaczników HTML. To samo czyszczenie leci ponownie, gdy przełącznik na liście zmienia aktywność.
+
+Etykiety pól formularza są w `translations/pl.php`. Nagłówek sekcji produktów to **Produkty**. **Placement**, **Pages**, **Cart**, **Customers** i **Schedule** nie mają wpisu w tym pliku, więc ekran pokazuje to angielskie źródło.
+
+| Sekcja | Co robią pola |
+| --- | --- |
+| Treść | **Treść** (`hbp_body`, osobno dla każdego języka) i **Nazwa** (`hbp_name`, 150 znaków). Przełącznik edytora w `views/js/script.js` woła `tinyMCE.execCommand('mceToggleEditor')` dla pola tego języka. Pod edytorem jest przycisk **Zarządzanie szablonami smarty**. Otwiera menedżer szablonów z `lib/smartyTemplatesManager/`. |
+| Placement | **Shop**, **Position** (hook z listy, `hbp_hook`), **Active** (`hbp_active`, w tabeli domyślnie 0, dopóki zapis nie ustawi 1), **Only on secured (SSL) pages** (`hbp_bssl`), **Active on mobile devices**, **Active on tablet devices**, **Active on PC devices**. Brak wartości urządzenia zapisuje się jako 1. Polskie etykiety tych pól są w `translations/pl.php`. |
+| Pages | Strona główna, promocje, potwierdzenie zamówienia, kategoria, kategoria z podkategoriami, wykluczone kategorie, kategoria CMS, strona CMS, strona producenta, dokładny URL i słowa wyszukiwania. Identyfikatory są po przecinku. Pole szukania przy identyfikatorze to narzędzie wyszukiwania modułu (`ajax=1` i `searchType`). |
+| Products | Włączenie albo wykluczenie id produktów, wszystkich kart produktu, ceny specjalnej, braku stanu, możliwości zakupu, braku możliwości zakupu, stanu magazynowego, minimalnej i maksymalnej wartości, kategorii produktu, producenta, dostawcy i wartości cechy. |
+| Cart | Bok tylko wtedy, gdy koszyk zawiera albo nie zawiera podanych id kategorii lub id produktów. |
+| Customers | **All users** (0), **Logged only** (1), **Unlogged only** (2) w `hbp_logged`. Polskie ciągi tych trzech opcji są w `translations/pl.php`. **Show for all groups** i pola grup idą do `hbp_cgroup` jako lista po przecinku. **Hide for (users' groups)** to `hbp_hcgroup`. Geolokalizacja i kraj adresu dostawy są w tej sekcji. |
+| Schedule | Waluta, data od / data do, dni tygodnia oraz godzina od / godzina do. |
+
+Pola dni tygodnia wołają tłumaczenie z domeną `forms` (`Sunday` do `Saturday`). Pliki `translations/*.php` trzymają te słowa w domenie `htmlboxpro`, nie `forms`. Ekran pokazuje angielskie źródło: Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday.
+
+Tekst geolokalizacji wskazuje `https://mypresta.eu/prestashop-17/geolite2-city-geolocation-download.html` i katalog `/app/Resources/geoip/`. Ten sam tekst mówi, że geolokalizacja nie działa na localhost. Wybrane kraje lądują w `selected_geoip`, rozdzielone średnikiem. Kraje adresu dostawy lądują w `delivery_address_selected`, rozdzielone średnikiem. To inny przełącznik niż geolokalizacja.
+
+## Kiedy sklep ukrywa blok
+
+`generateHookContents` ładuje bloki z `active` = 1 dla bieżącego języka i bieżącego hooka, sortowane po `position`. Gdy multisklep jest włączony, kolumna `shop` musi być id bieżącego sklepu albo 0. Szablon `html.tpl` ukrywa treść, gdy którykolwiek warunek niżej nie pasuje. Przełącznik zostawiony na **Off** nie stosuje tej reguły.
+
+| Włączony warunek | Treść jest ukryta, gdy |
+| --- | --- |
+| Tylko strona główna | kontroler nie jest `index` |
+| Zakres dat | dziś jest przed datą od albo po dacie do (`Y-m-d`) |
+| Słowa wyszukiwania | fraza nie jest jednym ze słów po przecinku |
+| Tylko strony SSL | `$_SERVER['HTTPS']` nie jest `on` |
+| Tylko zalogowani | klient nie jest zalogowany |
+| Tylko niezalogowani | klient jest zalogowany |
+| Tylko wybrane karty produktu | id produktu nie jest na liście. Pusty pierwszy element listy zostawia blok, gdy id produktu jest w żądaniu |
+| Produkt bez stanu | wartość stanu użyta w szablonie jest większa niż 0 |
+| Produkt na stanie | ta wartość stanu nie jest większa niż 0 |
+| Brak możliwości zakupu / możliwość zakupu | wartość `oos` produktu nie pasuje do reguły deny albo allow w `html.tpl` |
+| Cena specjalna albo jej brak | `hook_params.product` nie ma pasującej ceny specjalnej |
+| Wybrane kategorie | kontroler nie jest kontrolerem kategorii albo id nie jest wybrane |
+| Kategorie i podkategorie | kategoria nie jest wybrana i nie jest dzieckiem według `htmlboxpro::checkIfChildren` |
+| Kategoria CMS, strona CMS, strona producenta | bieżące id nie jest na liście albo kontroler jest inną stroną |
+| Wybrany URL | `htmlboxpro::currentPageURL()` nie jest na zapisanej liście. Porównanie wycina parametr `rand=` |
+| Produkt w kategorii | kategorie produktu nie przecinają się z listą |
+| Cecha | na produkcie nie ma wybranej wartości cechy |
+| Potwierdzenie zamówienia | kontroler nie jest `orderconfirmation` |
+| Producent albo dostawca produktu | producent albo dostawca produktu nie jest wybrany |
+| Koszyk: kategoria albo produkt, zawiera albo nie zawiera | koszyk nie pasuje do listy. PHP w `get_blocks` usuwa blok przed szablonem dla tych czterech filtrów |
+| Ukryj dla grupy | grupa klienta pasuje do `hbp_hcgroup`. Grupy 1 i 2 są porównywane z grupą domyślną. Inna grupa ukrywa blok, gdy jest wśród grup klienta |
+| Urządzenie | `Context::getDevice()` jest 1 i PC jest wyłączony; 2 i tablet jest wyłączony; 4 i telefon jest wyłączony |
+| Min. / maks. wartość produktu | przeliczona cena jest poza kwotą albo hook nie ma produktu |
+| Dni tygodnia | `hbp_daytype_on` jest 1 i dzisiejsze `%w` nie jest na liście |
+| Waluta | `hbp_currency_on` jest 1 i id waluty nie jest `hbp_currency` |
+| Adres dostawy | kraj dostawy nie jest w `delivery_address_selected` |
+| Geolokalizacja | `hbp_geoip` jest 1 i rozpoznany kraj nie jest w `selected_geoip` |
+| Wykluczone produkty, wszystkie karty produktu, wykluczone kategorie | bieżący produkt albo kategoria jest wykluczony |
+
+Filtr godzin działa w PHP, przed szablonem. Gdy `hbp_tim` jest 1, `timfrom` i `timto` są porównywane z `date("H:i:s")` po usunięciu dwukropków. `timto` przechodzi przez `ltrim` z maską znaków `0`, więc z tej granicy znikają zera z lewej. Blok poza oknem wypada z listy.
+
+## Znaczniki w treści boksu
+
+Podstawianie działa, gdy żądanie ma `controller` i nie jest to `AdminModules`. Znacznik, który nie został wypełniony, na końcu staje się pustym ciągiem. Wyjątkiem jest `{current_url}`.
+
+| Znacznik | Kiedy jest wypełniony |
+| --- | --- |
+| `{currency_iso}` | jest waluta; wartość to kod ISO |
+| `{id_lang}` | zawsze w tej gałęzi; wartość to kod ISO języka, nie numeryczne id |
+| `{id_customer}`, `{email_customer}`, `{customer_firstname}`, `{customer_lastname}` | klient jest zalogowany |
+| `{id_product}`, `{id_product_attribute}`, `{product_name}`, `{product_ean13}`, `{product_isbn}`, `{manufacturer_name}` | kontroler to `product` albo hook dostał `product` |
+| `{product_price_tax_incl}`, `{product_price_tax_excl}` | karta produktu; kwota sformatowana helperem cen modułu |
+| `{product_price_tax_incl_no_currency}`, `{product_price_tax_excl_no_currency}` | te same kwoty bez znaku waluty |
+| `{id_category}`, `{name_category}`, `{path_array_category}` | w żądaniu jest id kategorii |
+| `{cart_products_id}`, `{cart_total}`, `{cart_total_with_currency}` | jest koszyk |
+| `{order_id}`, `{order_customer_email}`, `{order_currency_iso_code}`, `{order_total_paid}`, `{order_total_paid_tax_excl}`, `{order_total_paid_tax_incl}`, `{order_total_products_tax_included}`, `{order_total_products_tax_excluded}`, `{order_products_id}`, `{order_products_id_google}`, `{order_delivery_date}`, `{order_delivery_country}` | gałąź potwierdzenia zamówienia ma id zamówienia |
+| `{current_url}` | każde żądanie, po gałęzi wyżej. Schemat, host i URI |
+| `{HOOK:HookName}` | `Hook::exec` tej nazwy, z wyjątkiem sytuacji, gdy nazwa jest hookiem, który właśnie rysuje ten boks — wtedy znacznik jest pusty |
+| `{HOOK:HookName:moduleName}` | `Hook::exec` ograniczone do id tego modułu |
+| `{smartyTemplate:name}` | szablon z `loadSmartyTemplateFromManager` |
+
+`{shop_name}` dostaje nazwę sklepu, a potem przebieg czyszczący zamienia `{shop_name}` na pusty ciąg. Znacznik nie zostaje jako nazwa sklepu. `{id_product_attribute}` jest pusty, gdy id atrybutu jest 0.
+
+## Własne pozycje
+
+![Ekran w języku angielskim. Custom positions to Własne hooki. Add support of new hook to Dodaj nowy hook do modułu. Hook name to Nazwa hooka. Add new hook to Dodaj nowy hook. regenerate now! to Wygeneruj na nowo.](https://mypresta.eu/docs/images/docs/htmlboxpro-custom-hooks.webp)
+
+**Własne hooki** listują wiersze z `hbp_customhook`. Nagłówek nad polem to **Dodaj nowy hook do modułu**. **Dodaj nowy hook** czyta **Nazwa hooka**. Zapisana nazwa zostawia tylko litery i cyfry (`preg_replace("/[^\da-z]/i", '')`). Gdy sklep nie ma hooka o tej nazwie, moduł tworzy wiersz `Hook` z `live_edit` 1, `position` 1, tytułem równym nazwie i opisem `Custom hook created with usage of HTML BOX PRO module`. Wstawia `hbp_customhook`, gdy wiersza nie ma, przepisuje `htmlboxpro.php` i rejestruje hook.
+
+Gdy hook już jest i metoda `hook{Name}` już jest w `htmlboxpro.php`, strona pokazuje **Hook istnieje już w bazie sklepu** i nie dodaje kolejnego wiersza. Gdy hook jest, a metody nie ma, moduł i tak przepisuje plik i rejestruje hook.
+
+**Wygeneruj na nowo** wysyła `hbp_rh_submit`. Ostrzeżenie przy przycisku to **Skorzystaj z tej opcji w razie problemów z własnymi hookami aby przebudować główny plik modułu**. Przepisanie zamienia fragment `htmlboxpro.php` między znacznikami `//~~explode~~//` na jedną metodę na hook: `hook{Name}` zwraca `generateHookContents("{Name}", $params)`. Plik musi być zapisywalny. Tekst błędu: **Nie można nadpisać głównego pliku modułu. Proszę sprawdzić uprawnienia do pliku /modules/htmlboxpro/htmlboxpro.php**. Tekst sukcesu: **Główny plik modułu został przebudowany poprawnie.**
+
+Przycisk **Remove hook** pyta **Remove this custom hook?** Tych dwóch ciągów nie ma w `translations/pl.php`, więc ekran pokazuje to angielskie źródło. Akcja kasuje wiersz `hbp_customhook` i, gdy id hooka w sklepie istnieje, kasuje ten `Hook`, potem przepisuje plik.
+
+Link **Jak wykorzystywać własne hooki?** otwiera `https://mypresta.eu/en/art/news/html-content-box-custom-hooks.html`. Na formularzu dodawania i edycji blok na własnym hooku pokazuje **This block uses custom hook** oraz dwa fragmenty:
+
+`{hook::exec('HookName') nofilter}`
+
+`{hook h='HookName' product=$product}`
+
+Drugi fragment jest opisany dla listy produktów.
+
+## Hooki rejestrowane przy instalacji
+
+`actionAdminControllerSetMedia` dodaje wtyczkę jQuery autocomplete tylko wtedy, gdy `configure` to `htmlboxpro`. Nie wypisuje boksu.
+
+Te hooki wołają `generateHookContents` z nazwą hooka. Wypisanie nadal zależy od `hbp_{hook}` = 1 i od aktywnego bloku:
+
+`displayHeader`, `displayBanner`, `displayNav1`, `displayNav2`, `displayNavFullWidth`, `displayTop`, `displayHome`, `displayFooterBefore`, `displayFooter`, `displayFooterAfter`, `displayMyAccountBlock`, `displayBeforeBodyClosingTag`, `displayLeftColumn`, `displayLeftColumnProduct`, `displayRightColumn`, `displayRightColumnProduct`, `displayOrderConfirmation`, `displayCustomerAccount`, `displayCustomerAccountForm`, `displayProductAdditionalInfo`, `displayReassurance`, `displayFooterProduct`, `displayAfterProductThumbs`, `displayProductListReviews`, `actionProductOutOfStock`, `displayShoppingCart`, `displayCartExtraProductActions`, `displayShoppingCartFooter`, `displayExpressCheckout`, `displayCustomerLoginFormAfter`, `displayBeforeCarrier`, `displayAfterCarrier`, `displayPaymentTop`, `displayPaymentByBinaries`.
+
+`displayHeader` nie dokleja pliku CSS ani JS na sklepie. Wypisuje boksy tego hooka. Sklep nie dostaje własnego arkusza modułu. HTML, CSS i JavaScript to treść zapisana przez sprzedawcę.
+
+`registerHook` używa metody rodzica, gdy `hook{Name}` już istnieje. W przeciwnym razie wstawia wiersz `Hook`, jeśli go trzeba, i wstawia `hook_module`.
+
+## Tabele i pliki
+
+Instalacja tworzy trzy tabele, jeśli ich nie ma, silnik InnoDB, zestaw znaków `utf8_general_ci`. Przed nazwą jest prefiks sklepu.
+
+| Tabela | Kolumny ze zdania CREATE |
+| --- | --- |
+| `hbp_block` | `id` (auto increment, klucz główny), `position` domyślnie 1, `hook` varchar(50), `active` domyślnie 0, `logged` domyślnie 0, `name` varchar(150), indeks `indek1` |
+| `hbp_customhook` | `id`, `hook` varchar(70) |
+| `hbp_block_lang` | `id`, `id_lang`, `body` text. Zdanie CREATE nie ma klucza głównego |
+
+Model `models/hbox.php` mapuje `hbp_block`, a `body` jest polem wielojęzycznym. Następne otwarcie konfiguracji dopisuje kolumny filtrów: `bssl`, `shop` (domyślnie 1), flagi stron i produktów, kolumny tekstowe wybranych id, `datefrom`, `dateto`, `timfrom`, `timto`, `cgroup` (zmieniane na varchar 250), `hcgroup`, `onmobile`, `ontablet`, `onpc` (domyślnie 1), pola cen, `daytype`, `currency`, `geoip` oraz kolumny koszyka i dostawy. `inconsistency()` poszerza też `hook` do varchar(255).
+
+Inne pliki zaplecza: `views/templates/hook/html.tpl` to treść na sklepie, `views/templates/admin/_configure/helpers/form/form.tpl` podmienia formularz helpera tego modułu, `lib/searchTool/` to szukanie id, `lib/smartyTemplatesManager/` obsługuje `{smartyTemplate:name}`, `lib/prestashop9compatibility.php` to helper wyświetlania ceny. `key.php` jest opcjonalny i nie ma go w tej paczce. Licencja aktualizacji w `checkforupdates` to literał `nlc`.
+
+Klucze konfiguracji, które nie są kolumnami: `hbp_notinyjs`, `hbp_tiny`, `hbp_forceurls`, `hbp_noajax`, `hbp_lasttab`, `firsttime_hbp`, `hbp_{hookname}`, `mypresta_updates`, `update_htmlboxpro`, `updatev_htmlboxpro`.
+
+## Wyłączenie, włączenie, odinstalowanie
+
+Klasa nie ma `disable()` ani `enable()`. Wyłączenie używa rodzica PrestaShop: moduł zostaje zainstalowany, tabele i konfiguracja zostają, hooki nie są wykonywane. Włączenie używa włączenia rodzica.
+
+Klasa nie ma `uninstall()`. Odinstalowanie używa metody rodzica: moduł jest wyrejestrowany, a rejestracje hooków zapisane dla niego przez PrestaShop są usuwane. Metoda rodzica nie kasuje `hbp_block`, `hbp_block_lang` ani `hbp_customhook`. Nie kasuje kluczy konfiguracji z listy wyżej. Nie kasuje własnych wierszy `Hook` utworzonych przez **Dodaj nowy hook** i nie przywraca `htmlboxpro.php` po **Wygeneruj na nowo** ani po dodaniu własnego hooka. Kolejna instalacja używa `CREATE TABLE IF NOT EXISTS`, więc wiersze zostawione w tych tabelach zostają.
+
+## Pusta strona pod zakładkami
+
+Kod przyjmuje `selecttab` = 3 i może zapisać `hbp_lasttab` = 3. Pasek nie ma trzeciego przycisku, a renderer formularza nie ma strony dla 3. Przy tej wartości obszar pod paskiem jest pusty. **Ustawienia** albo **Boxy** zapisują z powrotem 1 albo 2.
+
+## Wsparcie
+
+Strona modułu: [HTML Box Pro](https://mypresta.eu/modules/front-office-features/html-box-pro.html).

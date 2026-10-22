@@ -1,8 +1,8 @@
 ---
-title: "HTML Box Pro - Merchant Manual & Configuration Guide"
-description: "Complete user manual, screen-by-screen setup guide, and developer reference for the HTML Box Pro PrestaShop module by MyPresta.eu."
+title: "HTML Box Pro - merchant manual"
 sidebar:
-  label: "HTML Box Pro - Merchant Manual & Configuration Guide"
+  label: "HTML Box Pro - merchant manual"
+description: "Configuration of HTML boxes, hook positions and visibility rules for a shop that already has the module."
 ---
 
 > ⚠️ **Notice:** This is the official documentation for the PrestaShop module.
@@ -12,278 +12,205 @@ sidebar:
 > ---
 
 
-# HTML Box Pro
+The module technical name is `htmlboxpro`, version 4.0.5. In this language the module list shows **HTML Box Pro**.
 
-## 1. Requirements & Compatibility
+## Where the screens are
 
-- **Supported PrestaShop Versions**: PrestaShop 1.5.x, 1.6.x, 1.7.x, 8.x, 9.x
-- **PHP Compatibility**: PHP 5.6 - 8.5
-- **Hosting Requirements**: Standard PHP extensions (cURL, JSON, OpenSSL) are typically required by PrestaShop itself and are sufficient for this module.
+Modules, then Module Manager, then the module **HTML Box Pro**, then Configure. The page is the module configuration (`configure=htmlboxpro`).
 
-## 2. Complete Configuration Walkthrough (Every Setting Grouped by Screen)
+The bar under the title has two buttons: **Settings** and **Boxes**. **Settings** writes `hbp_lasttab` = 1. **Boxes** writes `hbp_lasttab` = 2. When the key is missing, opening the page writes 1, so the first view is **Settings**.
 
-### 2.1 Module Configuration Page (Back Office > Modules > Configure > HTML Box Pro)
+The same bar has **Support**, which opens `https://mypresta.eu/contact.html` in a new tab, and **Updates**, which opens the module page at MyPresta in a new tab. The update check itself is the panel at the bottom of **Settings**, not that button.
 
-This is the main screen where you manage all your HTML Boxes. The module presents a list of existing boxes and options to add new ones or modify global settings.
+There is no import screen and no block on the product edit page. A box appears on the storefront only after its hook is switched on and the block is **Active** and passes the filters below.
 
-#### Global Settings Section
+The first time `firsttime_hbp` is not 1, the page shows an information alert with the address `https://www.youtube.com/watch?v=uxzhSr5TrF4`. The close control posts `firsttime_hbp` = 1 and the alert is not shown again.
 
-At the top of the configuration page, you’ll find a few global settings that affect how the module operates.
+## What install writes
 
-- **Use internal module**
+Install runs the parent install, creates the tables, writes `hbp_notinyjs` = 1, and registers `actionAdminControllerSetMedia` plus every hook in the list further down.
 
-  - **What this setting does:** This is a legacy setting that typically refers to the module’s internal update mechanism.
-  - **Effect of changing this setting:**
-    - *When enabled (“On”):* The module might use its own internal methods for checking updates.
-    - *When disabled (“Off”):* The module will rely on standard PrestaShop update mechanisms or manual updates.
-  - **Recommended value:** “On” (unless you experience issues, then try “Off”).
-  - **Merchant scenario / example:** Generally, leave this on. If you encounter issues with module updates or notifications, your webmaster might suggest toggling this.
-- **Prevent removing URLs from images**
+It does not turn those hooks on. A hook prints boxes only when the configuration key `hbp_` plus the hook name equals 1. Until the checkbox on **Boxes** is saved, that key is missing and the hook returns nothing.
 
-  - **What this setting does:** When you use the built-in TinyMCE editor (the rich text editor) to add images, sometimes it can automatically strip out the full URL path, especially if you copy-paste content. This setting prevents that behavior.
-  - **Effect of changing this setting:**
-    - *When enabled (“On”):* Image URLs you insert into the HTML box content will be preserved exactly as you enter them, preventing broken image links.
-    - *When disabled (“Don’t”):* The editor might modify or remove parts of image URLs, potentially leading to images not displaying correctly.
-  - **Recommended value:** “On”
-  - **Merchant scenario / example:** If you’re adding images from external sources (e.g., a CDN or another website) or even internal images with absolute paths, enabling this ensures your images always show up.
-- **Do not load tinyMCE libraries**
+Opening configuration always runs the column check and adds any missing columns on `hbp_block`. Existing rows stay.
 
-  - **What this setting does:** TinyMCE is the rich text editor that allows you to easily format text, add images, and create tables without writing HTML code directly. This setting controls whether the module loads its own version of the TinyMCE editor.
-  - **Effect of changing this setting:**
-    - *When enabled (“On”):* The module will NOT load its TinyMCE editor. This can be useful if your theme or another module already loads TinyMCE, preventing conflicts or duplicate loading. However, you will lose the visual editor for your HTML boxes and will need to write raw HTML.
-    - *When disabled (“Off”):* The module will load its TinyMCE editor, providing you with a user-friendly interface to create and edit your HTML box content.
-  - **Recommended value:** “Off” (unless you are a developer and prefer to write raw HTML, or if you experience conflicts with other TinyMCE instances).
-  - **Merchant scenario / example:** If you want to use the visual editor to easily add text, bold, italics, images, and links without knowing HTML, keep this “Off”. If you’re seeing strange behavior with the editor or console errors, a developer might suggest turning this “On” to troubleshoot.
+## Settings
 
-#### HTML Boxes Management Section
+![Settings. Global module settings, with the update panel under the switches. The back office language on this screen is English.](https://mypresta.eu/docs/images/docs/htmlboxpro-settings.webp)
 
-Below the global settings, you’ll find a table listing all your created HTML boxes. From here, you can add new boxes, edit existing ones, or delete them.
+The legend is **Global module settings**. The submit button is **Save**. Each switch is **On** (1) or **Off** (0).
 
-- **Add new HTML Box** (Button)
-
-  - **What this does:** Clicking this button takes you to a new form where you can define a brand new HTML box.
-  - **Effect:** Opens the “Add New HTML Box” form.
-- **Edit** (Icon next to each box)
-
-  - **What this does:** Allows you to modify the settings and content of an existing HTML box.
-  - **Effect:** Opens the “Edit HTML Box” form, pre-filled with the box’s current settings.
-- **Delete** (Icon next to each box)
-
-  - **What this does:** Permanently removes an HTML box from your store.
-  - **Effect:** The HTML box will no longer appear on your front office. This action is irreversible.
-  - **Recommended value:** Only delete boxes you no longer need.
-
-#### Add/Edit HTML Box Form
-
-When you click “Add new HTML Box” or “Edit” an existing one, you’ll see a form with the following fields:
-
-- **Name**
-
-  - **What this setting does:** This is an internal name for your HTML box, visible only in the Back Office. It helps you identify different boxes.
-  - **Effect of changing this setting:** Changes the label for this box in your module configuration list. No front-office effect.
-  - **Recommended value:** A descriptive name (e.g., “Homepage Banner - Summer Sale”, “Product Page Trust Badges”, “Footer Contact Info”).
-  - **Merchant scenario / example:** Naming your boxes clearly helps you quickly find and manage them, especially as your store grows and you add more custom content.
-- **Shop** (Only visible in multi-store environments)
-
-  - **What this setting does:** If you run multiple stores from a single PrestaShop installation, this allows you to specify which shop(s) this HTML box should appear on.
-  - **Effect of changing this setting:** The HTML box will only be displayed on the selected shops.
-  - **Recommended value:** Select the specific shops where the content is relevant.
-  - **Merchant scenario / example:** You might have a different promotional banner for your French store than for your German store.
-- **Position**
-
-  - **What this setting does:** This is the most crucial setting, determining *where* on your store the HTML box will appear. It’s a dropdown list of all available PrestaShop hooks.
-  - **Effect of changing this setting:** The content of your HTML box will be rendered in the selected hook’s location.
-  - **Recommended value:** Choose the hook that best fits the content’s purpose (e.g., `displayHeader` for a top banner, `displayLeftColumn` for a sidebar block).
-  - **Merchant scenario / example:** If you want to add a “Free Shipping” message above your product descriptions, you’d select `displayProductAdditionalInfo`.
-- **Active**
-
-  - **What this setting does:** Controls whether the HTML box is currently visible on your store.
-  - **Effect of changing this setting:**
-    - *When enabled (“On”):* The HTML box will be displayed on your front office.
-    - *When disabled (“Off”):* The HTML box will be hidden, but its content and settings are saved, allowing you to reactivate it later.
-  - **Recommended value:** “On” for active content, “Off” for content you want to temporarily hide or prepare for future use.
-  - **Merchant scenario / example:** You can prepare a Christmas promotion box in advance, keep it “Off”, and then switch it to “On” when the time comes, without having to recreate it.
-- **Only on secured (SSL) pages**
-
-  - **What this setting does:** Restricts the display of the HTML box to pages that are loaded over HTTPS (secure connection).
-  - **Effect of changing this setting:**
-    - *When enabled (“On”):* The box will only appear on pages with `https://` in the URL.
-    - *When disabled (“Off”):* The box will appear on both secure (HTTPS) and non-secure (HTTP) pages (if your store still uses HTTP, which is not recommended).
-  - **Recommended value:** “On” if the content contains sensitive information or if you want to ensure it only loads on secure pages. Generally, all modern stores should be fully HTTPS, so this might not be strictly necessary, but it adds an extra layer of control.
-  - **Merchant scenario / example:** If your HTML box contains a payment badge or a security seal, you might want to ensure it only appears on secure pages to reinforce trust.
-- **Only on homepage**
-
-  - **What this setting does:** Restricts the display of the HTML box to only your store’s homepage.
-  - **Effect of changing this setting:**
-    - *When enabled (“On”):* The box will only appear when customers visit your main homepage.
-    - *When disabled (“Off”):* The box will appear on all pages where its selected “Position” (hook) is available.
-  - **Recommended value:** “Off” unless the content is specifically designed for the homepage.
-  - **Merchant scenario / example:** A large promotional banner for a site-wide sale would typically be set to “On” for this option if you only want it on the homepage, or “Off” if you want it to appear in the header on every page.
-- **Contents** (This is the main content editor)
-
-  - **What this setting does:** This is where you enter the actual HTML, JavaScript, or CSS code that will be displayed. It uses the TinyMCE rich text editor (if not disabled globally) for easy content creation.
-  - **Effect of changing this setting:** The content you enter here will be rendered on your front office in the selected hook.
-  - **Recommended value:** Enter your desired content. You can use:
-    - Plain text
-    - HTML (e.g., `<p>Hello World!</p>`, `<img>` tags, `<a>` links)
-    - CSS (wrap in `<style>` tags, e.g., `<style>.my-class { color: red; }</style>`)
-    - JavaScript (wrap in `<script>` tags, e.g., `<script>alert('Welcome!');</script>`)
-  - **Merchant scenario / example:**
-    - *HTML:* Adding a custom banner image: `<img src="https://yourstore.com/img/cms/banner.jpg" alt="Summer Sale" style="width:100%;">`
-    - *JavaScript:* Embedding a Google Analytics tracking code: `<script> (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m) })(window,document,'script','//www.google-analytics.com/analytics.js','ga'); ga('create', 'UA-XXXXX-Y', 'auto'); ga('send', 'pageview'); </script>`
-    - *CSS:* Changing the color of a specific element: `<style> #header .logo { border: 2px solid blue; } </style>`
-
-#### 2.1.1 Configuration Quick Reference Table
-
-| Screen / View | Setting / Option | Default / Recommended | Purpose & Impact |
-| --- | --- | --- | --- |
-| Main Config Page | Use internal module | On | Controls internal update mechanism. |
-| Main Config Page | Prevent removing URLs from images | On | Ensures image URLs are preserved in the editor. |
-| Main Config Page | Do not load tinyMCE libraries | Off | Enables the visual editor for easy content creation. |
-| Add/Edit Form | Name | Descriptive Name | Internal label for the HTML box. |
-| Add/Edit Form | Shop | All Shops | Selects which shops display the content (multi-store). |
-| Add/Edit Form | Position | (Choose Hook) | Determines where the content appears on the front office. |
-| Add/Edit Form | Active | On | Toggles visibility of the HTML box on the front office. |
-| Add/Edit Form | Only on secured (SSL) pages | Off (or On if critical) | Restricts display to HTTPS pages. |
-| Add/Edit Form | Only on homepage | Off | Restricts display to the homepage only. |
-| Add/Edit Form | Contents | (Your HTML/JS/CSS) | The actual content to be displayed. |
-
-## 3. Merchant Troubleshooting & Frequently Asked Questions (FAQ)
-
-**Q1: My HTML box isn’t showing up on the front office. What should I check?**
-A1:
-
-- **Is it Active?** Go to the module configuration and ensure the “Active” switch for your box is set to “On”.
-- **Correct Position (Hook)?** Double-check that you’ve selected the correct “Position” (hook) where you expect the content to appear. Some hooks are specific to certain pages (e.g., `displayProductAdditionalInfo` only on product pages).
-- **Homepage Only?** If you set “Only on homepage” to “On”, it will only appear on your main homepage.
-- **SSL Only?** If “Only on secured (SSL) pages” is “On”, ensure you are viewing an HTTPS page.
-- **Cache:** Clear your PrestaShop cache (Advanced Parameters > Performance > Clear cache) and your browser cache.
-- **Content Errors:** If your HTML/JS/CSS content has errors, it might prevent the box from rendering. Try a simple “Hello World” text to test.
-
-**Q2: The TinyMCE editor (visual editor) isn’t working or looks strange.**
-A2:
-
-- **“Do not load tinyMCE libraries” setting:** Ensure this is set to “Off” in the module’s global settings if you want to use the visual editor.
-- **Theme Conflicts:** Sometimes, custom themes or other modules can interfere with TinyMCE. Try temporarily disabling other modules to see if the issue resolves.
-- **Browser Issues:** Try a different browser or clear your browser’s cache and cookies.
-
-**Q3: My images or links are broken after saving the HTML box content.**
-A3:
-
-- **“Prevent removing URLs from images” setting:** Make sure this is set to “On” in the module’s global settings.
-- **Absolute vs. Relative Paths:** Always use absolute URLs (starting with `http://` or `https://`) for images and links, especially if they are external or if you want them to work consistently across your site.
-- **Check the HTML:** Inspect the generated HTML code in the editor (usually a “Source code” button) to ensure your `src` and `href` attributes are correct.
-
-**Q4: How do I translate the content of my HTML boxes for different languages?**
-A4:
-
-- HTML Box Pro supports multi-language content. When you are editing an HTML box, you will see language tabs (e.g., English, French, Spanish) next to the “Contents” field.
-- Click on each language tab and enter the translated content for that specific language. The module will automatically display the correct language version to your customers based on their selected store language.
-
-**Q5: The content looks good on desktop but is distorted on mobile.**
-A5:
-
-- **Responsive Design:** Ensure the HTML content you’re adding is designed to be responsive. Use CSS properties like `max-width: 100%; height: auto;` for images, and consider using CSS media queries within your `<style>` tags for more complex layouts.
-- **Theme Responsiveness:** While the module itself is responsive, if your custom HTML isn’t, it might break the layout. Test thoroughly on different devices.
-
-## 4. Developer & Webmaster Guide (Technical Architecture & Code Map)
-
-### 4.1 Architecture Overview
-
-The HTML Box Pro module follows a standard PrestaShop module architecture, primarily leveraging the `Module` class for its core functionality and `getContent()` for its Back Office configuration. It dynamically registers hooks and renders content based on stored configuration. The module uses a custom `SmartyTemplatesManager` library for managing its Back Office forms and templates, providing a consistent UI for adding and editing HTML boxes. Content is stored in the `ps_configuration` table, with each HTML box represented by a unique configuration key.
-
-### 4.2 Controllers (`controllers/`)
-
-This module does not use dedicated front-office or back-office controllers in the `controllers/front` or `controllers/admin` directories. All Back Office logic is handled within the `htmlboxpro.php` file’s `getContent()` method, which renders forms and processes submissions. Front-office content rendering is handled directly via hook execution within the main module file.
-
-### 4.3 Core Classes & Models (`classes/`)
-
-The module does not define custom `ObjectModel` classes or other core classes in a `classes/` directory. All data management and business logic are encapsulated within the `htmlboxpro.php` main module file. HTML box configurations are stored directly in the `ps_configuration` table, with keys like `hbp_name_X`, `hbp_content_X_Y`, `hbp_hook_X`, etc., where `X` is the box ID and `Y` is the language ID.
-
-### 4.4 JavaScript Assets (`views/js/`)
-
-- `htmlboxpro/lib/smartyTemplatesManager/js/smartyTemplatesManager.js`
-  - **Scope:** Back-office.
-  - **Responsibility:** Provides JavaScript functionality for the `SmartyTemplatesManager` library, which is used to render and manage the module’s configuration forms (e.g., adding/editing HTML boxes). This includes dynamic form elements, AJAX interactions for saving/loading template data, and potentially tab management.
-- `htmlboxpro/views/js/script.js`
-  - **Scope:** Back-office.
-  - **Responsibility:** Contains module-specific JavaScript for the Back Office configuration page. This might include event listeners for form submissions, dynamic updates to the HTML box list, or other UI enhancements specific to HTML Box Pro.
-- `htmlboxpro/views/js/tinymce16-force-urls.inc.js`
-  - **Scope:** Back-office.
-  - **Responsibility:** This script is loaded when the “Prevent removing URLs from images” option is enabled. It contains TinyMCE configuration and plugins specifically designed to prevent the editor from stripping or modifying absolute URLs, particularly for images. It ensures that `src` attributes remain intact.
-- `htmlboxpro/views/js/tinymce16.inc.js`
-  - **Scope:** Back-office.
-  - **Responsibility:** This script contains the core TinyMCE editor initialization and configuration for the module. It defines the editor’s toolbar, plugins, and general behavior when editing HTML box content. It’s loaded when the “Do not load tinyMCE libraries” option is disabled.
-
-### 4.5 CSS Stylesheets (`views/css/`)
-
-- `htmlboxpro/lib/smartyTemplatesManager/css/smartyTemplatesManager.css`
-  - **Scope:** Back-office admin form styling.
-  - **Responsibility:** Provides styling for the `SmartyTemplatesManager` library’s UI components, ensuring a consistent look for the module’s configuration forms within the PrestaShop Back Office.
-- `htmlboxpro/views/css/styles.css`
-  - **Scope:** Back-office admin form styling.
-  - **Responsibility:** Contains module-specific CSS rules for the HTML Box Pro configuration page, such as styling for the list of HTML boxes, buttons, or other custom elements within the module’s admin interface.
-
-### 4.6 Smarty Template Structure (`views/templates/`)
-
-The module heavily uses Smarty templates for its Back Office interface.
-
-- **Hook templates (`htmlboxpro/`)**:
-  - `htmlboxpro/html.tpl`: This is the primary front-office template. It’s responsible for rendering the actual HTML box content (`{$htmlboxpro_content}`) within the selected hook on the front office.
-- **Admin templates (`views/templates/admin/`)**:
-  - `htmlboxpro/views/templates/admin/_configure/helpers/form/form.tpl`: This template is likely an override or specific template used by the module’s configuration form, possibly customizing how the standard PrestaShop `HelperForm` renders its fields, especially for the TinyMCE editor.
-- **Admin templates (`views/templates/`)**:
-  - `htmlboxpro/views/custom_hook_info.tpl`: Likely displays information or instructions related to custom hooks.
-  - `htmlboxpro/views/form-add-new.tpl`: Template for the “Add New HTML Box” form.
-  - `htmlboxpro/views/form-edit.tpl`: Template for the “Edit HTML Box” form.
-  - `htmlboxpro/views/messages.tpl`: Used to display success, error, or informational messages in the Back Office.
-  - `htmlboxpro/views/scripts.tpl`: Likely includes JavaScript and CSS assets for the Back Office configuration page.
-- **SmartyTemplatesManager Library Templates (`htmlboxpro/lib/smartyTemplatesManager/tpl/`, `htmlboxpro/lib/smartyTemplatesManager/views/`)**:
-  - `htmlboxpro/lib/smartyTemplatesManager/tpl/example.tpl`: An example template, likely for development or demonstration purposes within the library.
-  - `htmlboxpro/lib/smartyTemplatesManager/views/buttonManager.tpl`: Renders buttons or action links within the `SmartyTemplatesManager` interface.
-  - `htmlboxpro/lib/smartyTemplatesManager/views/createTemplateForm.tpl`: Used for creating new templates/items within the `SmartyTemplatesManager` context.
-  - `htmlboxpro/lib/smartyTemplatesManager/views/editTemplateForm.tpl`: Used for editing existing templates/items within the `SmartyTemplatesManager` context.
-  - `htmlboxpro/lib/smartyTemplatesManager/views/mainForm.tpl`: The main wrapper or structure for forms managed by the `SmartyTemplatesManager`.
-  - `htmlboxpro/lib/smartyTemplatesManager/views/selectInput.tpl`: A generic template for rendering a select dropdown input.
-  - `htmlboxpro/lib/searchTool/views/scripts.tpl`: Likely includes JavaScript and CSS assets for a search tool component within the Back Office.
-
-### 4.7 Database Schema & Hooks Map
-
-- **Database Tables**:
-
-  - The module does not create custom SQL tables. All configuration for HTML boxes is stored in the standard PrestaShop `ps_configuration` table.
-  - Configuration keys follow a pattern like:
-    - `HBP_NAME_{ID}`: Name of the HTML box.
-    - `HBP_CONTENT_{ID}_{LANG_ID}`: The actual HTML/JS/CSS content for a specific box and language.
-    - `HBP_HOOK_{ID}`: The name of the hook where the box is displayed.
-    - `HBP_ACTIVE_{ID}`: Boolean (0/1) indicating if the box is active.
-    - `HBP_SSL_{ID}`: Boolean (0/1) indicating if it’s only on SSL pages.
-    - `HBP_HOMEPAGE_{ID}`: Boolean (0/1) indicating if it’s only on the homepage.
-    - `HBP_SHOP_{ID}`: Comma-separated list of shop IDs (for multi-store).
-    - `HBP_LAST_ID`: Stores the last used ID for an HTML box to generate unique IDs.
-    - `HBP_NOTINYJS`: Global setting for “Do not load tinyMCE libraries”.
-    - `HBP_FORCEURLS`: Global setting for “Prevent removing URLs from images”.
-    - Other keys like `MYPRESTA_UPDATES`, `UPDATE_HTMLBOXPRO`, `UPDATEV_HTMLBOXPRO` for update management.
-- **Registered Hooks Table**:
-
-| Hook Name | Execution Timing | Technical Purpose |
+| Label on the screen | Key | After install |
 | --- | --- | --- |
-| `displayAfterCarrier` | After carrier selection in checkout. | Display content related to shipping options or final steps. |
-| `displayFooterBefore` | Before the main footer content. | Add content above the standard footer. |
-| `displayLeftColumn` | In the left sidebar of applicable pages. | Display sidebar blocks (e.g., categories, filters, custom info). |
-| `displayCustomerAccountForm` | Within the customer account creation/edit form. | Add custom fields or information related to customer accounts. |
-| `displayRightColumnProduct` | In the right sidebar on product pages. | Display product-specific sidebar content (e.g., related products, trust badges). |
-| `displayBanner` | At the top of the page, typically for a site-wide banner. | Display promotional banners or announcements. |
-| `actionAdminControllerSetMedia` | When an admin controller sets its media (CSS/JS). | Inject custom CSS/JS into the Back Office (used by the module for its own admin assets). |
-| `displayOrderConfirmation` | On the order confirmation page after a successful purchase. | Display thank you messages, tracking info, or upsells. |
-| `displayHeader` | In the `<head>` section of every page. | Ideal for injecting meta tags, tracking scripts, or global CSS/JS. |
-| `displayCartExtraProductActions` | Within the cart summary, near product actions. | Add content related to cart items (e.g., upsells, cross-sells, shipping info). |
-| `displayFooter` | In the main footer section of the store. | Add general footer content, links, or copyright info. |
-| `displayPaymentByBinaries` | During the payment selection process. | Display payment-related information or trust seals. |
-| `displayCustomerLoginFormAfter` | After the customer login form. | Add content below the login form (e.g., “forgot password” links, registration prompts). |
-| `displayReassurance` | Within the product reassurance block (often below product image). | Display trust elements like free shipping, secure payment, easy returns. |
-| `displayProductAdditionalInfo` | Below the product description or main info block. | Add extra product details, size guides, or custom content. |
+| Use internal module's  rich text editor | `hbp_tiny` | key missing; the form matches **Off** |
+| Prevent removing URLs from images | `hbp_forceurls` | key missing; the form matches **Off** |
+| Don't load (duplicate) boxes with product page  ajax queries | `hbp_noajax` | key missing; the form matches **Off** |
+| Do not load tinyMCE libraries | `hbp_notinyjs` | 1, so **On** |
 
-## 5. Official Support & Updates
+The English source of the first label contains two spaces between "module's" and "rich". The third label contains two spaces between "page" and "ajax".
 
-For the latest module updates, bug fixes, and official support, please log in to your customer account at [MyPresta.eu](https://mypresta.eu/my-account/orders/). Our support team is ready to assist you with any issues or questions regarding the HTML Box Pro module.
+**Save** posts the four switch names. The module writes each posted value. `hbp_tiny` = 1 loads `views/js/tinymce16.inc.js` on this page. The same switch together with `hbp_forceurls` = 1 loads `views/js/tinymce16-force-urls.inc.js` instead. `hbp_tiny` = 0 loads the shop file `js/admin/tinymce.inc.js` and calls `tinySetup()`. `hbp_notinyjs` = 1 skips `js/tiny_mce/tinymce.min.js`. The page still includes `js/tiny_mce/tiny_mce.js`, `views/js/script.js` and `views/css/styles.css`.
+
+`hbp_noajax` = 1 makes `generateHookContents` return nothing when the request has `ajax` = 1 and `action` = refresh. Other requests still print the boxes.
+
+Under the switches the page appends the update panel from `checkforupdates`. The select **Updates notifications** has `-- select --`, **Enable** (1) and **Disable** (0). **Check now** is the button `submit_settings_updates_now`. **Save** in that panel is `submit_settings_updates` and writes only `mypresta_updates`.
+
+The module constructor asks the remote server when `mypresta_updates` is not 0, or when the key is missing (`Configuration::get` is false), and `update_htmlboxpro` is older than 259200 seconds. The request runs when `allow_url_fopen` is enabled. The license value sent by this package is `nlc`. A warning is shown when the returned version is higher than 4.0.5 and the request is not ajax. **Disable** (0) still enters the timed branch; the warning condition is the one in that branch.
+
+## Boxes
+
+![Boxes. Default positions on the left, empty state on the right. The back office language on this screen is English.](https://mypresta.eu/docs/images/docs/htmlboxpro-boxes.webp)
+
+**Boxes** is two columns. The left column title is **Default positions**. Above the rows is a search field with the placeholder **Search hooks**. **Custom positions** is the panel under that list, in the same left column. The right column is the selected hook's blocks, or the empty state. The main column starts with the heading **No box selected** and the sentence **Please select blocks from list available on the left hand side. Or create new block.** Those two strings are not in the translation files, so every language shows this English source. An expanded hook with no blocks shows **No boxes in this position yet**. That string is not in the translation files either.
+
+Each default hook is one row: a checkbox, the hook name, and **Add a new box**. The hook name links to `https://mypresta.eu/prestashop/hook/` plus the name in lower case. The checkbox posts `togglehook`. Checked writes `hbp_{hook}` = 1 and calls `registerHook` again. Unchecked posts no `status`, so the key becomes 0. Turning the hook off does not unregister it. The success text is **Visibility of hook changed properly**.
+
+A block row has the internal name, or **no internal block name** when the name is empty. The buttons are **Edit this block**, **Duplicate this block** and **Remove this block**. The active switch success text is **Visibility of block changed properly**. Dragging a row posts `action=updateSlidesPosition` and `elements{hook}[]` and writes `hbp_block.position`. The page loads jQuery UI sortable for that tab. An empty hook shows **no blocks defined**. In a multishop context the row can show **for this shop**.
+
+**Duplicate this block** copies the block and prefixes the name with `[duplicate] `. The success text is **Block duplicated properly**. **Remove this block** deletes that row through the object model. The success text is **Block removed properly**. The active switch on the list runs `smart_clean` on every language body and saves the block again, then sets `active` with an SQL update.
+
+## Add and edit a block
+
+![Create new block, opened from displayHeader. The button Smarty templates manager sits under the editor. The back office language on this screen is English.](https://mypresta.eu/docs/images/docs/htmlboxpro-block-form.webp)
+
+**Add a new box** opens the form **Create new block**. Edit opens **Edit existing block**. The button is **Save**. Add posts `submitAddNewHbox`. Edit posts `submitEditHbox`. Success texts are **Block added properly** and **Block saved properly**.
+
+The body of each shop language is stored in `hbp_block_lang.body`. Before save the module runs `addslashes(smart_clean(...))` on that text. `smart_clean` collapses a repeated whitespace character to a single space and trims the string. The last replacement inside `prepare()` rewrites `\'`, `\\` and `\"`. Earlier lines in `prepare()` assign from the original string and do not change the returned value. The function does not remove HTML tags. The same clean runs again when the list switch changes **Active**.
+
+The form is six sections. **Create new block** or **Edit existing block** holds the content fields. The products section title is **Products**. **Placement**, **Pages**, **Cart**, **Customers** and **Schedule** have no entry in the translation files, so the screen shows that English source.
+
+| Section | What the fields do |
+| --- | --- |
+| Content | **Contents** (`hbp_body`, one value per language) and **Name** (`hbp_name`, 150 characters). The editor switch in `views/js/script.js` calls `tinyMCE.execCommand('mceToggleEditor')` for that language field. Under the editor the form shows **Smarty templates manager**. That button opens the template manager from `lib/smartyTemplatesManager/`. |
+| Placement | **Shop** (`hbp_shop`). **Position** (`hbp_hook`, the hook chosen from the list). **Active** (`hbp_active`, default 0 in the table until saved as 1). **Only on secured (SSL) pages** (`hbp_bssl`). **Active on mobile devices**, **Active on tablet devices**, **Active on PC devices** (`hbp_onmobile`, `hbp_ontablet`, `hbp_onpc`). A missing device value is saved as 1. |
+| Pages | **Only on homepage** (`hbp_homeonly`). **Only on "Specials" page** (`hbp_specialsonly`). **Only on order confirmation page** (`hbp_oconfirmation`). Category, category plus subcategories, excluded categories, CMS category, CMS page, manufacturer page, exact URL, and search keywords. ID fields are comma-separated. The search box next to an ID field is the module search tool (`ajax=1` and `searchType`). |
+| Products | Include or exclude product IDs, all product pages, specific price, out of stock, available to purchase, not available to purchase, in stock, min and max product value, product category, manufacturer, supplier, and feature value. |
+| Cart | Show only when the cart contains, or does not contain, the listed category IDs or product IDs. |
+| Customers | **All users** (0), **Logged only** (1), **Unlogged only** (2) in `hbp_logged`. **Show for all groups** and the group checkboxes go to `hbp_cgroup` as a comma-separated list. **Hide for (users' groups)** is `hbp_hcgroup`. Geolocation and delivery-address country are in this section. |
+| Schedule | Currency, date from / date to, weekdays, and time from / time to. |
+
+Weekday checkboxes call the translation with the domain `forms` (`Sunday` through `Saturday`). The files `translations/*.php` store those words under the `htmlboxpro` domain, not `forms`. The screen shows the English source: Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday.
+
+Geolocation text on the form points to `https://mypresta.eu/prestashop-17/geolite2-city-geolocation-download.html` and the directory `/app/Resources/geoip/`. The same text says geolocation does not work on localhost. Selected countries are stored in `selected_geoip`, separated by semicolons. Delivery-address countries are stored in `delivery_address_selected`, separated by semicolons. That switch is a different control from geolocation.
+
+## When the storefront hides a block
+
+`generateHookContents` loads blocks with `active` = 1 for the current language and the current hook, ordered by `position`. When multishop is on, the row `shop` must be the current shop id or 0. The template `html.tpl` then hides the body when any rule below fails. A switch left **Off** does not apply that rule.
+
+| Switch on | The body is hidden when |
+| --- | --- |
+| Only on homepage | the controller is not `index` |
+| Date range | today is before **date from** or after **date to** (`Y-m-d`) |
+| Search keywords | the search query is not one of the comma-separated words |
+| Only on secured (SSL) pages | `$_SERVER['HTTPS']` is not `on` |
+| Logged only | the customer is not logged |
+| Unlogged only | the customer is logged |
+| Only on selected product pages | the current product id is not in the list. An empty first list entry keeps the block when a product id is present |
+| Only if viewed product is out of stock | the stock value used by the template is greater than 0 |
+| Only if viewed product is in stock | that stock value is not greater than 0 |
+| Only if viewed product is NOT available to purchase | the product `oos` value does not match the deny rule in `html.tpl` |
+| Only if viewed product is available to purchase | the product `oos` value does not match the allow rule in `html.tpl` |
+| Specific price / no specific price | `hook_params.product` has no matching specific price |
+| Only on selected Category pages | the controller is not the category controller or the category id is not selected |
+| Category pages + subcategories | the category is not selected and is not a child according to `htmlboxpro::checkIfChildren` |
+| CMS category / CMS page / manufacturer page | the current id is not in the selected list, or the controller is a different page |
+| Only on selected url | `htmlboxpro::currentPageURL()` is not in the saved URL list. The comparison strips a `rand=` parameter |
+| Only if viewed product is associated with category | the product categories do not intersect the list |
+| Associated feature | no selected feature value is on the product |
+| Only on order confirmation page | the controller is not `orderconfirmation` |
+| Associated manufacturer or supplier | the product manufacturer or supplier is not selected |
+| Cart category or cart product, include or exclude | the cart does not match the list. The PHP in `get_blocks` removes the block before the template for these four filters |
+| Hide for (users' groups) | the customer group matches `hbp_hcgroup`. Groups 1 and 2 are compared with the default group. Any other group hides the block when that group is among the customer's groups |
+| Device | `Context::getDevice()` is 1 and **Active on PC devices** is off; 2 and **Active on tablet devices** is off; 4 and **Active on mobile devices** is off |
+| Min / max product value | the converted price is outside the saved amount, or the hook has no product |
+| Weekdays | `hbp_daytype_on` is 1 and today's `%w` is not in the saved list |
+| Currency | `hbp_currency_on` is 1 and the current currency id is not `hbp_currency` |
+| Delivery address | the delivery country is not in `delivery_address_selected` |
+| Geolocation | `hbp_geoip` is 1 and the resolved country is not in `selected_geoip` |
+| Exclude selected products / all product pages / excluded categories | the current product or category is excluded |
+
+The time filter runs in PHP, before the template. When `hbp_tim` is 1, `timfrom` and `timto` are compared with `date("H:i:s")` after the colons are removed. `timto` is passed through `ltrim` with `0` as the character mask, so leading zeros are stripped from that bound. A block outside the window is removed from the list.
+
+## Tokens in the box body
+
+Replacement runs when the request has a `controller` and that controller is not `AdminModules`. A token that is not filled is replaced with an empty string at the end, except `{current_url}`.
+
+| Token | Filled when |
+| --- | --- |
+| `{currency_iso}` | a currency is loaded; the value is the ISO code |
+| `{id_lang}` | always in that branch; the value is the language ISO code, not the numeric id |
+| `{id_customer}`, `{email_customer}`, `{customer_firstname}`, `{customer_lastname}` | the customer is logged |
+| `{id_product}`, `{id_product_attribute}`, `{product_name}`, `{product_ean13}`, `{product_isbn}`, `{manufacturer_name}` | the controller is `product` or the hook receives `product` |
+| `{product_price_tax_incl}`, `{product_price_tax_excl}` | product page; formatted with the module price helper |
+| `{product_price_tax_incl_no_currency}`, `{product_price_tax_excl_no_currency}` | the same prices without the currency sign |
+| `{id_category}`, `{name_category}`, `{path_array_category}` | a category id is in the request |
+| `{cart_products_id}`, `{cart_total}`, `{cart_total_with_currency}` | a cart exists |
+| `{order_id}`, `{order_customer_email}`, `{order_currency_iso_code}`, `{order_total_paid}`, `{order_total_paid_tax_excl}`, `{order_total_paid_tax_incl}`, `{order_total_products_tax_included}`, `{order_total_products_tax_excluded}`, `{order_products_id}`, `{order_products_id_google}`, `{order_delivery_date}`, `{order_delivery_country}` | the order-confirmation branch has an order id |
+| `{current_url}` | every request, after the branch above. Scheme, host and request URI |
+| `{HOOK:HookName}` | replaced with `Hook::exec` of that name, except when the name is the hook that is rendering this box, in which case the token becomes empty |
+| `{HOOK:HookName:moduleName}` | replaced with `Hook::exec` limited to that module id |
+| `{smartyTemplate:name}` | replaced with the template loaded by `loadSmartyTemplateFromManager` |
+
+`{shop_name}` is set to the shop name and the cleanup pass then replaces `{shop_name}` with an empty string. The token does not remain as the shop name. `{id_product_attribute}` is empty when the attribute id is 0.
+
+## Custom positions
+
+![Custom positions. Add support of new hook, Add new hook, and regenerate now. The back office language on this screen is English.](https://mypresta.eu/docs/images/docs/htmlboxpro-custom-hooks.webp)
+
+**Custom positions** lists rows from `hbp_customhook`. The heading above the field is **Add support of new hook**. **Add new hook** reads **Hook name**. The saved name keeps only letters and digits (`preg_replace("/[^\da-z]/i", '')`). When the shop has no hook with that name, the module creates a `Hook` row with `live_edit` 1, `position` 1, the title equal to the name, and the description `Custom hook created with usage of HTML BOX PRO module`. It inserts `hbp_customhook` when the row is missing, rewrites `htmlboxpro.php`, and registers the hook.
+
+When the hook already exists and the method `hook{Name}` is already in `htmlboxpro.php`, the page shows **Hook already exist in shop database** and does not add another row. When the hook exists and the method is missing, the module still rewrites the file and registers the hook.
+
+**regenerate now!** posts `hbp_rh_submit`. The warning on the button is **use this option to rebuild module file if custom hooks doesnt want to work**. The rewrite replaces the part of `htmlboxpro.php` between the markers `//~~explode~~//` with one method per hook: `hook{Name}` returns `generateHookContents("{Name}", $params)`. The file must be writable. Failure text: **Main module file is not writable. Please check permissions (CHMOD) to /modules/htmlboxpro/htmlboxpro.php file**. Success text: **Main module file rebuilded properly. Module should support custom hooks now.**
+
+**Remove hook** asks **Remove this custom hook?** It deletes the `hbp_customhook` row and, when the shop hook id exists, deletes that `Hook`, then rewrites the file.
+
+The link **How to use custom hooks?** opens `https://mypresta.eu/en/art/news/html-content-box-custom-hooks.html`. On the add/edit form, a block attached to a custom hook shows **This block uses custom hook** and two snippets:
+
+`{hook::exec('HookName') nofilter}`
+
+`{hook h='HookName' product=$product}`
+
+The second snippet is the one described for a product list.
+
+## Hooks registered at install
+
+`actionAdminControllerSetMedia` adds the jQuery autocomplete plugin only when `configure` is `htmlboxpro`. It does not print a box.
+
+These hooks each call `generateHookContents` with the hook name. Output still depends on `hbp_{hook}` = 1 and on an active block:
+
+`displayHeader`, `displayBanner`, `displayNav1`, `displayNav2`, `displayNavFullWidth`, `displayTop`, `displayHome`, `displayFooterBefore`, `displayFooter`, `displayFooterAfter`, `displayMyAccountBlock`, `displayBeforeBodyClosingTag`, `displayLeftColumn`, `displayLeftColumnProduct`, `displayRightColumn`, `displayRightColumnProduct`, `displayOrderConfirmation`, `displayCustomerAccount`, `displayCustomerAccountForm`, `displayProductAdditionalInfo`, `displayReassurance`, `displayFooterProduct`, `displayAfterProductThumbs`, `displayProductListReviews`, `actionProductOutOfStock`, `displayShoppingCart`, `displayCartExtraProductActions`, `displayShoppingCartFooter`, `displayExpressCheckout`, `displayCustomerLoginFormAfter`, `displayBeforeCarrier`, `displayAfterCarrier`, `displayPaymentTop`, `displayPaymentByBinaries`.
+
+`displayHeader` does not attach a CSS or JS file on the storefront. It prints the boxes of that hook. The storefront has no module stylesheet of its own. The HTML, CSS and JavaScript are the body the merchant saved.
+
+`registerHook` uses the parent method when `hook{Name}` already exists. Otherwise it inserts the `Hook` row if needed and inserts `hook_module`.
+
+## Tables and files
+
+Install creates three tables if they are missing, engine InnoDB, charset `utf8_general_ci`. The shop prefix is in front of each name.
+
+| Table | Columns created by the CREATE statement |
+| --- | --- |
+| `hbp_block` | `id` (auto increment, primary key), `position` default 1, `hook` varchar(50), `active` default 0, `logged` default 0, `name` varchar(150), index `indek1` |
+| `hbp_customhook` | `id`, `hook` varchar(70) |
+| `hbp_block_lang` | `id`, `id_lang`, `body` text. The CREATE statement has no primary key |
+
+The model `models/hbox.php` maps `hbp_block`, with `body` as a multilingual field. The next configuration page adds the columns used by the filters: `bssl`, `shop` (default 1), the page and product flags, the selected-id text columns, `datefrom`, `dateto`, `timfrom`, `timto`, `cgroup` (altered to varchar 250), `hcgroup`, `onmobile`, `ontablet`, `onpc` (default 1), price fields, `daytype`, `currency`, `geoip`, and the cart and delivery columns. `inconsistency()` also widens `hook` to varchar(255).
+
+Other files used by the back office: `views/templates/hook/html.tpl` is the storefront body, `views/templates/admin/_configure/helpers/form/form.tpl` replaces the helper form for this module, `lib/searchTool/` is the ID search, `lib/smartyTemplatesManager/` serves `{smartyTemplate:name}`, `lib/prestashop9compatibility.php` is the price display helper. `key.php` is optional and is not in this package. The update license inside `checkforupdates` is the literal `nlc`.
+
+Configuration keys that are not columns: `hbp_notinyjs`, `hbp_tiny`, `hbp_forceurls`, `hbp_noajax`, `hbp_lasttab`, `firsttime_hbp`, `hbp_{hookname}`, `mypresta_updates`, `update_htmlboxpro`, `updatev_htmlboxpro`.
+
+## Disable, enable, uninstall
+
+The class has no `disable()` and no `enable()`. Disabling uses the PrestaShop parent: the module stays installed, the tables and configuration stay, and the hooks are not executed. Enabling uses the parent enable.
+
+The class has no `uninstall()`. Uninstall uses the parent method: the module is unregistered and the hook registrations PrestaShop stored for it are removed. The parent method does not drop `hbp_block`, `hbp_block_lang` or `hbp_customhook`. It does not delete the configuration keys listed above. It does not delete custom `Hook` rows created with **Add new hook**, and it does not restore `htmlboxpro.php` after **regenerate now!** or after adding a custom hook. A later install uses `CREATE TABLE IF NOT EXISTS`, so rows left in those tables remain.
+
+## Empty page under the tabs
+
+The code accepts `selecttab` = 3 and can store `hbp_lasttab` = 3. The bar has no third button, and the form renderer has no page for 3. With that value the area under the bar is empty. **Settings** or **Boxes** writes 1 or 2 again.
+
+## Support
+
+Module page: [HTML Box Pro](https://mypresta.eu/modules/front-office-features/html-box-pro.html).
