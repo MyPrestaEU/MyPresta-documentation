@@ -1,8 +1,8 @@
 ---
-title: "Product combination features - Merchant Manual & Configuration Guide"
-description: "Complete user manual, screen-by-screen setup guide, and developer reference for the Product combination features PrestaShop module by MyPresta.eu."
+title: "Product combination features - Merchant manual"
+description: "Configuration and troubleshooting manual for staff who already have the module installed."
 sidebar:
-  label: "Product combination features - Merchant Manual & Configuration Guide"
+  label: "Product combination features - Merchant manual"
 ---
 
 > ⚠️ **Notice:** This is the official documentation for the PrestaShop module.
@@ -12,252 +12,509 @@ sidebar:
 > ---
 
 
-# Product combination features
-
-## 1. Requirements & Compatibility
+Technical name: `combfeat`. Version **1.4.0**. In the back office the module is listed as **Combination's features**.
 
-- **Supported PrestaShop Versions**: PrestaShop 1.7.x, 8.x, 9.x
-- **PHP Compatibility**: PHP 7.1 - 8.5
-- **Hosting Requirements**: Standard PHP extensions (cURL, JSON, OpenSSL).
-
-## 2. Complete Configuration Walkthrough (Every Setting Grouped by Screen)
-
-### 2.1 Module Configuration Page (Back Office > Modules > Configure)
-
-This is the main configuration screen for the “Product combination features” module. You can access it by navigating to **Modules > Module Manager**, searching for “Product combination features”, and clicking “Configure”.
-
-#### **Turn on features for combinations**
-
-- **What this setting does:** This is the master switch for enabling or disabling the core functionality of assigning unique features to product combinations.
-- **Effect of changing this setting:**
-  - *When enabled:* You will see a new section on your product edit pages (under the “Modules” tab) where you can assign specific features and their values to each combination. When customers select a combination on the front office, the product’s data sheet will dynamically update to show these combination-specific features.
-  - *When disabled:* The combination feature management section will not appear on product edit pages, and the front office will revert to showing only the main product’s features, regardless of the selected combination.
-- **Recommended value:** **Enabled** (if you want to use the module’s primary function).
-- **Merchant scenario / example:** If you sell t-shirts and want “Material: 100% Cotton” for the white shirt and “Material: 50% Cotton, 50% Polyester” for the grey shirt, you *must* enable this.
-
-#### **Data sheet css class**
-
-- **What this setting does:** This allows you to specify a CSS class or HTML element ID that the module should target when updating the features section on the product page. This is crucial for the module to correctly identify where to display the combination-specific features in your theme.
-- **Effect of changing this setting:**
-  - *When set correctly:* The module will find the specified element and dynamically insert or update the combination features within it.
-  - *When set incorrectly or left empty:* The combination features might not appear on the front office, or they might appear in an unexpected location, as the module won’t know where to put them.
-- **Recommended value:** This depends entirely on your PrestaShop theme. A common class is `.product-features` or `.data-sheet`. You might need to inspect your product page’s HTML to find the correct selector. If unsure, consult your theme developer or a webmaster.
-- **Merchant scenario / example:** Your theme displays product features inside a `div` with the class `product-specifications`. You would enter `.product-specifications` here.
-
-#### **Workflow**
-
-- **What this setting does:** This controls how the module handles features when a combination is selected.
-- **Effect of changing this setting:**
-  - *When set to “Append”:* Combination-specific features will be *added* to the main product’s features. So, you’ll see both the general product features and the unique combination features.
-  - *When set to “Replace”:* Combination-specific features will *replace* the main product’s features. Only the features relevant to the selected combination will be shown.
-- **Recommended value:** **Replace** for most cases, as it provides the most precise information. Choose “Append” if you have general features that apply to all combinations, plus specific ones.
-- **Merchant scenario / example:**
-  - *Replace:* For a laptop, you might want “Processor: i7”, “RAM: 16GB” to completely replace “Processor: i5”, “RAM: 8GB” when a customer selects the i7/16GB combination.
-  - *Append:* For a t-shirt, you might always want “Brand: MyBrand” to show (general feature), but then *add* “Material: Organic Cotton” when a specific combination is chosen.
-
-#### **Turn on descriptions for combinations**
-
-- **What this setting does:** This enables or disables the ability to assign unique descriptions to each product combination.
-- **Effect of changing this setting:**
-  - *When enabled:* A new field will appear on your product edit pages (under the “Modules” tab) allowing you to enter a specific description for each combination. When customers select a combination, this description will dynamically replace the main product description.
-  - *When disabled:* The combination description field will not appear, and the front office will always show the main product’s description.
-- **Recommended value:** **Enabled** (if you need combination-specific descriptions).
-- **Merchant scenario / example:** You sell custom jewelry. A “Silver Ring” product might have a combination “Engraved: Yes”. You could use a combination description to explain the engraving process and character limits, which isn’t relevant for the “Engraved: No” combination.
-
-#### **Description of css class / object ID**
-
-- **What this setting does:** Similar to the “Data sheet css class”, this tells the module which HTML element on your product page contains the main product description that should be replaced by the combination-specific description.
-- **Effect of changing this setting:**
-  - *When set correctly:* The module will find the specified element and dynamically update its content with the combination description.
-  - *When set incorrectly or left empty:* The combination description might not appear, or it might appear in an unexpected place.
-- **Recommended value:** This depends on your theme. Common selectors are `.product-description`, `#description_short`, or `#product-description-short`. You’ll need to inspect your product page’s HTML.
-- **Merchant scenario / example:** Your theme uses a `div` with the ID `product-description-full` for the main description. You would enter `#product-description-full` here.
-
-#### **Turn on meta title for combinations**
-
-- **What this setting does:** This enables or disables the ability to set a unique meta title for each product combination. This meta title is what appears in the browser tab and is used by search engines.
-- **Effect of changing this setting:**
-  - *When enabled:* A new field will appear on your product edit pages (under the “Modules” tab) allowing you to enter a specific meta title for each combination. When a customer selects a combination, the browser tab title will dynamically update.
-  - *When disabled:* The combination meta title field will not appear, and the browser tab will always show the main product’s meta title.
-- **Recommended value:** **Enabled** (if you want to improve SEO for specific combinations or provide clearer browser tab titles).
-- **Merchant scenario / example:** For a “Smartphone” product, you might have a combination “Color: Blue, Storage: 128GB”. You could set its meta title to “Blue Smartphone 128GB - [Your Store Name]” for better search engine visibility.
-
-#### **Default title mode**
-
-- **What this setting does:** This defines how the combination meta title is constructed if you don’t explicitly set one for a combination, or if you want to combine the product title with combination attributes.
-- **Effect of changing this setting:**
-  - *When set to “Product name + combination name”:* The meta title will be the main product name followed by the selected combination’s attribute names (e.g., “T-Shirt - Red, Large”).
-  - *When set to “Combination name + product name”:* The meta title will be the selected combination’s attribute names followed by the main product name (e.g., “Red, Large - T-Shirt”).
-  - *When set to “Combination name”:* Only the combination’s attribute names will be used (e.g., “Red, Large”).
-  - *When set to “Product name”:* The meta title will always be the main product name, ignoring combinations.
-- **Recommended value:** **“Product name + combination name”** or **“Combination name + product name”** for good balance between product identity and combination specificity.
-- **Merchant scenario / example:** You sell shoes. If a customer selects “Size 10, Color Black”, and “Product name + combination name” is chosen, the title becomes “Running Shoes - Size 10, Black”.
+## 1. Requirements and compatibility
 
-#### **Title separator**
+- **PrestaShop:** 1.7.0.0 through 9.x (`ps_versions_compliancy` max 9.99.99).
+- **PHP:** the version required by that PrestaShop release.
+- **Product page:** the theme must expose the selected combination on `#product-details` in the `data-product` attribute (standard PrestaShop) and fire the `updatedProduct` event when attributes change. Classic and themes built on it do this.
+- **PrestaShop 8 and 9, product Modules tab:** the file `src/PrestaShopBundle/Resources/views/Admin/Sell/Catalog/Product/Blocks/modules-content.html.twig` must be writable the first time the module is installed or its configuration page is opened. See [Files the module changes](#3-files-the-module-changes).
+- **Faceted Search (optional):** `ps_facetedsearch` installed, permission to create a SQL view, and write access to `modules/ps_facetedsearch/src/Adapter/MySQL.php`.
+- **Update check (optional):** `allow_url_fopen` so the module can call `https://dev.mypresta.eu`.
 
-- **What this setting does:** This allows you to define the character or string used to separate the different parts of the dynamically generated meta title (e.g., between product name and combination name).
-- **Effect of changing this setting:**
-  - *When set to ”-”:* The title might look like “Product Name - Combination”.
-  - *When set to ”|”:* The title might look like “Product Name | Combination”.
-  - *When left empty:* The parts of the title might run together without a clear separator.
-- **Recommended value:** **-** (hyphen) or **|** (pipe) are common and clear separators.
-- **Merchant scenario / example:** If your default title mode is “Product name + combination name” and separator is set to ”|”, a title might become “My Awesome T-Shirt | Red, Large”.
+## 2. Where to work in the back office
 
-### 2.2 Dedicated Admin Screens & Controller Views
+| Place | Path | What you do there |
+| --- | --- | --- |
+| Module configuration | **Modules > Module Manager**, search for **Combination's features**, **Configure** | Switches, CSS selectors, title mode, Faceted Search, CSV import, update check |
+| Combination content | **Catalog > Products**, edit a product, **Modules** tab, block **Combination content** | Features, description and titles of each combination |
+| Feature catalog | **Catalog > Attributes & Features** (wording depends on the PrestaShop version) | Create features and values before attaching them on the product page. The CSV import can create missing ones |
+| Faceted Search template | Faceted Search module configuration | Add the feature to the filter template. This module does not add it for you |
 
-This module does not create dedicated top-level admin screens. Instead, it integrates directly into the existing **Product Edit Page** in your PrestaShop Back Office.
+The module has no menu entry of its own and no front-office or back-office controller.
 
-- **Screen Name & Menu Location:**
+## 3. Files the module changes
 
-  - Navigate to **Catalog > Products**.
-  - Edit an existing product or create a new one.
-  - Within the product edit page, click on the **“Modules”** tab.
-  - You will find a new section titled **“Product combination features”** (or similar, depending on module version/translations).
-- **Available Actions & Settings:**
+### 3.1 Product Modules tab on PrestaShop 8 and 9
 
-  - Inside this section, you will see a list of all combinations configured for the current product.
-  - For each combination, you will have fields to:
-    - **Assign Features:** You can select existing features and their values, or even create new feature values, specifically for that combination. The module supports multi-features, meaning a combination can have several values for the same feature (e.g., “Material: Cotton, Material: Spandex”).
-    - **Enter Combination Description:** A rich text editor (like the standard PrestaShop description editor) will be available to input a unique description for that combination.
-    - **Enter Combination Meta Title:** A text field to input a unique meta title for that combination.
-  - **Saving Changes:** Remember to click the main “Save” button for the product to apply all combination-specific changes.
-- **Effect of changes:**
+On install, and again every time the configuration page opens, the module edits:
 
-  - Any features, descriptions, or meta titles you set here will be stored in the database and dynamically displayed on the front office product page when the corresponding combination is selected by a customer.
-  - If you delete a combination, its associated features, descriptions, and meta titles will also be removed.
-- **Recommended workflow for daily store management:**
+`src/PrestaShopBundle/Resources/views/Admin/Sell/Catalog/Product/Blocks/modules-content.html.twig`
 
-  1. First, create your product and its combinations as usual in PrestaShop (under the “Combinations” tab).
-  2. Once combinations are created, go to the **“Modules”** tab on the product edit page.
-  3. For each combination, carefully assign the relevant features, write a specific description, and set an optimized meta title.
-  4. Save the product.
-  5. Always test on the front office to ensure the features, descriptions, and titles update correctly when combinations are selected.
+It replaces `{{ module.content|raw_purified }}` with `{{ module.content|raw }}`. The first time, it copies the original file to `modules-content.html.twig.raw.bak` next to it.
 
-### 2.3 Configuration Quick Reference Table
+PrestaShop 8 and 9 otherwise purify HTML printed by modules on the product page. Without this change the **Combination content** editor is empty or its fields are not submitted with the product. On PrestaShop 1.7 that Twig file does not exist; the module skips the change.
 
-| Screen / View | Setting / Option | Default / Recommended | Purpose & Impact |
-| --- | --- | --- | --- |
-| Module Configuration | Turn on features for combinations | Enabled | Master switch for combination features. |
-| Module Configuration | Data sheet css class | `.product-features` (theme dependent) | CSS selector for where combination features are displayed. |
-| Module Configuration | Workflow | Replace | How combination features interact with main product features (append or replace). |
-| Module Configuration | Turn on descriptions for combinations | Enabled | Master switch for combination descriptions. |
-| Module Configuration | Description of css class / object ID | `#product-description-short` (theme dependent) | CSS selector for where combination descriptions are displayed. |
-| Module Configuration | Turn on meta title for combinations | Enabled | Master switch for combination meta titles. |
-| Module Configuration | Default title mode | Product name + combination name | How meta titles are generated if not explicitly set. |
-| Module Configuration | Title separator | `-` | Character used to separate parts of the meta title. |
-| Product Edit Page > Modules Tab | Assign Features per Combination | N/A | Assign unique features and values to each combination. |
-| Product Edit Page > Modules Tab | Combination Description | N/A | Enter unique rich text description for each combination. |
-| Product Edit Page > Modules Tab | Combination Meta Title | N/A | Enter unique meta title for each combination. |
+If the file cannot be read or written, the module does not show an error. Check the file permissions when the Modules tab stays empty.
 
-## 3. Merchant Troubleshooting & Frequently Asked Questions (FAQ)
+### 3.2 Faceted Search adapter
 
-**Q: My combination features/descriptions aren’t showing up on the product page.**
-A:
+When **Filter combination features in Faceted Search** is enabled (the default), the module creates the SQL view `{prefix}combfeat_feature_product` and points `modules/ps_facetedsearch/src/Adapter/MySQL.php` at that view. The view is the product feature list plus active combination features.
 
-1. **Check module configuration:** Ensure “Turn on features for combinations” and/or “Turn on descriptions for combinations” are enabled in the module’s configuration.
-2. **Verify CSS selectors:** The “Data sheet css class” and “Description of css class / object ID” settings are crucial. These must exactly match the CSS class or ID of the elements in your theme where the features/description are displayed. Use your browser’s developer tools (F12) to inspect your product page and find the correct selectors. If unsure, consult your theme developer.
-3. **Clear PrestaShop cache:** Go to **Advanced Parameters > Performance** and click “Clear cache”. Sometimes, old cached content prevents new module output from appearing.
-4. **Check product settings:** Ensure you have actually assigned features/descriptions to the specific combinations on the product edit page under the “Modules” tab.
+Disabling the option, disabling the module, or uninstalling it writes the original adapter source back. Uninstall also drops the view when the adapter no longer refers to it.
 
-**Q: The combination features/descriptions appear, but they look unstyled or out of place.**
-A: This is usually a CSS conflict with your theme.
+The configuration page shows a warning when the view cannot be created, the adapter file is missing, unreadable, not writable, or does not match the expected Faceted Search source. The exact messages are:
 
-1. **Inspect with browser tools:** Use F12 to see what CSS rules are being applied to the module’s output.
-2. **Adjust CSS class:** If the module’s output is wrapped in a generic `div`, you might need to adjust the “Data sheet css class” or “Description of css class / object ID” to a more specific container that your theme already styles.
-3. **Custom CSS:** You might need to add custom CSS to your theme’s stylesheet (or via a custom CSS module) to style the combination features/descriptions to match your theme’s look.
+- Could not create the Faceted Search feature view. Combination features will not appear in category filters.
+- Faceted Search is installed, but its database adapter was not found. Combination features will not appear in category filters.
+- Faceted Search adapter could not be read. Combination features will not appear in category filters.
+- This Faceted Search version does not use the expected feature table. Combination features will not appear in category filters.
+- Faceted Search adapter is not writable. Make modules/ps_facetedsearch/src/Adapter/MySQL.php writable so combination features can be filtered.
+- Faceted Search adapter could not be updated. Combination features will not appear in category filters.
 
-**Q: My combination meta titles aren’t changing in the browser tab.**
-A:
+## 4. Module configuration
 
-1. **Enable the setting:** Make sure “Turn on meta title for combinations” is enabled in the module configuration.
-2. **Set titles:** Ensure you’ve entered specific meta titles for your combinations on the product edit page.
-3. **Browser behavior:** Some browsers might not immediately update the tab title for already open tabs. Try opening the product page in a new tab or clearing your browser cache.
-4. **SEO implications:** While the module updates the client-side title, for search engines to pick up these combination-specific titles, they need to be able to crawl and index the dynamically generated content. Ensure your site is crawlable and consider if these dynamic titles are truly beneficial for your SEO strategy compared to static product titles.
+Open **Configure**. Two forms are on the page, then the **MyPresta updates** panel. **Save** on the settings form stores `submitCombfeatSettings`. **Import** stores `submitCombfeatImport`.
 
-**Q: Can I use this module with multi-language stores?**
-A: Yes, the module fully supports multi-language. When you edit combination features, descriptions, or meta titles on the product page, you will see the standard PrestaShop language selector, allowing you to enter content for each language.
+### 4.1 Turn on features for combinations
 
-## 4. Developer & Webmaster Guide (Technical Architecture & Code Map)
+Configuration key: `combfeat_p_feat`. Default: **Enabled**.
 
-### 4.1 Architecture Overview
+When enabled, each combination on the product **Modules** tab has a **Features** tab. You attach existing feature values there.
 
-The “Product combination features” module (`combfeat`) extends PrestaShop’s core product management by injecting custom fields and logic into the Back Office product edit page and dynamically updating Front Office content based on selected product combinations. It leverages PrestaShop’s hook system to integrate seamlessly without modifying core files. The module primarily operates through JavaScript on the front end for dynamic updates and PHP on the back end for configuration and data management. It does not introduce new database tables but stores its data in existing PrestaShop structures (likely `ps_product_attribute_feature` for features and `ps_product_attribute_lang` for descriptions/titles, or `ps_configuration` for module settings).
+When disabled, that tab is hidden. The storefront script is a separate matter: features and descriptions are updated by the same script, described in [Storefront](#6-storefront).
 
-### 4.2 Controllers (`controllers/`)
+**Saving a product while this switch is off deletes the combination features of that product.** The product form no longer contains the feature fields, and a save clears the module’s feature rows for the product, then writes back only what the form sent. Descriptions and titles are kept. Turn the switch back on before you edit the product if those features should stay.
 
-This module does not use dedicated Front-Office or Back-Office Admin Controllers. Its logic for displaying and saving combination data is integrated directly into the `combfeat.php` main module file and via JavaScript.
+### 4.2 Data sheet css class
 
-### 4.3 Core Classes & Models (`classes/`)
+Configuration key: `combfeat_ds`. Default: `.data-sheet`.
 
-This module does not define custom classes in the `classes/` directory. Its core logic is contained within the main `combfeat.php` file, interacting directly with PrestaShop’s `Product` and `Combination` (ProductAttribute) `ObjectModel`s.
+A jQuery selector. The module replaces the **inner HTML** of the matched element with pairs:
 
-### 4.4 JavaScript Assets (`views/js/`)
+```html
+<dt class="name">Feature</dt><dd class="value">Value</dd>
+```
 
-- **`combfeat/views/js/acplt.js`**
+Point it at the `<dl>` that already holds the feature rows. In the Classic theme that element is `dl.data-sheet`, so the default is correct. Pointing it at a larger block, such as `.product-features` or `#product-details`, replaces everything inside that block with the `<dt>` / `<dd>` pairs.
 
-  - **Scope:** Likely Back-office (admin product page).
-  - **Responsibility:** This script appears to be a custom autocomplete library or a component used for selecting features and their values for combinations. It would handle AJAX requests to fetch available features and values, and manage the UI for adding/removing them from a combination.
-  - **Key interactions:** Event listeners for input fields, AJAX calls to a module hook or admin controller for data, DOM manipulation to display suggestions and selected items.
-- **`combfeat/views/js/admin-combfeat.js`**
+If the selector matches nothing and the selected combination has features, the module replaces the entire contents of `#product-details` with a new data-sheet section. That removes reference, brand and any other content that lived in `#product-details`. Set the selector so this fallback is not used.
 
-  - **Scope:** Back-office (admin product page, “Modules” tab).
-  - **Responsibility:** This is the main script for the module’s functionality within the PrestaShop Back Office product edit page. It initializes the combination feature, description, and meta title fields. It likely listens for changes in combination selection (if any) and manages the display and saving of data for each combination.
-  - **Key interactions:** DOM manipulation to inject custom fields, event listeners for input changes, potentially AJAX calls to save combination-specific data.
-- **`combfeat/views/js/combfeat-append.js`**
+### 4.3 Workflow
 
-  - **Scope:** Front-office (product page).
-  - **Responsibility:** This script is specifically for the “Append” workflow option. When a combination is selected, it dynamically fetches and *adds* the combination-specific features to the existing product features on the front end.
-  - **Key interactions:** Listens for `updateProduct` or similar events (triggered by combination selection), AJAX calls to fetch combination data, DOM manipulation to append features to the element specified by `combfeat_ds`.
-- **`combfeat/views/js/combfeat-title.js`**
+Configuration key: `combfeat_workflow`. Default: **Replace existing product features** (value `0`).
 
-  - **Scope:** Front-office (product page).
-  - **Responsibility:** This script handles the dynamic updating of the browser’s meta title based on the selected product combination.
-  - **Key interactions:** Listens for `updateProduct` or similar events, retrieves the combination’s meta title (either custom or generated based on module settings), and updates `document.title`.
-- **`combfeat/views/js/combfeat.js`**
+| Option | Value | Data sheet when a combination is selected |
+| --- | --- | --- |
+| **Replace existing product features** | `0` | Combination features replace the data sheet. If that combination has no features, the product’s own features are written back. |
+| **Append to existing list of product features** | `1` | Product features stay first. Combination features are added after them. If the combination has none, only the product features are shown. |
 
-  - **Scope:** Front-office (product page).
-  - **Responsibility:** This is the primary front-office script for the module. It orchestrates the dynamic display of combination-specific features and descriptions. It likely listens for changes in product combinations (e.g., attribute selection) and triggers updates to the relevant DOM elements. This script would handle the “Replace” workflow for features and the description update.
-  - **Key interactions:** Listens for `updateProduct` or similar events (e.g., `prestashop.on('updatedProduct', ...)`), AJAX calls to retrieve combination data, DOM manipulation to update the elements specified by `combfeat_ds` and `combfeat_description`.
+The same feature value on the product and on the combination is listed twice in **Append** mode. The module does not remove duplicates.
 
-### 4.5 CSS Stylesheets (`views/css/`)
+Several values of one feature are allowed. Each value is its own row. Rows follow the feature position from the catalog.
 
-- **`combfeat/views/css/combfeat.css`**
-  - **Scope:** Both Front-office and Back-office.
-  - **Responsibility:** Provides basic styling for the module’s injected elements. This could include styling for the combination feature/description input fields in the Back Office, or for the dynamically updated feature/description blocks on the Front Office.
-  - **Key CSS class selectors:** Likely targets classes used by the module’s templates and JavaScript, such as `.combfeat-feature-list`, `.combfeat-description-wrapper`, or specific styles for the autocomplete component. Developers might need to override these in their theme’s `custom.css` or `theme.css` for perfect integration.
+**Workflow changes the data sheet only.** The description is always replaced, in both modes. See [Description](#64-description).
 
-### 4.6 Smarty Template Structure (`views/templates/`)
+The storefront script is chosen from this setting: `views/js/combfeat.js` for Replace, `views/js/combfeat-append.js` for Append.
 
-- **`combfeat/views/templates/admin/combfeat.tpl`**
+### 4.4 Filter combination features in Faceted Search
 
-  - **Scope:** Admin template.
-  - **Responsibility:** This template renders the custom section within the “Modules” tab on the product edit page in the Back Office. It displays the interface for managing combination-specific features, descriptions, and meta titles. It likely iterates through all product combinations and provides input fields for each.
-  - **Key elements:** Loops for combinations, input fields for feature selection (possibly using the `acplt.js` component), rich text editor for descriptions, text input for meta titles.
-- **`combfeat/views/templates/hook/product-details.tpl`**
+Configuration key: `combfeat_faceted`. Default: **Enabled**.
 
-  - **Scope:** Front-office hook template.
-  - **Responsibility:** This template is likely hooked into `displayProductAdditionalInfo` or similar hooks to render the combination-specific features and/or description on the front office product page. It provides the HTML structure that `combfeat.js` and `combfeat-append.js` will populate and update dynamically.
-  - **Key elements:** Placeholders (e.g., empty `div`s with specific IDs or classes) where the combination features and descriptions will be injected by JavaScript.
+When `ps_facetedsearch` is installed and this switch is on:
 
-### 4.7 Database Schema & Hooks Map
+- Feature values that exist only on combinations can appear in category filters.
+- A product is counted when the value is on the product **or on any of its combinations**. The filter does not depend on which combination the visitor later selects. One product counts once, even if several combinations carry the value.
+- You still add the feature to the Faceted Search template. The module does not edit templates.
+- The product feature list on the product page in the catalog is left as it is.
 
-- **Database Tables**:
+After you save combination features, or after a CSV import, the module empties the Faceted Search block cache (`layered_filter_block`) so the filters rebuild.
 
-  - The module does not create new custom tables. It likely stores combination-specific features by extending the `ps_product_attribute_feature` relationship or similar, and combination descriptions/meta titles in `ps_product_attribute_lang` or a similar structure, associating them with `id_product_attribute` and `id_lang`.
-  - Module configuration settings (`combfeat_ds`, `combfeat_description`, etc.) are stored in the `ps_configuration` table.
-- **Registered Hooks Table**:
+Details and the file change are in [Files the module changes](#32-faceted-search-adapter) and [Faceted Search](#7-faceted-search).
 
-| Hook Name | Scope | Execution Timing | Technical Purpose |
-| --- | --- | --- | --- |
-| `displayHeader` | Front-office | In the `<head>` section of all front-office pages. | Registers front-office CSS and JS assets (`combfeat.css`, `combfeat.js`, `combfeat-append.js`, `combfeat-title.js`). |
-| `DisplayHeader` | Front-office | Alias for `displayHeader`. | Same as `displayHeader`. |
-| `displayProductAdditionalInfo` | Front-office | On the product page, typically below the main product information. | Renders the `product-details.tpl` template, providing a placeholder for combination features/descriptions. |
-| `ActionAdminControllerSetMedia` | Back-office | When an admin controller is loaded and its media assets are set. | Registers back-office CSS and JS assets (`combfeat.css`, `acplt.js`, `admin-combfeat.js`) for the product edit page. |
-| `ActionProductUpdate` | Back-office | After a product is updated (including combinations). | Potentially used to save or synchronize combination-specific data when the product form is submitted. |
-| `actionProductUpdate` | Back-office | Alias for `ActionProductUpdate`. | Same as `ActionProductUpdate`. |
-| `displayAdminProductsExtra` | Back-office | On the product edit page, typically as a new tab or section. | Renders the `admin/combfeat.tpl` template, creating the “Product combination features” section under the “Modules” tab. |
-| `DisplayAdminProductsExtra` | Back-office | Alias for `displayAdminProductsExtra`. | Same as `displayAdminProductsExtra`. |
+### 4.5 Turn on descriptions for combinations
 
-## 5. Official Support & Updates
+Configuration key: `combfeat_p_desc`. Default: **Enabled**.
 
-For the latest updates, bug fixes, and official support for the “Product combination features” module, please refer to your customer account at [MyPresta.eu](https://mypresta.eu/my-account/orders/). Our support team is available to assist with any issues or questions you may have regarding the module’s functionality and integration.
+The English back-office label is **Turn on descriptionsfor combinations** (there is no space before “for”). Other languages use the corrected translation, for example “Włącz opisy dla kombinacji”.
+
+When enabled, each combination has a **Description** tab with a rich-text field per shop language.
+
+When disabled, that tab is hidden and a product save does not change stored descriptions. If features are still enabled, the storefront script still runs and will apply a description that was saved earlier. Clear the description fields, save, and only then turn the switch off if the storefront should stop using them.
+
+### 4.6 Description of css class / object ID
+
+Configuration key: `combfeat_description`. Default: `#description`.
+
+A jQuery selector for the block whose HTML is replaced by the combination description. In the Classic theme `#description` is the long-description tab, so the default matches that block.
+
+If the selector matches nothing, the description on the page is left untouched.
+
+The text used when a combination has no description is the product’s **long description** (`description`), in the current language. It is not the short description and not the meta description. If you point this selector at the short-description block, a combination without its own text will fill that block with the long description.
+
+### 4.7 Turn on meta title for combinations
+
+Configuration key: `combfeat_p_title`. Default: **Enabled**.
+
+When enabled, the product page loads `views/js/combfeat-title.js`. Choosing a combination updates `document.title` and, when present, `<meta property="og:title">`.
+
+The title in the HTML sent by the server stays the product meta title. Visitors see the combination title after JavaScript runs. A crawler that does not run JavaScript keeps the product title.
+
+When disabled, the **Meta title** tab is hidden, the script is not loaded, and a product save does not change stored titles.
+
+### 4.8 Default title mode
+
+Configuration key: `combfeat_title_default`. Default: **Add attribute name and value (comma separated)** (value `1`).
+
+Used only when that combination has no **Full title** and no **Append to title** in the current language.
+
+The original title is the browser title captured on the first load of the page. Later changes do not capture it again, so appended parts do not stack.
+
+| Option | Value | Result |
+| --- | --- | --- |
+| **Do not change title by default** | `0` | The original document title stays. |
+| **Add attribute name and value (comma separated)** | `1` | Original title, then the separator, then groups and values such as `Color: Red, Size: M`. |
+| **Add attribute values only (comma separated)** | `2` | Original title, then the separator, then values only, such as `Red, M`. |
+
+Group names and values come from the current shop language.
+
+### 4.9 Title separator
+
+Configuration key: `combfeat_title_separator`. Default: ` - ` (space, hyphen, space).
+
+Inserted between the original document title and the added part. The added part is either the default-mode text or the combination’s **Append to title**. The separator is used as stored, including spaces.
+
+**Full title** does not use the separator. It replaces the document title on its own.
+
+If the original title is empty, the added part is used alone.
+
+### 4.10 Settings quick reference
+
+| Setting | Key | Default |
+| --- | --- | --- |
+| Turn on features for combinations | `combfeat_p_feat` | Enabled (`1`) |
+| Data sheet css class | `combfeat_ds` | `.data-sheet` |
+| Workflow | `combfeat_workflow` | Replace (`0`) |
+| Filter combination features in Faceted Search | `combfeat_faceted` | Enabled (`1`) |
+| Turn on descriptions for combinations | `combfeat_p_desc` | Enabled (`1`) |
+| Description of css class / object ID | `combfeat_description` | `#description` |
+| Turn on meta title for combinations | `combfeat_p_title` | Enabled (`1`) |
+| Default title mode | `combfeat_title_default` | Attribute name and value (`1`) |
+| Title separator | `combfeat_title_separator` | ` - ` |
+
+## 5. Import combination features
+
+The second form on the configuration page. These labels are currently the English source strings in every language (they are not in the module translation files yet).
+
+Import assigns feature values to combinations. It does not import descriptions or titles, and it does not write rows into the product feature list (`feature_product`). A missing feature or a missing value is created in the catalog.
+
+### 5.1 Import mode
+
+| Mode | What it does |
+| --- | --- |
+| **Append to combination features** (default) | Keeps assignments already stored. A row that is already on that combination is skipped. |
+| **Replace features of listed combinations** | For each combination that appears in the file, deletes that combination’s module features, then writes the file rows. Combinations absent from the file are left as they are. Descriptions and titles are not deleted. |
+
+### 5.2 File rules
+
+- UTF-8 `.csv` or `.txt`. A leading BOM is accepted. Maximum size **8 MB**.
+- The separator is detected from the header line: semicolon, comma, or tab. If none of those appear, the semicolon is used.
+- The header must identify the combination with `id_product_attribute` or `combination_reference`.
+- The header must identify the feature with `feature` and `value`, or with `id_feature_value`.
+- Empty rows are skipped. At most 30 row errors are listed; the rest are counted.
+
+Accepted header names (spaces and hyphens become underscores, letter case is ignored):
+
+| Column | Also accepted |
+| --- | --- |
+| `id_product` | `product_id` |
+| `id_product_attribute` | `id_combination`, `combination_id` |
+| `product_reference` | — |
+| `combination_reference` | `combination_ref`, `attribute_reference` |
+| `feature` | `feature_name`, `id_feature` |
+| `value` | `feature_value` |
+| `id_feature_value` | `feature_value_id` |
+
+`id_product` and `product_reference` are optional. When you fill them in, they must belong to that combination. A mismatch rejects the row.
+
+Finding the combination:
+
+- `id_product_attribute` is used when it is greater than zero. `combination_reference` must match that row when both are filled in.
+- Otherwise the combination reference is used. If several combinations share it, add `id_product` or `id_product_attribute`. The message is: Combination reference matches more than one combination.
+
+Finding the feature value:
+
+- `id_feature_value` greater than zero loads that value. The feature name and value cells are ignored.
+- Otherwise `feature` and `value` are required. A feature cell that contains only digits is a feature ID.
+- Names are matched exactly, then without regard to case. If more than one feature or value matches, the row is rejected. Nothing is guessed.
+- A feature that does not exist is created. Its name is copied to every shop language. Maximum length 128.
+- A value that does not exist is created as a normal (not custom) value, with the same text in every language. Maximum length 255. Edit **Catalog > Attributes & Features** afterwards if languages need different texts.
+
+**Download sample file** sends `import/combfeat-features-sample.csv`:
+
+```csv
+id_product;id_product_attribute;product_reference;combination_reference;feature;value;id_feature_value
+12;45;DEMO-1;DEMO-1-RED;Material;Cotton;
+12;46;DEMO-1;DEMO-1-BLUE;Material;Wool;
+;;DEMO-2;DEMO-2-XL;Composition;100% cotton;
+10;25;;;;;83
+```
+
+Row by row, that sample means:
+
+1. Combination 45 of product 12, references must match, feature Material / Cotton (created if missing).
+2. Combination 46 of product 12, Material / Wool.
+3. The combination whose reference is `DEMO-2-XL` on the product whose reference is `DEMO-2`, feature Composition / 100% cotton. No numeric IDs.
+4. Combination 25 of product 10, existing feature value 83. Feature name and value are empty.
+
+After a successful import the Faceted Search block cache is cleared. The confirmation reports how many assignments were saved, how many were already present, and which rows failed.
+
+## 6. Combination content on the product
+
+**Catalog > Products**, edit the product, open the **Modules** tab. The block title is **Combination content**. The subtitle is **Features, descriptions and meta titles per combination**.
+
+Create the combinations first (the **Combinations** tab of the product). If the product has none, the block says so and there is nothing to edit.
+
+### 6.1 The list
+
+- **Expand all** / **Collapse all**.
+- **Filter combinations…** matches the combination name, the combination ID and the combination reference.
+- Each row shows the combination image (or a placeholder), the attribute names, **Combination ID**, **Reference** when the combination has one, and badges. The badges **Features**, **Description** and **Title** light up when that part is filled. The feature badge includes the number of values. These two ID/reference labels are the English source strings.
+- The first combination is open. **Configure** opens a row, **Close** collapses it.
+- Inside the row, the tabs that correspond to enabled switches: **Features**, **Description**, **Meta title**.
+
+If all three switches are off, the block shows: All combination options are disabled. Enable features, descriptions or titles in the module configuration.
+
+### 6.2 Features
+
+Help text: Search and attach feature values used for this combination on the product page.
+
+Type at least **2 characters** of the feature name or the value, in the employee’s current language. Up to 20 matches appear, labelled `Feature: value`. Pick one to add a token. The search only finds values that already exist. Create them in the catalog, or create them with the CSV import.
+
+The same value cannot be added twice. Several values of the same feature can. **×** removes a token. The removal is stored when you save the product.
+
+### 6.3 Description
+
+One rich-text field per language. The language dropdown is shown when the shop has more than one language. Empty HTML is treated as no description: on the storefront the long product description is shown again, and on save the stored row for that language is deleted.
+
+### 6.4 Meta title
+
+Both fields are per language, 512 characters each. Leave a field empty to skip that override.
+
+| Field | Storefront effect |
+| --- | --- |
+| **Full title (overwrite entire title)** | Replaces the whole document title. The separator and the default mode are not used. If both fields are filled, this one wins. |
+| **Append to title (fragment added at the end)** | Original document title, then the separator, then this fragment. Used when Full title is empty. |
+
+When both are empty, [Default title mode](#48-default-title-mode) is used.
+
+### 6.5 Saving
+
+Changes are stored with the product. Use the product **Save** button (including save and preview / save and stay, depending on the PrestaShop version). There is no separate save button in the block.
+
+On save the module:
+
+1. Deletes every combination-feature row of this product and inserts the tokens present in the form.
+2. For each language, saves or deletes the description.
+3. For each language, saves the title row, or deletes it when both title fields are empty.
+4. Clears the Faceted Search block cache when the Faceted Search option is on.
+
+The form sends a hidden `combfeat_submitted` field. If that field is missing, the module does not touch the data. On PrestaShop 8 and 9 this depends on the Twig change in [section 3.1](#31-product-modules-tab-on-prestashop-8-and-9).
+
+Deleting a combination in PrestaShop does not delete its rows in this module. The rows are unused because the combination no longer exists. They are removed for features when you save the product (the form only sends current combinations). Description and title rows of a deleted combination remain until you remove them from the database.
+
+## 7. Storefront
+
+Scripts are added only on the product page, only when the request is not an ajax refresh of the whole controller, only when the product has combinations, and only when at least one of the three switches is on.
+
+| Switch | Script |
+| --- | --- |
+| Features or descriptions, Workflow = Replace | `views/js/combfeat.js` |
+| Features or descriptions, Workflow = Append | `views/js/combfeat-append.js` |
+| Meta title | `views/js/combfeat-title.js` |
+
+There is no extra request when the customer changes a combination. The data for every combination is printed into the page for the **current language**. The script reads the selected combination from `#product-details` attribute `data-product` (`id_product_attribute`) and runs again on the `updatedProduct` event.
+
+`displayProductAdditionalInfo` also prints a hidden `#product-details-combfeat` element with the combination resolved for the first view (attribute groups from the URL, `id_product_attribute` from the request, or the default combination). Unavailable combinations follow PrestaShop’s stock setting and **Display unavailable attributes**. The hidden element is used only when `#product-details` itself is missing. Themes that keep `#product-details` must put `data-product` on that element. That is the standard product template.
+
+The module does not load a front-office stylesheet. The new `<dt class="name">` and `<dd class="value">` use the theme rules for the data sheet.
+
+### 7.1 Features and descriptions share one script
+
+`combfeat.js` and `combfeat-append.js` update the data sheet **and** the description whenever they are loaded. They do not read the two switches again.
+
+- Features enabled and descriptions disabled: a description saved earlier is still applied, until you clear it and save.
+- Descriptions enabled and features disabled: features still stored are still applied. Saving the product while the feature switch is off deletes those stored features. See [Turn on features](#41-turn-on-features-for-combinations).
+
+The title script is separate and runs only when the title switch is on.
+
+### 7.2 Data sheet
+
+Replace and Append are described under [Workflow](#43-workflow). On each run the module rebuilds the rows. Extra markup the theme had inside the data sheet (links, extra classes on a value) is not kept.
+
+### 7.3 Description
+
+If the combination has a description in the current language, that HTML replaces the contents of the description selector. Otherwise the product long description replaces it. Append mode does not append description text.
+
+### 7.4 Title
+
+Priority for the selected combination, in the current language:
+
+1. **Full title**, when it is not empty.
+2. Otherwise **Append to title**, joined with the [separator](#49-title-separator).
+3. Otherwise the [default title mode](#48-default-title-mode).
+
+`og:title` receives the same text when that meta tag exists.
+
+## 8. Faceted Search
+
+With the option enabled, category filters read a view that unions:
+
+- `feature_product` — features assigned to the product;
+- `combfeat` — active features assigned to combinations, joined to `feature_value` to obtain the feature ID.
+
+Rebuild the Faceted Search index or clear the PrestaShop cache if a filter stays stale after the warning on the configuration page has been resolved. Saving combination features and importing a CSV already truncates `layered_filter_block`.
+
+The product page in the shop still shows product features from PrestaShop until this module’s script runs. The filter and the data sheet are two different sources.
+
+## 9. MyPresta updates
+
+The panel under the forms:
+
+| Control | Behaviour |
+| --- | --- |
+| **Check now** | Contacts MyPresta and shows **New version available!** or **Module is up to date!** |
+| **Updates notifications** | **Enable** shows a back-office warning when a newer version is published, with a link to the changelog. **Disable** hides that warning. |
+| **Module page** | Opens the add-on page: [Product combination features](https://mypresta.eu/modules/front-office-features/product-combination-features.html) |
+
+While an employee is in the back office the module contacts the update server at most once every 3 days. The check needs `allow_url_fopen`. If that is unavailable, the installed version is kept and no newer version is reported.
+
+## 10. Troubleshooting
+
+**The Modules tab block is empty on PrestaShop 8 or 9.**  
+Confirm that `modules-content.html.twig` contains `{{ module.content|raw }}` and that the shop could write that file. Re-open the module configuration page so the module tries the change again. Clear the Symfony cache afterwards (**Advanced Parameters > Performance**).
+
+**The data sheet does not change.**  
+The product needs combinations, the feature switch needs to be on or features must already be stored, and the combination needs at least one value (in Replace mode a combination with no values restores the product features, which can look like “nothing happened”). Confirm the selector in the browser console: `document.querySelectorAll('.data-sheet')` using your real selector. The theme must update `data-product` on `#product-details` and fire `updatedProduct`.
+
+**The whole product-details block was replaced by a short feature list.**  
+The data-sheet selector matched nothing. Set it to the real `<dl>`, usually `.data-sheet`.
+
+**The description does not change, or the short description was replaced by the long one.**  
+The default selector `#description` is the long description in Classic. The fallback text is always the long description. Point **Description of css class / object ID** at the element that should change.
+
+**I turned descriptions off and the old text is still showing.**  
+Clear the fields, save the product, then turn the switch off. Or turn features off as well so neither script loads. Remember that turning features off and saving deletes stored combination features.
+
+**I turned features off and the combination features disappeared after I saved the product.**  
+That is how save works when the feature fields are not in the form. Turn the switch on again before editing if you still need the data. Re-import from CSV if you have a file.
+
+**The browser tab title does not change.**  
+Turn the title switch on. An empty Full title and an empty Append field together mean the default mode is used; mode **Do not change title by default** leaves the title as it was. The change is client-side: view the page, change the combination, and read the tab title. The HTML source still has the product meta title.
+
+**A feature is missing in the category filter.**  
+Enable **Filter combination features in Faceted Search**, add the feature to the Faceted Search template, and read any warning on the module configuration page. The adapter file must be writable. The value must be stored on the product or on a combination.
+
+**CSV row errors.**
+
+| Message | Cause |
+| --- | --- |
+| The CSV must contain id_product_attribute or combination_reference | Header does not identify a combination |
+| The CSV must contain feature and value, or id_feature_value | Header does not identify a feature value |
+| Combination was not found | ID or reference does not exist |
+| Product ID does not match this combination | `id_product` is filled in and points at another product |
+| Product reference does not match this combination | `product_reference` does not match |
+| Combination reference does not match this combination ID | Both ID and reference are filled in and disagree |
+| Combination reference matches more than one combination | Add `id_product` or `id_product_attribute` |
+| Feature name or value matches more than one | Two catalog entries share that label. Use `id_feature_value` |
+| Feature and value are required when id_feature_value is empty | Name or value cell is blank |
+| The CSV file is larger than 8 MB | Split the file |
+
+**Multilanguage.**  
+Descriptions and both title fields are stored per language. Feature values use the PrestaShop feature translation for the visitor’s language. The assignment itself is not per language.
+
+## 11. Technical reference
+
+### 11.1 Hooks
+
+| Hook | When | What it does |
+| --- | --- | --- |
+| `actionAdminControllerSetMedia` | Back office, controllers `AdminProducts` and `AdminModules` | Loads `views/css/combfeat.css`, `views/js/acplt.js`, `views/js/admin-combfeat.js`, and jQuery autocomplete. Also ensures configuration and the Faceted Search integration |
+| `displayAdminProductsExtra` | Product edit, Modules tab | Renders `views/templates/admin/combfeat.tpl` |
+| `actionProductUpdate` | Product save | Writes features, descriptions and titles when `combfeat_submitted` is present |
+| `displayHeader` | Product page, non-ajax | Prints combination data for the current language and adds the front-office scripts |
+| `displayProductAdditionalInfo` | Product page | Renders the hidden `views/templates/hook/product-details.tpl` |
+
+Registered on install: `actionProductUpdate`, `displayProductAdditionalInfo`, `displayAdminProductsExtra`, `actionAdminControllerSetMedia`, `displayHeader`.
+
+The configuration page also answers the feature search. A request with `ajax=1` and `q` returns JSON matches and stops. The product editor calls that URL through `AdminModules` with `configure=combfeat`.
+
+### 11.2 Database
+
+Prefix is the shop prefix. Uninstall does **not** drop these tables, so combination content survives uninstall and is still there after a later install (`CREATE TABLE IF NOT EXISTS`).
+
+`combfeat` — one row per feature value on a combination:
+
+| Column | Role |
+| --- | --- |
+| `id_combfeat` | Primary key |
+| `id_product` | Product |
+| `id_product_attribute` | Combination |
+| `id_feature_value` | Catalog feature value |
+| `active` | `1` when used. The storefront and the Faceted Search view read active rows |
+
+`combfeat_details` — description, one row per combination and language:
+
+| Column | Role |
+| --- | --- |
+| `id_combfeat` | Primary key |
+| `id_product`, `id_product_attribute`, `id_lang` | Target |
+| `details` | HTML |
+| `active` | Stored as `1` |
+
+`combfeat_title` — titles, one row per combination and language:
+
+| Column | Role |
+| --- | --- |
+| `id_combfeat` | Primary key |
+| `id_product`, `id_product_attribute`, `id_lang` | Target |
+| `title_full` | Up to 512 characters. Replaces the document title |
+| `title_append` | Up to 512 characters. Added after the original title |
+| `active` | Stored as `1` |
+
+`{prefix}combfeat_feature_product` — SQL view, not a table of content you edit. Union of `feature_product` and active `combfeat` rows. Configuration value `COMBFEAT_FEATURE_VIEW` stores the view version (`1`).
+
+Other configuration keys: `update_combfeat` and `updatev_combfeat` (update check), `mypresta_updates` (notification switch).
+
+### 11.3 PHP classes
+
+| File | Class | Role |
+| --- | --- | --- |
+| `combfeat.php` | `combfeat` | Module class: install, configuration, hooks, product editor data, storefront payload |
+| `combfeat.php` | `combfeatUpdate` | Version compare and the update-server request |
+| `classes/CombfeatImporter.php` | `CombfeatImporter` | CSV parse, combination and feature resolution, sample download |
+| `classes/CombfeatFacetedSearch.php` | `CombfeatFacetedSearch` | View, adapter patch, restore, filter-cache clear |
+| `models/cfeat.php` | `cfeat` | `combfeat` rows. `getAllByProductId`, `getFeaturesStaticByIdProduct`, `assign`, `insertDatas`, deletes |
+| `models/cfeatdesc.php` | `cfeatdesc` | `combfeat_details` rows |
+| `models/cfeattitle.php` | `cfeattitle` | `combfeat_title` rows. `saveTitleRow` deletes the row when both titles are empty |
+
+There is no `controllers/` directory.
+
+### 11.4 Assets and templates
+
+| File | Where | Role |
+| --- | --- | --- |
+| `views/js/acplt.js` | Back office | Autocomplete used by the feature search |
+| `views/js/admin-combfeat.js` | Back office | Accordion, filter, tabs, language flags, tokens, TinyMCE refresh, copy of editor content before product save |
+| `views/css/combfeat.css` | Back office only | Layout of **Combination content** |
+| `views/js/combfeat.js` | Storefront, Replace | Rebuilds the data sheet and the description |
+| `views/js/combfeat-append.js` | Storefront, Append | Same, with product features kept in front of combination features |
+| `views/js/combfeat-title.js` | Storefront | `document.title` and `og:title` |
+| `views/templates/admin/combfeat.tpl` | Product Modules tab | The editor |
+| `views/templates/hook/product-details.tpl` | Product page | Hidden `#product-details-combfeat` with `data-product` |
+| `import/combfeat-features-sample.csv` | Download from configuration | Sample import |
+
+### 11.5 Install and uninstall
+
+Install creates the three tables, writes the default configuration, registers the five hooks, applies the Twig change, and applies the Faceted Search integration.
+
+`disable` restores the Faceted Search adapter. `enable` writes missing configuration keys and applies the integration again when the Faceted Search switch is on.
+
+Uninstall restores the adapter, drops the view when it is no longer referenced, and uninstalls the module. Combination rows in the three tables stay in the database.
+
+## 12. Support
+
+Changelog and updates: [Product combination features on MyPresta.eu](https://mypresta.eu/modules/front-office-features/product-combination-features.html).
+
+Orders and support: [MyPresta.eu customer account](https://mypresta.eu/my-account/orders/). Email: support@mypresta.eu.

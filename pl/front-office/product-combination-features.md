@@ -1,8 +1,8 @@
 ---
-title: "Funkcje kombinacji produktów - Podręcznik dla sprzedawcy i przewodnik konfiguracji"
-description: "Kompletny podręcznik użytkownika, przewodnik konfiguracji krok po kroku i odniesienie dla programistów dla modułu PrestaShop „Funkcje kombinacji produktów” od MyPresta.eu."
+title: "Cechy kombinacji - instrukcja sprzedawcy"
+description: "Instrukcja konfiguracji i rozwiązywania problemów dla osób, które mają moduł już zainstalowany."
 sidebar:
-  label: "Funkcje kombinacji produktów - Podręcznik dla sprzedawcy i przewodnik konfiguracji"
+  label: "Cechy kombinacji - instrukcja sprzedawcy"
 ---
 
 > ⚠️ **Notice:** This is the oficjalna dokumentacja modułu PrestaShop.
@@ -12,252 +12,511 @@ sidebar:
 > ---
 
 
-# Funkcje kombinacji produktów
+Nazwa techniczna: `combfeat`. Wersja **1.4.0**. W panelu administracyjnym moduł nazywa się **Cechy kombinacji**.
 
 ## 1. Wymagania i kompatybilność
 
-- **Obsługiwane wersje PrestaShop**: PrestaShop 1.7.x, 8.x, 9.x
-- **Kompatybilność z PHP**: PHP 7.1 - 8.5
-- **Wymagania hostingowe**: Standardowe rozszerzenia PHP (cURL, JSON, OpenSSL).
+- **PrestaShop:** od 1.7.0.0 do 9.x (w module `ps_versions_compliancy` ma górną granicę 9.99.99).
+- **PHP:** wersja wymagana przez daną wersję PrestaShop.
+- **Karta produktu:** motyw musi wystawiać wybraną kombinację w atrybucie `data-product` elementu `#product-details` (standard PrestaShop) i wysyłać zdarzenie `updatedProduct` po zmianie atrybutów. Classic i motywy na nim oparte tak działają.
+- **PrestaShop 8 i 9, zakładka Moduły przy produkcie:** plik `src/PrestaShopBundle/Resources/views/Admin/Sell/Catalog/Product/Blocks/modules-content.html.twig` musi dać się zapisać przy instalacji albo przy pierwszym otwarciu konfiguracji. Patrz [Pliki, które moduł zmienia](#3-pliki-ktore-modul-zmienia).
+- **Nawigacja fasetowa (opcjonalnie):** zainstalowany `ps_facetedsearch`, prawo do utworzenia widoku SQL i zapis do `modules/ps_facetedsearch/src/Adapter/MySQL.php`.
+- **Sprawdzanie aktualizacji (opcjonalnie):** `allow_url_fopen`, żeby moduł mógł wywołać `https://dev.mypresta.eu`.
 
-## 2. Kompletny przewodnik konfiguracji (każde ustawienie pogrupowane według ekranu)
+## 2. Gdzie pracować w panelu
 
-### 2.1 Strona konfiguracji modułu (Panel administracyjny > Moduły > Konfiguruj)
+| Miejsce | Ścieżka | Do czego służy |
+| --- | --- | --- |
+| Konfiguracja modułu | **Moduły > Menedżer modułów**, szukaj **Cechy kombinacji**, **Konfiguruj** | Przełączniki, selektory CSS, tryb tytułu, nawigacja fasetowa, import CSV, sprawdzanie aktualizacji |
+| Zawartość kombinacji | **Katalog > Produkty**, edycja produktu, zakładka **Moduły**, blok **Zawartość kombinacji** | Cechy, opis i tytuły każdej kombinacji |
+| Katalog cech | **Katalog > Atrybuty i cechy** (nazwa zależy od wersji PrestaShop) | Utworzenie cech i wartości, zanim przypniesz je na karcie produktu. Import CSV potrafi utworzyć brakujące |
+| Szablon nawigacji fasetowej | Konfiguracja modułu Nawigacja fasetowa | Dodanie cechy do szablonu filtrów. Ten moduł nie dodaje jej sam |
 
-Jest to główny ekran konfiguracji modułu „Funkcje kombinacji produktów”. Możesz uzyskać do niego dostęp, przechodząc do **Moduły > Menedżer modułów**, wyszukując „Funkcje kombinacji produktów” i klikając „Konfiguruj”.
+Moduł nie ma własnej pozycji w menu i nie ma własnego kontrolera frontu ani zaplecza.
 
-#### **Włącz funkcje dla kombinacji**
+## 3. Pliki, które moduł zmienia
 
-- **Co robi to ustawienie:** Jest to główny przełącznik do włączania lub wyłączania podstawowej funkcjonalności przypisywania unikalnych cech do kombinacji produktów.
-- **Efekt zmiany tego ustawienia:**
-  - *Gdy włączone:* Zobaczysz nową sekcję na stronach edycji produktu (w zakładce „Moduły”), gdzie możesz przypisać konkretne cechy i ich wartości do każdej kombinacji. Gdy klienci wybiorą kombinację w Front Office, karta danych produktu dynamicznie zaktualizuje się, aby pokazać te cechy specyficzne dla kombinacji.
-  - *Gdy wyłączone:* Sekcja zarządzania cechami kombinacji nie pojawi się na stronach edycji produktu, a Front Office powróci do wyświetlania tylko cech głównego produktu, niezależnie od wybranej kombinacji.
-- **Zalecana wartość:** **Włączone** (jeśli chcesz używać podstawowej funkcji modułu).
-- **Scenariusz/przykład sprzedawcy:** Jeśli sprzedajesz koszulki i chcesz, aby „Materiał: 100% Bawełna” był dla białej koszulki, a „Materiał: 50% Bawełna, 50% Poliester” dla szarej koszulki, *musisz* to włączyć.
+### 3.1 Zakładka Moduły produktu w PrestaShop 8 i 9
 
-#### **Klasa CSS karty danych**
+Przy instalacji i przy każdym otwarciu strony konfiguracji moduł edytuje:
 
-- **Co robi to ustawienie:** Pozwala określić klasę CSS lub ID elementu HTML, na który moduł powinien celować podczas aktualizowania sekcji cech na stronie produktu. Jest to kluczowe, aby moduł poprawnie zidentyfikował, gdzie wyświetlić cechy specyficzne dla kombinacji w Twoim motywie.
-- **Efekt zmiany tego ustawienia:**
-  - *Gdy ustawione poprawnie:* Moduł znajdzie określony element i dynamicznie wstawi lub zaktualizuje w nim cechy kombinacji.
-  - *Gdy ustawione niepoprawnie lub pozostawione puste:* Cechy kombinacji mogą nie pojawić się w Front Office lub mogą pojawić się w nieoczekiwanym miejscu, ponieważ moduł nie będzie wiedział, gdzie je umieścić.
-- **Zalecana wartość:** Zależy to całkowicie od Twojego motywu PrestaShop. Popularną klasą jest `.product-features` lub `.data-sheet`. Może być konieczne sprawdzenie kodu HTML strony produktu, aby znaleźć prawidłowy selektor. W razie wątpliwości skonsultuj się z deweloperem motywu lub webmasterem.
-- **Scenariusz/przykład sprzedawcy:** Twój motyw wyświetla cechy produktu wewnątrz `div` z klasą `product-specifications`. Wprowadziłbyś tutaj `.product-specifications`.
+`src/PrestaShopBundle/Resources/views/Admin/Sell/Catalog/Product/Blocks/modules-content.html.twig`
 
-#### **Przepływ pracy**
+Podmienia `{{ module.content|raw_purified }}` na `{{ module.content|raw }}`. Za pierwszym razem kopiuje oryginał do `modules-content.html.twig.raw.bak` obok tego pliku.
 
-- **Co robi to ustawienie:** Kontroluje, jak moduł obsługuje cechy po wybraniu kombinacji.
-- **Efekt zmiany tego ustawienia:**
-  - *Gdy ustawione na „Dołącz”:* Cechy specyficzne dla kombinacji zostaną *dodane* do cech głównego produktu. Zatem zobaczysz zarówno ogólne cechy produktu, jak i unikalne cechy kombinacji.
-  - *Gdy ustawione na „Zastąp”:* Cechy specyficzne dla kombinacji *zastąpią* cechy głównego produktu. Zostaną wyświetlone tylko cechy istotne dla wybranej kombinacji.
-- **Zalecana wartość:** **Zastąp** w większości przypadków, ponieważ zapewnia najbardziej precyzyjne informacje. Wybierz „Dołącz”, jeśli masz ogólne cechy, które dotyczą wszystkich kombinacji, plus specyficzne.
-- **Scenariusz/przykład sprzedawcy:**
-  - *Zastąp:* Dla laptopa możesz chcieć, aby „Procesor: i7”, „RAM: 16GB” całkowicie zastąpiły „Procesor: i5”, „RAM: 8GB”, gdy klient wybierze kombinację i7/16GB.
-  - *Dołącz:* Dla koszulki możesz zawsze chcieć, aby wyświetlała się „Marka: MojaMarka” (cecha ogólna), ale następnie *dodać* „Materiał: Bawełna organiczna”, gdy zostanie wybrana konkretna kombinacja.
+PrestaShop 8 i 9 oczyszczają HTML wypisywany przez moduły na karcie produktu. Bez tej zmiany edytor **Zawartość kombinacji** jest pusty albo jego pola nie wchodzą w zapis produktu. W PrestaShop 1.7 tego pliku Twig nie ma. Moduł pomija zmianę.
 
-#### **Włącz opisy dla kombinacji**
+Gdy pliku nie da się odczytać albo zapisać, moduł nie pokazuje błędu. Sprawdź uprawnienia, jeśli zakładka Moduły zostaje pusta.
 
-- **Co robi to ustawienie:** Włącza lub wyłącza możliwość przypisywania unikalnych opisów do każdej kombinacji produktu.
-- **Efekt zmiany tego ustawienia:**
-  - *Gdy włączone:* Na stronach edycji produktu (w zakładce „Moduły”) pojawi się nowe pole, umożliwiające wprowadzenie konkretnego opisu dla każdej kombinacji. Gdy klienci wybiorą kombinację, ten opis dynamicznie zastąpi główny opis produktu.
-  - *Gdy wyłączone:* Pole opisu kombinacji nie pojawi się, a Front Office zawsze będzie wyświetlać główny opis produktu.
-- **Zalecana wartość:** **Włączone** (jeśli potrzebujesz opisów specyficznych dla kombinacji).
-- **Scenariusz/przykład sprzedawcy:** Sprzedajesz biżuterię na zamówienie. Produkt „Srebrny pierścionek” może mieć kombinację „Grawerowany: Tak”. Możesz użyć opisu kombinacji, aby wyjaśnić proces grawerowania i limity znaków, co nie jest istotne dla kombinacji „Grawerowany: Nie”.
+### 3.2 Adapter nawigacji fasetowej
 
-#### **Klasa CSS / ID obiektu opisu**
+Gdy opcja **Filter combination features in Faceted Search** jest włączona (domyślnie), moduł tworzy widok SQL `{prefix}combfeat_feature_product` i kieruje na niego `modules/ps_facetedsearch/src/Adapter/MySQL.php`. Widok to lista cech produktu plus aktywne cechy kombinacji.
 
-- **Co robi to ustawienie:** Podobnie jak „Klasa CSS karty danych”, informuje moduł, który element HTML na stronie produktu zawiera główny opis produktu, który powinien zostać zastąpiony opisem specyficznym dla kombinacji.
-- **Efekt zmiany tego ustawienia:**
-  - *Gdy ustawione poprawnie:* Moduł znajdzie określony element i dynamicznie zaktualizuje jego zawartość opisem kombinacji.
-  - *Gdy ustawione niepoprawnie lub pozostawione puste:* Opis kombinacji może nie pojawić się lub może pojawić się w nieoczekiwanym miejscu.
-- **Zalecana wartość:** Zależy to od Twojego motywu. Popularne selektory to `.product-description`, `#description_short` lub `#product-description-short`. Będziesz musiał sprawdzić kod HTML strony produktu.
-- **Scenariusz/przykład sprzedawcy:** Twój motyw używa `div` z ID `product-description-full` dla głównego opisu. Wprowadziłbyś tutaj `#product-description-full`.
+Wyłączenie opcji, wyłączenie modułu albo odinstalowanie przywraca oryginalne źródło adaptera. Odinstalowanie usuwa też widok, gdy adapter już do niego nie odwołuje się.
 
-#### **Włącz meta tytuł dla kombinacji**
+Na stronie konfiguracji pojawia się ostrzeżenie, gdy widoku nie da się utworzyć, plik adaptera nie istnieje, nie da się go odczytać, nie da się go zapisać albo nie pasuje do oczekiwanego źródła Faceted Search. Komunikaty (w module są po angielsku):
 
-- **Co robi to ustawienie:** Włącza lub wyłącza możliwość ustawienia unikalnego meta tytułu dla każdej kombinacji produktu. Ten meta tytuł to to, co pojawia się w zakładce przeglądarki i jest używane przez wyszukiwarki.
-- **Efekt zmiany tego ustawienia:**
-  - *Gdy włączone:* Na stronach edycji produktu (w zakładce „Moduły”) pojawi się nowe pole, umożliwiające wprowadzenie konkretnego meta tytułu dla każdej kombinacji. Gdy klient wybierze kombinację, tytuł zakładki przeglądarki dynamicznie zaktualizuje się.
-  - *Gdy wyłączone:* Pole meta tytułu kombinacji nie pojawi się, a zakładka przeglądarki zawsze będzie wyświetlać główny meta tytuł produktu.
-- **Zalecana wartość:** **Włączone** (jeśli chcesz poprawić SEO dla konkretnych kombinacji lub zapewnić jaśniejsze tytuły zakładek przeglądarki).
-- **Scenariusz/przykład sprzedawcy:** Dla produktu „Smartfon” możesz mieć kombinację „Kolor: Niebieski, Pamięć: 128GB”. Możesz ustawić jego meta tytuł na „Niebieski Smartfon 128GB - [Nazwa Twojego Sklepu]” dla lepszej widoczności w wyszukiwarkach.
+- Could not create the Faceted Search feature view. Combination features will not appear in category filters.
+- Faceted Search is installed, but its database adapter was not found. Combination features will not appear in category filters.
+- Faceted Search adapter could not be read. Combination features will not appear in category filters.
+- This Faceted Search version does not use the expected feature table. Combination features will not appear in category filters.
+- Faceted Search adapter is not writable. Make modules/ps_facetedsearch/src/Adapter/MySQL.php writable so combination features can be filtered.
+- Faceted Search adapter could not be updated. Combination features will not appear in category filters.
 
-#### **Domyślny tryb tytułu**
+## 4. Konfiguracja modułu
 
-- **Co robi to ustawienie:** Definiuje, jak meta tytuł kombinacji jest konstruowany, jeśli nie ustawisz go jawnie dla kombinacji lub jeśli chcesz połączyć tytuł produktu z atrybutami kombinacji.
-- **Efekt zmiany tego ustawienia:**
-  - *Gdy ustawione na „Nazwa produktu + nazwa kombinacji”:* Meta tytuł będzie nazwą głównego produktu, po której nastąpią nazwy atrybutów wybranej kombinacji (np. „T-Shirt - Czerwony, Duży”).
-  - *Gdy ustawione na „Nazwa kombinacji + nazwa produktu”:* Meta tytuł będzie nazwami atrybutów wybranej kombinacji, po których nastąpi nazwa głównego produktu (np. „Czerwony, Duży - T-Shirt”).
-  - *Gdy ustawione na „Nazwa kombinacji”:* Użyte zostaną tylko nazwy atrybutów kombinacji (np. „Czerwony, Duży”).
-  - *Gdy ustawione na „Nazwa produktu”:* Meta tytuł zawsze będzie nazwą głównego produktu, ignorując kombinacje.
-- **Zalecana wartość:** **„Nazwa produktu + nazwa kombinacji”** lub **„Nazwa kombinacji + nazwa produktu”** dla dobrej równowagi między tożsamością produktu a specyfiką kombinacji.
-- **Scenariusz/przykład sprzedawcy:** Sprzedajesz buty. Jeśli klient wybierze „Rozmiar 10, Kolor Czarny”, a wybrano „Nazwa produktu + nazwa kombinacji”, tytuł staje się „Buty do biegania - Rozmiar 10, Czarny”.
+Otwórz **Konfiguruj**. Na stronie są dwa formularze, a pod nimi panel **Aktualizacje MyPresta**. **Zapisz** w ustawieniach wysyła `submitCombfeatSettings`. **Import** wysyła `submitCombfeatImport`.
 
-#### **Separator tytułu**
+### 4.1 Włącz cechy dla kombinacji
 
-- **Co robi to ustawienie:** Pozwala zdefiniować znak lub ciąg znaków używany do oddzielania różnych części dynamicznie generowanego meta tytułu (np. między nazwą produktu a nazwą kombinacji).
-- **Efekt zmiany tego ustawienia:**
-  - *Gdy ustawione na „-”:* Tytuł może wyglądać tak: „Nazwa produktu - Kombinacja”.
-  - *Gdy ustawione na „|”:* Tytuł może wyglądać tak: „Nazwa produktu | Kombinacja”.
-  - *Gdy pozostawione puste:* Części tytułu mogą się zlewać bez wyraźnego separatora.
-- **Zalecana wartość:** **-** (łącznik) lub **|** (pionowa kreska) to popularne i jasne separatory.
-- **Scenariusz/przykład sprzedawcy:** Jeśli domyślny tryb tytułu to „Nazwa produktu + nazwa kombinacji”, a separator jest ustawiony na „|”, tytuł może stać się „Moja Niesamowita Koszulka | Czerwona, Duża”.
+Klucz: `combfeat_p_feat`. Domyślnie: **Włączone**.
 
-### 2.2 Dedykowane ekrany administracyjne i widoki kontrolerów
+Gdy opcja jest włączona, każda kombinacja w zakładce **Moduły** produktu ma zakładkę **Cechy**. Przypinasz tam istniejące wartości cech.
 
-Ten moduł nie tworzy dedykowanych ekranów administracyjnych najwyższego poziomu. Zamiast tego integruje się bezpośrednio z istniejącą **Stroną edycji produktu** w Panelu administracyjnym PrestaShop.
+Gdy jest wyłączona, tej zakładki nie ma. Skrypt w sklepie to osobna sprawa: cechy i opisy aktualizuje ten sam skrypt, opisany w [Sklep](#6-sklep).
 
-- **Nazwa ekranu i lokalizacja w menu:**
+**Zapis produktu przy wyłączonej opcji kasuje cechy kombinacji tego produktu.** Formularz nie zawiera już pól cech. Zapis czyści wiersze cech modułu dla produktu i zapisuje z powrotem tylko to, co formularz przysłał. Opisy i tytuły zostają. Włącz opcję z powrotem, zanim edytujesz produkt, jeśli te cechy mają zostać.
 
-  - Przejdź do **Katalog > Produkty**.
-  - Edytuj istniejący produkt lub utwórz nowy.
-  - Na stronie edycji produktu kliknij zakładkę **„Moduły”**.
-  - Znajdziesz nową sekcję zatytułowaną **„Funkcje kombinacji produktów”** (lub podobną, w zależności od wersji modułu/tłumaczeń).
-- **Dostępne działania i ustawienia:**
+### 4.2 Klasa CSS specyfikacji
 
-  - W tej sekcji zobaczysz listę wszystkich kombinacji skonfigurowanych dla bieżącego produktu.
-  - Dla każdej kombinacji będziesz mieć pola do:
-    - **Przypisz cechy:** Możesz wybrać istniejące cechy i ich wartości, a nawet tworzyć nowe wartości cech, specjalnie dla tej kombinacji. Moduł obsługuje wiele cech, co oznacza, że kombinacja może mieć kilka wartości dla tej samej cechy (np. „Materiał: Bawełna, Materiał: Spandex”).
-    - **Wprowadź opis kombinacji:** Dostępny będzie edytor tekstu sformatowanego (jak standardowy edytor opisu PrestaShop) do wprowadzenia unikalnego opisu dla tej kombinacji.
-    - **Wprowadź meta tytuł kombinacji:** Pole tekstowe do wprowadzenia unikalnego meta tytułu dla tej kombinacji.
-  - **Zapisywanie zmian:** Pamiętaj, aby kliknąć główny przycisk „Zapisz” dla produktu, aby zastosować wszystkie zmiany specyficzne dla kombinacji.
-- **Efekt zmian:**
+Klucz: `combfeat_ds`. Domyślnie: `.data-sheet`.
 
-  - Wszelkie cechy, opisy lub meta tytuły, które ustawisz tutaj, zostaną zapisane w bazie danych i dynamicznie wyświetlone na stronie produktu w Front Office, gdy klient wybierze odpowiednią kombinację.
-  - Jeśli usuniesz kombinację, jej powiązane cechy, opisy i meta tytuły również zostaną usunięte.
-- **Zalecany przepływ pracy dla codziennego zarządzania sklepem:**
+Selektor jQuery. Moduł podmienia **wewnętrzny HTML** dopasowanego elementu parami:
 
-  1. Najpierw utwórz swój produkt i jego kombinacje jak zwykle w PrestaShop (w zakładce „Kombinacje”).
-  2. Po utworzeniu kombinacji przejdź do zakładki **„Moduły”** na stronie edycji produktu.
-  3. Dla każdej kombinacji starannie przypisz odpowiednie cechy, napisz konkretny opis i ustaw zoptymalizowany meta tytuł.
-  4. Zapisz produkt.
-  5. Zawsze testuj w Front Office, aby upewnić się, że cechy, opisy i tytuły aktualizują się poprawnie po wybraniu kombinacji.
+```html
+<dt class="name">Cecha</dt><dd class="value">Wartość</dd>
+```
 
-### 2.3 Tabela szybkiego odniesienia do konfiguracji
+Wskaż element `<dl>`, w którym te wiersze już są. W motywie Classic jest to `dl.data-sheet`, więc wartość domyślna jest właściwa. Wskazanie większego bloku, na przykład `.product-features` albo `#product-details`, podmienia całą zawartość tego bloku na pary `<dt>` / `<dd>`.
 
-| Ekran / Widok | Ustawienie / Opcja | Domyślne / Zalecane | Cel i wpływ |
-| --- | --- | --- | --- |
-| Konfiguracja modułu | Włącz funkcje dla kombinacji | Włączone | Główny przełącznik dla funkcji kombinacji. |
-| Konfiguracja modułu | Klasa CSS karty danych | `.product-features` (zależne od motywu) | Selektor CSS określający, gdzie wyświetlane są cechy kombinacji. |
-| Konfiguracja modułu | Przepływ pracy | Zastąp | Jak cechy kombinacji współdziałają z głównymi cechami produktu (dołącz lub zastąp). |
-| Konfiguracja modułu | Włącz opisy dla kombinacji | Włączone | Główny przełącznik dla opisów kombinacji. |
-| Konfiguracja modułu | Klasa CSS / ID obiektu opisu | `#product-description-short` (zależne od motywu) | Selektor CSS określający, gdzie wyświetlane są opisy kombinacji. |
-| Konfiguracja modułu | Włącz meta tytuł dla kombinacji | Włączone | Główny przełącznik dla meta tytułów kombinacji. |
-| Konfiguracja modułu | Domyślny tryb tytułu | Nazwa produktu + nazwa kombinacji | Jak generowane są meta tytuły, jeśli nie są jawnie ustawione. |
-| Konfiguracja modułu | Separator tytułu | `-` | Znak używany do oddzielania części meta tytułu. |
-| Strona edycji produktu > Zakładka Moduły | Przypisz cechy dla kombinacji | N/A | Przypisz unikalne cechy i wartości do każdej kombinacji. |
-| Strona edycji produktu > Zakładka Moduły | Opis kombinacji | N/A | Wprowadź unikalny opis w formacie rich text dla każdej kombinacji. |
-| Strona edycji produktu > Zakładka Moduły | Meta tytuł kombinacji | N/A | Wprowadź unikalny meta tytuł dla każdej kombinacji. |
+Gdy selektor niczego nie znajdzie, a wybrana kombinacja ma cechy, moduł podmienia całą zawartość `#product-details` na nową sekcję specyfikacji. Znika wtedy indeks, marka i wszystko inne, co było w `#product-details`. Ustaw selektor tak, żeby ten zapasowy wariant się nie uruchamiał.
 
-## 3. Rozwiązywanie problemów dla sprzedawców i często zadawane pytania (FAQ)
+### 4.3 Tryb działania
 
-**P: Moje cechy/opisy kombinacji nie wyświetlają się na stronie produktu.**
-O:
+Klucz: `combfeat_workflow`. Domyślnie: **Zastąp istniejące cechy produktu** (wartość `0`).
 
-1. **Sprawdź konfigurację modułu:** Upewnij się, że „Włącz funkcje dla kombinacji” i/lub „Włącz opisy dla kombinacji” są włączone w konfiguracji modułu.
-2. **Zweryfikuj selektory CSS:** Ustawienia „Klasa CSS karty danych” i „Klasa CSS / ID obiektu opisu” są kluczowe. Muszą one dokładnie odpowiadać klasie CSS lub ID elementów w Twoim motywie, gdzie wyświetlane są cechy/opis. Użyj narzędzi deweloperskich przeglądarki (F12), aby sprawdzić stronę produktu i znaleźć prawidłowe selektory. W razie wątpliwości skonsultuj się z deweloperem motywu.
-3. **Wyczyść pamięć podręczną PrestaShop:** Przejdź do **Zaawansowane > Wydajność** i kliknij „Wyczyść pamięć podręczną”. Czasami stare, buforowane treści uniemożliwiają wyświetlanie nowych danych modułu.
-4. **Sprawdź ustawienia produktu:** Upewnij się, że faktycznie przypisałeś cechy/opisy do konkretnych kombinacji na stronie edycji produktu w zakładce „Moduły”.
+| Opcja | Wartość | Specyfikacja po wybraniu kombinacji |
+| --- | --- | --- |
+| **Zastąp istniejące cechy produktu** | `0` | Cechy kombinacji zastępują specyfikację. Gdy kombinacja nie ma cech, z powrotem trafiają cechy samego produktu. |
+| **Dołącz do istniejącej listy cech produktu** | `1` | Najpierw zostają cechy produktu. Cechy kombinacji są dopisywane za nimi. Gdy kombinacja nie ma cech, widać tylko cechy produktu. |
 
-**P: Cechy/opisy kombinacji pojawiają się, ale wyglądają na niestylizowane lub nie na miejscu.**
-O: Jest to zazwyczaj konflikt CSS z Twoim motywem.
+Ta sama wartość cechy na produkcie i na kombinacji w trybie **Dołącz** pojawia się dwa razy. Moduł nie usuwa duplikatów.
 
-1. **Sprawdź narzędziami przeglądarki:** Użyj F12, aby zobaczyć, jakie reguły CSS są stosowane do danych wyjściowych modułu.
-2. **Dostosuj klasę CSS:** Jeśli dane wyjściowe modułu są opakowane w ogólny `div`, może być konieczne dostosowanie „Klasy CSS karty danych” lub „Klasy CSS / ID obiektu opisu” do bardziej specyficznego kontenera, który Twój motyw już stylizuje.
-3. **Niestandardowy CSS:** Może być konieczne dodanie niestandardowego CSS do arkusza stylów Twojego motywu (lub za pośrednictwem modułu niestandardowego CSS), aby ostylować cechy/opisy kombinacji tak, aby pasowały do wyglądu Twojego motywu.
+Jedna cecha może mieć kilka wartości. Każda wartość to osobny wiersz. Kolejność wynika z pozycji cechy w katalogu.
 
-**P: Moje meta tytuły kombinacji nie zmieniają się w zakładce przeglądarki.**
-O:
+**Tryb działania zmienia tylko specyfikację.** Opis jest zawsze podmieniany, w obu trybach. Patrz [Opis](#64-opis).
 
-1. **Włącz ustawienie:** Upewnij się, że „Włącz meta tytuł dla kombinacji” jest włączone w konfiguracji modułu.
-2. **Ustaw tytuły:** Upewnij się, że wprowadziłeś konkretne meta tytuły dla swoich kombinacji na stronie edycji produktu.
-3. **Zachowanie przeglądarki:** Niektóre przeglądarki mogą nie aktualizować natychmiast tytułu zakładki dla już otwartych zakładek. Spróbuj otworzyć stronę produktu w nowej zakładce lub wyczyść pamięć podręczną przeglądarki.
-4. **Implikacje SEO:** Chociaż moduł aktualizuje tytuł po stronie klienta, aby wyszukiwarki mogły pobrać te tytuły specyficzne dla kombinacji, muszą być w stanie indeksować dynamicznie generowane treści. Upewnij się, że Twoja witryna jest możliwa do indeksowania i rozważ, czy te dynamiczne tytuły są naprawdę korzystne dla Twojej strategii SEO w porównaniu ze statycznymi tytułami produktów.
+Skrypt w sklepie wynika z tego ustawienia: `views/js/combfeat.js` dla zastępowania, `views/js/combfeat-append.js` dla dołączania.
 
-**P: Czy mogę używać tego modułu w sklepach wielojęzycznych?**
-O: Tak, moduł w pełni obsługuje wiele języków. Podczas edycji cech, opisów lub meta tytułów kombinacji na stronie produktu zobaczysz standardowy selektor języka PrestaShop, umożliwiający wprowadzenie treści dla każdego języka.
+### 4.4 Filter combination features in Faceted Search
 
-## 4. Przewodnik dla programistów i webmasterów (Architektura techniczna i mapa kodu)
+Klucz: `combfeat_faceted`. Domyślnie: **Enabled**.
 
-### 4.1 Przegląd architektury
+Etykieta na ekranie jest po angielsku: **Filter combination features in Faceted Search**. Tego napisu nie ma jeszcze w plikach tłumaczeń modułu. Opis pod przełącznikiem też jest po angielsku: wartości cech, które są tylko na kombinacjach, pojawiają się w `ps_facetedsearch`, a licznik obejmuje produkt, gdy wartość jest na produkcie albo na dowolnej kombinacji. Cechę trzeba dodać do szablonu Faceted Search. Lista cech produktu się nie zmienia.
 
-Moduł „Funkcje kombinacji produktów” (`combfeat`) rozszerza podstawowe zarządzanie produktami PrestaShop, wstrzykując niestandardowe pola i logikę do strony edycji produktu w Panelu administracyjnym oraz dynamicznie aktualizując zawartość Front Office w oparciu o wybrane kombinacje produktów. Wykorzystuje system hooków PrestaShop do bezproblemowej integracji bez modyfikowania plików rdzenia. Moduł działa głównie za pośrednictwem JavaScriptu na Front Office w celu dynamicznych aktualizacji oraz PHP na Back Office w celu konfiguracji i zarządzania danymi. Nie wprowadza nowych tabel bazy danych, ale przechowuje swoje dane w istniejących strukturach PrestaShop (prawdopodobnie `ps_product_attribute_feature` dla cech i `ps_product_attribute_lang` dla opisów/tytułów lub `ps_configuration` dla ustawień modułu).
+Gdy `ps_facetedsearch` jest zainstalowany i przełącznik jest włączony:
 
-### 4.2 Kontrolery (`controllers/`)
+- W filtrach kategorii mogą pojawić się wartości, które istnieją tylko na kombinacjach.
+- Produkt jest liczony, gdy wartość jest na produkcie **albo na dowolnej jego kombinacji**. Filtr nie zależy od kombinacji, którą klient wybierze później. Jeden produkt liczy się raz, nawet jeśli wartość ma kilka kombinacji.
+- Cechę i tak dodajesz do szablonu nawigacji fasetowej. Moduł nie edytuje szablonów.
+- Lista cech na karcie produktu w katalogu zostaje bez zmian.
 
-Ten moduł nie używa dedykowanych kontrolerów Front Office ani Back Office. Jego logika wyświetlania i zapisywania danych kombinacji jest zintegrowana bezpośrednio z głównym plikiem modułu `combfeat.php` i za pośrednictwem JavaScriptu.
+Po zapisaniu cech kombinacji albo po imporcie CSV moduł opróżnia pamięć bloków nawigacji fasetowej (`layered_filter_block`), żeby filtry zbudowały się od nowa.
 
-### 4.3 Klasy rdzenia i modele (`classes/`)
+Szczegóły zmiany pliku: [Adapter nawigacji fasetowej](#32-adapter-nawigacji-fasetowej) i [Nawigacja fasetowa](#7-nawigacja-fasetowa).
 
-Ten moduł nie definiuje niestandardowych klas w katalogu `classes/`. Jego podstawowa logika znajduje się w głównym pliku `combfeat.php`, bezpośrednio wchodząc w interakcje z `ObjectModel` PrestaShop `Product` i `Combination` (ProductAttribute).
+### 4.5 Włącz opisy dla kombinacji
 
-### 4.4 Zasoby JavaScript (`views/js/`)
+Klucz: `combfeat_p_desc`. Domyślnie: **Włączone**.
 
-- **`combfeat/views/js/acplt.js`**
+W angielskim źródle etykieta to **Turn on descriptionsfor combinations** (brak spacji przed „for”). Polskie tłumaczenie to **Włącz opisy dla kombinacji**.
 
-  - **Zakres:** Prawdopodobnie Back Office (strona produktu w panelu administracyjnym).
-  - **Odpowiedzialność:** Ten skrypt wydaje się być niestandardową biblioteką autouzupełniania lub komponentem używanym do wybierania cech i ich wartości dla kombinacji. Obsługiwałby żądania AJAX w celu pobrania dostępnych cech i wartości oraz zarządzał interfejsem użytkownika do ich dodawania/usuwania z kombinacji.
-  - **Kluczowe interakcje:** Słuchacze zdarzeń dla pól wejściowych, wywołania AJAX do hooka modułu lub kontrolera administracyjnego w celu pobrania danych, manipulacja DOM w celu wyświetlania sugestii i wybranych elementów.
-- **`combfeat/views/js/admin-combfeat.js`**
+Gdy opcja jest włączona, każda kombinacja ma zakładkę **Opis** z polem tekstu sformatowanego dla każdego języka sklepu.
 
-  - **Zakres:** Back Office (strona produktu w panelu administracyjnym, zakładka „Moduły”).
-  - **Odpowiedzialność:** Jest to główny skrypt dla funkcjonalności modułu na stronie edycji produktu w Panelu administracyjnym PrestaShop. Inicjuje pola cech, opisów i meta tytułów kombinacji. Prawdopodobnie nasłuchuje zmian w wyborze kombinacji (jeśli takie są) i zarządza wyświetlaniem i zapisywaniem danych dla każdej kombinacji.
-  - **Kluczowe interakcje:** Manipulacja DOM w celu wstrzyknięcia niestandardowych pól, słuchacze zdarzeń dla zmian wejściowych, potencjalnie wywołania AJAX w celu zapisania danych specyficznych dla kombinacji.
-- **`combfeat/views/js/combfeat-append.js`**
+Gdy jest wyłączona, zakładki nie ma, a zapis produktu nie zmienia zapisanych opisów. Jeśli cechy nadal są włączone, skrypt w sklepie i tak działa i pokaże opis zapisany wcześniej. Wyczyść pola opisu, zapisz produkt i dopiero wtedy wyłącz przełącznik, jeśli sklep ma przestać z nich korzystać.
 
-  - **Zakres:** Front Office (strona produktu).
-  - **Odpowiedzialność:** Ten skrypt jest przeznaczony specjalnie dla opcji przepływu pracy „Dołącz”. Po wybraniu kombinacji dynamicznie pobiera i *dodaje* cechy specyficzne dla kombinacji do istniejących cech produktu na Front Office.
-  - **Kluczowe interakcje:** Nasłuchuje zdarzeń `updateProduct` lub podobnych (wyzwalanych przez wybór kombinacji), wywołania AJAX w celu pobrania danych kombinacji, manipulacja DOM w celu dołączenia cech do elementu określonego przez `combfeat_ds`.
-- **`combfeat/views/js/combfeat-title.js`**
+### 4.6 Opis klasy CSS / ID obiektu
 
-  - **Zakres:** Front Office (strona produktu).
-  - **Odpowiedzialność:** Ten skrypt obsługuje dynamiczną aktualizację meta tytułu przeglądarki w oparciu o wybraną kombinację produktu.
-  - **Kluczowe interakcje:** Nasłuchuje zdarzeń `updateProduct` lub podobnych, pobiera meta tytuł kombinacji (niestandardowy lub wygenerowany na podstawie ustawień modułu) i aktualizuje `document.title`.
-- **`combfeat/views/js/combfeat.js`**
+Klucz: `combfeat_description`. Domyślnie: `#description`.
 
-  - **Zakres:** Front Office (strona produktu).
-  - **Odpowiedzialność:** Jest to główny skrypt Front Office dla modułu. Koordynuje dynamiczne wyświetlanie cech i opisów specyficznych dla kombinacji. Prawdopodobnie nasłuchuje zmian w kombinacjach produktów (np. wybór atrybutu) i wyzwala aktualizacje odpowiednich elementów DOM. Ten skrypt obsługiwałby przepływ pracy „Zastąp” dla cech i aktualizację opisu.
-  - **Kluczowe interakcje:** Nasłuchuje zdarzeń `updateProduct` lub podobnych (np. `prestashop.on('updatedProduct', ...) `), wywołania AJAX w celu pobrania danych kombinacji, manipulacja DOM w celu aktualizacji elementów określonych przez `combfeat_ds` i `combfeat_description`.
+Selektor jQuery bloku, którego HTML zastępuje opis kombinacji. W motywie Classic `#description` to zakładka długiego opisu, więc wartość domyślna trafia w ten blok.
 
-### 4.5 Arkusze stylów CSS (`views/css/`)
+Gdy selektor niczego nie znajdzie, opis na stronie zostaje bez zmian.
 
-- **`combfeat/views/css/combfeat.css`**
-  - **Zakres:** Zarówno Front Office, jak i Back Office.
-  - **Odpowiedzialność:** Zapewnia podstawowe style dla wstrzykniętych elementów modułu. Może to obejmować stylizację pól wejściowych cech/opisów kombinacji w Back Office lub dynamicznie aktualizowanych bloków cech/opisów w Front Office.
-  - **Kluczowe selektory klas CSS:** Prawdopodobnie celuje w klasy używane przez szablony i JavaScript modułu, takie jak `.combfeat-feature-list`, `.combfeat-description-wrapper` lub specyficzne style dla komponentu autouzupełniania. Programiści mogą potrzebować nadpisać je w pliku `custom.css` lub `theme.css` swojego motywu w celu idealnej integracji.
+Tekst używany, gdy kombinacja nie ma własnego opisu, to **długi opis** produktu (`description`) w bieżącym języku. To nie jest krótki opis i nie jest to meta opis. Jeśli wskażesz tym selektorem blok krótkiego opisu, kombinacja bez własnego tekstu wypełni ten blok długim opisem.
 
-### 4.6 Struktura szablonów Smarty (`views/templates/`)
+### 4.7 Włącz meta tytuł dla kombinacji
 
-- **`combfeat/views/templates/admin/combfeat.tpl`**
+Klucz: `combfeat_p_title`. Domyślnie: **Włączone**.
 
-  - **Zakres:** Szablon administracyjny.
-  - **Odpowiedzialność:** Ten szablon renderuje niestandardową sekcję w zakładce „Moduły” na stronie edycji produktu w Panelu administracyjnym. Wyświetla interfejs do zarządzania cechami, opisami i meta tytułami specyficznymi dla kombinacji. Prawdopodobnie iteruje przez wszystkie kombinacje produktów i udostępnia pola wejściowe dla każdej z nich.
-  - **Kluczowe elementy:** Pętle dla kombinacji, pola wejściowe do wyboru cech (prawdopodobnie za pomocą komponentu `acplt.js`), edytor tekstu sformatowanego dla opisów, pole tekstowe dla meta tytułów.
-- **`combfeat/views/templates/hook/product-details.tpl`**
+Gdy opcja jest włączona, karta produktu ładuje `views/js/combfeat-title.js`. Wybór kombinacji aktualizuje `document.title` oraz, jeśli jest, `<meta property="og:title">`.
 
-  - **Zakres:** Szablon hooka Front Office.
-  - **Odpowiedzialność:** Ten szablon jest prawdopodobnie podłączony do `displayProductAdditionalInfo` lub podobnych hooków w celu renderowania cech i/lub opisu specyficznych dla kombinacji na stronie produktu w Front Office. Zapewnia strukturę HTML, którą `combfeat.js` i `combfeat-append.js` będą dynamicznie wypełniać i aktualizować.
-  - **Kluczowe elementy:** Placeholdery (np. puste `div`y z określonymi ID lub klasami), w których cechy i opisy kombinacji zostaną wstrzyknięte przez JavaScript.
+Tytuł w HTML wysłanym przez serwer zostaje meta tytułem produktu. Odwiedzający widzą tytuł kombinacji po uruchomieniu JavaScriptu. Robot, który nie uruchamia JavaScriptu, zostaje przy tytule produktu.
 
-### 4.7 Schemat bazy danych i mapa hooków
+Gdy opcja jest wyłączona, zakładka **Meta tytuł** jest ukryta, skrypt się nie ładuje, a zapis produktu nie zmienia zapisanych tytułów.
 
-- **Tabele bazy danych**:
+### 4.8 Domyślny tryb tytułu
 
-  - Moduł nie tworzy nowych niestandardowych tabel. Prawdopodobnie przechowuje cechy specyficzne dla kombinacji, rozszerzając relację `ps_product_attribute_feature` lub podobną, oraz opisy/meta tytuły kombinacji w `ps_product_attribute_lang` lub podobnej strukturze, kojarząc je z `id_product_attribute` i `id_lang`.
-  - Ustawienia konfiguracji modułu (`combfeat_ds`, `combfeat_description` itp.) są przechowywane w tabeli `ps_configuration`.
-- **Tabela zarejestrowanych hooków**:
+Klucz: `combfeat_title_default`. Domyślnie: **Dodaj nazwę atrybutu i wartość (oddzielone przecinkami)** (wartość `1`).
 
-| Nazwa hooka | Zakres | Czas wykonania | Cel techniczny |
-| --- | --- | --- | --- |
-| `displayHeader` | Front Office | W sekcji `<head>` wszystkich stron Front Office. | Rejestruje zasoby CSS i JS Front Office (`combfeat.css`, `combfeat.js`, `combfeat-append.js`, `combfeat-title.js`). |
-| `DisplayHeader` | Front Office | Alias dla `displayHeader`. | To samo co `displayHeader`. |
-| `displayProductAdditionalInfo` | Front Office | Na stronie produktu, zazwyczaj poniżej głównych informacji o produkcie. | Renderuje szablon `product-details.tpl`, zapewniając placeholder dla cech/opisów kombinacji. |
-| `ActionAdminControllerSetMedia` | Back Office | Gdy kontroler administracyjny jest ładowany i jego zasoby multimedialne są ustawiane. | Rejestruje zasoby CSS i JS Back Office (`combfeat.css`, `acplt.js`, `admin-combfeat.js`) dla strony edycji produktu. |
-| `ActionProductUpdate` | Back Office | Po zaktualizowaniu produktu (w tym kombinacji). | Potencjalnie używane do zapisywania lub synchronizowania danych specyficznych dla kombinacji po przesłaniu formularza produktu. |
-| `actionProductUpdate` | Back Office | Alias dla `ActionProductUpdate`. | To samo co `ActionProductUpdate`. |
-| `displayAdminProductsExtra` | Back Office | Na stronie edycji produktu, zazwyczaj jako nowa zakładka lub sekcja. | Renderuje szablon `admin/combfeat.tpl`, tworząc sekcję „Funkcje kombinacji produktów” w zakładce „Moduły”. |
-| `DisplayAdminProductsExtra` | Back Office | Alias dla `displayAdminProductsExtra`. | To samo co `displayAdminProductsExtra`. |
+Używany tylko wtedy, gdy ta kombinacja nie ma **Pełnego tytułu** ani **Dołącz do tytułu** w bieżącym języku.
 
-## 5. Oficjalne wsparcie i aktualizacje
+Tytuł wyjściowy to tytuł przeglądarki zapamiętany przy pierwszym załadowaniu strony. Późniejsze zmiany nie zapamiętują go ponownie, więc dopisywane fragmenty się nie kumulują.
 
-Aby uzyskać najnowsze aktualizacje, poprawki błędów i oficjalne wsparcie dla modułu „Funkcje kombinacji produktów”, zapoznaj się ze swoim kontem klienta na [MyPresta.eu](https://mypresta.eu/my-account/orders/). Nasz zespół wsparcia jest dostępny, aby pomóc w przypadku wszelkich problemów lub pytań dotyczących funkcjonalności i integracji modułu.
+| Opcja | Wartość | Wynik |
+| --- | --- | --- |
+| **Domyślnie nie zmieniaj tytułu** | `0` | Zostaje pierwotny tytuł dokumentu. |
+| **Dodaj nazwę atrybutu i wartość (oddzielone przecinkami)** | `1` | Tytuł pierwotny, separator, potem grupy i wartości, na przykład `Kolor: Czerwony, Rozmiar: M`. |
+| **Dodaj tylko wartości atrybutów (oddzielone przecinkami)** | `2` | Tytuł pierwotny, separator, potem same wartości, na przykład `Czerwony, M`. |
+
+Nazwy grup i wartości pochodzą z bieżącego języka sklepu.
+
+### 4.9 Separator tytułu
+
+Klucz: `combfeat_title_separator`. Domyślnie: ` - ` (spacja, dywiz, spacja).
+
+Wstawiany między pierwotny tytuł dokumentu a dodawaną część. Dodawaną częścią jest albo tekst trybu domyślnego, albo pole **Dołącz do tytułu** kombinacji. Separator jest używany tak, jak został zapisany, razem ze spacjami.
+
+**Pełny tytuł** nie używa separatora. Sam zastępuje tytuł dokumentu.
+
+Gdy pierwotny tytuł jest pusty, zostaje sama dodawana część.
+
+### 4.10 Szybkie zestawienie ustawień
+
+| Ustawienie | Klucz | Domyślnie |
+| --- | --- | --- |
+| Włącz cechy dla kombinacji | `combfeat_p_feat` | Włączone (`1`) |
+| Klasa CSS specyfikacji | `combfeat_ds` | `.data-sheet` |
+| Tryb działania | `combfeat_workflow` | Zastąp (`0`) |
+| Filter combination features in Faceted Search | `combfeat_faceted` | Włączone (`1`) |
+| Włącz opisy dla kombinacji | `combfeat_p_desc` | Włączone (`1`) |
+| Opis klasy CSS / ID obiektu | `combfeat_description` | `#description` |
+| Włącz meta tytuł dla kombinacji | `combfeat_p_title` | Włączone (`1`) |
+| Domyślny tryb tytułu | `combfeat_title_default` | Nazwa atrybutu i wartość (`1`) |
+| Separator tytułu | `combfeat_title_separator` | ` - ` |
+
+## 5. Import cech kombinacji
+
+Drugi formularz na stronie konfiguracji. Te etykiety są na razie angielskimi napisami źródłowymi w każdym języku (nie ma ich w plikach tłumaczeń modułu).
+
+Import przypisuje wartości cech do kombinacji. Nie importuje opisów ani tytułów i nie zapisuje wierszy na liście cech produktu (`feature_product`). Brakująca cecha albo brakująca wartość jest tworzona w katalogu.
+
+### 5.1 Import mode
+
+| Tryb | Działanie |
+| --- | --- |
+| **Append to combination features** (domyślny) | Zostawia przypisania już zapisane. Wiersz, który już jest na tej kombinacji, jest pomijany. |
+| **Replace features of listed combinations** | Dla każdej kombinacji, która jest w pliku, kasuje cechy tej kombinacji w module, a potem zapisuje wiersze z pliku. Kombinacje spoza pliku zostają. Opisy i tytuły nie są kasowane. |
+
+### 5.2 Zasady pliku
+
+- UTF-8, rozszerzenie `.csv` albo `.txt`. Początkowy BOM jest akceptowany. Maksymalny rozmiar **8 MB**.
+- Separator jest wykrywany z wiersza nagłówka: średnik, przecinek albo tabulator. Gdy żadnego z nich nie ma, używany jest średnik.
+- Nagłówek musi wskazać kombinację przez `id_product_attribute` albo `combination_reference`.
+- Nagłówek musi wskazać cechę przez `feature` i `value` albo przez `id_feature_value`.
+- Puste wiersze są pomijane. Wypisanych jest najwyżej 30 błędów wierszy. Reszta jest tylko liczona.
+
+Przyjmowane nazwy kolumn (spacje i dywizy stają się podkreśleniami, wielkość liter jest ignorowana):
+
+| Kolumna | Również przyjmowane |
+| --- | --- |
+| `id_product` | `product_id` |
+| `id_product_attribute` | `id_combination`, `combination_id` |
+| `product_reference` | — |
+| `combination_reference` | `combination_ref`, `attribute_reference` |
+| `feature` | `feature_name`, `id_feature` |
+| `value` | `feature_value` |
+| `id_feature_value` | `feature_value_id` |
+
+`id_product` i `product_reference` są opcjonalne. Gdy je wypełnisz, muszą należeć do tej kombinacji. Niezgodność odrzuca wiersz.
+
+Szukanie kombinacji:
+
+- `id_product_attribute` jest używane, gdy jest większe od zera. Gdy podane są i ID, i `combination_reference`, referencja musi zgadzać się z tym wierszem.
+- W przeciwnym razie używana jest referencja kombinacji. Gdy kilka kombinacji ma tę samą, dodaj `id_product` albo `id_product_attribute`. Komunikat: Combination reference matches more than one combination.
+
+Szukanie wartości cechy:
+
+- `id_feature_value` większe od zera wczytuje tę wartość. Komórki nazwy i wartości cechy są ignorowane.
+- W przeciwnym razie `feature` i `value` są wymagane. Komórka cechy złożona z samych cyfr to ID cechy.
+- Nazwy są dopasowywane dokładnie, a potem bez względu na wielkość liter. Gdy pasuje więcej niż jedna cecha albo wartość, wiersz jest odrzucany. Moduł niczego nie zgaduje.
+- Cecha, której nie ma, jest tworzona. Jej nazwa jest kopiowana do każdego języka sklepu. Maksymalna długość 128.
+- Wartość, której nie ma, jest tworzona jako zwykła (nie niestandardowa), z tym samym tekstem w każdym języku. Maksymalna długość 255. Potem popraw języki w **Katalog > Atrybuty i cechy**, jeśli mają się różnić.
+
+**Download sample file** wysyła `import/combfeat-features-sample.csv`:
+
+```csv
+id_product;id_product_attribute;product_reference;combination_reference;feature;value;id_feature_value
+12;45;DEMO-1;DEMO-1-RED;Material;Cotton;
+12;46;DEMO-1;DEMO-1-BLUE;Material;Wool;
+;;DEMO-2;DEMO-2-XL;Composition;100% cotton;
+10;25;;;;;83
+```
+
+Kolejne wiersze tego przykładu oznaczają:
+
+1. Kombinacja 45 produktu 12, referencje muszą się zgadzać, cecha Material / Cotton (utworzona, jeśli jej nie ma).
+2. Kombinacja 46 produktu 12, Material / Wool.
+3. Kombinacja o referencji `DEMO-2-XL` produktu o referencji `DEMO-2`, cecha Composition / 100% cotton. Bez numerycznych ID.
+4. Kombinacja 25 produktu 10, istniejąca wartość cechy 83. Nazwa i wartość cechy są puste.
+
+Po udanym imporcie pamięć bloków nawigacji fasetowej jest czyszczona. Potwierdzenie podaje, ile przypisań zapisano, ile już było i które wiersze się nie udały.
+
+## 6. Zawartość kombinacji przy produkcie
+
+**Katalog > Produkty**, edycja produktu, zakładka **Moduły**. Tytuł bloku: **Zawartość kombinacji**. Podtytuł: **Cechy, opisy i meta tytuły dla danej kombinacji**.
+
+Najpierw utwórz kombinacje (zakładka **Kombinacje** produktu). Gdy produkt ich nie ma, blok o tym informuje i nie ma czego edytować.
+
+### 6.1 Lista
+
+- **Rozwiń wszystko** / **Zwiń wszystko**.
+- **Filtruj kombinacje…** dopasowuje nazwę kombinacji, ID kombinacji i referencję kombinacji.
+- Każdy wiersz pokazuje zdjęcie kombinacji (albo symbol zastępczy), nazwy atrybutów, **Combination ID**, **Reference** (gdy kombinacja ma referencję) oraz znaczniki. Znaczniki **Cechy**, **Opis** i **Tytuł** zapalają się, gdy ta część jest wypełniona. Znacznik cech podaje liczbę wartości. Napisy Combination ID i Reference są angielskim źródłem. Nie ma ich w tłumaczeniu.
+- Pierwsza kombinacja jest otwarta. **Konfiguruj** otwiera wiersz, **Zamknij** go zwija.
+- W wierszu są zakładki odpowiadające włączonym opcjom: **Cechy**, **Opis**, **Meta tytuł**.
+
+Gdy wszystkie trzy przełączniki są wyłączone, blok pokazuje: Wszystkie opcje kombinacji są wyłączone. Włącz cechy, opisy lub tytuły w konfiguracji modułu.
+
+### 6.2 Cechy
+
+Tekst pomocy: Wyszukaj i dołącz wartości cech używane dla tej kombinacji na stronie produktu.
+
+Wpisz co najmniej **2 znaki** nazwy cechy albo wartości, w bieżącym języku pracownika. Pojawia się do 20 trafień, opisanych jako `Cecha: wartość`. Wybór dodaje token. Wyszukiwanie znajduje tylko wartości, które już istnieją. Utwórz je w katalogu albo importem CSV.
+
+Tej samej wartości nie dodasz drugi raz. Kilka wartości tej samej cechy można. **×** usuwa token. Usunięcie zapisuje się razem z produktem.
+
+### 6.3 Opis
+
+Jedno pole tekstu sformatowanego na język. Lista języków jest widoczna, gdy sklep ma więcej niż jeden język. Pusty HTML oznacza brak opisu: w sklepie wraca długi opis produktu, a przy zapisie wiersz tego języka jest kasowany.
+
+### 6.4 Meta tytuł
+
+Oba pola są osobno dla każdego języka, po 512 znaków. Puste pole pomija to nadpisanie.
+
+| Pole | Efekt w sklepie |
+| --- | --- |
+| **Pełny tytuł (zastępuje cały tytuł)** | Zastępuje cały tytuł dokumentu. Separator i tryb domyślny nie są używane. Gdy oba pola są wypełnione, wygrywa to. |
+| **Dołącz do tytułu (fragment dodawany na końcu)** | Pierwotny tytuł dokumentu, separator, potem ten fragment. Używane, gdy Pełny tytuł jest pusty. |
+
+Gdy oba są puste, działa [Domyślny tryb tytułu](#48-domyslny-tryb-tytulu).
+
+### 6.5 Zapis
+
+Zmiany zapisują się razem z produktem. Użyj przycisku **Zapisz** produktu (w tym zapisu z podglądem, zależnie od wersji PrestaShop). W bloku nie ma osobnego zapisu.
+
+Przy zapisie moduł:
+
+1. Kasuje wszystkie wiersze cech kombinacji tego produktu i wstawia tokeny z formularza.
+2. Dla każdego języka zapisuje albo kasuje opis.
+3. Dla każdego języka zapisuje wiersz tytułu albo kasuje go, gdy oba pola tytułu są puste.
+4. Czyści pamięć bloków nawigacji fasetowej, gdy ta opcja jest włączona.
+
+Formularz wysyła ukryte pole `combfeat_submitted`. Gdy tego pola nie ma, moduł nie rusza danych. W PrestaShop 8 i 9 zależy to od zmiany Twig z [punktu 3.1](#31-zakladka-moduly-produktu-w-prestashop-8-i-9).
+
+Usunięcie kombinacji w PrestaShop nie kasuje jej wierszy w tym module. Wiersze nie są używane, bo kombinacji już nie ma. Cechy znikają przy zapisie produktu (formularz wysyła tylko bieżące kombinacje). Wiersze opisu i tytułu usuniętej kombinacji zostają, dopóki nie usuniesz ich z bazy.
+
+## 7. Sklep
+
+Skrypty są dodawane tylko na karcie produktu, tylko gdy żądanie nie jest ajaxowym odświeżeniem całego kontrolera, tylko gdy produkt ma kombinacje i tylko gdy włączony jest co najmniej jeden z trzech przełączników.
+
+| Przełącznik | Skrypt |
+| --- | --- |
+| Cechy albo opisy, tryb Zastąp | `views/js/combfeat.js` |
+| Cechy albo opisy, tryb Dołącz | `views/js/combfeat-append.js` |
+| Meta tytuł | `views/js/combfeat-title.js` |
+
+Przy zmianie kombinacji nie ma dodatkowego żądania. Dane wszystkich kombinacji są wstawione w stronę dla **bieżącego języka**. Skrypt czyta wybraną kombinację z atrybutu `data-product` elementu `#product-details` (`id_product_attribute`) i uruchamia się ponownie przy zdarzeniu `updatedProduct`.
+
+`displayProductAdditionalInfo` wypisuje też ukryty element `#product-details-combfeat` z kombinacją ustaloną dla pierwszego widoku (grupy atrybutów z adresu, `id_product_attribute` z żądania albo kombinacja domyślna). Niedostępne kombinacje idą za ustawieniem stanu magazynowego i opcją **Wyświetl niedostępne atrybuty**. Ukryty element jest używany tylko wtedy, gdy samego `#product-details` nie ma. Motyw, który zostawia `#product-details`, musi mieć na tym elemencie `data-product`. Tak jest w standardowym szablonie produktu.
+
+Moduł nie ładuje arkusza CSS do sklepu. Nowe `<dt class="name">` i `<dd class="value">` biorą style specyfikacji z motywu.
+
+### 7.1 Cechy i opisy używają jednego skryptu
+
+`combfeat.js` i `combfeat-append.js` aktualizują specyfikację **oraz** opis, gdy tylko są załadowane. Nie sprawdzają ponownie obu przełączników.
+
+- Cechy włączone, opisy wyłączone: opis zapisany wcześniej nadal jest stosowany, dopóki go nie wyczyścisz i nie zapiszesz.
+- Opisy włączone, cechy wyłączone: cechy, które nadal są w bazie, nadal są stosowane. Zapis produktu przy wyłączonych cechach te zapisane cechy kasuje. Patrz [Włącz cechy](#41-wlacz-cechy-dla-kombinacji).
+
+Skrypt tytułu jest osobny i działa tylko przy włączonym tytule.
+
+### 7.2 Specyfikacja
+
+Tryby Zastąp i Dołącz są opisane przy [Trybie działania](#43-tryb-dzialania). Przy każdym uruchomieniu moduł buduje wiersze od nowa. Dodatkowy kod, który motyw miał wewnątrz specyfikacji (linki, dodatkowe klasy wartości), nie zostaje.
+
+### 7.3 Opis
+
+Gdy kombinacja ma opis w bieżącym języku, ten HTML zastępuje zawartość selektora opisu. W przeciwnym razie zastępuje ją długi opis produktu. Tryb Dołącz nie dopisuje tekstu opisu.
+
+### 7.4 Tytuł
+
+Kolejność dla wybranej kombinacji, w bieżącym języku:
+
+1. **Pełny tytuł**, gdy nie jest pusty.
+2. W przeciwnym razie **Dołącz do tytułu**, połączone [separatorem](#49-separator-tytulu).
+3. W przeciwnym razie [domyślny tryb tytułu](#48-domyslny-tryb-tytulu).
+
+`og:title` dostaje ten sam tekst, gdy taki znacznik istnieje.
+
+## 8. Nawigacja fasetowa
+
+Przy włączonej opcji filtry kategorii czytają widok, który łączy:
+
+- `feature_product` — cechy przypisane do produktu;
+- `combfeat` — aktywne cechy przypisane do kombinacji, połączone z `feature_value`, żeby uzyskać ID cechy.
+
+Przebuduj indeks nawigacji fasetowej albo wyczyść pamięć podręczną PrestaShop, jeśli filtr zostaje nieaktualny po usunięciu ostrzeżenia na stronie konfiguracji. Zapis cech kombinacji i import CSV już opróżniają `layered_filter_block`.
+
+Karta produktu w sklepie nadal pokazuje cechy produktu z PrestaShop, dopóki nie zadziała skrypt tego modułu. Filtr i specyfikacja to dwa różne źródła.
+
+## 9. Aktualizacje MyPresta
+
+Panel pod formularzami:
+
+| Kontrolka | Działanie |
+| --- | --- |
+| **Sprawdź teraz** | Łączy się z MyPresta i pokazuje **Dostępna nowa wersja!** albo **Moduł jest aktualny!** |
+| **Powiadomienia o aktualizacjach** | **Włącz** pokazuje w panelu ostrzeżenie, gdy jest nowsza wersja, z linkiem do dziennika zmian. **Wyłącz** ukrywa to ostrzeżenie. |
+| **Strona modułu** | Otwiera stronę dodatku: [Product combination features](https://mypresta.eu/modules/front-office-features/product-combination-features.html) |
+
+Gdy pracownik jest w panelu, moduł odpytuje serwer aktualizacji najwyżej raz na 3 dni. Sprawdzenie wymaga `allow_url_fopen`. Gdy jest niedostępne, zostaje zainstalowana wersja i nowsza nie jest zgłaszana.
+
+## 10. Rozwiązywanie problemów
+
+**Blok w zakładce Moduły jest pusty w PrestaShop 8 lub 9.**  
+Sprawdź, czy `modules-content.html.twig` zawiera `{{ module.content|raw }}` i czy sklep mógł zapisać ten plik. Otwórz ponownie konfigurację modułu, żeby zmiana została ponowiona. Potem wyczyść pamięć podręczną Symfony (**Zaawansowane > Wydajność**).
+
+**Specyfikacja się nie zmienia.**  
+Produkt musi mieć kombinacje, przełącznik cech musi być włączony albo cechy muszą już być zapisane, a kombinacja musi mieć co najmniej jedną wartość (w trybie Zastąp kombinacja bez wartości przywraca cechy produktu, co wygląda jak brak reakcji). Sprawdź selektor w konsoli przeglądarki: `document.querySelectorAll('.data-sheet')`, podstawiając swój selektor. Motyw musi aktualizować `data-product` na `#product-details` i wysyłać `updatedProduct`.
+
+**Cały blok product-details został zastąpiony krótką listą cech.**  
+Selektor specyfikacji niczego nie znalazł. Ustaw go na prawdziwy `<dl>`, zwykle `.data-sheet`.
+
+**Opis się nie zmienia albo krótki opis został zastąpiony długim.**  
+Domyślny selektor `#description` to w Classic długi opis. Tekst zapasowy jest zawsze długim opisem. W **Opis klasy CSS / ID obiektu** wskaż element, który ma się zmieniać.
+
+**Wyłączyłem opisy, a stary tekst nadal widać.**  
+Wyczyść pola, zapisz produkt, potem wyłącz przełącznik. Albo wyłącz też cechy, żeby żaden z tych skryptów się nie ładował. Pamiętaj, że wyłączenie cech i zapis kasuje zapisane cechy kombinacji.
+
+**Wyłączyłem cechy i po zapisie produktu cechy kombinacji zniknęły.**  
+Tak działa zapis, gdy pól cech nie ma w formularzu. Włącz przełącznik z powrotem przed edycją, jeśli dane są jeszcze potrzebne. Zaimportuj CSV ponownie, jeśli masz plik.
+
+**Tytuł karty przeglądarki się nie zmienia.**  
+Włącz przełącznik tytułu. Pusty Pełny tytuł i puste Dołącz do tytułu razem oznaczają tryb domyślny. Tryb **Domyślnie nie zmieniaj tytułu** zostawia tytuł bez zmian. Zmiana jest po stronie przeglądarki: otwórz stronę, zmień kombinację i odczytaj tytuł karty. Źródło HTML nadal ma meta tytuł produktu.
+
+**Cechy brakuje w filtrze kategorii.**  
+Włącz **Filter combination features in Faceted Search**, dodaj cechę do szablonu nawigacji fasetowej i przeczytaj ostrzeżenie na stronie konfiguracji modułu. Plik adaptera musi dać się zapisać. Wartość musi być zapisana na produkcie albo na kombinacji.
+
+**Błędy wierszy CSV.**
+
+| Komunikat | Przyczyna |
+| --- | --- |
+| The CSV must contain id_product_attribute or combination_reference | Nagłówek nie wskazuje kombinacji |
+| The CSV must contain feature and value, or id_feature_value | Nagłówek nie wskazuje wartości cechy |
+| Combination was not found | ID albo referencja nie istnieje |
+| Product ID does not match this combination | `id_product` jest wypełnione i wskazuje inny produkt |
+| Product reference does not match this combination | `product_reference` się nie zgadza |
+| Combination reference does not match this combination ID | ID i referencja są wypełnione i są sprzeczne |
+| Combination reference matches more than one combination | Dodaj `id_product` albo `id_product_attribute` |
+| Feature name or value matches more than one | Dwa wpisy w katalogu mają tę samą etykietę. Użyj `id_feature_value` |
+| Feature and value are required when id_feature_value is empty | Komórka nazwy albo wartości jest pusta |
+| The CSV file is larger than 8 MB | Podziel plik |
+
+**Wiele języków.**  
+Opisy i oba pola tytułu są zapisywane osobno dla każdego języka. Wartości cech używają tłumaczenia cechy PrestaShop w języku odwiedzającego. Samo przypisanie nie jest osobne dla języka.
+
+## 11. Opis techniczny
+
+### 11.1 Hooki
+
+| Hook | Kiedy | Co robi |
+| --- | --- | --- |
+| `actionAdminControllerSetMedia` | Panel, kontrolery `AdminProducts` i `AdminModules` | Ładuje `views/css/combfeat.css`, `views/js/acplt.js`, `views/js/admin-combfeat.js` oraz autouzupełnianie jQuery. Uzupełnia też konfigurację i integrację z nawigacją fasetową |
+| `displayAdminProductsExtra` | Edycja produktu, zakładka Moduły | Renderuje `views/templates/admin/combfeat.tpl` |
+| `actionProductUpdate` | Zapis produktu | Zapisuje cechy, opisy i tytuły, gdy jest `combfeat_submitted` |
+| `displayHeader` | Karta produktu, bez ajax | Wypisuje dane kombinacji dla bieżącego języka i dodaje skrypty sklepu |
+| `displayProductAdditionalInfo` | Karta produktu | Renderuje ukryty `views/templates/hook/product-details.tpl` |
+
+Rejestrowane przy instalacji: `actionProductUpdate`, `displayProductAdditionalInfo`, `displayAdminProductsExtra`, `actionAdminControllerSetMedia`, `displayHeader`.
+
+Strona konfiguracji obsługuje też wyszukiwanie cech. Żądanie z `ajax=1` i `q` zwraca trafienia JSON i kończy działanie. Edytor produktu woła ten adres przez `AdminModules` z `configure=combfeat`.
+
+### 11.2 Baza danych
+
+Prefiks to prefiks sklepu. Odinstalowanie **nie** usuwa tych tabel, więc treść kombinacji przeżywa odinstalowanie i jest na miejscu po ponownej instalacji (`CREATE TABLE IF NOT EXISTS`).
+
+`combfeat` — jeden wiersz na wartość cechy kombinacji:
+
+| Kolumna | Rola |
+| --- | --- |
+| `id_combfeat` | Klucz główny |
+| `id_product` | Produkt |
+| `id_product_attribute` | Kombinacja |
+| `id_feature_value` | Wartość cechy z katalogu |
+| `active` | `1`, gdy wiersz jest używany. Sklep i widok nawigacji fasetowej czytają aktywne wiersze |
+
+`combfeat_details` — opis, jeden wiersz na kombinację i język:
+
+| Kolumna | Rola |
+| --- | --- |
+| `id_combfeat` | Klucz główny |
+| `id_product`, `id_product_attribute`, `id_lang` | Cel |
+| `details` | HTML |
+| `active` | Zapisywane jako `1` |
+
+`combfeat_title` — tytuły, jeden wiersz na kombinację i język:
+
+| Kolumna | Rola |
+| --- | --- |
+| `id_combfeat` | Klucz główny |
+| `id_product`, `id_product_attribute`, `id_lang` | Cel |
+| `title_full` | Do 512 znaków. Zastępuje tytuł dokumentu |
+| `title_append` | Do 512 znaków. Dodawany po pierwotnym tytule |
+| `active` | Zapisywane jako `1` |
+
+`{prefix}combfeat_feature_product` — widok SQL, nie tabela, którą edytujesz. Suma `feature_product` i aktywnych wierszy `combfeat`. Wartość konfiguracji `COMBFEAT_FEATURE_VIEW` trzyma wersję widoku (`1`).
+
+Inne klucze konfiguracji: `update_combfeat` i `updatev_combfeat` (sprawdzanie aktualizacji), `mypresta_updates` (przełącznik powiadomień).
+
+### 11.3 Klasy PHP
+
+| Plik | Klasa | Rola |
+| --- | --- | --- |
+| `combfeat.php` | `combfeat` | Klasa modułu: instalacja, konfiguracja, hooki, dane edytora produktu, dane do sklepu |
+| `combfeat.php` | `combfeatUpdate` | Porównanie wersji i zapytanie do serwera aktualizacji |
+| `classes/CombfeatImporter.php` | `CombfeatImporter` | Parsowanie CSV, rozpoznanie kombinacji i cechy, pobranie przykładu |
+| `classes/CombfeatFacetedSearch.php` | `CombfeatFacetedSearch` | Widok, poprawka adaptera, przywrócenie, czyszczenie pamięci filtrów |
+| `models/cfeat.php` | `cfeat` | Wiersze `combfeat`. `getAllByProductId`, `getFeaturesStaticByIdProduct`, `assign`, `insertDatas`, kasowanie |
+| `models/cfeatdesc.php` | `cfeatdesc` | Wiersze `combfeat_details` |
+| `models/cfeattitle.php` | `cfeattitle` | Wiersze `combfeat_title`. `saveTitleRow` kasuje wiersz, gdy oba tytuły są puste |
+
+Katalogu `controllers/` nie ma.
+
+### 11.4 Zasoby i szablony
+
+| Plik | Gdzie | Rola |
+| --- | --- | --- |
+| `views/js/acplt.js` | Panel | Autouzupełnianie wyszukiwania cech |
+| `views/js/admin-combfeat.js` | Panel | Akordeon, filtr, zakładki, flagi języków, tokeny, odświeżenie TinyMCE, skopiowanie treści edytora przed zapisem produktu |
+| `views/css/combfeat.css` | Tylko panel | Układ bloku **Zawartość kombinacji** |
+| `views/js/combfeat.js` | Sklep, tryb Zastąp | Odbudowuje specyfikację i opis |
+| `views/js/combfeat-append.js` | Sklep, tryb Dołącz | To samo, z cechami produktu przed cechami kombinacji |
+| `views/js/combfeat-title.js` | Sklep | `document.title` i `og:title` |
+| `views/templates/admin/combfeat.tpl` | Zakładka Moduły produktu | Edytor |
+| `views/templates/hook/product-details.tpl` | Karta produktu | Ukryty `#product-details-combfeat` z `data-product` |
+| `import/combfeat-features-sample.csv` | Pobranie z konfiguracji | Przykład importu |
+
+### 11.5 Instalacja i odinstalowanie
+
+Instalacja tworzy trzy tabele, zapisuje domyślną konfigurację, rejestruje pięć hooków, wykonuje zmianę Twig i włącza integrację z nawigacją fasetową.
+
+`disable` przywraca adapter nawigacji fasetowej. `enable` dopisuje brakujące klucze konfiguracji i ponownie włącza integrację, gdy przełącznik nawigacji fasetowej jest włączony.
+
+Odinstalowanie przywraca adapter, usuwa widok, gdy nie jest już używany, i odinstalowuje moduł. Wiersze kombinacji w trzech tabelach zostają w bazie.
+
+## 12. Wsparcie
+
+Dziennik zmian i aktualizacje: [Product combination features na MyPresta.eu](https://mypresta.eu/modules/front-office-features/product-combination-features.html).
+
+Zamówienia i pomoc: [konto klienta MyPresta.eu](https://mypresta.eu/my-account/orders/). E-mail: support@mypresta.eu.

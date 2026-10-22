@@ -1,8 +1,8 @@
 ---
-title: "Funzionalità delle combinazioni di prodotto - Manuale del Commerciante e Guida alla Configurazione"
-description: "Manuale utente completo, guida alla configurazione schermata per schermata e riferimento per sviluppatori per il modulo PrestaShop 'Funzionalità delle combinazioni di prodotto' di MyPresta.eu."
+title: "Caratteristiche delle combinazioni - manuale del commerciante"
+description: "Manuale di configurazione e risoluzione problemi per chi ha già il modulo installato."
 sidebar:
-  label: "Funzionalità delle combinazioni di prodotto - Manuale del Commerciante e Guida alla Configurazione"
+  label: "Caratteristiche delle combinazioni - manuale del commerciante"
 ---
 
 > ⚠️ **Notice:** This is the documentazione ufficiale per il modulo PrestaShop.
@@ -12,252 +12,509 @@ sidebar:
 > ---
 
 
-# Funzionalità delle combinazioni di prodotto
-
-## 1. Requisiti e Compatibilità
+Nome tecnico: `combfeat`. Versione **1.4.0**. Nel back-office il modulo si chiama **Caratteristiche delle combinazioni**.
 
-- **Versioni PrestaShop supportate**: PrestaShop 1.7.x, 8.x, 9.x
-- **Compatibilità PHP**: PHP 7.1 - 8.5
-- **Requisiti di hosting**: Estensioni PHP standard (cURL, JSON, OpenSSL).
-
-## 2. Guida completa alla configurazione (ogni impostazione raggruppata per schermata)
-
-### 2.1 Pagina di configurazione del modulo (Back Office > Moduli > Configura)
-
-Questa è la schermata di configurazione principale per il modulo "Funzionalità delle combinazioni di prodotto". Puoi accedervi navigando su **Moduli > Gestione moduli**, cercando "Funzionalità delle combinazioni di prodotto" e facendo clic su "Configura".
-
-#### **Attiva le funzionalità per le combinazioni**
-
--   **Cosa fa questa impostazione:** Questo è l'interruttore principale per abilitare o disabilitare la funzionalità principale di assegnazione di funzionalità uniche alle combinazioni di prodotto.
--   **Effetto della modifica di questa impostazione:**
-    -   *Quando abilitato:* Vedrai una nuova sezione nelle tue pagine di modifica del prodotto (sotto la scheda "Moduli") dove puoi assegnare funzionalità specifiche e i loro valori a ogni combinazione. Quando i clienti selezionano una combinazione nel front office, la scheda tecnica del prodotto si aggiornerà dinamicamente per mostrare queste funzionalità specifiche della combinazione.
-    -   *Quando disabilitato:* La sezione di gestione delle funzionalità della combinazione non apparirà nelle pagine di modifica del prodotto e il front office tornerà a mostrare solo le funzionalità del prodotto principale, indipendentemente dalla combinazione selezionata.
--   **Valore consigliato:** **Abilitato** (se desideri utilizzare la funzione principale del modulo).
--   **Scenario / esempio del commerciante:** Se vendi magliette e desideri "Materiale: 100% Cotone" per la maglietta bianca e "Materiale: 50% Cotone, 50% Poliestere" per la maglietta grigia, *devi* abilitare questa opzione.
-
-#### **Classe CSS della scheda tecnica**
-
--   **Cosa fa questa impostazione:** Questo ti consente di specificare una classe CSS o un ID di elemento HTML che il modulo dovrebbe prendere di mira quando aggiorna la sezione delle funzionalità nella pagina del prodotto. Questo è fondamentale affinché il modulo identifichi correttamente dove visualizzare le funzionalità specifiche della combinazione nel tuo tema.
--   **Effetto della modifica di questa impostazione:**
-    -   *Quando impostato correttamente:* Il modulo troverà l'elemento specificato e inserirà o aggiornerà dinamicamente le funzionalità della combinazione al suo interno.
-    -   *Quando impostato in modo errato o lasciato vuoto:* Le funzionalità della combinazione potrebbero non apparire nel front office, o potrebbero apparire in una posizione inaspettata, poiché il modulo non saprà dove posizionarle.
--   **Valore consigliato:** Questo dipende interamente dal tuo tema PrestaShop. Una classe comune è `.product-features` o `.data-sheet`. Potrebbe essere necessario ispezionare l'HTML della pagina del tuo prodotto per trovare il selettore corretto. In caso di dubbi, consulta lo sviluppatore del tuo tema o un webmaster.
--   **Scenario / esempio del commerciante:** Il tuo tema visualizza le funzionalità del prodotto all'interno di un `div` con la classe `product-specifications`. Inseriresti `.product-specifications` qui.
-
-#### **Flusso di lavoro**
-
--   **Cosa fa questa impostazione:** Questo controlla come il modulo gestisce le funzionalità quando viene selezionata una combinazione.
--   **Effetto della modifica di questa impostazione:**
-    -   *Quando impostato su "Aggiungi":* Le funzionalità specifiche della combinazione verranno *aggiunte* alle funzionalità del prodotto principale. Quindi, vedrai sia le funzionalità generali del prodotto che le funzionalità uniche della combinazione.
-    -   *Quando impostato su "Sostituisci":* Le funzionalità specifiche della combinazione *sostituiranno* le funzionalità del prodotto principale. Verranno mostrate solo le funzionalità pertinenti alla combinazione selezionata.
--   **Valore consigliato:** **Sostituisci** per la maggior parte dei casi, poiché fornisce le informazioni più precise. Scegli "Aggiungi" se hai funzionalità generali che si applicano a tutte le combinazioni, più quelle specifiche.
--   **Scenario / esempio del commerciante:**
-    -   *Sostituisci:* Per un laptop, potresti voler che "Processore: i7", "RAM: 16GB" sostituiscano completamente "Processore: i5", "RAM: 8GB" quando un cliente seleziona la combinazione i7/16GB.
-    -   *Aggiungi:* Per una maglietta, potresti voler sempre mostrare "Marca: MyBrand" (funzionalità generale), ma poi *aggiungere* "Materiale: Cotone Biologico" quando viene scelta una combinazione specifica.
-
-#### **Attiva le descrizioni per le combinazioni**
-
--   **Cosa fa questa impostazione:** Questo abilita o disabilita la possibilità di assegnare descrizioni uniche a ogni combinazione di prodotto.
--   **Effetto della modifica di questa impostazione:**
-    -   *Quando abilitato:* Un nuovo campo apparirà nelle tue pagine di modifica del prodotto (sotto la scheda "Moduli") che ti consentirà di inserire una descrizione specifica per ogni combinazione. Quando i clienti selezionano una combinazione, questa descrizione sostituirà dinamicamente la descrizione del prodotto principale.
-    -   *Quando disabilitato:* Il campo di descrizione della combinazione non apparirà e il front office mostrerà sempre la descrizione del prodotto principale.
--   **Valore consigliato:** **Abilitato** (se hai bisogno di descrizioni specifiche della combinazione).
--   **Scenario / esempio del commerciante:** Vendi gioielli personalizzati. Un prodotto "Anello d'argento" potrebbe avere una combinazione "Incisione: Sì". Potresti usare una descrizione della combinazione per spiegare il processo di incisione e i limiti di caratteri, il che non è rilevante per la combinazione "Incisione: No".
-
-#### **Descrizione della classe CSS / ID oggetto**
-
--   **Cosa fa questa impostazione:** Simile alla "Classe CSS della scheda tecnica", questo indica al modulo quale elemento HTML nella pagina del tuo prodotto contiene la descrizione del prodotto principale che dovrebbe essere sostituita dalla descrizione specifica della combinazione.
--   **Effetto della modifica di questa impostazione:**
-    -   *Quando impostato correttamente:* Il modulo troverà l'elemento specificato e aggiornerà dinamicamente il suo contenuto con la descrizione della combinazione.
-    -   *Quando impostato in modo errato o lasciato vuoto:* La descrizione della combinazione potrebbe non apparire, o potrebbe apparire in un luogo inaspettato.
--   **Valore consigliato:** Questo dipende dal tuo tema. I selettori comuni sono `.product-description`, `#description_short` o `#product-description-short`. Dovrai ispezionare l'HTML della pagina del tuo prodotto.
--   **Scenario / esempio del commerciante:** Il tuo tema utilizza un `div` con l'ID `product-description-full` per la descrizione principale. Inseriresti `#product-description-full` qui.
-
-#### **Attiva il meta titolo per le combinazioni**
-
--   **Cosa fa questa impostazione:** Questo abilita o disabilita la possibilità di impostare un meta titolo unico per ogni combinazione di prodotto. Questo meta titolo è ciò che appare nella scheda del browser ed è utilizzato dai motori di ricerca.
--   **Effetto della modifica di questa impostazione:**
-    -   *Quando abilitato:* Un nuovo campo apparirà nelle tue pagine di modifica del prodotto (sotto la scheda "Moduli") che ti consentirà di inserire un meta titolo specifico per ogni combinazione. Quando un cliente seleziona una combinazione, il titolo della scheda del browser si aggiornerà dinamicamente.
-    -   *Quando disabilitato:* Il campo del meta titolo della combinazione non apparirà e la scheda del browser mostrerà sempre il meta titolo del prodotto principale.
--   **Valore consigliato:** **Abilitato** (se desideri migliorare la SEO per combinazioni specifiche o fornire titoli di schede del browser più chiari).
--   **Scenario / esempio del commerciante:** Per un prodotto "Smartphone", potresti avere una combinazione "Colore: Blu, Archiviazione: 128GB". Potresti impostare il suo meta titolo su "Smartphone Blu 128GB - [Nome del tuo negozio]" per una migliore visibilità sui motori di ricerca.
-
-#### **Modalità titolo predefinita**
-
--   **Cosa fa questa impostazione:** Questo definisce come viene costruito il meta titolo della combinazione se non ne imposti uno esplicitamente per una combinazione, o se desideri combinare il titolo del prodotto con gli attributi della combinazione.
--   **Effetto della modifica di questa impostazione:**
-    -   *Quando impostato su "Nome prodotto + nome combinazione":* Il meta titolo sarà il nome del prodotto principale seguito dai nomi degli attributi della combinazione selezionata (ad esempio, "T-Shirt - Rosso, Grande").
-    -   *Quando impostato su "Nome combinazione + nome prodotto":* Il meta titolo sarà i nomi degli attributi della combinazione selezionata seguiti dal nome del prodotto principale (ad esempio, "Rosso, Grande - T-Shirt").
-    -   *Quando impostato su "Nome combinazione":* Verranno utilizzati solo i nomi degli attributi della combinazione (ad esempio, "Rosso, Grande").
-    -   *Quando impostato su "Nome prodotto":* Il meta titolo sarà sempre il nome del prodotto principale, ignorando le combinazioni.
--   **Valore consigliato:** **"Nome prodotto + nome combinazione"** o **"Nome combinazione + nome prodotto"** per un buon equilibrio tra identità del prodotto e specificità della combinazione.
--   **Scenario / esempio del commerciante:** Vendi scarpe. Se un cliente seleziona "Taglia 10, Colore Nero" e viene scelto "Nome prodotto + nome combinazione", il titolo diventa "Scarpe da corsa - Taglia 10, Nero".
+## 1. Requisiti e compatibilità
 
-#### **Separatore del titolo**
+- **PrestaShop:** da 1.7.0.0 a 9.x (`ps_versions_compliancy` fino a 9.99.99).
+- **PHP:** la versione richiesta da quella versione di PrestaShop.
+- **Scheda prodotto:** il tema deve esporre la combinazione scelta nell’attributo `data-product` di `#product-details` (standard di PrestaShop) e lanciare l’evento `updatedProduct` al cambio degli attributi. Classic e i temi che ne derivano lo fanno.
+- **PrestaShop 8 e 9, scheda Moduli del prodotto:** il file `src/PrestaShopBundle/Resources/views/Admin/Sell/Catalog/Product/Blocks/modules-content.html.twig` deve essere scrivibile all’installazione o alla prima apertura della configurazione. Vedi la sezione 3.
+- **Navigazione a faccette (facoltativa):** `ps_facetedsearch` installato, permesso di creare una vista SQL e scrittura su `modules/ps_facetedsearch/src/Adapter/MySQL.php`.
+- **Controllo aggiornamenti (facoltativo):** `allow_url_fopen` perché il modulo possa chiamare `https://dev.mypresta.eu`.
 
--   **Cosa fa questa impostazione:** Questo ti consente di definire il carattere o la stringa utilizzati per separare le diverse parti del meta titolo generato dinamicamente (ad esempio, tra il nome del prodotto e il nome della combinazione).
--   **Effetto della modifica di questa impostazione:**
-    -   *Quando impostato su "-":* Il titolo potrebbe apparire come "Nome Prodotto - Combinazione".
-    -   *Quando impostato su "|":* Il titolo potrebbe apparire come "Nome Prodotto | Combinazione".
-    -   *Quando lasciato vuoto:* Le parti del titolo potrebbero unirsi senza un separatore chiaro.
--   **Valore consigliato:** **-** (trattino) o **|** (barra verticale) sono separatori comuni e chiari.
--   **Scenario / esempio del commerciante:** Se la tua modalità titolo predefinita è "Nome prodotto + nome combinazione" e il separatore è impostato su "|", un titolo potrebbe diventare "La mia fantastica T-Shirt | Rosso, Grande".
+## 2. Dove lavorare nel back-office
 
-### 2.2 Schermate di amministrazione dedicate e viste del controller
+| Luogo | Percorso | A cosa serve |
+| --- | --- | --- |
+| Configurazione del modulo | **Moduli > Gestore moduli**, cerca **Caratteristiche delle combinazioni**, **Configura** | Interruttori, selettori CSS, modalità titolo, navigazione a faccette, importazione CSV, aggiornamenti |
+| Contenuto della combinazione | **Catalogo > Prodotti**, modifica il prodotto, scheda **Moduli**, blocco **Contenuto della combinazione** | Caratteristiche, descrizione e titoli di ogni combinazione |
+| Catalogo caratteristiche | **Catalogo > Attributi e caratteristiche** (il nome dipende dalla versione di PrestaShop) | Creare caratteristiche e valori prima di assegnarli al prodotto. L’importazione CSV può creare quelli mancanti |
+| Modello della navigazione a faccette | Configurazione del modulo Navigazione a faccette | Aggiungere la caratteristica al modello dei filtri. Questo modulo non lo fa da solo |
 
-Questo modulo non crea schermate di amministrazione di alto livello dedicate. Si integra invece direttamente nella **Pagina di modifica del prodotto** esistente nel tuo Back Office di PrestaShop.
+Il modulo non ha una voce di menu propria e non ha un controller di negozio o di back-office.
 
--   **Nome schermata e posizione del menu:**
+## 3. File che il modulo modifica
 
-    -   Naviga su **Catalogo > Prodotti**.
-    -   Modifica un prodotto esistente o creane uno nuovo.
-    -   All'interno della pagina di modifica del prodotto, fai clic sulla scheda **"Moduli"**.
-    -   Troverai una nuova sezione intitolata **"Funzionalità delle combinazioni di prodotto"** (o simile, a seconda della versione/traduzioni del modulo).
--   **Azioni e impostazioni disponibili:**
+### 3.1 Scheda Moduli del prodotto in PrestaShop 8 e 9
 
-    -   All'interno di questa sezione, vedrai un elenco di tutte le combinazioni configurate per il prodotto corrente.
-    -   Per ogni combinazione, avrai campi per:
-        -   **Assegna funzionalità:** Puoi selezionare funzionalità esistenti e i loro valori, o persino creare nuovi valori di funzionalità, specificamente per quella combinazione. Il modulo supporta multi-funzionalità, il che significa che una combinazione può avere diversi valori per la stessa funzionalità (ad esempio, "Materiale: Cotone, Materiale: Spandex").
-        -   **Inserisci descrizione combinazione:** Sarà disponibile un editor di testo ricco (come l'editor di descrizione standard di PrestaShop) per inserire una descrizione unica per quella combinazione.
-        -   **Inserisci meta titolo combinazione:** Un campo di testo per inserire un meta titolo unico per quella combinazione.
-    -   **Salvataggio delle modifiche:** Ricorda di fare clic sul pulsante "Salva" principale per il prodotto per applicare tutte le modifiche specifiche della combinazione.
--   **Effetto delle modifiche:**
+All’installazione, e a ogni apertura della pagina di configurazione, il modulo modifica:
 
-    -   Qualsiasi funzionalità, descrizione o meta titolo impostato qui verrà archiviato nel database e visualizzato dinamicamente nella pagina del prodotto del front office quando la combinazione corrispondente viene selezionata da un cliente.
-    -   Se elimini una combinazione, anche le sue funzionalità, descrizioni e meta titoli associati verranno rimossi.
--   **Flusso di lavoro consigliato per la gestione quotidiana del negozio:**
+`src/PrestaShopBundle/Resources/views/Admin/Sell/Catalog/Product/Blocks/modules-content.html.twig`
 
-    1.  Innanzitutto, crea il tuo prodotto e le sue combinazioni come al solito in PrestaShop (sotto la scheda "Combinazioni").
-    2.  Una volta create le combinazioni, vai alla scheda **"Moduli"** nella pagina di modifica del prodotto.
-    3.  Per ogni combinazione, assegna attentamente le funzionalità pertinenti, scrivi una descrizione specifica e imposta un meta titolo ottimizzato.
-    4.  Salva il prodotto.
-    5.  Testa sempre nel front office per assicurarti che le funzionalità, le descrizioni e i titoli si aggiornino correttamente quando vengono selezionate le combinazioni.
+Sostituisce `{{ module.content|raw_purified }}` con `{{ module.content|raw }}`. La prima volta copia il file originale in `modules-content.html.twig.raw.bak` accanto.
 
-### 2.3 Tabella di riferimento rapido della configurazione
+PrestaShop 8 e 9 depurano l’HTML stampato dai moduli nella scheda prodotto. Senza questa modifica l’editor **Contenuto della combinazione** è vuoto oppure i suoi campi non partono con il salvataggio del prodotto. In PrestaShop 1.7 quel file Twig non esiste. Il modulo salta la modifica.
 
-| Schermata / Vista | Impostazione / Opzione | Predefinito / Consigliato | Scopo e impatto |
-| --- | --- | --- | --- |
-| Configurazione modulo | Attiva le funzionalità per le combinazioni | Abilitato | Interruttore principale per le funzionalità delle combinazioni. |
-| Configurazione modulo | Classe CSS della scheda tecnica | `.product-features` (dipendente dal tema) | Selettore CSS per dove vengono visualizzate le funzionalità della combinazione. |
-| Configurazione modulo | Flusso di lavoro | Sostituisci | Come le funzionalità della combinazione interagiscono con le funzionalità del prodotto principale (aggiungi o sostituisci). |
-| Configurazione modulo | Attiva le descrizioni per le combinazioni | Abilitato | Interruttore principale per le descrizioni delle combinazioni. |
-| Configurazione modulo | Descrizione della classe CSS / ID oggetto | `#product-description-short` (dipendente dal tema) | Selettore CSS per dove vengono visualizzate le descrizioni delle combinazioni. |
-| Configurazione modulo | Attiva il meta titolo per le combinazioni | Abilitato | Interruttore principale per i meta titoli delle combinazioni. |
-| Configurazione modulo | Modalità titolo predefinita | Nome prodotto + nome combinazione | Come vengono generati i meta titoli se non impostati esplicitamente. |
-| Configurazione modulo | Separatore del titolo | `-` | Carattere utilizzato per separare le parti del meta titolo. |
-| Pagina di modifica prodotto > Scheda Moduli | Assegna funzionalità per combinazione | N/A | Assegna funzionalità e valori unici a ogni combinazione. |
-| Pagina di modifica prodotto > Scheda Moduli | Descrizione combinazione | N/A | Inserisci una descrizione unica in formato rich text per ogni combinazione. |
-| Pagina di modifica prodotto > Scheda Moduli | Meta titolo combinazione | N/A | Inserisci un meta titolo unico per ogni combinazione. |
+Se il file non si può leggere o scrivere, il modulo non mostra un errore. Controlla i permessi se la scheda Moduli resta vuota.
 
-## 3. Risoluzione dei problemi del commerciante e domande frequenti (FAQ)
+### 3.2 Adattatore della navigazione a faccette
 
-**D: Le mie funzionalità/descrizioni delle combinazioni non vengono visualizzate nella pagina del prodotto.**
-R:
+Con **Filter combination features in Faceted Search** attivo (valore predefinito), il modulo crea la vista SQL `{prefix}combfeat_feature_product` e punta `modules/ps_facetedsearch/src/Adapter/MySQL.php` a quella vista. La vista è l’elenco delle caratteristiche del prodotto più le caratteristiche attive delle combinazioni.
 
-1.  **Controlla la configurazione del modulo:** Assicurati che "Attiva le funzionalità per le combinazioni" e/o "Attiva le descrizioni per le combinazioni" siano abilitate nella configurazione del modulo.
-2.  **Verifica i selettori CSS:** Le impostazioni "Classe CSS della scheda tecnica" e "Descrizione della classe CSS / ID oggetto" sono cruciali. Devono corrispondere esattamente alla classe CSS o all'ID degli elementi nel tuo tema in cui vengono visualizzate le funzionalità/descrizione. Utilizza gli strumenti per sviluppatori del tuo browser (F12) per ispezionare la pagina del tuo prodotto e trovare i selettori corretti. In caso di dubbi, consulta lo sviluppatore del tuo tema.
-3.  **Svuota la cache di PrestaShop:** Vai su **Parametri avanzati > Prestazioni** e fai clic su "Svuota la cache". A volte, il vecchio contenuto memorizzato nella cache impedisce la visualizzazione del nuovo output del modulo.
-4.  **Controlla le impostazioni del prodotto:** Assicurati di aver effettivamente assegnato funzionalità/descrizioni alle combinazioni specifiche nella pagina di modifica del prodotto sotto la scheda "Moduli".
+Disattivare l’opzione, disattivare il modulo o disinstallarlo riscrive il sorgente originale dell’adattatore. La disinstallazione elimina anche la vista quando l’adattatore non la cita più.
 
-**D: Le funzionalità/descrizioni delle combinazioni appaiono, ma sembrano senza stile o fuori posto.**
-R: Questo è solitamente un conflitto CSS con il tuo tema.
+La pagina di configurazione mostra un avviso se la vista non si può creare, se il file dell’adattatore manca, non è leggibile, non è scrivibile, o non coincide con il sorgente Faceted Search atteso. I messaggi (in inglese nel modulo):
 
-1.  **Ispeziona con gli strumenti del browser:** Usa F12 per vedere quali regole CSS vengono applicate all'output del modulo.
-2.  **Regola la classe CSS:** Se l'output del modulo è racchiuso in un `div` generico, potrebbe essere necessario regolare la "Classe CSS della scheda tecnica" o "Descrizione della classe CSS / ID oggetto" a un contenitore più specifico che il tuo tema già stilizza.
-3.  **CSS personalizzato:** Potrebbe essere necessario aggiungere CSS personalizzato al foglio di stile del tuo tema (o tramite un modulo CSS personalizzato) per stilizzare le funzionalità/descrizioni delle combinazioni in modo che corrispondano all'aspetto del tuo tema.
+- Could not create the Faceted Search feature view. Combination features will not appear in category filters.
+- Faceted Search is installed, but its database adapter was not found. Combination features will not appear in category filters.
+- Faceted Search adapter could not be read. Combination features will not appear in category filters.
+- This Faceted Search version does not use the expected feature table. Combination features will not appear in category filters.
+- Faceted Search adapter is not writable. Make modules/ps_facetedsearch/src/Adapter/MySQL.php writable so combination features can be filtered.
+- Faceted Search adapter could not be updated. Combination features will not appear in category filters.
 
-**D: I meta titoli delle mie combinazioni non cambiano nella scheda del browser.**
-R:
+## 4. Configurazione del modulo
 
-1.  **Abilita l'impostazione:** Assicurati che "Attiva il meta titolo per le combinazioni" sia abilitato nella configurazione del modulo.
-2.  **Imposta i titoli:** Assicurati di aver inserito meta titoli specifici per le tue combinazioni nella pagina di modifica del prodotto.
-3.  **Comportamento del browser:** Alcuni browser potrebbero non aggiornare immediatamente il titolo della scheda per le schede già aperte. Prova ad aprire la pagina del prodotto in una nuova scheda o a svuotare la cache del browser.
-4.  **Implicazioni SEO:** Sebbene il modulo aggiorni il titolo lato client, affinché i motori di ricerca possano rilevare questi titoli specifici della combinazione, devono essere in grado di eseguire la scansione e indicizzare il contenuto generato dinamicamente. Assicurati che il tuo sito sia scansionabile e considera se questi titoli dinamici sono veramente vantaggiosi per la tua strategia SEO rispetto ai titoli di prodotto statici.
+Apri **Configura**. Nella pagina ci sono due formulari, poi il pannello **Aggiornamenti MyPresta**. **Salva** nel formulario **Impostazioni** invia `submitCombfeatSettings`. **Import** invia `submitCombfeatImport`.
 
-**D: Posso usare questo modulo con negozi multi-lingua?**
-R: Sì, il modulo supporta completamente il multi-lingua. Quando modifichi le funzionalità, le descrizioni o i meta titoli delle combinazioni nella pagina del prodotto, vedrai il selettore di lingua standard di PrestaShop, che ti consentirà di inserire contenuti per ogni lingua.
+### 4.1 Attiva le caratteristiche per le combinazioni
 
-## 4. Guida per sviluppatori e webmaster (Architettura tecnica e mappa del codice)
+Chiave: `combfeat_p_feat`. Predefinito: **Abilitato**.
 
-### 4.1 Panoramica dell'architettura
+Se è attivo, ogni combinazione nella scheda **Moduli** del prodotto ha una scheda **Caratteristiche**. Lì si agganciano valori già esistenti.
 
-Il modulo "Funzionalità delle combinazioni di prodotto" (`combfeat`) estende la gestione dei prodotti di base di PrestaShop iniettando campi e logica personalizzati nella pagina di modifica del prodotto del Back Office e aggiornando dinamicamente il contenuto del Front Office in base alle combinazioni di prodotto selezionate. Sfrutta il sistema di hook di PrestaShop per integrarsi senza problemi senza modificare i file di base. Il modulo opera principalmente tramite JavaScript sul front-end per gli aggiornamenti dinamici e PHP sul back-end per la configurazione e la gestione dei dati. Non introduce nuove tabelle di database ma memorizza i suoi dati nelle strutture PrestaShop esistenti (probabilmente `ps_product_attribute_feature` per le funzionalità e `ps_product_attribute_lang` per descrizioni/titoli, o `ps_configuration` per le impostazioni del modulo).
+Se è disattivo, quella scheda è nascosta. Lo script del negozio è un altro punto: caratteristiche e descrizioni le aggiorna lo stesso script, descritto nella sezione 6.
 
-### 4.2 Controller (`controllers/`)
+**Salvare un prodotto con questo interruttore spento cancella le caratteristiche di combinazione di quel prodotto.** Il formulario del prodotto non contiene più i campi delle caratteristiche. Un salvataggio svuota le righe delle caratteristiche del modulo per il prodotto e riscrive solo ciò che il formulario ha inviato. Descrizioni e titoli restano. Riattiva l’opzione prima di modificare il prodotto se quelle caratteristiche devono restare.
 
-Questo modulo non utilizza controller Front-Office o Back-Office Admin dedicati. La sua logica per la visualizzazione e il salvataggio dei dati delle combinazioni è integrata direttamente nel file principale del modulo `combfeat.php` e tramite JavaScript.
+### 4.2 Classe CSS della scheda tecnica
 
-### 4.3 Classi e modelli principali (`classes/`)
+Chiave: `combfeat_ds`. Predefinito: `.data-sheet`.
 
-Questo modulo non definisce classi personalizzate nella directory `classes/`. La sua logica principale è contenuta nel file principale `combfeat.php`, interagendo direttamente con gli `ObjectModel` `Product` e `Combination` (ProductAttribute) di PrestaShop.
+Un selettore jQuery. Il modulo sostituisce l’**HTML interno** dell’elemento trovato con coppie:
 
-### 4.4 Risorse JavaScript (`views/js/`)
+```html
+<dt class="name">Caratteristica</dt><dd class="value">Valore</dd>
+```
 
--   **`combfeat/views/js/acplt.js`**
+Punta al `<dl>` che contiene già quelle righe. Nel tema Classic è `dl.data-sheet`, quindi il valore predefinito è quello giusto. Un blocco più ampio, come `.product-features` o `#product-details`, viene sostituito per intero dalle coppie `<dt>` / `<dd>`.
 
-    -   **Ambito:** Probabilmente Back-office (pagina prodotto admin).
-    -   **Responsabilità:** Questo script sembra essere una libreria di completamento automatico personalizzata o un componente utilizzato per selezionare funzionalità e i loro valori per le combinazioni. Gestirebbe le richieste AJAX per recuperare le funzionalità e i valori disponibili e gestirebbe l'interfaccia utente per aggiungerli/rimuoverli da una combinazione.
-    -   **Interazioni chiave:** Listener di eventi per i campi di input, chiamate AJAX a un hook del modulo o a un controller admin per i dati, manipolazione del DOM per visualizzare suggerimenti e elementi selezionati.
--   **`combfeat/views/js/admin-combfeat.js`**
+Se il selettore non trova nulla e la combinazione scelta ha caratteristiche, il modulo sostituisce tutto il contenuto di `#product-details` con una nuova sezione di scheda tecnica. Spariscono riferimento, marca e il resto di ciò che stava in `#product-details`. Imposta il selettore in modo che questo ripiego non scatti.
 
-    -   **Ambito:** Back-office (pagina prodotto admin, scheda "Moduli").
-    -   **Responsabilità:** Questo è lo script principale per la funzionalità del modulo all'interno della pagina di modifica del prodotto del Back Office di PrestaShop. Inizializza i campi delle funzionalità, della descrizione e del meta titolo della combinazione. Probabilmente ascolta le modifiche nella selezione della combinazione (se presenti) e gestisce la visualizzazione e il salvataggio dei dati per ogni combinazione.
-    -   **Interazioni chiave:** Manipolazione del DOM per iniettare campi personalizzati, listener di eventi per le modifiche degli input, potenzialmente chiamate AJAX per salvare dati specifici della combinazione.
--   **`combfeat/views/js/combfeat-append.js`**
+### 4.3 Flusso di lavoro
 
-    -   **Ambito:** Front-office (pagina prodotto).
-    -   **Responsabilità:** Questo script è specifico per l'opzione del flusso di lavoro "Aggiungi". Quando viene selezionata una combinazione, recupera dinamicamente e *aggiunge* le funzionalità specifiche della combinazione alle funzionalità del prodotto esistenti sul front-end.
-    -   **Interazioni chiave:** Ascolta gli eventi `updateProduct` o simili (attivati dalla selezione della combinazione), chiamate AJAX per recuperare i dati della combinazione, manipolazione del DOM per aggiungere funzionalità all'elemento specificato da `combfeat_ds`.
--   **`combfeat/views/js/combfeat-title.js`**
+Chiave: `combfeat_workflow`. Predefinito: **Sostituisci le caratteristiche esistenti del prodotto** (valore `0`).
 
-    -   **Ambito:** Front-office (pagina prodotto).
-    -   **Responsabilità:** Questo script gestisce l'aggiornamento dinamico del meta titolo del browser in base alla combinazione di prodotto selezionata.
-    -   **Interazioni chiave:** Ascolta gli eventi `updateProduct` o simili, recupera il meta titolo della combinazione (personalizzato o generato in base alle impostazioni del modulo) e aggiorna `document.title`.
--   **`combfeat/views/js/combfeat.js`**
+| Opzione | Valore | Scheda tecnica dopo la scelta di una combinazione |
+| --- | --- | --- |
+| **Sostituisci le caratteristiche esistenti del prodotto** | `0` | Le caratteristiche della combinazione sostituiscono la scheda tecnica. Se la combinazione non ne ha, vengono riscritte quelle del prodotto. |
+| **Aggiungi alla lista esistente delle caratteristiche del prodotto** | `1` | Le caratteristiche del prodotto restano per prime. Quelle della combinazione seguono. Se la combinazione non ne ha, si vedono solo quelle del prodotto. |
 
-    -   **Ambito:** Front-office (pagina prodotto).
-    -   **Responsabilità:** Questo è lo script principale del front-office per il modulo. Orchesta la visualizzazione dinamica delle funzionalità e delle descrizioni specifiche della combinazione. Probabilmente ascolta le modifiche nelle combinazioni di prodotto (ad esempio, la selezione degli attributi) e attiva gli aggiornamenti agli elementi DOM pertinenti. Questo script gestirebbe il flusso di lavoro "Sostituisci" per le funzionalità e l'aggiornamento della descrizione.
-    -   **Interazioni chiave:** Ascolta gli eventi `updateProduct` o simili (ad esempio, `prestashop.on('updatedProduct', ...) `), chiamate AJAX per recuperare i dati della combinazione, manipolazione del DOM per aggiornare gli elementi specificati da `combfeat_ds` e `combfeat_description`.
+Lo stesso valore sul prodotto e sulla combinazione compare due volte nella modalità **Aggiungi**. Il modulo non toglie i duplicati.
 
-### 4.5 Fogli di stile CSS (`views/css/`)
+Sono ammessi più valori della stessa caratteristica. Ogni valore è una riga. L’ordine segue la posizione della caratteristica nel catalogo.
 
--   **`combfeat/views/css/combfeat.css`**
-    -   **Ambito:** Sia Front-office che Back-office.
-    -   **Responsabilità:** Fornisce uno stile di base per gli elementi iniettati dal modulo. Questo potrebbe includere lo stile per i campi di input delle funzionalità/descrizioni delle combinazioni nel Back Office, o per i blocchi di funzionalità/descrizioni aggiornati dinamicamente nel Front Office.
-    -   **Selettori di classe CSS chiave:** Probabilmente si rivolge a classi utilizzate dai template e da JavaScript del modulo, come `.combfeat-feature-list`, `.combfeat-description-wrapper`, o stili specifici per il componente di completamento automatico. Gli sviluppatori potrebbero doverli sovrascrivere nel `custom.css` o `theme.css` del loro tema per una perfetta integrazione.
+**Il flusso di lavoro cambia solo la scheda tecnica.** La descrizione viene sempre sostituita, in entrambe le modalità. Vedi la sezione 6.4.
 
-### 4.6 Struttura del template Smarty (`views/templates/`)
+Lo script del negozio dipende da questa impostazione: `views/js/combfeat.js` per Sostituisci, `views/js/combfeat-append.js` per Aggiungi.
 
--   **`combfeat/views/templates/admin/combfeat.tpl`**
+### 4.4 Filter combination features in Faceted Search
 
-    -   **Ambito:** Template admin.
-    -   **Responsabilità:** Questo template renderizza la sezione personalizzata all'interno della scheda "Moduli" nella pagina di modifica del prodotto nel Back Office. Visualizza l'interfaccia per la gestione delle funzionalità, delle descrizioni e dei meta titoli specifici della combinazione. Probabilmente itera attraverso tutte le combinazioni di prodotto e fornisce campi di input per ciascuna.
-    -   **Elementi chiave:** Cicli per le combinazioni, campi di input per la selezione delle funzionalità (possibilmente utilizzando il componente `acplt.js`), editor di testo ricco per le descrizioni, input di testo per i meta titoli.
--   **`combfeat/views/templates/hook/product-details.tpl`**
+Chiave: `combfeat_faceted`. Predefinito: **Enabled**.
 
-    -   **Ambito:** Template hook del Front-office.
-    -   **Responsabilità:** Questo template è probabilmente agganciato a `displayProductAdditionalInfo` o hook simili per renderizzare le funzionalità e/o la descrizione specifiche della combinazione nella pagina del prodotto del front office. Fornisce la struttura HTML che `combfeat.js` e `combfeat-append.js` popoleranno e aggiorneranno dinamicamente.
-    -   **Elementi chiave:** Segnaposto (ad esempio, `div` vuoti con ID o classi specifici) dove le funzionalità e le descrizioni della combinazione verranno iniettate da JavaScript.
+L’etichetta a schermo è in inglese: **Filter combination features in Faceted Search**. Quel testo non è ancora nei file di traduzione del modulo. Anche il testo di aiuto è in inglese: i valori che esistono solo sulle combinazioni compaiono in `ps_facetedsearch`, e un prodotto viene contato se il valore è sul prodotto o su una qualsiasi combinazione. La caratteristica va aggiunta al modello Faceted Search. L’elenco delle caratteristiche del prodotto non cambia.
 
-### 4.7 Schema del database e mappa degli hook
+Con `ps_facetedsearch` installato e l’interruttore attivo:
 
--   **Tabelle del database**:
+- Nei filtri di categoria possono comparire valori che esistono solo sulle combinazioni.
+- Un prodotto viene contato se il valore è sul prodotto **o su una qualsiasi delle sue combinazioni**. Il filtro non dipende dalla combinazione che il visitatore sceglierà dopo. Un prodotto conta una volta, anche se più combinazioni portano il valore.
+- La caratteristica va comunque aggiunta al modello della navigazione a faccette. Il modulo non modifica i modelli.
+- L’elenco delle caratteristiche nella scheda prodotto del catalogo resta com’è.
 
-    -   Il modulo non crea nuove tabelle personalizzate. Probabilmente memorizza le funzionalità specifiche della combinazione estendendo la relazione `ps_product_attribute_feature` o simile, e le descrizioni/meta titoli della combinazione in `ps_product_attribute_lang` o una struttura simile, associandoli a `id_product_attribute` e `id_lang`.
-    -   Le impostazioni di configurazione del modulo (`combfeat_ds`, `combfeat_description`, ecc.) sono memorizzate nella tabella `ps_configuration`.
--   **Tabella degli hook registrati**:
+Dopo il salvataggio delle caratteristiche di combinazione, o dopo un’importazione CSV, il modulo svuota la cache dei blocchi della navigazione a faccette (`layered_filter_block`) perché i filtri si ricostruiscano.
 
-| Nome dell'hook | Ambito | Tempistica di esecuzione | Scopo tecnico |
-| --- | --- | --- | --- |
-| `displayHeader` | Front-office | Nella sezione `<head>` di tutte le pagine del front-office. | Registra le risorse CSS e JS del front-office (`combfeat.css`, `combfeat.js`, `combfeat-append.js`, `combfeat-title.js`). |
-| `DisplayHeader` | Front-office | Alias per `displayHeader`. | Uguale a `displayHeader`. |
-| `displayProductAdditionalInfo` | Front-office | Nella pagina del prodotto, tipicamente sotto le informazioni principali del prodotto. | Renderizza il template `product-details.tpl`, fornendo un segnaposto per le funzionalità/descrizioni delle combinazioni. |
-| `ActionAdminControllerSetMedia` | Back-office | Quando un controller admin viene caricato e le sue risorse multimediali sono impostate. | Registra le risorse CSS e JS del back-office (`combfeat.css`, `acplt.js`, `admin-combfeat.js`) per la pagina di modifica del prodotto. |
-| `ActionProductUpdate` | Back-office | Dopo l'aggiornamento di un prodotto (incluse le combinazioni). | Potenzialmente utilizzato per salvare o sincronizzare i dati specifici della combinazione quando il modulo del prodotto viene inviato. |
-| `actionProductUpdate` | Back-office | Alias per `ActionProductUpdate`. | Uguale a `ActionProductUpdate`. |
-| `displayAdminProductsExtra` | Back-office | Nella pagina di modifica del prodotto, tipicamente come nuova scheda o sezione. | Renderizza il template `admin/combfeat.tpl`, creando la sezione "Funzionalità delle combinazioni di prodotto" sotto la scheda "Moduli". |
-| `DisplayAdminProductsExtra` | Back-office | Alias per `displayAdminProductsExtra`. | Uguale a `displayAdminProductsExtra`. |
+### 4.5 Attiva le descrizioni per le combinazioni
 
-## 5. Supporto ufficiale e aggiornamenti
+Chiave: `combfeat_p_desc`. Predefinito: **Abilitato**.
 
-Per gli ultimi aggiornamenti, correzioni di bug e supporto ufficiale per il modulo "Funzionalità delle combinazioni di prodotto", fai riferimento al tuo account cliente su [MyPresta.eu](https://mypresta.eu/my-account/orders/). Il nostro team di supporto è disponibile per assisterti con qualsiasi problema o domanda tu possa avere riguardo alla funzionalità e all'integrazione del modulo.
+Nel testo sorgente inglese l’etichetta è **Turn on descriptionsfor combinations** (manca lo spazio prima di «for»). La traduzione italiana è **Attiva le descrizioni per le combinazioni**.
+
+Se è attivo, ogni combinazione ha una scheda **Descrizione** con un campo di testo formattato per ogni lingua del negozio.
+
+Se è disattivo, quella scheda è nascosta e il salvataggio del prodotto non cambia le descrizioni già salvate. Se le caratteristiche restano attive, lo script del negozio gira ancora e applica una descrizione salvata prima. Svuota i campi, salva e solo dopo spegni l’interruttore se il negozio non deve più usarle.
+
+### 4.6 Descrizione della classe CSS / ID oggetto
+
+Chiave: `combfeat_description`. Predefinito: `#description`.
+
+Selettore jQuery del blocco il cui HTML viene sostituito dalla descrizione della combinazione. Nel tema Classic `#description` è la scheda della descrizione lunga, quindi il valore predefinito punta a quel blocco.
+
+Se il selettore non trova nulla, la descrizione nella pagina non viene toccata.
+
+Il testo usato quando una combinazione non ha una descrizione è la **descrizione lunga** del prodotto (`description`), nella lingua corrente. Non è la descrizione breve e non è la meta descrizione. Se questo selettore punta al blocco della descrizione breve, una combinazione senza testo proprio riempie quel blocco con la descrizione lunga.
+
+### 4.7 Attiva il meta titolo per le combinazioni
+
+Chiave: `combfeat_p_title`. Predefinito: **Abilitato**.
+
+Se è attivo, la scheda prodotto carica `views/js/combfeat-title.js`. Scegliere una combinazione aggiorna `document.title` e, se presente, `<meta property="og:title">`.
+
+Il titolo nell’HTML inviato dal server resta il meta titolo del prodotto. Il visitatore vede il titolo della combinazione dopo l’esecuzione di JavaScript. Un crawler che non esegue JavaScript tiene il titolo del prodotto.
+
+Se è disattivo, la scheda **Meta titolo** è nascosta, lo script non viene caricato e il salvataggio non cambia i titoli salvati.
+
+### 4.8 Modalità titolo predefinita
+
+Chiave: `combfeat_title_default`. Predefinito: **Aggiungi nome attributo e valore (separati da virgola)** (valore `1`).
+
+Si usa solo quando quella combinazione non ha **Titolo completo** né **Aggiungi al titolo** nella lingua corrente.
+
+Il titolo di partenza è il titolo del browser memorizzato al primo caricamento della pagina. I cambi successivi non lo memorizzano di nuovo, quindi i frammenti aggiunti non si accumulano.
+
+| Opzione | Valore | Risultato |
+| --- | --- | --- |
+| **Non modificare il titolo di default** | `0` | Resta il titolo di documento originale. |
+| **Aggiungi nome attributo e valore (separati da virgola)** | `1` | Titolo originale, poi il separatore, poi gruppi e valori, per esempio `Colore: Rosso, Taglia: M`. |
+| **Aggiungi solo i valori degli attributi (separati da virgola)** | `2` | Titolo originale, poi il separatore, poi solo i valori, per esempio `Rosso, M`. |
+
+Nomi dei gruppi e valori arrivano dalla lingua corrente del negozio.
+
+### 4.9 Separatore del titolo
+
+Chiave: `combfeat_title_separator`. Predefinito: ` - ` (spazio, trattino, spazio).
+
+Inserito tra il titolo di documento originale e la parte aggiunta. La parte aggiunta è il testo della modalità predefinita oppure **Aggiungi al titolo** della combinazione. Il separatore si usa come è stato salvato, spazi compresi.
+
+**Titolo completo** non usa il separatore. Sostituisce da solo il titolo del documento.
+
+Se il titolo originale è vuoto, si usa solo la parte aggiunta.
+
+### 4.10 Riepilogo delle impostazioni
+
+| Impostazione | Chiave | Predefinito |
+| --- | --- | --- |
+| Attiva le caratteristiche per le combinazioni | `combfeat_p_feat` | Abilitato (`1`) |
+| Classe CSS della scheda tecnica | `combfeat_ds` | `.data-sheet` |
+| Flusso di lavoro | `combfeat_workflow` | Sostituisci (`0`) |
+| Filter combination features in Faceted Search | `combfeat_faceted` | Abilitato (`1`) |
+| Attiva le descrizioni per le combinazioni | `combfeat_p_desc` | Abilitato (`1`) |
+| Descrizione della classe CSS / ID oggetto | `combfeat_description` | `#description` |
+| Attiva il meta titolo per le combinazioni | `combfeat_p_title` | Abilitato (`1`) |
+| Modalità titolo predefinita | `combfeat_title_default` | Nome attributo e valore (`1`) |
+| Separatore del titolo | `combfeat_title_separator` | ` - ` |
+
+## 5. Importazione delle caratteristiche di combinazione
+
+Secondo formulario della pagina di configurazione. Queste etichette sono per ora i testi sorgente inglesi in ogni lingua (non sono ancora nei file di traduzione).
+
+L’importazione assegna valori di caratteristiche alle combinazioni. Non importa descrizioni né titoli e non scrive righe nell’elenco delle caratteristiche del prodotto (`feature_product`). Una caratteristica o un valore mancante viene creato nel catalogo.
+
+### 5.1 Import mode
+
+| Modalità | Effetto |
+| --- | --- |
+| **Append to combination features** (predefinita) | Tiene le assegnazioni già salvate. Una riga già presente su quella combinazione viene saltata. |
+| **Replace features of listed combinations** | Per ogni combinazione presente nel file, cancella le caratteristiche di quella combinazione nel modulo e poi scrive le righe del file. Le combinazioni assenti dal file restano. Descrizioni e titoli non vengono cancellati. |
+
+### 5.2 Regole del file
+
+- UTF-8, estensione `.csv` o `.txt`. Un BOM iniziale è accettato. Dimensione massima **8 MB**.
+- Il separatore si rileva dalla riga di intestazione: punto e virgola, virgola o tabulazione. Se non compare nessuno, si usa il punto e virgola.
+- L’intestazione deve identificare la combinazione con `id_product_attribute` o `combination_reference`.
+- L’intestazione deve identificare la caratteristica con `feature` e `value`, oppure con `id_feature_value`.
+- Le righe vuote si saltano. Si elencano al massimo 30 errori di riga; il resto viene contato.
+
+Nomi di colonna accettati (spazi e trattini diventano trattini bassi, le maiuscole non contano):
+
+| Colonna | Accettato anche |
+| --- | --- |
+| `id_product` | `product_id` |
+| `id_product_attribute` | `id_combination`, `combination_id` |
+| `product_reference` | — |
+| `combination_reference` | `combination_ref`, `attribute_reference` |
+| `feature` | `feature_name`, `id_feature` |
+| `value` | `feature_value` |
+| `id_feature_value` | `feature_value_id` |
+
+`id_product` e `product_reference` sono facoltativi. Se li compili, devono appartenere a quella combinazione. Uno scostamento rifiuta la riga.
+
+Ricerca della combinazione:
+
+- `id_product_attribute` si usa quando è maggiore di zero. Se ID e `combination_reference` sono entrambi compilati, il riferimento deve coincidere con quella riga.
+- Altrimenti si usa il riferimento della combinazione. Se più combinazioni lo condividono, aggiungi `id_product` o `id_product_attribute`. Messaggio: Combination reference matches more than one combination.
+
+Ricerca del valore:
+
+- `id_feature_value` maggiore di zero carica quel valore. Le celle di nome e valore vengono ignorate.
+- Altrimenti `feature` e `value` sono obbligatori. Una cella di caratteristica fatta solo di cifre è un ID di caratteristica.
+- I nomi si cercano in modo esatto e poi senza distinzione di maiuscole. Se corrisponde più di una caratteristica o un valore, la riga viene rifiutata. Non si indovina nulla.
+- Una caratteristica che non esiste viene creata. Il suo nome viene copiato in ogni lingua del negozio. Lunghezza massima 128.
+- Un valore che non esiste viene creato come valore normale (non personalizzato), con lo stesso testo in ogni lingua. Lunghezza massima 255. Modifica poi **Catalogo > Attributi e caratteristiche** se le lingue devono avere testi diversi.
+
+**Download sample file** invia `import/combfeat-features-sample.csv`:
+
+```csv
+id_product;id_product_attribute;product_reference;combination_reference;feature;value;id_feature_value
+12;45;DEMO-1;DEMO-1-RED;Material;Cotton;
+12;46;DEMO-1;DEMO-1-BLUE;Material;Wool;
+;;DEMO-2;DEMO-2-XL;Composition;100% cotton;
+10;25;;;;;83
+```
+
+Le righe dell’esempio significano:
+
+1. Combinazione 45 del prodotto 12, i riferimenti devono coincidere, caratteristica Material / Cotton (creata se manca).
+2. Combinazione 46 del prodotto 12, Material / Wool.
+3. La combinazione il cui riferimento è `DEMO-2-XL` sul prodotto il cui riferimento è `DEMO-2`, caratteristica Composition / 100% cotton. Senza ID numerici.
+4. Combinazione 25 del prodotto 10, valore di caratteristica esistente 83. Nome e valore vuoti.
+
+Dopo un’importazione riuscita la cache dei blocchi della navigazione a faccette viene svuotata. La conferma indica quante assegnazioni sono state salvate, quante c’erano già e quali righe sono fallite.
+
+## 6. Contenuto della combinazione sul prodotto
+
+**Catalogo > Prodotti**, modifica il prodotto, scheda **Moduli**. Titolo del blocco: **Contenuto della combinazione**. Sottotitolo: **Caratteristiche, descrizioni e meta titoli per combinazione**.
+
+Crea prima le combinazioni (scheda **Combinazioni** del prodotto). Se il prodotto non ne ha, il blocco lo dice e non c’è nulla da modificare.
+
+### 6.1 L’elenco
+
+- **Espandi tutto** / **Riduci tutto**.
+- **Filtra combinazioni…** corrisponde al nome della combinazione, all’ID della combinazione e al riferimento della combinazione.
+- Ogni riga mostra l’immagine della combinazione (o un segnaposto), i nomi degli attributi, **Combination ID**, **Reference** quando la combinazione ne ha uno, e dei contrassegni. I contrassegni **Caratteristiche**, **Descrizione** e **Titolo** si accendono quando quella parte è compilata. Quello delle caratteristiche indica il numero di valori. Combination ID e Reference sono i testi sorgente inglesi.
+- La prima combinazione è aperta. **Configura** apre una riga, **Chiudi** la richiude.
+- Nella riga, le schede degli interruttori attivi: **Caratteristiche**, **Descrizione**, **Meta titolo**.
+
+Se i tre interruttori sono spenti, il blocco mostra: Tutte le opzioni di combinazione sono disabilitate. Abilita caratteristiche, descrizioni o titoli nella configurazione del modulo.
+
+### 6.2 Caratteristiche
+
+Testo di aiuto: Cerca e collega i valori delle caratteristiche usati per questa combinazione nella pagina del prodotto.
+
+Digita almeno **2 caratteri** del nome della caratteristica o del valore, nella lingua corrente del dipendente. Compaiono fino a 20 corrispondenze, etichettate `Caratteristica: valore`. Sceglierne una aggiunge un token. La ricerca trova solo valori che esistono già. Creali nel catalogo oppure con l’importazione CSV.
+
+Lo stesso valore non si può aggiungere due volte. Si possono aggiungere più valori della stessa caratteristica. **×** toglie un token. La rimozione si salva con il prodotto.
+
+### 6.3 Descrizione
+
+Un campo di testo formattato per lingua. L’elenco delle lingue compare quando il negozio ha più di una lingua. Un HTML vuoto significa nessuna descrizione: nel negozio torna la descrizione lunga del prodotto e, al salvataggio, la riga di quella lingua viene cancellata.
+
+### 6.4 Meta titolo
+
+Entrambi i campi sono per lingua, 512 caratteri ciascuno. Un campo vuoto salta quella sostituzione.
+
+| Campo | Effetto nel negozio |
+| --- | --- |
+| **Titolo completo (sovrascrive l intero titolo)** | Sostituisce tutto il titolo del documento. Separatore e modalità predefinita non si usano. Se entrambi i campi sono compilati, vince questo. |
+| **Aggiungi al titolo (frammento aggiunto alla fine)** | Titolo di documento originale, poi il separatore, poi questo frammento. Si usa quando il titolo completo è vuoto. |
+
+Se entrambi sono vuoti, vale la modalità titolo predefinita della sezione 4.8.
+
+### 6.5 Salvataggio
+
+Le modifiche si salvano con il prodotto. Usa il pulsante **Salva** del prodotto (compreso salva e anteprima, secondo la versione di PrestaShop). Nel blocco non c’è un salvataggio separato.
+
+Al salvataggio il modulo:
+
+1. Cancella ogni riga di caratteristiche di combinazione di questo prodotto e inserisce i token presenti nel formulario.
+2. Per ogni lingua salva o cancella la descrizione.
+3. Per ogni lingua salva la riga del titolo, o la cancella quando entrambi i campi titolo sono vuoti.
+4. Svuota la cache dei blocchi della navigazione a faccette se quell’opzione è attiva.
+
+Il formulario invia un campo nascosto `combfeat_submitted`. Se quel campo manca, il modulo non tocca i dati. In PrestaShop 8 e 9 questo dipende dalla modifica Twig della sezione 3.1.
+
+Cancellare una combinazione in PrestaShop non cancella le sue righe in questo modulo. Le righe non vengono usate perché la combinazione non esiste più. Le caratteristiche spariscono quando salvi il prodotto (il formulario invia solo le combinazioni attuali). Le righe di descrizione e titolo di una combinazione cancellata restano finché non le togli dal database.
+
+## 7. Negozio
+
+Gli script vengono aggiunti solo nella scheda prodotto, solo se la richiesta non è un aggiornamento ajax dell’intero controller, solo se il prodotto ha combinazioni e solo se almeno uno dei tre interruttori è attivo.
+
+| Interruttore | Script |
+| --- | --- |
+| Caratteristiche o descrizioni, flusso = Sostituisci | `views/js/combfeat.js` |
+| Caratteristiche o descrizioni, flusso = Aggiungi | `views/js/combfeat-append.js` |
+| Meta titolo | `views/js/combfeat-title.js` |
+
+Cambiare combinazione non fa un’altra richiesta. I dati di tutte le combinazioni sono stampati nella pagina per la **lingua corrente**. Lo script legge la combinazione scelta dall’attributo `data-product` di `#product-details` (`id_product_attribute`) e riparte sull’evento `updatedProduct`.
+
+`displayProductAdditionalInfo` stampa anche un elemento nascosto `#product-details-combfeat` con la combinazione risolta per la prima vista (gruppi di attributi dall’URL, `id_product_attribute` dalla richiesta, o la combinazione predefinita). Le combinazioni non disponibili seguono l’impostazione di magazzino di PrestaShop e **Mostra gli attributi non disponibili**. L’elemento nascosto si usa solo quando `#product-details` stesso manca. Un tema che tiene `#product-details` deve mettere `data-product` su quell’elemento. È così nel modello prodotto standard.
+
+Il modulo non carica un foglio di stile nel negozio. I nuovi `<dt class="name">` e `<dd class="value">` usano le regole della scheda tecnica del tema.
+
+### 7.1 Caratteristiche e descrizioni condividono uno script
+
+`combfeat.js` e `combfeat-append.js` aggiornano la scheda tecnica **e** la descrizione appena vengono caricati. Non rileggono i due interruttori.
+
+- Caratteristiche attive e descrizioni disattive: una descrizione salvata prima viene ancora applicata, finché non la svuoti e salvi.
+- Descrizioni attive e caratteristiche disattive: le caratteristiche ancora salvate vengono ancora applicate. Salvare il prodotto con l’interruttore delle caratteristiche spento cancella quelle caratteristiche salvate. Vedi la sezione 4.1.
+
+Lo script del titolo è separato e gira solo se l’interruttore del titolo è attivo.
+
+### 7.2 Scheda tecnica
+
+Sostituisci e Aggiungi sono descritti nella sezione 4.3. A ogni esecuzione il modulo ricostruisce le righe. Il markup in più che il tema aveva nella scheda tecnica (link, classi aggiuntive su un valore) non viene tenuto.
+
+### 7.3 Descrizione
+
+Se la combinazione ha una descrizione nella lingua corrente, quell’HTML sostituisce il contenuto del selettore della descrizione. Altrimenti lo sostituisce la descrizione lunga del prodotto. La modalità Aggiungi non accoda testo di descrizione.
+
+### 7.4 Titolo
+
+Priorità per la combinazione scelta, nella lingua corrente:
+
+1. **Titolo completo**, quando non è vuoto.
+2. Altrimenti **Aggiungi al titolo**, unito con il separatore della sezione 4.9.
+3. Altrimenti la modalità titolo predefinita della sezione 4.8.
+
+`og:title` riceve lo stesso testo quando quel meta tag esiste.
+
+## 8. Navigazione a faccette
+
+Con l’opzione attiva, i filtri di categoria leggono una vista che unisce:
+
+- `feature_product` — caratteristiche assegnate al prodotto;
+- `combfeat` — caratteristiche attive assegnate alle combinazioni, unite a `feature_value` per ottenere l’ID della caratteristica.
+
+Ricostruisci l’indice della navigazione a faccette o svuota la cache di PrestaShop se un filtro resta vecchio dopo aver risolto l’avviso nella pagina di configurazione. Salvare le caratteristiche di combinazione e importare un CSV svuotano già `layered_filter_block`.
+
+La scheda prodotto nel negozio continua a mostrare le caratteristiche prodotto di PrestaShop finché non gira lo script di questo modulo. Il filtro e la scheda tecnica sono due fonti diverse.
+
+## 9. Aggiornamenti MyPresta
+
+Il pannello sotto i formulari:
+
+| Controllo | Comportamento |
+| --- | --- |
+| **Controlla ora** | Contatta MyPresta e mostra **Nuova versione disponibile!** o **Il modulo è aggiornato!** |
+| **Notifiche di aggiornamento** | **Attiva** mostra un avviso nel back-office quando c’è una versione più recente: **Nuova versione disponibile, controlla http://MyPresta.eu per maggiori informazioni**, con il link **Maggiori dettagli nel changelog**. **Disattiva** nasconde quell’avviso. |
+| **Pagina del modulo** | Apre la pagina dell’add-on: [Product combination features](https://mypresta.eu/modules/front-office-features/product-combination-features.html) |
+
+Finché un dipendente è nel back-office, il modulo contatta il server degli aggiornamenti al massimo una volta ogni 3 giorni. Il controllo ha bisogno di `allow_url_fopen`. Se non è disponibile, resta la versione installata e una più recente non viene segnalata.
+
+## 10. Risoluzione dei problemi
+
+**Il blocco della scheda Moduli è vuoto in PrestaShop 8 o 9.**  
+Controlla che `modules-content.html.twig` contenga `{{ module.content|raw }}` e che il negozio abbia potuto scrivere quel file. Riapri la configurazione del modulo perché la modifica venga ritentata. Poi svuota la cache di Symfony (**Parametri avanzati > Prestazioni**).
+
+**La scheda tecnica non cambia.**  
+Il prodotto deve avere combinazioni, l’interruttore delle caratteristiche deve essere attivo oppure le caratteristiche devono essere già salvate, e la combinazione deve avere almeno un valore (nella modalità Sostituisci una combinazione senza valori ripristina le caratteristiche del prodotto, e può sembrare che non sia successo nulla). Controlla il selettore nella console del browser: `document.querySelectorAll('.data-sheet')` con il tuo selettore reale. Il tema deve aggiornare `data-product` su `#product-details` e lanciare `updatedProduct`.
+
+**L’intero blocco product-details è stato sostituito da un breve elenco di caratteristiche.**  
+Il selettore della scheda tecnica non ha trovato nulla. Impostalo sul vero `<dl>`, di solito `.data-sheet`.
+
+**La descrizione non cambia, oppure la descrizione breve è stata sostituita da quella lunga.**  
+Il selettore predefinito `#description` è la descrizione lunga in Classic. Il testo di riserva è sempre la descrizione lunga. In **Descrizione della classe CSS / ID oggetto** punta l’elemento che deve cambiare.
+
+**Ho spento le descrizioni e il testo vecchio si vede ancora.**  
+Svuota i campi, salva il prodotto, poi spegni l’interruttore. Oppure spegni anche le caratteristiche, così nessuno di quegli script si carica. Spegnere le caratteristiche e salvare cancella le caratteristiche di combinazione salvate.
+
+**Ho spento le caratteristiche e sono sparite dopo il salvataggio del prodotto.**  
+È così che funziona il salvataggio quando i campi delle caratteristiche non sono nel formulario del prodotto. Riattiva l’interruttore prima di modificare se i dati servono ancora. Reimporta il CSV se hai il file.
+
+**Il titolo della scheda del browser non cambia.**  
+Attiva l’interruttore del titolo. Un titolo completo vuoto e un campo Aggiungi al titolo vuoto insieme significano che si usa la modalità predefinita. **Non modificare il titolo di default** lascia il titolo com’era. Il cambio è nel browser: apri la pagina, cambia combinazione, leggi il titolo della scheda. Il sorgente HTML ha ancora il meta titolo del prodotto.
+
+**Manca una caratteristica nel filtro di categoria.**  
+Attiva **Filter combination features in Faceted Search**, aggiungi la caratteristica al modello della navigazione a faccette e leggi l’avviso nella configurazione del modulo. Il file dell’adattatore deve essere scrivibile. Il valore deve essere salvato sul prodotto o su una combinazione.
+
+**Errori di riga CSV.**
+
+| Messaggio | Causa |
+| --- | --- |
+| The CSV must contain id_product_attribute or combination_reference | L’intestazione non identifica una combinazione |
+| The CSV must contain feature and value, or id_feature_value | L’intestazione non identifica un valore di caratteristica |
+| Combination was not found | L’ID o il riferimento non esiste |
+| Product ID does not match this combination | `id_product` è compilato e punta a un altro prodotto |
+| Product reference does not match this combination | `product_reference` non coincide |
+| Combination reference does not match this combination ID | ID e riferimento sono compilati e si contraddicono |
+| Combination reference matches more than one combination | Aggiungi `id_product` o `id_product_attribute` |
+| Feature name or value matches more than one | Due schede del catalogo condividono quell’etichetta. Usa `id_feature_value` |
+| Feature and value are required when id_feature_value is empty | La cella del nome o del valore è vuota |
+| The CSV file is larger than 8 MB | Dividi il file |
+
+**Più lingue.**  
+Descrizioni e entrambi i campi titolo sono salvati per lingua. I valori delle caratteristiche usano la traduzione PrestaShop della caratteristica nella lingua del visitatore. L’assegnazione in sé non è per lingua.
+
+## 11. Riferimento tecnico
+
+### 11.1 Hook
+
+| Hook | Quando | Cosa fa |
+| --- | --- | --- |
+| `actionAdminControllerSetMedia` | Back-office, controller `AdminProducts` e `AdminModules` | Carica `views/css/combfeat.css`, `views/js/acplt.js`, `views/js/admin-combfeat.js` e l’autocompletamento jQuery. Assicura anche la configurazione e l’integrazione Faceted Search |
+| `displayAdminProductsExtra` | Modifica del prodotto, scheda Moduli | Mostra `views/templates/admin/combfeat.tpl` |
+| `actionProductUpdate` | Salvataggio del prodotto | Scrive caratteristiche, descrizioni e titoli quando è presente `combfeat_submitted` |
+| `displayHeader` | Scheda prodotto, non ajax | Stampa i dati di combinazione della lingua corrente e aggiunge gli script del negozio |
+| `displayProductAdditionalInfo` | Scheda prodotto | Mostra il file nascosto `views/templates/hook/product-details.tpl` |
+
+Registrati all’installazione: `actionProductUpdate`, `displayProductAdditionalInfo`, `displayAdminProductsExtra`, `actionAdminControllerSetMedia`, `displayHeader`.
+
+La pagina di configurazione risponde anche alla ricerca delle caratteristiche. Una richiesta con `ajax=1` e `q` restituisce le corrispondenze JSON e termina. L’editor del prodotto chiama quell’URL tramite `AdminModules` con `configure=combfeat`.
+
+### 11.2 Database
+
+Il prefisso è quello del negozio. La disinstallazione **non** elimina queste tabelle, quindi il contenuto delle combinazioni sopravvive alla disinstallazione ed è ancora lì dopo un’installazione successiva (`CREATE TABLE IF NOT EXISTS`).
+
+`combfeat` — una riga per valore di caratteristica su una combinazione:
+
+| Colonna | Ruolo |
+| --- | --- |
+| `id_combfeat` | Chiave primaria |
+| `id_product` | Prodotto |
+| `id_product_attribute` | Combinazione |
+| `id_feature_value` | Valore di caratteristica del catalogo |
+| `active` | `1` quando la riga è usata. Negozio e vista Faceted Search leggono le righe attive |
+
+`combfeat_details` — descrizione, una riga per combinazione e lingua:
+
+| Colonna | Ruolo |
+| --- | --- |
+| `id_combfeat` | Chiave primaria |
+| `id_product`, `id_product_attribute`, `id_lang` | Destinazione |
+| `details` | HTML |
+| `active` | Salvato come `1` |
+
+`combfeat_title` — titoli, una riga per combinazione e lingua:
+
+| Colonna | Ruolo |
+| --- | --- |
+| `id_combfeat` | Chiave primaria |
+| `id_product`, `id_product_attribute`, `id_lang` | Destinazione |
+| `title_full` | Fino a 512 caratteri. Sostituisce il titolo del documento |
+| `title_append` | Fino a 512 caratteri. Aggiunto dopo il titolo originale |
+| `active` | Salvato come `1` |
+
+`{prefix}combfeat_feature_product` — vista SQL, non una tabella di contenuto da modificare. Unione di `feature_product` e delle righe attive di `combfeat`. Il valore di configurazione `COMBFEAT_FEATURE_VIEW` tiene la versione della vista (`1`).
+
+Altre chiavi di configurazione: `update_combfeat` e `updatev_combfeat` (controllo aggiornamenti), `mypresta_updates` (interruttore delle notifiche).
+
+### 11.3 Classi PHP
+
+| File | Classe | Ruolo |
+| --- | --- | --- |
+| `combfeat.php` | `combfeat` | Classe del modulo: installazione, configurazione, hook, dati dell’editor prodotto, dati del negozio |
+| `combfeat.php` | `combfeatUpdate` | Confronto di versione e richiesta al server degli aggiornamenti |
+| `classes/CombfeatImporter.php` | `CombfeatImporter` | Analisi CSV, risoluzione di combinazione e caratteristica, download dell’esempio |
+| `classes/CombfeatFacetedSearch.php` | `CombfeatFacetedSearch` | Vista, patch dell’adattatore, ripristino, svuotamento della cache dei filtri |
+| `models/cfeat.php` | `cfeat` | Righe di `combfeat`. `getAllByProductId`, `getFeaturesStaticByIdProduct`, `assign`, `insertDatas`, cancellazioni |
+| `models/cfeatdesc.php` | `cfeatdesc` | Righe di `combfeat_details` |
+| `models/cfeattitle.php` | `cfeattitle` | Righe di `combfeat_title`. `saveTitleRow` cancella la riga quando entrambi i titoli sono vuoti |
+
+Non c’è una cartella `controllers/`.
+
+### 11.4 Risorse e modelli
+
+| File | Dove | Ruolo |
+| --- | --- | --- |
+| `views/js/acplt.js` | Back-office | Autocompletamento della ricerca caratteristiche |
+| `views/js/admin-combfeat.js` | Back-office | Accordion, filtro, schede, bandiere lingua, token, aggiornamento TinyMCE, copia del contenuto dell’editor prima del salvataggio del prodotto |
+| `views/css/combfeat.css` | Solo back-office | Impaginazione di **Contenuto della combinazione** |
+| `views/js/combfeat.js` | Negozio, modalità Sostituisci | Ricostruisce scheda tecnica e descrizione |
+| `views/js/combfeat-append.js` | Negozio, modalità Aggiungi | Uguale, con le caratteristiche del prodotto davanti a quelle della combinazione |
+| `views/js/combfeat-title.js` | Negozio | `document.title` e `og:title` |
+| `views/templates/admin/combfeat.tpl` | Scheda Moduli del prodotto | L’editor |
+| `views/templates/hook/product-details.tpl` | Scheda prodotto | `#product-details-combfeat` nascosto, con `data-product` |
+| `import/combfeat-features-sample.csv` | Download dalla configurazione | Esempio di importazione |
+
+### 11.5 Installazione e disinstallazione
+
+L’installazione crea le tre tabelle, scrive la configurazione predefinita, registra i cinque hook, applica la modifica Twig e applica l’integrazione Faceted Search.
+
+`disable` ripristina l’adattatore della navigazione a faccette. `enable` scrive le chiavi di configurazione mancanti e riapplica l’integrazione quando l’interruttore Faceted Search è attivo.
+
+La disinstallazione ripristina l’adattatore, elimina la vista quando non è più citata e disinstalla il modulo. Le righe di combinazione delle tre tabelle restano nel database.
+
+## 12. Assistenza
+
+Changelog e aggiornamenti: [Product combination features su MyPresta.eu](https://mypresta.eu/modules/front-office-features/product-combination-features.html).
+
+Ordini e assistenza: [account cliente MyPresta.eu](https://mypresta.eu/my-account/orders/). E-mail: support@mypresta.eu.

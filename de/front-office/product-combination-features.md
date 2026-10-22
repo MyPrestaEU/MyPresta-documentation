@@ -1,8 +1,8 @@
 ---
-title: "Produktkombinationsmerkmale – Händlerhandbuch & Konfigurationsanleitung"
-description: "Vollständiges Benutzerhandbuch, schrittweise Einrichtungsanleitung und Entwicklerreferenz für das PrestaShop-Modul „Produktkombinationsmerkmale“ von MyPresta.eu."
+title: "Eigenschaften der Kombination - Händlerhandbuch"
+description: "Konfigurations- und Fehlerbehebungsanleitung für Mitarbeiter, bei denen das Modul bereits installiert ist."
 sidebar:
-  label: "Produktkombinationsmerkmale – Händlerhandbuch & Konfigurationsanleitung"
+  label: "Eigenschaften der Kombination - Händlerhandbuch"
 ---
 
 > ⚠️ **Notice:** This is the offizielle Dokumentation für das PrestaShop-Modul.
@@ -12,252 +12,509 @@ sidebar:
 > ---
 
 
-# Produktkombinationsmerkmale
-
-## 1. Anforderungen & Kompatibilität
+Technischer Name: `combfeat`. Version **1.4.0**. Im Backoffice heißt das Modul **Eigenschaften der Kombination**.
 
-- **Unterstützte PrestaShop-Versionen**: PrestaShop 1.7.x, 8.x, 9.x
-- **PHP-Kompatibilität**: PHP 7.1 - 8.5
-- **Hosting-Anforderungen**: Standard-PHP-Erweiterungen (cURL, JSON, OpenSSL).
-
-## 2. Vollständige Konfigurationsanleitung (Jede Einstellung nach Bildschirm gruppiert)
-
-### 2.1 Modulkonfigurationsseite (Back Office > Module > Konfigurieren)
-
-Dies ist der Hauptkonfigurationsbildschirm für das Modul „Produktkombinationsmerkmale“. Sie können darauf zugreifen, indem Sie zu **Module > Modul-Manager** navigieren, nach „Produktkombinationsmerkmale“ suchen und auf „Konfigurieren“ klicken.
-
-#### **Merkmale für Kombinationen aktivieren**
-
-- **Was diese Einstellung bewirkt:** Dies ist der Hauptschalter zum Aktivieren oder Deaktivieren der Kernfunktionalität, einzigartige Merkmale Produktkombinationen zuzuweisen.
-- **Auswirkung der Änderung dieser Einstellung:**
-  - *Wenn aktiviert:* Sie sehen einen neuen Abschnitt auf Ihren Produktbearbeitungsseiten (unter dem Tab „Module“), in dem Sie jeder Kombination spezifische Merkmale und deren Werte zuweisen können. Wenn Kunden eine Kombination im Front Office auswählen, wird das Datenblatt des Produkts dynamisch aktualisiert, um diese kombinationsspezifischen Merkmale anzuzeigen.
-  - *Wenn deaktiviert:* Der Abschnitt zur Verwaltung von Kombinationsmerkmalen wird auf den Produktbearbeitungsseiten nicht angezeigt, und das Front Office zeigt unabhängig von der ausgewählten Kombination nur die Merkmale des Hauptprodukts an.
-- **Empfohlener Wert:** **Aktiviert** (wenn Sie die primäre Funktion des Moduls nutzen möchten).
-- **Händlerszenario / Beispiel:** Wenn Sie T-Shirts verkaufen und „Material: 100 % Baumwolle“ für das weiße Hemd und „Material: 50 % Baumwolle, 50 % Polyester“ für das graue Hemd wünschen, müssen Sie dies *aktivieren*.
-
-#### **Datenblatt CSS-Klasse**
-
-- **Was diese Einstellung bewirkt:** Hiermit können Sie eine CSS-Klasse oder HTML-Element-ID angeben, die das Modul beim Aktualisieren des Merkmalsbereichs auf der Produktseite ansprechen soll. Dies ist entscheidend, damit das Modul korrekt identifizieren kann, wo die kombinationsspezifischen Merkmale in Ihrem Theme angezeigt werden sollen.
-- **Auswirkung der Änderung dieser Einstellung:**
-  - *Wenn korrekt eingestellt:* Das Modul findet das angegebene Element und fügt die Kombinationsmerkmale dynamisch darin ein oder aktualisiert sie.
-  - *Wenn falsch eingestellt oder leer gelassen:* Die Kombinationsmerkmale werden möglicherweise nicht im Front Office angezeigt oder erscheinen an einer unerwarteten Stelle, da das Modul nicht weiß, wo sie platziert werden sollen.
-- **Empfohlener Wert:** Dies hängt vollständig von Ihrem PrestaShop-Theme ab. Eine gängige Klasse ist `.product-features` oder `.data-sheet`. Möglicherweise müssen Sie den HTML-Code Ihrer Produktseite überprüfen, um den richtigen Selektor zu finden. Im Zweifelsfall wenden Sie sich an Ihren Theme-Entwickler oder einen Webmaster.
-- **Händlerszenario / Beispiel:** Ihr Theme zeigt Produktmerkmale in einem `div` mit der Klasse `product-specifications` an. Sie würden hier `.product-specifications` eingeben.
-
-#### **Workflow**
-
-- **Was diese Einstellung bewirkt:** Dies steuert, wie das Modul Merkmale behandelt, wenn eine Kombination ausgewählt wird.
-- **Auswirkung der Änderung dieser Einstellung:**
-  - *Wenn auf „Anhängen“ gesetzt:* Kombinationsspezifische Merkmale werden zu den Merkmalen des Hauptprodukts *hinzugefügt*. Sie sehen also sowohl die allgemeinen Produktmerkmale als auch die einzigartigen Kombinationsmerkmale.
-  - *Wenn auf „Ersetzen“ gesetzt:* Kombinationsspezifische Merkmale *ersetzen* die Merkmale des Hauptprodukts. Es werden nur die Merkmale angezeigt, die für die ausgewählte Kombination relevant sind.
-- **Empfohlener Wert:** **Ersetzen** für die meisten Fälle, da dies die präzisesten Informationen liefert. Wählen Sie „Anhängen“, wenn Sie allgemeine Merkmale haben, die für alle Kombinationen gelten, plus spezifische.
-- **Händlerszenario / Beispiel:**
-  - *Ersetzen:* Bei einem Laptop möchten Sie möglicherweise, dass „Prozessor: i7“, „RAM: 16 GB“ vollständig „Prozessor: i5“, „RAM: 8 GB“ ersetzt, wenn ein Kunde die i7/16 GB-Kombination auswählt.
-  - *Anhängen:* Bei einem T-Shirt möchten Sie möglicherweise immer „Marke: MeineMarke“ anzeigen (allgemeines Merkmal), aber dann „Material: Bio-Baumwolle“ *hinzufügen*, wenn eine bestimmte Kombination ausgewählt wird.
-
-#### **Beschreibungen für Kombinationen aktivieren**
-
-- **Was diese Einstellung bewirkt:** Dies aktiviert oder deaktiviert die Möglichkeit, jeder Produktkombination einzigartige Beschreibungen zuzuweisen.
-- **Auswirkung der Änderung dieser Einstellung:**
-  - *Wenn aktiviert:* Ein neues Feld erscheint auf Ihren Produktbearbeitungsseiten (unter dem Tab „Module“), das Ihnen ermöglicht, eine spezifische Beschreibung für jede Kombination einzugeben. Wenn Kunden eine Kombination auswählen, ersetzt diese Beschreibung dynamisch die Hauptproduktbeschreibung.
-  - *Wenn deaktiviert:* Das Feld für die Kombinationsbeschreibung wird nicht angezeigt, und das Front Office zeigt immer die Beschreibung des Hauptprodukts an.
-- **Empfohlener Wert:** **Aktiviert** (wenn Sie kombinationsspezifische Beschreibungen benötigen).
-- **Händlerszenario / Beispiel:** Sie verkaufen individuellen Schmuck. Ein Produkt „Silberring“ könnte eine Kombination „Gravur: Ja“ haben. Sie könnten eine Kombinationsbeschreibung verwenden, um den Gravurprozess und die Zeichenbegrenzungen zu erklären, was für die Kombination „Gravur: Nein“ nicht relevant ist.
-
-#### **CSS-Klasse / Objekt-ID der Beschreibung**
-
-- **Was diese Einstellung bewirkt:** Ähnlich wie bei der „Datenblatt CSS-Klasse“ teilt dies dem Modul mit, welches HTML-Element auf Ihrer Produktseite die Hauptproduktbeschreibung enthält, die durch die kombinationsspezifische Beschreibung ersetzt werden soll.
-- **Auswirkung der Änderung dieser Einstellung:**
-  - *Wenn korrekt eingestellt:* Das Modul findet das angegebene Element und aktualisiert dessen Inhalt dynamisch mit der Kombinationsbeschreibung.
-  - *Wenn falsch eingestellt oder leer gelassen:* Die Kombinationsbeschreibung wird möglicherweise nicht angezeigt oder erscheint an einer unerwarteten Stelle.
-- **Empfohlener Wert:** Dies hängt von Ihrem Theme ab. Gängige Selektoren sind `.product-description`, `#description_short` oder `#product-description-short`. Sie müssen den HTML-Code Ihrer Produktseite überprüfen.
-- **Händlerszenario / Beispiel:** Ihr Theme verwendet ein `div` mit der ID `product-description-full` für die Hauptbeschreibung. Sie würden hier `#product-description-full` eingeben.
-
-#### **Meta-Titel für Kombinationen aktivieren**
-
-- **Was diese Einstellung bewirkt:** Dies aktiviert oder deaktiviert die Möglichkeit, jeder Produktkombination einen einzigartigen Meta-Titel zuzuweisen. Dieser Meta-Titel erscheint im Browser-Tab und wird von Suchmaschinen verwendet.
-- **Auswirkung der Änderung dieser Einstellung:**
-  - *Wenn aktiviert:* Ein neues Feld erscheint auf Ihren Produktbearbeitungsseiten (unter dem Tab „Module“), das Ihnen ermöglicht, einen spezifischen Meta-Titel für jede Kombination einzugeben. Wenn ein Kunde eine Kombination auswählt, wird der Browser-Tab-Titel dynamisch aktualisiert.
-  - *Wenn deaktiviert:* Das Feld für den Kombinations-Meta-Titel wird nicht angezeigt, und der Browser-Tab zeigt immer den Meta-Titel des Hauptprodukts an.
-- **Empfohlener Wert:** **Aktiviert** (wenn Sie die SEO für spezifische Kombinationen verbessern oder klarere Browser-Tab-Titel bereitstellen möchten).
-- **Händlerszenario / Beispiel:** Für ein Produkt „Smartphone“ könnten Sie eine Kombination „Farbe: Blau, Speicher: 128 GB“ haben. Sie könnten dessen Meta-Titel auf „Blaues Smartphone 128 GB – [Ihr Shop-Name]“ setzen, um die Sichtbarkeit in Suchmaschinen zu verbessern.
-
-#### **Standard-Titelmodus**
-
-- **Was diese Einstellung bewirkt:** Dies definiert, wie der Meta-Titel der Kombination erstellt wird, wenn Sie keinen explizit für eine Kombination festlegen oder wenn Sie den Produkttitel mit Kombinationsattributen kombinieren möchten.
-- **Auswirkung der Änderung dieser Einstellung:**
-  - *Wenn auf „Produktname + Kombinationsname“ gesetzt:* Der Meta-Titel ist der Hauptproduktname, gefolgt von den Attributnamen der ausgewählten Kombination (z. B. „T-Shirt – Rot, Groß“).
-  - *Wenn auf „Kombinationsname + Produktname“ gesetzt:* Der Meta-Titel ist die Attributnamen der ausgewählten Kombination, gefolgt vom Hauptproduktnamen (z. B. „Rot, Groß – T-Shirt“).
-  - *Wenn auf „Kombinationsname“ gesetzt:* Es werden nur die Attributnamen der Kombination verwendet (z. B. „Rot, Groß“).
-  - *Wenn auf „Produktname“ gesetzt:* Der Meta-Titel ist immer der Hauptproduktname, Kombinationen werden ignoriert.
-- **Empfohlener Wert:** **„Produktname + Kombinationsname“** oder **„Kombinationsname + Produktname“** für eine gute Balance zwischen Produktidentität und Kombinationsspezifität.
-- **Händlerszenario / Beispiel:** Sie verkaufen Schuhe. Wenn ein Kunde „Größe 10, Farbe Schwarz“ auswählt und „Produktname + Kombinationsname“ gewählt ist, wird der Titel zu „Laufschuhe – Größe 10, Schwarz“.
+## 1. Anforderungen und Kompatibilität
 
-#### **Titel-Trennzeichen**
+- **PrestaShop:** 1.7.0.0 bis 9.x (`ps_versions_compliancy` bis 9.99.99).
+- **PHP:** die von dieser PrestaShop-Version verlangte Version.
+- **Produktseite:** Das Theme muss die gewählte Kombination im Attribut `data-product` von `#product-details` ausgeben (Standard in PrestaShop) und beim Attributwechsel das Ereignis `updatedProduct` auslösen. Classic und darauf aufgebaute Themes tun das.
+- **PrestaShop 8 und 9, Registerkarte Module am Produkt:** Die Datei `src/PrestaShopBundle/Resources/views/Admin/Sell/Catalog/Product/Blocks/modules-content.html.twig` muss beim Installieren oder beim ersten Öffnen der Konfiguration beschreibbar sein. Siehe Abschnitt 3.
+- **Facettensuche (optional):** `ps_facetedsearch` installiert, Recht zum Anlegen einer SQL-View und Schreibrecht auf `modules/ps_facetedsearch/src/Adapter/MySQL.php`.
+- **Update-Prüfung (optional):** `allow_url_fopen`, damit das Modul `https://dev.mypresta.eu` aufrufen kann.
 
-- **Was diese Einstellung bewirkt:** Hiermit können Sie das Zeichen oder die Zeichenfolge definieren, die zur Trennung der verschiedenen Teile des dynamisch generierten Meta-Titels verwendet wird (z. B. zwischen Produktname und Kombinationsname).
-- **Auswirkung der Änderung dieser Einstellung:**
-  - *Wenn auf „-“ gesetzt:* Der Titel könnte so aussehen: „Produktname - Kombination“.
-  - *Wenn auf „|“ gesetzt:* Der Titel könnte so aussehen: „Produktname | Kombination“.
-  - *Wenn leer gelassen:* Die Teile des Titels könnten ohne ein klares Trennzeichen zusammenlaufen.
-- **Empfohlener Wert:** **-** (Bindestrich) oder **|** (Pipe) sind gängige und klare Trennzeichen.
-- **Händlerszenario / Beispiel:** Wenn Ihr Standard-Titelmodus „Produktname + Kombinationsname“ ist und das Trennzeichen auf „|“ gesetzt ist, könnte ein Titel „Mein tolles T-Shirt | Rot, Groß“ lauten.
+## 2. Wo Sie im Backoffice arbeiten
 
-### 2.2 Dedizierte Admin-Bildschirme & Controller-Ansichten
+| Ort | Pfad | Zweck |
+| --- | --- | --- |
+| Modulkonfiguration | **Module > Modul-Manager**, Suche nach **Eigenschaften der Kombination**, **Konfigurieren** | Schalter, CSS-Selektoren, Titelmodus, Facettensuche, CSV-Import, Update-Prüfung |
+| Inhalt der Kombination | **Katalog > Produkte**, Produkt bearbeiten, Registerkarte **Module**, Block **Inhalt der Kombination** | Eigenschaften, Beschreibung und Titel jeder Kombination |
+| Eigenschaftskatalog | **Katalog > Attribute & Eigenschaften** (Bezeichnung je nach PrestaShop-Version) | Eigenschaften und Werte anlegen, bevor Sie sie am Produkt zuweisen. Der CSV-Import kann fehlende anlegen |
+| Vorlage der Facettensuche | Konfiguration des Moduls Facettensuche | Die Eigenschaft in die Filtervorlage aufnehmen. Dieses Modul tut das nicht von selbst |
 
-Dieses Modul erstellt keine dedizierten Top-Level-Admin-Bildschirme. Stattdessen integriert es sich direkt in die bestehende **Produktbearbeitungsseite** in Ihrem PrestaShop Back Office.
+Das Modul hat keinen eigenen Menüpunkt und keinen eigenen Front- oder Backoffice-Controller.
 
-- **Bildschirmname & Menüpfad:**
+## 3. Dateien, die das Modul ändert
 
-  - Navigieren Sie zu **Katalog > Produkte**.
-  - Bearbeiten Sie ein bestehendes Produkt oder erstellen Sie ein neues.
-  - Auf der Produktbearbeitungsseite klicken Sie auf den Tab **„Module“**.
-  - Sie finden einen neuen Abschnitt mit dem Titel **„Produktkombinationsmerkmale“** (oder ähnlich, je nach Modulversion/Übersetzungen).
-- **Verfügbare Aktionen & Einstellungen:**
+### 3.1 Registerkarte Module am Produkt in PrestaShop 8 und 9
 
-  - In diesem Abschnitt sehen Sie eine Liste aller für das aktuelle Produkt konfigurierten Kombinationen.
-  - Für jede Kombination haben Sie Felder zum:
-    - **Merkmale zuweisen:** Sie können bestehende Merkmale und deren Werte auswählen oder sogar neue Merkmalswerte speziell für diese Kombination erstellen. Das Modul unterstützt Multi-Merkmale, d.h. eine Kombination kann mehrere Werte für dasselbe Merkmal haben (z.B. „Material: Baumwolle, Material: Elasthan“).
-    - **Kombinationsbeschreibung eingeben:** Ein Rich-Text-Editor (wie der Standard-PrestaShop-Beschreibungseditor) steht zur Verfügung, um eine einzigartige Beschreibung für diese Kombination einzugeben.
-    - **Kombinations-Meta-Titel eingeben:** Ein Textfeld zur Eingabe eines einzigartigen Meta-Titels für diese Kombination.
-  - **Änderungen speichern:** Denken Sie daran, den Haupt-„Speichern“-Button für das Produkt zu klicken, um alle kombinationsspezifischen Änderungen zu übernehmen.
-- **Auswirkung der Änderungen:**
+Bei der Installation und bei jedem Öffnen der Konfigurationsseite bearbeitet das Modul:
 
-  - Alle Merkmale, Beschreibungen oder Meta-Titel, die Sie hier festlegen, werden in der Datenbank gespeichert und dynamisch auf der Front-Office-Produktseite angezeigt, wenn die entsprechende Kombination von einem Kunden ausgewählt wird.
-  - Wenn Sie eine Kombination löschen, werden auch die zugehörigen Merkmale, Beschreibungen und Meta-Titel entfernt.
-- **Empfohlener Workflow für die tägliche Shop-Verwaltung:**
+`src/PrestaShopBundle/Resources/views/Admin/Sell/Catalog/Product/Blocks/modules-content.html.twig`
 
-  1. Erstellen Sie zuerst Ihr Produkt und dessen Kombinationen wie gewohnt in PrestaShop (unter dem Tab „Kombinationen“).
-  2. Sobald die Kombinationen erstellt sind, gehen Sie zum Tab **„Module“** auf der Produktbearbeitungsseite.
-  3. Weisen Sie für jede Kombination sorgfältig die relevanten Merkmale zu, schreiben Sie eine spezifische Beschreibung und legen Sie einen optimierten Meta-Titel fest.
-  4. Speichern Sie das Produkt.
-  5. Testen Sie immer im Front Office, um sicherzustellen, dass die Merkmale, Beschreibungen und Titel korrekt aktualisiert werden, wenn Kombinationen ausgewählt werden.
+Es ersetzt `{{ module.content|raw_purified }}` durch `{{ module.content|raw }}`. Beim ersten Mal kopiert es die Originaldatei nach `modules-content.html.twig.raw.bak` daneben.
 
-### 2.3 Konfigurations-Kurzübersichtstabelle
+PrestaShop 8 und 9 bereinigen sonst HTML, das Module auf der Produktseite ausgeben. Ohne diese Änderung ist der Editor **Inhalt der Kombination** leer oder seine Felder werden mit dem Produkt nicht gespeichert. In PrestaShop 1.7 gibt es diese Twig-Datei nicht. Das Modul überspringt die Änderung.
 
-| Bildschirm / Ansicht | Einstellung / Option | Standard / Empfohlen | Zweck & Auswirkung |
-| --- | --- | --- | --- |
-| Modulkonfiguration | Merkmale für Kombinationen aktivieren | Aktiviert | Hauptschalter für Kombinationsmerkmale. |
-| Modulkonfiguration | Datenblatt CSS-Klasse | `.product-features` (Theme-abhängig) | CSS-Selektor, wo Kombinationsmerkmale angezeigt werden. |
-| Modulkonfiguration | Workflow | Ersetzen | Wie Kombinationsmerkmale mit Hauptproduktmerkmalen interagieren (anhängen oder ersetzen). |
-| Modulkonfiguration | Beschreibungen für Kombinationen aktivieren | Aktiviert | Hauptschalter für Kombinationsbeschreibungen. |
-| Modulkonfiguration | CSS-Klasse / Objekt-ID der Beschreibung | `#product-description-short` (Theme-abhängig) | CSS-Selektor, wo Kombinationsbeschreibungen angezeigt werden. |
-| Modulkonfiguration | Meta-Titel für Kombinationen aktivieren | Aktiviert | Hauptschalter für Kombinations-Meta-Titel. |
-| Modulkonfiguration | Standard-Titelmodus | Produktname + Kombinationsname | Wie Meta-Titel generiert werden, wenn nicht explizit festgelegt. |
-| Modulkonfiguration | Titel-Trennzeichen | `-` | Zeichen, das zur Trennung von Teilen des Meta-Titels verwendet wird. |
-| Produktbearbeitungsseite > Module-Tab | Merkmale pro Kombination zuweisen | N/A | Einzigartige Merkmale und Werte jeder Kombination zuweisen. |
-| Produktbearbeitungsseite > Module-Tab | Kombinationsbeschreibung | N/A | Einzigartige Rich-Text-Beschreibung für jede Kombination eingeben. |
-| Produktbearbeitungsseite > Module-Tab | Kombinations-Meta-Titel | N/A | Einzigartigen Meta-Titel für jede Kombination eingeben. |
+Kann die Datei nicht gelesen oder geschrieben werden, zeigt das Modul keinen Fehler. Prüfen Sie die Dateirechte, wenn die Registerkarte Module leer bleibt.
 
-## 3. Händler-Fehlerbehebung & Häufig gestellte Fragen (FAQ)
+### 3.2 Adapter der Facettensuche
 
-**F: Meine Kombinationsmerkmale/Beschreibungen werden auf der Produktseite nicht angezeigt.**
-A:
+Wenn **Filter combination features in Faceted Search** aktiv ist (Standard), legt das Modul die SQL-View `{prefix}combfeat_feature_product` an und richtet `modules/ps_facetedsearch/src/Adapter/MySQL.php` auf diese View. Die View ist die Eigenschaftenliste des Produkts plus aktive Kombinations-Eigenschaften.
 
-1. **Modulkonfiguration prüfen:** Stellen Sie sicher, dass „Merkmale für Kombinationen aktivieren“ und/oder „Beschreibungen für Kombinationen aktivieren“ in der Modulkonfiguration aktiviert sind.
-2. **CSS-Selektoren überprüfen:** Die Einstellungen „Datenblatt CSS-Klasse“ und „CSS-Klasse / Objekt-ID der Beschreibung“ sind entscheidend. Diese müssen exakt mit der CSS-Klasse oder ID der Elemente in Ihrem Theme übereinstimmen, wo die Merkmale/Beschreibung angezeigt werden. Verwenden Sie die Entwicklertools Ihres Browsers (F12), um Ihre Produktseite zu überprüfen und die korrekten Selektoren zu finden. Im Zweifelsfall wenden Sie sich an Ihren Theme-Entwickler.
-3. **PrestaShop-Cache leeren:** Gehen Sie zu **Erweiterte Einstellungen > Leistung** und klicken Sie auf „Cache leeren“. Manchmal verhindert alter Cache-Inhalt, dass neue Modulausgaben angezeigt werden.
-4. **Produkteinstellungen prüfen:** Stellen Sie sicher, dass Sie tatsächlich Merkmale/Beschreibungen den spezifischen Kombinationen auf der Produktbearbeitungsseite unter dem Tab „Module“ zugewiesen haben.
+Ausschalten der Option, Deaktivieren des Moduls oder Deinstallieren schreibt die ursprüngliche Adapterquelle zurück. Die Deinstallation löscht die View auch, wenn der Adapter nicht mehr darauf verweist.
 
-**F: Die Kombinationsmerkmale/Beschreibungen werden angezeigt, sehen aber unformatiert oder fehl am Platz aus.**
-A: Dies ist normalerweise ein CSS-Konflikt mit Ihrem Theme.
+Die Konfigurationsseite zeigt eine Warnung, wenn die View nicht angelegt werden kann, die Adapterdatei fehlt, nicht lesbar, nicht beschreibbar ist oder nicht zur erwarteten Faceted-Search-Quelle passt. Die Meldungen (im Modul auf Englisch):
 
-1. **Mit Browser-Tools überprüfen:** Verwenden Sie F12, um zu sehen, welche CSS-Regeln auf die Modulausgabe angewendet werden.
-2. **CSS-Klasse anpassen:** Wenn die Modulausgabe in einem generischen `div` verpackt ist, müssen Sie möglicherweise die „Datenblatt CSS-Klasse“ oder „CSS-Klasse / Objekt-ID der Beschreibung“ an einen spezifischeren Container anpassen, den Ihr Theme bereits formatiert.
-3. **Benutzerdefiniertes CSS:** Möglicherweise müssen Sie benutzerdefiniertes CSS zu Ihrem Theme-Stylesheet (oder über ein benutzerdefiniertes CSS-Modul) hinzufügen, um die Kombinationsmerkmale/Beschreibungen an das Aussehen Ihres Themes anzupassen.
+- Could not create the Faceted Search feature view. Combination features will not appear in category filters.
+- Faceted Search is installed, but its database adapter was not found. Combination features will not appear in category filters.
+- Faceted Search adapter could not be read. Combination features will not appear in category filters.
+- This Faceted Search version does not use the expected feature table. Combination features will not appear in category filters.
+- Faceted Search adapter is not writable. Make modules/ps_facetedsearch/src/Adapter/MySQL.php writable so combination features can be filtered.
+- Faceted Search adapter could not be updated. Combination features will not appear in category filters.
 
-**F: Meine Kombinations-Meta-Titel ändern sich nicht im Browser-Tab.**
-A:
+## 4. Modulkonfiguration
 
-1. **Einstellung aktivieren:** Stellen Sie sicher, dass „Meta-Titel für Kombinationen aktivieren“ in der Modulkonfiguration aktiviert ist.
-2. **Titel festlegen:** Stellen Sie sicher, dass Sie spezifische Meta-Titel für Ihre Kombinationen auf der Produktbearbeitungsseite eingegeben haben.
-3. **Browser-Verhalten:** Einige Browser aktualisieren den Tab-Titel für bereits geöffnete Tabs möglicherweise nicht sofort. Versuchen Sie, die Produktseite in einem neuen Tab zu öffnen oder Ihren Browser-Cache zu leeren.
-4. **SEO-Implikationen:** Während das Modul den clientseitigen Titel aktualisiert, müssen Suchmaschinen in der Lage sein, die dynamisch generierten Inhalte zu crawlen und zu indizieren, damit diese kombinationsspezifischen Titel übernommen werden. Stellen Sie sicher, dass Ihre Website crawlbar ist und überlegen Sie, ob diese dynamischen Titel für Ihre SEO-Strategie im Vergleich zu statischen Produkttiteln wirklich vorteilhaft sind.
+Öffnen Sie **Konfigurieren**. Auf der Seite stehen zwei Formulare, darunter das Panel **MyPresta-Updates**. **Speichern** im Einstellungsformular sendet `submitCombfeatSettings`. **Import** sendet `submitCombfeatImport`.
 
-**F: Kann ich dieses Modul mit mehrsprachigen Shops verwenden?**
-A: Ja, das Modul unterstützt vollständig Mehrsprachigkeit. Wenn Sie Kombinationsmerkmale, Beschreibungen oder Meta-Titel auf der Produktseite bearbeiten, sehen Sie den Standard-PrestaShop-Sprachselektor, der Ihnen die Eingabe von Inhalten für jede Sprache ermöglicht.
+### 4.1 Eigenschaften für Kombinationen aktivieren
 
-## 4. Entwickler- & Webmaster-Handbuch (Technische Architektur & Code-Map)
+Schlüssel: `combfeat_p_feat`. Standard: **Aktiviert**.
 
-### 4.1 Architekturübersicht
+Wenn aktiv, hat jede Kombination auf der Registerkarte **Module** des Produkts eine Registerkarte **Eigenschaften**. Dort hängen Sie vorhandene Eigenschaftswerte an.
 
-Das Modul „Produktkombinationsmerkmale“ (`combfeat`) erweitert die Kernproduktverwaltung von PrestaShop, indem es benutzerdefinierte Felder und Logik in die Produktbearbeitungsseite des Back Office einfügt und Front-Office-Inhalte basierend auf ausgewählten Produktkombinationen dynamisch aktualisiert. Es nutzt das Hook-System von PrestaShop, um sich nahtlos zu integrieren, ohne Kerndateien zu ändern. Das Modul arbeitet hauptsächlich über JavaScript im Frontend für dynamische Updates und PHP im Backend für Konfiguration und Datenverwaltung. Es führt keine neuen Datenbanktabellen ein, sondern speichert seine Daten in bestehenden PrestaShop-Strukturen (wahrscheinlich `ps_product_attribute_feature` für Merkmale und `ps_product_attribute_lang` für Beschreibungen/Titel oder `ps_configuration` für Moduleinstellungen).
+Wenn inaktiv, ist diese Registerkarte ausgeblendet. Das Storefront-Skript ist ein eigener Punkt: Eigenschaften und Beschreibungen aktualisiert dasselbe Skript, beschrieben in Abschnitt 6.
 
-### 4.2 Controller (`controllers/`)
+**Speichern eines Produkts bei ausgeschaltetem Schalter löscht die Kombinations-Eigenschaften dieses Produkts.** Das Produktformular enthält die Eigenschaftsfelder nicht mehr. Ein Speichern leert die Eigenschaftszeilen des Moduls für das Produkt und schreibt nur das zurück, was das Formular gesendet hat. Beschreibungen und Titel bleiben. Schalten Sie die Option wieder ein, bevor Sie das Produkt bearbeiten, wenn diese Eigenschaften bleiben sollen.
 
-Dieses Modul verwendet keine dedizierten Front-Office- oder Back-Office-Admin-Controller. Seine Logik zum Anzeigen und Speichern von Kombinationsdaten ist direkt in die Hauptmoduldatei `combfeat.php` und über JavaScript integriert.
+### 4.2 Datenblatt-CSS-Klasse
 
-### 4.3 Kernklassen & Modelle (`classes/`)
+Schlüssel: `combfeat_ds`. Standard: `.data-sheet`.
 
-Dieses Modul definiert keine benutzerdefinierten Klassen im Verzeichnis `classes/`. Seine Kernlogik ist in der Hauptdatei `combfeat.php` enthalten und interagiert direkt mit den PrestaShop `Product`- und `Combination` (ProductAttribute) `ObjectModel`s.
+Ein jQuery-Selektor. Das Modul ersetzt das **innere HTML** des getroffenen Elements durch Paare:
 
-### 4.4 JavaScript-Assets (`views/js/`)
+```html
+<dt class="name">Eigenschaft</dt><dd class="value">Wert</dd>
+```
 
-- **`combfeat/views/js/acplt.js`**
+Zeigen Sie auf das `<dl>`, das die Zeilen bereits enthält. Im Theme Classic ist das `dl.data-sheet`, der Standardwert passt also. Ein größerer Block wie `.product-features` oder `#product-details` wird vollständig durch die `<dt>` / `<dd>`-Paare ersetzt.
 
-  - **Geltungsbereich:** Wahrscheinlich Back-Office (Admin-Produktseite).
-  - **Verantwortlichkeit:** Dieses Skript scheint eine benutzerdefinierte Autocomplete-Bibliothek oder eine Komponente zu sein, die zum Auswählen von Merkmalen und deren Werten für Kombinationen verwendet wird. Es würde AJAX-Anfragen zur Abfrage verfügbarer Merkmale und Werte verarbeiten und die Benutzeroberfläche zum Hinzufügen/Entfernen dieser aus einer Kombination verwalten.
-  - **Schlüsselinteraktionen:** Event-Listener für Eingabefelder, AJAX-Aufrufe an einen Modul-Hook oder Admin-Controller für Daten, DOM-Manipulation zur Anzeige von Vorschlägen und ausgewählten Elementen.
-- **`combfeat/views/js/admin-combfeat.js`**
+Trifft der Selektor nichts und hat die gewählte Kombination Eigenschaften, ersetzt das Modul den gesamten Inhalt von `#product-details` durch einen neuen Datenblatt-Abschnitt. Referenz, Marke und alles andere in `#product-details` entfallen. Setzen Sie den Selektor so, dass dieser Fallback nicht läuft.
 
-  - **Geltungsbereich:** Back-Office (Admin-Produktseite, Tab „Module“).
-  - **Verantwortlichkeit:** Dies ist das Hauptskript für die Funktionalität des Moduls innerhalb der PrestaShop Back Office Produktbearbeitungsseite. Es initialisiert die Felder für Kombinationsmerkmale, -beschreibungen und -meta-Titel. Es lauscht wahrscheinlich auf Änderungen in der Kombinationsauswahl (falls vorhanden) und verwaltet die Anzeige und Speicherung von Daten für jede Kombination.
-  - **Schlüsselinteraktionen:** DOM-Manipulation zum Einfügen benutzerdefinierter Felder, Event-Listener für Eingabeänderungen, potenziell AJAX-Aufrufe zum Speichern kombinationsspezifischer Daten.
-- **`combfeat/views/js/combfeat-append.js`**
+### 4.3 Arbeitsablauf
 
-  - **Geltungsbereich:** Front-Office (Produktseite).
-  - **Verantwortlichkeit:** Dieses Skript ist speziell für die Workflow-Option „Anhängen“. Wenn eine Kombination ausgewählt wird, ruft es dynamisch die kombinationsspezifischen Merkmale ab und *fügt* sie den vorhandenen Produktmerkmalen im Frontend hinzu.
-  - **Schlüsselinteraktionen:** Lauscht auf `updateProduct` oder ähnliche Ereignisse (ausgelöst durch Kombinationsauswahl), AJAX-Aufrufe zum Abrufen von Kombinationsdaten, DOM-Manipulation zum Anhängen von Merkmalen an das durch `combfeat_ds` angegebene Element.
-- **`combfeat/views/js/combfeat-title.js`**
+Schlüssel: `combfeat_workflow`. Standard: **Bestehende Produkteigenschaften ersetzen** (Wert `0`).
 
-  - **Geltungsbereich:** Front-Office (Produktseite).
-  - **Verantwortlichkeit:** Dieses Skript handhabt die dynamische Aktualisierung des Meta-Titels des Browsers basierend auf der ausgewählten Produktkombination.
-  - **Schlüsselinteraktionen:** Lauscht auf `updateProduct` oder ähnliche Ereignisse, ruft den Meta-Titel der Kombination ab (entweder benutzerdefiniert oder basierend auf Moduleinstellungen generiert) und aktualisiert `document.title`.
-- **`combfeat/views/js/combfeat.js`**
+| Option | Wert | Datenblatt nach Auswahl einer Kombination |
+| --- | --- | --- |
+| **Bestehende Produkteigenschaften ersetzen** | `0` | Kombinations-Eigenschaften ersetzen das Datenblatt. Hat die Kombination keine, werden die Produkteigenschaften zurückgeschrieben. |
+| **Zur bestehenden Liste der Produkteigenschaften hinzufügen** | `1` | Produkteigenschaften bleiben vorn. Kombinations-Eigenschaften folgen dahinter. Hat die Kombination keine, sind nur die Produkteigenschaften zu sehen. |
 
-  - **Geltungsbereich:** Front-Office (Produktseite).
-  - **Verantwortlichkeit:** Dies ist das primäre Front-Office-Skript für das Modul. Es orchestriert die dynamische Anzeige von kombinationsspezifischen Merkmalen und Beschreibungen. Es lauscht wahrscheinlich auf Änderungen in Produktkombinationen (z. B. Attributauswahl) und löst Aktualisierungen der relevanten DOM-Elemente aus. Dieses Skript würde den „Ersetzen“-Workflow für Merkmale und die Beschreibungsaktualisierung handhaben.
-  - **Schlüsselinteraktionen:** Lauscht auf `updateProduct` oder ähnliche Ereignisse (z. B. `prestashop.on('updatedProduct', ...) `), AJAX-Aufrufe zum Abrufen von Kombinationsdaten, DOM-Manipulation zum Aktualisieren der durch `combfeat_ds` und `combfeat_description` angegebenen Elemente.
+Derselbe Eigenschaftswert auf Produkt und Kombination erscheint im Modus **Hinzufügen** zweimal. Das Modul entfernt keine Duplikate.
 
-### 4.5 CSS-Stylesheets (`views/css/`)
+Mehrere Werte einer Eigenschaft sind erlaubt. Jeder Wert ist eine eigene Zeile. Die Reihenfolge folgt der Position der Eigenschaft im Katalog.
 
-- **`combfeat/views/css/combfeat.css`**
-  - **Geltungsbereich:** Sowohl Front-Office als auch Back-Office.
-  - **Verantwortlichkeit:** Bietet grundlegendes Styling für die vom Modul eingefügten Elemente. Dies könnte Styling für die Eingabefelder für Kombinationsmerkmale/-beschreibungen im Back Office oder für die dynamisch aktualisierten Merkmals-/Beschreibungsblöcke im Front Office umfassen.
-  - **Wichtige CSS-Klassenselektoren:** Zielt wahrscheinlich auf Klassen ab, die von den Modul-Templates und JavaScript verwendet werden, wie z. B. `.combfeat-feature-list`, `.combfeat-description-wrapper` oder spezifische Stile für die Autocomplete-Komponente. Entwickler müssen diese möglicherweise in der `custom.css` oder `theme.css` ihres Themes überschreiben, um eine perfekte Integration zu gewährleisten.
+**Der Arbeitsablauf ändert nur das Datenblatt.** Die Beschreibung wird in beiden Modi ersetzt. Siehe Abschnitt 6.4.
 
-### 4.6 Smarty-Template-Struktur (`views/templates/`)
+Das Storefront-Skript hängt von dieser Einstellung ab: `views/js/combfeat.js` für Ersetzen, `views/js/combfeat-append.js` für Hinzufügen.
 
-- **`combfeat/views/templates/admin/combfeat.tpl`**
+### 4.4 Filter combination features in Faceted Search
 
-  - **Geltungsbereich:** Admin-Template.
-  - **Verantwortlichkeit:** Dieses Template rendert den benutzerdefinierten Abschnitt innerhalb des Tabs „Module“ auf der Produktbearbeitungsseite im Back Office. Es zeigt die Benutzeroberfläche zur Verwaltung von kombinationsspezifischen Merkmalen, Beschreibungen und Meta-Titeln an. Es iteriert wahrscheinlich durch alle Produktkombinationen und stellt Eingabefelder für jede bereit.
-  - **Schlüsselelemente:** Schleifen für Kombinationen, Eingabefelder für die Merkmalsauswahl (möglicherweise unter Verwendung der `acplt.js`-Komponente), Rich-Text-Editor für Beschreibungen, Texteingabe für Meta-Titel.
-- **`combfeat/views/templates/hook/product-details.tpl`**
+Schlüssel: `combfeat_faceted`. Standard: **Enabled**.
 
-  - **Geltungsbereich:** Front-Office-Hook-Template.
-  - **Verantwortlichkeit:** Dieses Template ist wahrscheinlich in `displayProductAdditionalInfo` oder ähnliche Hooks eingehängt, um die kombinationsspezifischen Merkmale und/oder Beschreibungen auf der Front-Office-Produktseite zu rendern. Es bietet die HTML-Struktur, die `combfeat.js` und `combfeat-append.js` dynamisch füllen und aktualisieren werden.
-  - **Schlüsselelemente:** Platzhalter (z. B. leere `div`s mit spezifischen IDs oder Klassen), in die die Kombinationsmerkmale und -beschreibungen von JavaScript eingefügt werden.
+Die Beschriftung auf dem Bildschirm ist Englisch: **Filter combination features in Faceted Search**. Dieser Text steht noch nicht in den Übersetzungsdateien des Moduls. Der Hilfetext darunter ist ebenfalls Englisch: Eigenschaftswerte, die nur auf Kombinationen existieren, erscheinen in `ps_facetedsearch`; gezählt wird ein Produkt, wenn der Wert am Produkt oder an irgendeiner Kombination hängt. Die Eigenschaft muss in die Faceted-Search-Vorlage aufgenommen werden. Die Eigenschaftenliste des Produkts ändert sich nicht.
 
-### 4.7 Datenbankschema & Hooks-Map
+Wenn `ps_facetedsearch` installiert und der Schalter an ist:
 
-- **Datenbanktabellen**:
+- In den Kategoriefiltern können Werte erscheinen, die nur auf Kombinationen existieren.
+- Ein Produkt wird gezählt, wenn der Wert am Produkt **oder an irgendeiner seiner Kombinationen** hängt. Der Filter hängt nicht davon ab, welche Kombination der Besucher später wählt. Ein Produkt zählt einmal, auch wenn mehrere Kombinationen den Wert tragen.
+- Die Eigenschaft nehmen Sie weiterhin in die Vorlage der Facettensuche auf. Das Modul bearbeitet keine Vorlagen.
+- Die Eigenschaftenliste auf der Produktseite im Katalog bleibt unverändert.
 
-  - Das Modul erstellt keine neuen benutzerdefinierten Tabellen. Es speichert kombinationsspezifische Merkmale wahrscheinlich durch Erweiterung der `ps_product_attribute_feature`-Beziehung oder ähnliches, und Kombinationsbeschreibungen/-meta-Titel in `ps_product_attribute_lang` oder einer ähnlichen Struktur, die sie mit `id_product_attribute` und `id_lang` verknüpft.
-  - Modulkonfigurationseinstellungen (`combfeat_ds`, `combfeat_description` usw.) werden in der Tabelle `ps_configuration` gespeichert.
-- **Registrierte Hooks-Tabelle**:
+Nach dem Speichern von Kombinations-Eigenschaften oder nach einem CSV-Import leert das Modul den Block-Cache der Facettensuche (`layered_filter_block`), damit die Filter neu entstehen.
 
-| Hook-Name | Geltungsbereich | Ausführungszeitpunkt | Technischer Zweck |
-| --- | --- | --- | --- |
-| `displayHeader` | Front-Office | Im `<head>`-Bereich aller Front-Office-Seiten. | Registriert Front-Office-CSS- und JS-Assets (`combfeat.css`, `combfeat.js`, `combfeat-append.js`, `combfeat-title.js`). |
-| `DisplayHeader` | Front-Office | Alias für `displayHeader`. | Gleich wie `displayHeader`. |
-| `displayProductAdditionalInfo` | Front-Office | Auf der Produktseite, typischerweise unterhalb der Hauptproduktinformationen. | Rendert das `product-details.tpl`-Template und stellt einen Platzhalter für Kombinationsmerkmale/-beschreibungen bereit. |
-| `ActionAdminControllerSetMedia` | Back-Office | Wenn ein Admin-Controller geladen und seine Medien-Assets gesetzt werden. | Registriert Back-Office-CSS- und JS-Assets (`combfeat.css`, `acplt.js`, `admin-combfeat.js`) für die Produktbearbeitungsseite. |
-| `ActionProductUpdate` | Back-Office | Nach der Aktualisierung eines Produkts (einschließlich Kombinationen). | Potenziell zum Speichern oder Synchronisieren kombinationsspezifischer Daten beim Absenden des Produktformulars verwendet. |
-| `actionProductUpdate` | Back-Office | Alias für `ActionProductUpdate`. | Gleich wie `ActionProductUpdate`. |
-| `displayAdminProductsExtra` | Back-Office | Auf der Produktbearbeitungsseite, typischerweise als neuer Tab oder Abschnitt. | Rendert das `admin/combfeat.tpl`-Template und erstellt den Abschnitt „Produktkombinationsmerkmale“ unter dem Tab „Module“. |
-| `DisplayAdminProductsExtra` | Back-Office | Alias für `displayAdminProductsExtra`. | Gleich wie `displayAdminProductsExtra`. |
+### 4.5 Beschreibungen für Kombinationen aktivieren
 
-## 5. Offizieller Support & Updates
+Schlüssel: `combfeat_p_desc`. Standard: **Aktiviert**.
 
-Für die neuesten Updates, Fehlerbehebungen und offiziellen Support für das Modul „Produktkombinationsmerkmale“ besuchen Sie bitte Ihr Kundenkonto unter [MyPresta.eu](https://mypresta.eu/my-account/orders/). Unser Support-Team steht Ihnen bei allen Problemen oder Fragen bezüglich der Funktionalität und Integration des Moduls zur Verfügung.
+Im englischen Quelltext lautet die Beschriftung **Turn on descriptionsfor combinations** (kein Leerzeichen vor „for“). Die deutsche Übersetzung ist **Beschreibungen für Kombinationen aktivieren**.
+
+Wenn aktiv, hat jede Kombination eine Registerkarte **Beschreibung** mit einem Rich-Text-Feld je Shop-Sprache.
+
+Wenn inaktiv, ist die Registerkarte ausgeblendet und ein Speichern des Produkts ändert gespeicherte Beschreibungen nicht. Sind Eigenschaften noch aktiv, läuft das Storefront-Skript weiter und wendet eine früher gespeicherte Beschreibung an. Leeren Sie die Beschreibungsfelder, speichern Sie, und schalten Sie erst dann aus, wenn die Storefront sie nicht mehr verwenden soll.
+
+### 4.6 Beschreibung der CSS-Klasse / Objekt-ID
+
+Schlüssel: `combfeat_description`. Standard: `#description`.
+
+Ein jQuery-Selektor für den Block, dessen HTML die Kombinationsbeschreibung ersetzt. Im Theme Classic ist `#description` der Tab der langen Beschreibung, der Standard trifft also diesen Block.
+
+Trifft der Selektor nichts, bleibt die Beschreibung auf der Seite unverändert.
+
+Der Text, wenn eine Kombination keine Beschreibung hat, ist die **lange Beschreibung** des Produkts (`description`) in der aktuellen Sprache. Das ist nicht die Kurzbeschreibung und nicht die Meta-Beschreibung. Zeigt der Selektor auf den Kurzbeschreibungsblock, füllt eine Kombination ohne eigenen Text diesen Block mit der langen Beschreibung.
+
+### 4.7 Meta-Titel für Kombinationen aktivieren
+
+Schlüssel: `combfeat_p_title`. Standard: **Aktiviert**.
+
+Wenn aktiv, lädt die Produktseite `views/js/combfeat-title.js`. Die Wahl einer Kombination aktualisiert `document.title` und, falls vorhanden, `<meta property="og:title">`.
+
+Der Titel im vom Server gesendeten HTML bleibt der Meta-Titel des Produkts. Besucher sehen den Kombinationstitel, nachdem JavaScript gelaufen ist. Ein Crawler ohne JavaScript behält den Produkttitel.
+
+Wenn inaktiv, ist die Registerkarte **Meta-Titel** ausgeblendet, das Skript wird nicht geladen, und ein Speichern ändert gespeicherte Titel nicht.
+
+### 4.8 Standard-Titelmodus
+
+Schlüssel: `combfeat_title_default`. Standard: **Attributnamen und -wert hinzufügen (kommagetrennt)** (Wert `1`).
+
+Wird nur verwendet, wenn diese Kombination in der aktuellen Sprache keinen **Vollständigen Titel** und kein **Zum Titel hinzufügen** hat.
+
+Der Ausgangstitel ist der Browsertitel, der beim ersten Laden der Seite gemerkt wird. Spätere Wechsel merken ihn nicht erneut, angehängte Teile stapeln sich also nicht.
+
+| Option | Wert | Ergebnis |
+| --- | --- | --- |
+| **Titel standardmäßig nicht ändern** | `0` | Der ursprüngliche Dokumenttitel bleibt. |
+| **Attributnamen und -wert hinzufügen (kommagetrennt)** | `1` | Ursprünglicher Titel, dann das Trennzeichen, dann Gruppen und Werte wie `Farbe: Rot, Größe: M`. |
+| **Nur Attributwerte hinzufügen (kommagetrennt)** | `2` | Ursprünglicher Titel, dann das Trennzeichen, dann nur Werte wie `Rot, M`. |
+
+Gruppennamen und Werte stammen aus der aktuellen Shop-Sprache.
+
+### 4.9 Titel-Trennzeichen
+
+Schlüssel: `combfeat_title_separator`. Standard: ` - ` (Leerzeichen, Bindestrich, Leerzeichen).
+
+Steht zwischen dem ursprünglichen Dokumenttitel und dem hinzugefügten Teil. Der hinzugefügte Teil ist entweder der Text des Standardmodus oder **Zum Titel hinzufügen** der Kombination. Das Trennzeichen wird so verwendet, wie es gespeichert ist, einschließlich Leerzeichen.
+
+**Vollständiger Titel** verwendet das Trennzeichen nicht. Er ersetzt den Dokumenttitel allein.
+
+Ist der ursprüngliche Titel leer, wird nur der hinzugefügte Teil verwendet.
+
+### 4.10 Kurzübersicht der Einstellungen
+
+| Einstellung | Schlüssel | Standard |
+| --- | --- | --- |
+| Eigenschaften für Kombinationen aktivieren | `combfeat_p_feat` | Aktiviert (`1`) |
+| Datenblatt-CSS-Klasse | `combfeat_ds` | `.data-sheet` |
+| Arbeitsablauf | `combfeat_workflow` | Ersetzen (`0`) |
+| Filter combination features in Faceted Search | `combfeat_faceted` | Aktiviert (`1`) |
+| Beschreibungen für Kombinationen aktivieren | `combfeat_p_desc` | Aktiviert (`1`) |
+| Beschreibung der CSS-Klasse / Objekt-ID | `combfeat_description` | `#description` |
+| Meta-Titel für Kombinationen aktivieren | `combfeat_p_title` | Aktiviert (`1`) |
+| Standard-Titelmodus | `combfeat_title_default` | Attributname und Wert (`1`) |
+| Titel-Trennzeichen | `combfeat_title_separator` | ` - ` |
+
+## 5. Import der Kombinations-Eigenschaften
+
+Das zweite Formular auf der Konfigurationsseite. Diese Beschriftungen sind derzeit in jeder Sprache die englischen Quelltexte (sie stehen noch nicht in den Übersetzungsdateien).
+
+Der Import weist Kombinationen Eigenschaftswerte zu. Er importiert keine Beschreibungen und keine Titel und schreibt keine Zeilen in die Produkteigenschaftenliste (`feature_product`). Eine fehlende Eigenschaft oder ein fehlender Wert wird im Katalog angelegt.
+
+### 5.1 Import mode
+
+| Modus | Wirkung |
+| --- | --- |
+| **Append to combination features** (Standard) | Bereits gespeicherte Zuweisungen bleiben. Eine Zeile, die auf dieser Kombination schon liegt, wird übersprungen. |
+| **Replace features of listed combinations** | Für jede Kombination, die in der Datei vorkommt, werden deren Modul-Eigenschaften gelöscht und danach die Dateizeilen geschrieben. Kombinationen, die nicht in der Datei stehen, bleiben. Beschreibungen und Titel werden nicht gelöscht. |
+
+### 5.2 Dateiregeln
+
+- UTF-8, Endung `.csv` oder `.txt`. Ein führendes BOM ist zulässig. Maximal **8 MB**.
+- Das Trennzeichen wird aus der Kopfzeile erkannt: Semikolon, Komma oder Tabulator. Fehlen alle drei, wird das Semikolon verwendet.
+- Der Kopf muss die Kombination über `id_product_attribute` oder `combination_reference` bestimmen.
+- Der Kopf muss die Eigenschaft über `feature` und `value` oder über `id_feature_value` bestimmen.
+- Leere Zeilen werden übersprungen. Höchstens 30 Zeilenfehler werden aufgeführt, der Rest wird gezählt.
+
+Akzeptierte Spaltennamen (Leerzeichen und Bindestriche werden Unterstriche, Großschreibung wird ignoriert):
+
+| Spalte | Ebenfalls akzeptiert |
+| --- | --- |
+| `id_product` | `product_id` |
+| `id_product_attribute` | `id_combination`, `combination_id` |
+| `product_reference` | — |
+| `combination_reference` | `combination_ref`, `attribute_reference` |
+| `feature` | `feature_name`, `id_feature` |
+| `value` | `feature_value` |
+| `id_feature_value` | `feature_value_id` |
+
+`id_product` und `product_reference` sind optional. Wenn Sie sie füllen, müssen sie zu dieser Kombination gehören. Eine Abweichung verwirft die Zeile.
+
+Kombination finden:
+
+- `id_product_attribute` wird verwendet, wenn es größer als null ist. Sind ID und `combination_reference` beide gefüllt, muss die Referenz zu dieser Zeile passen.
+- Sonst wird die Kombinationsreferenz verwendet. Teilen sich mehrere Kombinationen dieselbe, ergänzen Sie `id_product` oder `id_product_attribute`. Meldung: Combination reference matches more than one combination.
+
+Eigenschaftswert finden:
+
+- `id_feature_value` größer als null lädt diesen Wert. Die Zellen für Name und Wert werden ignoriert.
+- Sonst sind `feature` und `value` erforderlich. Eine Eigenschaftszelle, die nur aus Ziffern besteht, ist eine Eigenschafts-ID.
+- Namen werden exakt gesucht, danach ohne Rücksicht auf Großschreibung. Passt mehr als eine Eigenschaft oder ein Wert, wird die Zeile verworfen. Es wird nichts geraten.
+- Eine nicht vorhandene Eigenschaft wird angelegt. Ihr Name wird in jede Shop-Sprache kopiert. Höchstlänge 128.
+- Ein nicht vorhandener Wert wird als normaler (nicht individueller) Wert angelegt, mit demselben Text in jeder Sprache. Höchstlänge 255. Bearbeiten Sie danach **Katalog > Attribute & Eigenschaften**, wenn die Sprachen unterschiedliche Texte brauchen.
+
+**Download sample file** liefert `import/combfeat-features-sample.csv`:
+
+```csv
+id_product;id_product_attribute;product_reference;combination_reference;feature;value;id_feature_value
+12;45;DEMO-1;DEMO-1-RED;Material;Cotton;
+12;46;DEMO-1;DEMO-1-BLUE;Material;Wool;
+;;DEMO-2;DEMO-2-XL;Composition;100% cotton;
+10;25;;;;;83
+```
+
+Die Beispielzeilen bedeuten:
+
+1. Kombination 45 von Produkt 12, Referenzen müssen passen, Eigenschaft Material / Cotton (wird angelegt, falls sie fehlt).
+2. Kombination 46 von Produkt 12, Material / Wool.
+3. Die Kombination mit der Referenz `DEMO-2-XL` am Produkt mit der Referenz `DEMO-2`, Eigenschaft Composition / 100% cotton. Keine numerischen IDs.
+4. Kombination 25 von Produkt 10, vorhandener Eigenschaftswert 83. Name und Wert sind leer.
+
+Nach einem erfolgreichen Import wird der Block-Cache der Facettensuche geleert. Die Bestätigung nennt, wie viele Zuweisungen gespeichert wurden, wie viele schon vorhanden waren und welche Zeilen fehlschlugen.
+
+## 6. Inhalt der Kombination am Produkt
+
+**Katalog > Produkte**, Produkt bearbeiten, Registerkarte **Module**. Blocktitel: **Inhalt der Kombination**. Untertitel: **Eigenschaften, Beschreibungen und Meta-Titel pro Kombination**.
+
+Legen Sie zuerst die Kombinationen an (Registerkarte **Kombinationen** des Produkts). Hat das Produkt keine, sagt der Block das, und es gibt nichts zu bearbeiten.
+
+### 6.1 Die Liste
+
+- **Alle aufklappen** / **Alle einklappen**.
+- **Kombinationen filtern…** trifft Kombinationsname, Kombinations-ID und Kombinationsreferenz.
+- Jede Zeile zeigt das Kombinationsbild (oder einen Platzhalter), die Attributnamen, **Combination ID**, **Reference** (wenn die Kombination eine hat) und Kennzeichen. Die Kennzeichen **Eigenschaften**, **Beschreibung** und **Titel** leuchten, wenn dieser Teil gefüllt ist. Das Eigenschaften-Kennzeichen nennt die Anzahl der Werte. Combination ID und Reference sind die englischen Quelltexte.
+- Die erste Kombination ist offen. **Konfigurieren** öffnet eine Zeile, **Schließen** klappt sie zu.
+- In der Zeile stehen die Registerkarten der aktiven Schalter: **Eigenschaften**, **Beschreibung**, **Meta-Titel**.
+
+Sind alle drei Schalter aus, zeigt der Block: Alle Kombinationsoptionen sind deaktiviert. Aktivieren Sie Eigenschaften, Beschreibungen oder Titel in der Modulkonfiguration.
+
+### 6.2 Eigenschaften
+
+Hilfetext: Suchen und fügen Sie Eigenschaftswerte hinzu, die für diese Kombination auf der Produktseite verwendet werden.
+
+Tippen Sie mindestens **2 Zeichen** des Eigenschaftsnamens oder des Werts, in der aktuellen Sprache des Mitarbeiters. Bis zu 20 Treffer erscheinen, beschriftet als `Eigenschaft: Wert`. Ein Treffer fügt einen Token hinzu. Die Suche findet nur Werte, die schon existieren. Legen Sie sie im Katalog an oder über den CSV-Import.
+
+Derselbe Wert kann nicht zweimal hinzugefügt werden. Mehrere Werte derselben Eigenschaft können. **×** entfernt einen Token. Das Entfernen wird mit dem Produkt gespeichert.
+
+### 6.3 Beschreibung
+
+Ein Rich-Text-Feld je Sprache. Die Sprachauswahl erscheint, wenn der Shop mehr als eine Sprache hat. Leeres HTML gilt als keine Beschreibung: In der Storefront erscheint wieder die lange Produktbeschreibung, und beim Speichern wird die Zeile dieser Sprache gelöscht.
+
+### 6.4 Meta-Titel
+
+Beide Felder sind je Sprache, je 512 Zeichen. Ein leeres Feld überspringt diese Überschreibung.
+
+| Feld | Wirkung in der Storefront |
+| --- | --- |
+| **Vollständiger Titel (gesamten Titel überschreiben)** | Ersetzt den gesamten Dokumenttitel. Trennzeichen und Standardmodus werden nicht verwendet. Sind beide Felder gefüllt, gewinnt dieses. |
+| **Zum Titel hinzufügen (Fragment wird am Ende hinzugefügt)** | Ursprünglicher Dokumenttitel, dann das Trennzeichen, dann dieses Fragment. Wird verwendet, wenn der vollständige Titel leer ist. |
+
+Sind beide leer, gilt der Standard-Titelmodus aus Abschnitt 4.8.
+
+### 6.5 Speichern
+
+Änderungen werden mit dem Produkt gespeichert. Verwenden Sie die Schaltfläche **Speichern** des Produkts (einschließlich Speichern und Vorschau, je nach PrestaShop-Version). Im Block gibt es keine eigene Speichern-Schaltfläche.
+
+Beim Speichern:
+
+1. Löscht das Modul jede Kombinations-Eigenschaftszeile dieses Produkts und fügt die Token aus dem Formular ein.
+2. Speichert oder löscht es je Sprache die Beschreibung.
+3. Speichert es je Sprache die Titelzeile oder löscht sie, wenn beide Titelfelder leer sind.
+4. Leert es den Block-Cache der Facettensuche, wenn diese Option an ist.
+
+Das Formular sendet ein verborgenes Feld `combfeat_submitted`. Fehlt das Feld, fasst das Modul die Daten nicht an. In PrestaShop 8 und 9 hängt das von der Twig-Änderung in Abschnitt 3.1 ab.
+
+Das Löschen einer Kombination in PrestaShop löscht ihre Zeilen in diesem Modul nicht. Die Zeilen werden nicht verwendet, weil die Kombination nicht mehr existiert. Eigenschaften entfallen, wenn Sie das Produkt speichern (das Formular sendet nur aktuelle Kombinationen). Beschreibungs- und Titelzeilen einer gelöschten Kombination bleiben, bis Sie sie aus der Datenbank entfernen.
+
+## 7. Storefront
+
+Skripte werden nur auf der Produktseite geladen, nur wenn die Anfrage kein Ajax-Neuaufbau des ganzen Controllers ist, nur wenn das Produkt Kombinationen hat und nur wenn mindestens einer der drei Schalter an ist.
+
+| Schalter | Skript |
+| --- | --- |
+| Eigenschaften oder Beschreibungen, Arbeitsablauf = Ersetzen | `views/js/combfeat.js` |
+| Eigenschaften oder Beschreibungen, Arbeitsablauf = Hinzufügen | `views/js/combfeat-append.js` |
+| Meta-Titel | `views/js/combfeat-title.js` |
+
+Beim Wechsel der Kombination gibt es keine weitere Anfrage. Die Daten aller Kombinationen stehen in der Seite für die **aktuelle Sprache**. Das Skript liest die gewählte Kombination aus dem Attribut `data-product` von `#product-details` (`id_product_attribute`) und läuft beim Ereignis `updatedProduct` erneut.
+
+`displayProductAdditionalInfo` gibt außerdem ein verborgenes Element `#product-details-combfeat` mit der für die erste Ansicht aufgelösten Kombination aus (Attributgruppen aus der URL, `id_product_attribute` aus der Anfrage oder die Standardkombination). Nicht verfügbare Kombinationen folgen der Lagereinstellung von PrestaShop und **Nicht verfügbare Attribute anzeigen**. Das verborgene Element wird nur verwendet, wenn `#product-details` selbst fehlt. Themes, die `#product-details` behalten, müssen `data-product` an dieses Element setzen. So ist es in der Standard-Produktvorlage.
+
+Das Modul lädt kein Storefront-Stylesheet. Die neuen `<dt class="name">` und `<dd class="value">` nutzen die Datenblatt-Regeln des Themes.
+
+### 7.1 Eigenschaften und Beschreibungen teilen sich ein Skript
+
+`combfeat.js` und `combfeat-append.js` aktualisieren Datenblatt **und** Beschreibung, sobald sie geladen sind. Sie lesen die beiden Schalter nicht erneut.
+
+- Eigenschaften an, Beschreibungen aus: Eine früher gespeicherte Beschreibung wird weiter angewendet, bis Sie sie leeren und speichern.
+- Beschreibungen an, Eigenschaften aus: Noch gespeicherte Eigenschaften werden weiter angewendet. Speichern des Produkts bei ausgeschaltetem Eigenschaftsschalter löscht diese gespeicherten Eigenschaften. Siehe Abschnitt 4.1.
+
+Das Titel-Skript ist getrennt und läuft nur, wenn der Titelschalter an ist.
+
+### 7.2 Datenblatt
+
+Ersetzen und Hinzufügen stehen in Abschnitt 4.3. Bei jedem Lauf baut das Modul die Zeilen neu. Zusätzliches Markup, das das Theme im Datenblatt hatte (Links, zusätzliche Klassen an einem Wert), bleibt nicht erhalten.
+
+### 7.3 Beschreibung
+
+Hat die Kombination eine Beschreibung in der aktuellen Sprache, ersetzt dieses HTML den Inhalt des Beschreibungsselektors. Sonst ersetzt ihn die lange Produktbeschreibung. Der Modus Hinzufügen hängt keinen Beschreibungstext an.
+
+### 7.4 Titel
+
+Reihenfolge für die gewählte Kombination, in der aktuellen Sprache:
+
+1. **Vollständiger Titel**, wenn er nicht leer ist.
+2. Sonst **Zum Titel hinzufügen**, verbunden mit dem Trennzeichen aus Abschnitt 4.9.
+3. Sonst der Standard-Titelmodus aus Abschnitt 4.8.
+
+`og:title` erhält denselben Text, wenn dieses Meta-Tag vorhanden ist.
+
+## 8. Facettensuche
+
+Bei aktiver Option lesen die Kategoriefilter eine View, die vereint:
+
+- `feature_product` — dem Produkt zugewiesene Eigenschaften;
+- `combfeat` — aktive, Kombinationen zugewiesene Eigenschaften, verbunden mit `feature_value`, um die Eigenschafts-ID zu erhalten.
+
+Bauen Sie den Index der Facettensuche neu oder leeren Sie den PrestaShop-Cache, wenn ein Filter veraltet bleibt, nachdem die Warnung auf der Konfigurationsseite behoben ist. Speichern von Kombinations-Eigenschaften und CSV-Import leeren `layered_filter_block` bereits.
+
+Die Produktseite im Shop zeigt die Produkteigenschaften von PrestaShop weiter, bis das Skript dieses Moduls läuft. Filter und Datenblatt sind zwei verschiedene Quellen.
+
+## 9. MyPresta-Updates
+
+Das Panel unter den Formularen:
+
+| Steuerung | Verhalten |
+| --- | --- |
+| **Jetzt prüfen** | Kontaktiert MyPresta und zeigt **Neue Version verfügbar!** oder **Das Modul ist auf dem neuesten Stand!** |
+| **Update-Benachrichtigungen** | **Aktivieren** zeigt eine Backoffice-Warnung, wenn eine neuere Version vorliegt, mit dem Text **Neue Version verfügbar, besuchen Sie http://MyPresta.eu für weitere Informationen** und dem Link **Weitere Details im Changelog**. **Deaktivieren** blendet diese Warnung aus. |
+| **Modulseite** | Öffnet die Add-on-Seite: [Product combination features](https://mypresta.eu/modules/front-office-features/product-combination-features.html) |
+
+Solange ein Mitarbeiter im Backoffice ist, kontaktiert das Modul den Update-Server höchstens einmal alle 3 Tage. Die Prüfung braucht `allow_url_fopen`. Ist das nicht verfügbar, bleibt die installierte Version, und eine neuere wird nicht gemeldet.
+
+## 10. Fehlersuche
+
+**Der Block auf der Registerkarte Module ist unter PrestaShop 8 oder 9 leer.**  
+Prüfen Sie, ob `modules-content.html.twig` `{{ module.content|raw }}` enthält und der Shop die Datei schreiben konnte. Öffnen Sie die Modulkonfiguration erneut, damit der Versuch wiederholt wird. Leeren Sie danach den Symfony-Cache (**Erweiterte Einstellungen > Leistung**).
+
+**Das Datenblatt ändert sich nicht.**  
+Das Produkt braucht Kombinationen, der Eigenschaftsschalter muss an sein oder Eigenschaften müssen schon gespeichert sein, und die Kombination braucht mindestens einen Wert (im Modus Ersetzen schreibt eine Kombination ohne Werte die Produkteigenschaften zurück; das kann wie „nichts passiert“ aussehen). Prüfen Sie den Selektor in der Browserkonsole: `document.querySelectorAll('.data-sheet')` mit Ihrem echten Selektor. Das Theme muss `data-product` an `#product-details` aktualisieren und `updatedProduct` auslösen.
+
+**Der ganze Block product-details wurde durch eine kurze Eigenschaftenliste ersetzt.**  
+Der Datenblatt-Selektor hat nichts getroffen. Setzen Sie ihn auf das echte `<dl>`, in der Regel `.data-sheet`.
+
+**Die Beschreibung ändert sich nicht, oder die Kurzbeschreibung wurde durch die lange Beschreibung ersetzt.**  
+Der Standardselektor `#description` ist in Classic die lange Beschreibung. Der Ersatztext ist immer die lange Beschreibung. Zeigen Sie **Beschreibung der CSS-Klasse / Objekt-ID** auf das Element, das sich ändern soll.
+
+**Beschreibungen sind aus und der alte Text erscheint weiter.**  
+Leeren Sie die Felder, speichern Sie das Produkt, und schalten Sie erst dann aus. Oder schalten Sie auch die Eigenschaften aus, damit keines dieser Skripte lädt. Eigenschaften auszuschalten und zu speichern löscht gespeicherte Kombinations-Eigenschaften.
+
+**Eigenschaften sind aus und nach dem Speichern des Produkts verschwunden.**  
+So arbeitet das Speichern, wenn die Eigenschaftsfelder nicht im Formular stehen. Schalten Sie die Option wieder ein, bevor Sie bearbeiten, falls die Daten noch gebraucht werden. Importieren Sie die CSV erneut, wenn Sie die Datei haben.
+
+**Der Titel des Browser-Tabs ändert sich nicht.**  
+Schalten Sie den Titelschalter ein. Ein leerer vollständiger Titel und ein leeres Feld Zum Titel hinzufügen zusammen bedeuten, dass der Standardmodus gilt. **Titel standardmäßig nicht ändern** lässt den Titel stehen. Die Änderung liegt im Browser: Seite öffnen, Kombination wechseln, Tab-Titel lesen. Der HTML-Quelltext hat weiter den Meta-Titel des Produkts.
+
+**Eine Eigenschaft fehlt im Kategoriefilter.**  
+Schalten Sie **Filter combination features in Faceted Search** ein, nehmen Sie die Eigenschaft in die Vorlage der Facettensuche auf und lesen Sie die Warnung auf der Modulkonfiguration. Die Adapterdatei muss beschreibbar sein. Der Wert muss am Produkt oder an einer Kombination gespeichert sein.
+
+**CSV-Zeilenfehler.**
+
+| Meldung | Ursache |
+| --- | --- |
+| The CSV must contain id_product_attribute or combination_reference | Der Kopf bestimmt keine Kombination |
+| The CSV must contain feature and value, or id_feature_value | Der Kopf bestimmt keinen Eigenschaftswert |
+| Combination was not found | ID oder Referenz existiert nicht |
+| Product ID does not match this combination | `id_product` ist gefüllt und zeigt auf ein anderes Produkt |
+| Product reference does not match this combination | `product_reference` passt nicht |
+| Combination reference does not match this combination ID | ID und Referenz sind gefüllt und widersprechen sich |
+| Combination reference matches more than one combination | Ergänzen Sie `id_product` oder `id_product_attribute` |
+| Feature name or value matches more than one | Zwei Katalogeinträge tragen dieselbe Bezeichnung. Verwenden Sie `id_feature_value` |
+| Feature and value are required when id_feature_value is empty | Namens- oder Wertzelle ist leer |
+| The CSV file is larger than 8 MB | Teilen Sie die Datei |
+
+**Mehrere Sprachen.**  
+Beschreibungen und beide Titelfelder werden je Sprache gespeichert. Eigenschaftswerte nutzen die PrestaShop-Übersetzung der Eigenschaft in der Sprache des Besuchers. Die Zuweisung selbst ist nicht je Sprache.
+
+## 11. Technische Referenz
+
+### 11.1 Hooks
+
+| Hook | Wann | Aufgabe |
+| --- | --- | --- |
+| `actionAdminControllerSetMedia` | Backoffice, Controller `AdminProducts` und `AdminModules` | Lädt `views/css/combfeat.css`, `views/js/acplt.js`, `views/js/admin-combfeat.js` und jQuery-Autovervollständigung. Sichert außerdem Konfiguration und Facettensuche |
+| `displayAdminProductsExtra` | Produktbearbeitung, Registerkarte Module | Gibt `views/templates/admin/combfeat.tpl` aus |
+| `actionProductUpdate` | Produktspeichern | Schreibt Eigenschaften, Beschreibungen und Titel, wenn `combfeat_submitted` vorhanden ist |
+| `displayHeader` | Produktseite, kein Ajax | Gibt Kombinationsdaten der aktuellen Sprache aus und hängt die Storefront-Skripte an |
+| `displayProductAdditionalInfo` | Produktseite | Gibt das verborgene `views/templates/hook/product-details.tpl` aus |
+
+Bei der Installation registriert: `actionProductUpdate`, `displayProductAdditionalInfo`, `displayAdminProductsExtra`, `actionAdminControllerSetMedia`, `displayHeader`.
+
+Die Konfigurationsseite beantwortet auch die Eigenschaftssuche. Eine Anfrage mit `ajax=1` und `q` liefert JSON-Treffer und endet. Der Produkteditor ruft diese URL über `AdminModules` mit `configure=combfeat` auf.
+
+### 11.2 Datenbank
+
+Der Präfix ist der Shop-Präfix. Die Deinstallation löscht diese Tabellen **nicht**. Kombinationsinhalte überstehen die Deinstallation und sind nach einer späteren Installation noch da (`CREATE TABLE IF NOT EXISTS`).
+
+`combfeat` — eine Zeile je Eigenschaftswert an einer Kombination:
+
+| Spalte | Rolle |
+| --- | --- |
+| `id_combfeat` | Primärschlüssel |
+| `id_product` | Produkt |
+| `id_product_attribute` | Kombination |
+| `id_feature_value` | Eigenschaftswert aus dem Katalog |
+| `active` | `1`, wenn die Zeile verwendet wird. Storefront und Facettensuche-View lesen aktive Zeilen |
+
+`combfeat_details` — Beschreibung, eine Zeile je Kombination und Sprache:
+
+| Spalte | Rolle |
+| --- | --- |
+| `id_combfeat` | Primärschlüssel |
+| `id_product`, `id_product_attribute`, `id_lang` | Ziel |
+| `details` | HTML |
+| `active` | Gespeichert als `1` |
+
+`combfeat_title` — Titel, eine Zeile je Kombination und Sprache:
+
+| Spalte | Rolle |
+| --- | --- |
+| `id_combfeat` | Primärschlüssel |
+| `id_product`, `id_product_attribute`, `id_lang` | Ziel |
+| `title_full` | Bis 512 Zeichen. Ersetzt den Dokumenttitel |
+| `title_append` | Bis 512 Zeichen. Wird nach dem ursprünglichen Titel gesetzt |
+| `active` | Gespeichert als `1` |
+
+`{prefix}combfeat_feature_product` — SQL-View, keine Inhaltstabelle zum Bearbeiten. Vereinigung von `feature_product` und aktiven `combfeat`-Zeilen. Der Konfigurationswert `COMBFEAT_FEATURE_VIEW` speichert die View-Version (`1`).
+
+Weitere Konfigurationsschlüssel: `update_combfeat` und `updatev_combfeat` (Update-Prüfung), `mypresta_updates` (Benachrichtigungsschalter).
+
+### 11.3 PHP-Klassen
+
+| Datei | Klasse | Rolle |
+| --- | --- | --- |
+| `combfeat.php` | `combfeat` | Modulklasse: Installation, Konfiguration, Hooks, Daten des Produkteditors, Storefront-Daten |
+| `combfeat.php` | `combfeatUpdate` | Versionsvergleich und Anfrage an den Update-Server |
+| `classes/CombfeatImporter.php` | `CombfeatImporter` | CSV-Auswertung, Auflösung von Kombination und Eigenschaft, Beispiel-Download |
+| `classes/CombfeatFacetedSearch.php` | `CombfeatFacetedSearch` | View, Adapter-Patch, Wiederherstellung, Leeren des Filter-Caches |
+| `models/cfeat.php` | `cfeat` | Zeilen von `combfeat`. `getAllByProductId`, `getFeaturesStaticByIdProduct`, `assign`, `insertDatas`, Löschungen |
+| `models/cfeatdesc.php` | `cfeatdesc` | Zeilen von `combfeat_details` |
+| `models/cfeattitle.php` | `cfeattitle` | Zeilen von `combfeat_title`. `saveTitleRow` löscht die Zeile, wenn beide Titel leer sind |
+
+Es gibt kein Verzeichnis `controllers/`.
+
+### 11.4 Dateien und Templates
+
+| Datei | Wo | Rolle |
+| --- | --- | --- |
+| `views/js/acplt.js` | Backoffice | Autovervollständigung der Eigenschaftssuche |
+| `views/js/admin-combfeat.js` | Backoffice | Akkordeon, Filter, Registerkarten, Sprachflaggen, Token, TinyMCE-Auffrischung, Kopieren des Editorinhalts vor dem Speichern |
+| `views/css/combfeat.css` | Nur Backoffice | Layout von **Inhalt der Kombination** |
+| `views/js/combfeat.js` | Storefront, Ersetzen | Baut Datenblatt und Beschreibung neu |
+| `views/js/combfeat-append.js` | Storefront, Hinzufügen | Gleich, Produkteigenschaften stehen vor den Kombinations-Eigenschaften |
+| `views/js/combfeat-title.js` | Storefront | `document.title` und `og:title` |
+| `views/templates/admin/combfeat.tpl` | Registerkarte Module des Produkts | Der Editor |
+| `views/templates/hook/product-details.tpl` | Produktseite | Verborgenes `#product-details-combfeat` mit `data-product` |
+| `import/combfeat-features-sample.csv` | Download aus der Konfiguration | Importbeispiel |
+
+### 11.5 Installation und Deinstallation
+
+Die Installation legt die drei Tabellen an, schreibt die Standardkonfiguration, registriert die fünf Hooks, wendet die Twig-Änderung an und aktiviert die Facettensuche.
+
+`disable` stellt den Facettensuche-Adapter wieder her. `enable` schreibt fehlende Konfigurationsschlüssel und aktiviert die Integration erneut, wenn der Facettensuche-Schalter an ist.
+
+Die Deinstallation stellt den Adapter wieder her, löscht die View, wenn sie nicht mehr referenziert wird, und deinstalliert das Modul. Kombinationszeilen in den drei Tabellen bleiben in der Datenbank.
+
+## 12. Support
+
+Änderungsprotokoll und Updates: [Product combination features auf MyPresta.eu](https://mypresta.eu/modules/front-office-features/product-combination-features.html).
+
+Bestellungen und Support: [Kundenkonto MyPresta.eu](https://mypresta.eu/my-account/orders/). E-Mail: support@mypresta.eu.

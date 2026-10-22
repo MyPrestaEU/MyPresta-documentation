@@ -15,7 +15,7 @@ sidebar:
 # Block IP address Pro
 
 ## 1. Exigences et Compatibilité
-- **Versions PrestaShop Supportées :** PrestaShop 1.4.x, 1.5.x, 1.6.x, 1.7.x
+- **Versions PrestaShop Supportées :** PrestaShop 1.4.x, 1.5.x, 1.6.x, 1.7.x, 8.x, 9.x
 - **Compatibilité PHP :** PHP 5.6 - 8.5
 - **Exigences d'Hébergement :** Extensions PHP standard (cURL, JSON, OpenSSL) généralement disponibles sur tout environnement d'hébergement web moderne.
 

@@ -15,7 +15,7 @@ sidebar:
 # Bloquear dirección IP Pro
 
 ## 1. Requisitos y Compatibilidad
-- **Versiones de PrestaShop compatibles**: PrestaShop 1.4.x, 1.5.x, 1.6.x, 1.7.x
+- **Versiones de PrestaShop compatibles**: PrestaShop 1.4.x, 1.5.x, 1.6.x, 1.7.x, 8.x, 9.x
 - **Compatibilidad con PHP**: PHP 5.6 - 8.5
 - **Requisitos de alojamiento**: Extensiones PHP estándar (cURL, JSON, OpenSSL) típicamente disponibles en cualquier entorno de alojamiento web moderno.
 
