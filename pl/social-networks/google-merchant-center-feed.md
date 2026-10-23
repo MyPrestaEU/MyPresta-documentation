@@ -1,8 +1,8 @@
 ---
-title: "Kanał Google Merchant Center - Podręcznik Sprzedawcy i Przewodnik Konfiguracji"
-description: "Kompletny podręcznik użytkownika, przewodnik konfiguracji krok po kroku oraz odniesienie dla programistów dla modułu PrestaShop „Google merchant center feed” od MyPresta.eu."
+title: "Google Merchant Center Feed - instrukcja sprzedawcy"
 sidebar:
-  label: "Kanał Google Merchant Center - Podręcznik Sprzedawcy i Przewodnik Konfiguracji"
+  label: "Google Merchant Center Feed - instrukcja sprzedawcy"
+description: "Konfiguracja pliku katalogu, zapisanych plików i adresu katalogu w sklepie, który ma już ten moduł."
 ---
 
 > ⚠️ **Notice:** This is the oficjalna dokumentacja modułu PrestaShop.
@@ -12,304 +12,157 @@ sidebar:
 > ---
 
 
-# Kanał Google Merchant Center
+Nazwa techniczna modułu to `gmfeed`, wersja 2.4.3. Na liście modułów w tym języku widać **Google Merchant Center Feed**. Ta nazwa jest wpisana w pliku modułu i nie pochodzi z `translations/pl.php`.
 
-## 1. Wymagania i kompatybilność
+## 1. Gdzie są ekrany
 
-- **Obsługiwane wersje PrestaShop**: PrestaShop 1.6.x, 1.7.x, 8.x, 9.x
-- **Kompatybilność z PHP**: PHP 5.6 - 8.5
-- **Wymagania hostingowe**: Standardowe rozszerzenia PHP (cURL, JSON, OpenSSL). Wystarczające zasoby serwera (CPU, RAM) mogą być wymagane do generowania bardzo dużych kanałów produktów, zwłaszcza dla sklepów z dziesiątkami tysięcy produktów.
+Są dwa ekrany.
 
-## 2. Kompletny przewodnik konfiguracji (każde ustawienie pogrupowane według ekranu)
+Moduły, potem Menedżer modułów, potem **Google Merchant Center Feed**, potem Konfiguruj. Na tej stronie jest jedno pole, **Pokaż drzewo kategorii**.
 
-### 2.1 Strona konfiguracji modułu (Panel Administracyjny > Moduły > Konfiguruj)
+Katalog, potem **Google Merchant Feed**. To kontroler `AdminExportProductsFeedGoogle`. Nagłówek brzmi **Pliki danych Google Merchant Center**. Zakładki to **Pulpit**, **Pliki danych**, **Aktualizacje** oraz **Create / Edit feed**. Ostatnia zakładka zostaje wyłączona, dopóki nie otworzysz **Utwórz nowy plik danych** albo istniejącego pliku. Napis **Create / Edit feed** nie ma wpisu w `translations/pl.php`, więc ekran pokazuje źródło angielskie.
 
-Jest to główny ekran konfiguracji modułu, dostępny natychmiast po instalacji lub po kliknięciu „Konfiguruj” w Menedżerze modułów.
+Nie ma ekranu importu ani bloku na edycji produktu. Front sklepu nie rysuje ramki. Publicznym efektem jest adres katalogu zapisanego pliku danych.
 
--   **Co robi to ustawienie:** Ta opcja kontroluje, czy selektor drzewa kategorii jest wyświetlany na ekranie eksportu produktów, umożliwiając włączanie lub wyłączanie produktów na podstawie ich kategorii.
--   **Wpływ zmiany tego ustawienia:**
-    *   *Gdy włączone (zaznaczone):* Na ekranie eksportu produktów (`AdminExportProductsFeedGoogle`) zobaczysz wizualne drzewo kategorii Twojego sklepu. Pozwala to łatwo wybrać, które kategorie produktów powinny być uwzględnione lub wykluczone z Twojego kanału Google Merchant Center. Jest to kluczowe do filtrowania kanału, aby zawierał tylko odpowiednie produkty lub wykluczał konkretne kategorie, których nie chcesz reklamować w Google.
-    *   *Gdy wyłączone (odznaczone):* Selektor drzewa kategorii nie pojawi się na ekranie eksportu. Oznacza to, że nie będziesz mógł filtrować produktów według kategorii bezpośrednio w interfejsie modułu. Wówczas eksportowałbyś wszystkie produkty lub polegał na innych dostępnych opcjach filtrowania (np. wykluczenia specyficzne dla produktu).
--   **Zalecana wartość:** **TAK (zaznaczone)**.
--   **Scenariusz/przykład dla sprzedawcy:** Sprzedajesz zarówno odzież, jak i pliki do pobrania. Chcesz reklamować tylko swoje produkty odzieżowe w Google Shopping. Włączając „Pokaż drzewo kategorii”, możesz łatwo wybrać tylko kategorie „Odzież” do włączenia do kanału, wykluczając kategorię „Pliki do pobrania”.
+## 2. Co zapisuje instalacja
 
-### 2.2 Dedykowane ekrany administracyjne i widoki kontrolerów
+Instalacja uruchamia instalację nadrzędną, rejestruje `actionAdminControllerSetMedia`, tworzy zakładkę pod Katalogiem i tworzy tabele z punktu 8.
 
-#### AdminExportProductsFeedGoogleController (Panel Administracyjny > Moduły > Google merchant center feed > Eksportuj kanał produktów)
+Klasa zakładki to `AdminExportProductsFeedGoogle`. Etykieta przekazana przy instalacji to **Google Merchant Feed**. Ten sam napis jest zapisany dla każdego języka sklepu istniejącego w chwili instalacji.
 
-Jest to główny ekran, na którym będziesz generować i zarządzać kanałami produktów Google Merchant Center. Dostęp do niego uzyskujesz, przechodząc do **Moduły > Menedżer modułów**, znajdując „Google merchant center feed”, a następnie klikając link „Eksportuj kanał produktów” (lub podobny, w zależności od wersji PrestaShop, może to być element podmenu pod głównym wpisem modułu).
+`actionAdminControllerSetMedia` ładuje wtyczki fancybox i autocomplete tylko wtedy, gdy kontroler to `AdminExportProductsFeedGoogle`.
 
-Ten ekran pozwala zdefiniować zawartość i format Twojego kanału produktów.
+Klasa nie ma metody `enable()` ani `disable()`.
 
-**Dostępne akcje i ustawienia:**
+## 3. Ustawienia modułu
 
-Ekran przedstawia formularz z różnymi polami odpowiadającymi atrybutom wymaganym przez Google Merchant Center. Wypełnisz je, aby dostosować swój kanał.
+![Ustawienia modułu](https://mypresta.eu/docs/images/docs/gmfeed-settings.webp)
 
--   **ID:**
-    *   **Cel:** Jest to unikalny identyfikator dla każdego produktu w Twoim kanale. Google używa go do dopasowania Twojego produktu do jego danych.
-    *   **Wpływ zmian:** Zapewnia, że każdy produkt ma odrębny identyfikator, co jest kluczowe dla prawidłowego przetwarzania Twojego kanału przez Google.
-    *   **Zalecana wartość:** Zazwyczaj mapuje się na wewnętrzny identyfikator lub referencję Twojego produktu.
--   **GTIN (Globalny Numer Jednostki Handlowej):**
-    *   **Cel:** Globalne Numery Jednostek Handlowych (takie jak EAN, UPC, ISBN) to unikalne identyfikatory produktów używane globalnie. Google wymaga ich dla większości produktów.
-    *   **Wpływ zmian:** Włączenie prawidłowych numerów GTIN pomaga Google dokładnie zidentyfikować Twoje produkty, poprawiając widoczność i zaufanie. Brakujące lub nieprawidłowe numery GTIN mogą prowadzić do odrzucenia produktów.
-    *   **Zalecana wartość:** Mapuj na pole EAN/UPC Twojego produktu.
--   **Identifier\_exists:**
-    *   **Cel:** Wskazuje, czy dla produktu istnieje unikalny identyfikator produktu (taki jak GTIN, marka, MPN).
-    *   **Wpływ zmian:** Jeśli sprzedajesz produkty niestandardowe lub produkty bez standardowych identyfikatorów, ustawienie tej wartości na „nie” (lub „fałsz”) może zapobiec odrzuceniom. Dla większości standardowych produktów powinno być „tak”.
-    *   **Zalecana wartość:** Zazwyczaj „tak”, jeśli podano numery GTIN.
--   **Tytuł:**
-    *   **Cel:** Nazwa Twojego produktu, tak jak pojawi się w Google Shopping. Jest to kluczowe pole do przyciągania kliknięć.
-    *   **Wpływ zmian:** Jasny, opisowy tytuł z odpowiednimi słowami kluczowymi poprawia widoczność w wyszukiwaniu i współczynniki klikalności.
-    *   **Zalecana wartość:** Nazwa Twojego produktu, potencjalnie wzbogacona o kluczowe atrybuty (np. „Czerwona koszulka – Rozmiar M – Bawełna”).
--   **Dostępność:**
-    *   **Cel:** Wskazuje, czy produkt jest dostępny w magazynie, niedostępny w magazynie, czy dostępny w przedsprzedaży.
-    *   **Wpływ zmian:** Dokładna dostępność zapobiega klikaniu przez klientów niedostępnych pozycji, poprawiając doświadczenie użytkownika i zmniejszając marnotrawstwo wydatków na reklamy.
-    *   **Zalecana wartość:** Automatycznie pobierana ze statusu magazynowego Twojego produktu.
--   **Availability\_date:**
-    *   **Cel:** Data, kiedy produkt zamówiony w przedsprzedaży stanie się dostępny.
-    *   **Wpływ zmian:** Zapewnia przejrzystość dla klientów zainteresowanych produktami w przedsprzedaży.
-    *   **Zalecana wartość:** Ustaw, jeśli oferujesz przedsprzedaż.
--   **Inwentarz:**
-    *   **Cel:** Ilość produktu aktualnie dostępna w magazynie.
-    *   **Wpływ zmian:** Utrzymuje synchronizację Twoich ofert Google z rzeczywistymi poziomami zapasów, zapobiegając nadmiernej sprzedaży.
-    *   **Zalecana wartość:** Automatycznie pobierana z ilości magazynowej Twojego produktu.
--   **Marka:**
-    *   **Cel:** Nazwa marki Twojego produktu.
-    *   **Wpływ zmian:** Pomaga klientom identyfikować znane marki i poprawia kategoryzację produktów w Google.
-    *   **Zalecana wartość:** Marka/producent Twojego produktu.
--   **Link:**
-    *   **Cel:** Bezpośredni adres URL do strony Twojego produktu w Twoim sklepie.
-    *   **Wpływ zmian:** Niezbędny do kierowania klientów z Google na Twoją stronę internetową.
-    *   **Zalecana wartość:** Kanoniczny adres URL Twojego produktu.
--   **Link do obrazu:**
-    *   **Cel:** Adres URL głównego obrazu Twojego produktu.
-    *   **Wpływ zmian:** Wysokiej jakości, wyraźne obrazy są kluczowe do przyciągania kliknięć w Google Shopping.
-    *   **Zalecana wartość:** Adres URL głównego obrazu Twojego produktu.
--   **Additional\_image\_link:**
-    *   **Cel:** Adresy URL dodatkowych obrazów Twojego produktu.
-    *   **Wpływ zmian:** Zapewnia więcej informacji wizualnych potencjalnym klientom, pomagając im w podejmowaniu decyzji zakupowych.
-    *   **Zalecana wartość:** Adresy URL dodatkowych obrazów produktu.
--   **Podtytuł pozycji:**
-    *   **Cel:** Opcjonalny, krótszy opis lub dodatkowy szczegół produktu.
-    *   **Wpływ zmian:** Może być używany do podkreślania kluczowych cech lub promocji.
-    *   **Zalecana wartość:** Opcjonalnie, użyj dla krótkich, wpływowych szczegółów.
--   **Opis:**
-    *   **Cel:** Szczegółowy opis Twojego produktu.
-    *   **Wpływ zmian:** Zapewnia kompleksowe informacje klientom i pomaga Google zrozumieć trafność Twojego produktu.
-    *   **Zalecana wartość:** Pełny opis Twojego produktu.
--   **Typ produktu:**
-    *   **Cel:** Twoja własna kategoryzacja produktu w Twoim sklepie.
-    *   **Wpływ zmian:** Pomaga Google zrozumieć Twoją hierarchię produktów i może być używany do targetowania kampanii.
-    *   **Zalecana wartość:** Twoja wewnętrzna ścieżka kategorii (np. „Odzież > Koszulki > Koszulki męskie”).
--   **Stan:**
-    *   **Cel:** Stan produktu (np. nowy, używany, odnowiony).
-    *   **Wpływ zmian:** Dokładne informacje o stanie są kluczowe dla zaufania klientów i zasad Google.
-    *   **Zalecana wartość:** Zazwyczaj „nowy” dla większości sklepów e-commerce.
--   **Cena:**
-    *   **Cel:** Aktualna cena sprzedaży Twojego produktu.
-    *   **Wpływ zmian:** Dokładne ceny są najważniejsze. Niezgodności między Twoim kanałem a Twoją stroną internetową mogą prowadzić do odrzuceń.
-    *   **Zalecana wartość:** Aktualna cena Twojego produktu.
--   **Cena promocyjna:**
-    *   **Cel:** Obniżona cena Twojego produktu, jeśli jest w promocji.
-    *   **Wpływ zmian:** Podkreśla promocje i przyciąga klientów szukających okazji.
-    *   **Zalecana wartość:** Konkretna cena Twojego produktu.
--   **Stawka podatku:**
-    *   **Cel:** Stawka podatku mająca zastosowanie do produktu.
-    *   **Wpływ zmian:** Zapewnia dokładne informacje o cenach, zwłaszcza w regionach, gdzie podatek jest obliczany przy kasie.
-    *   **Zalecana wartość:** Obowiązująca stawka podatku w Twoim sklepie.
--   **Słowa kluczowe kontekstowe:**
-    *   **Cel:** Dodatkowe słowa kluczowe, które pomagają Google zrozumieć Twój produkt.
-    *   **Wpływ zmian:** Może poprawić trafność Twojego produktu w wynikach wyszukiwania.
-    *   **Zalecana wartość:** Odpowiednie terminy wyszukiwania, których nie ma jeszcze w tytule lub opisie.
--   **Kategoria produktu Google:**
-    *   **Cel:** Standaryzowana kategoryzacja produktów Google. Jest to kluczowe pole dla Google, aby zrozumieć, co sprzedajesz.
-    *   **Wpływ zmian:** Prawidłowe kategoryzowanie produktów zgodnie z taksonomią Google poprawia widoczność i zapewnia, że Twoje produkty pojawiają się w odpowiednich wyszukiwaniach. Nieprawidłowe kategorie mogą prowadzić do odrzuceń.
-    *   **Zalecana wartość:** Wybierz najbardziej szczegółową kategorię produktu Google, która ma zastosowanie do Twojego produktu.
+Ekran jest po angielsku. W tej instrukcji ten widok to **Ustawienia modułu**.
 
-**Inne ustawienia i opcje:**
+Legenda to **Ustawienia modułu**. Przycisk to **Save**. Jedyne pole to **Pokaż drzewo kategorii** (`pf_tree`). **Nie** to 0. **Tak** to 1. Gdy klucza nie ma, `(int)Configuration::get('pf_tree')` wynosi 0, więc lista pokazuje **Nie**. Napis **Save** nie ma wpisu pod tym szablonem w `translations/pl.php`, więc przycisk pokazuje źródło angielskie.
 
--   **Eksportuj atrybut rozmiaru:**
-    *   **Cel:** Określa, czy atrybuty rozmiaru produktu powinny być uwzględnione w kanale, co jest ważne dla odzieży i innych produktów zależnych od rozmiaru.
-    *   **Wpływ zmian:**
-        *   *Gdy włączone:* Rozmiary produktów (np. S, M, L) zostaną wyeksportowane, umożliwiając Google wyświetlanie informacji o rozmiarach i opcji filtrowania.
-        *   *Gdy wyłączone:* Informacje o rozmiarach nie zostaną uwzględnione.
-    *   **Zalecana wartość:** **TAK** dla sklepów odzieżowych, **NIE** dla innych typów produktów.
--   **Eksportuj wykluczone kategorie:**
-    *   **Cel:** Pozwala wybrać konkretne kategorie, których produkty powinny być *wykluczone* z kanału. Działa to w połączeniu z ustawieniem „Pokaż drzewo kategorii” z głównej konfiguracji.
-    *   **Wpływ zmian:** Produkty należące do wybranych kategorii nie pojawią się w wygenerowanym kanale.
-    *   **Zalecana wartość:** Użyj tej opcji, aby odfiltrować produkty, których nie chcesz reklamować w Google (np. kategorie niedostępne w magazynie, usługi lub produkty o niskiej marży).
--   **Eksportuj datę dostępności:**
-    *   **Cel:** Kontroluje, czy atrybut `availability_date` jest uwzględniony w kanale.
-    *   **Wpływ zmian:**
-        *   *Gdy włączone:* Data, kiedy produkt stanie się dostępny (dla przedsprzedaży), zostanie uwzględniona.
-        *   *Gdy wyłączone:* Ta informacja zostanie pominięta.
-    *   **Zalecana wartość:** **TAK**, jeśli używasz funkcji przedsprzedaży PrestaShop i chcesz przekazywać daty dostępności do Google.
--   **Przycisk Generuj kanał:**
-    *   **Cel:** Inicjuje proces generowania kanału produktów XML/CSV na podstawie wszystkich wybranych opcji.
-    *   **Wpływ zmian:** Tworzy plik kanału, który możesz następnie pobrać lub podać adres URL do Google Merchant Center w celu zaplanowanych pobrań.
+**Save** wysyła `submitgmfeedSettings` i zapisuje `pf_tree`. Tekst po zapisie to **Ustawienia zapisano pomyślnie**.
 
-**Zalecany przepływ pracy dla codziennego zarządzania sklepem:**
+**Tak** sprawia, że lista parowania kategorii na formularzu pliku pokazuje kategorie nadrzędne. Opis prowadzi do `https://i.imgur.com/enzXRaJ.png`. Ten sam opis prowadzi do **Katalog > Google Merchant Feed**.
 
-1.  **Początkowa konfiguracja:** Starannie zmapuj wszystkie atrybuty Google Merchant Center do pól produktów w PrestaShop. Zwróć szczególną uwagę na GTIN, Markę i Kategorię produktu Google.
-2.  **Filtrowanie kategorii:** Użyj opcji „Eksportuj wykluczone kategorie”, aby precyzyjnie dostosować, które produkty są wysyłane do Google.
-3.  **Generuj i testuj:** Wygeneruj kanał i prześlij go do Google Merchant Center. Monitoruj swoje konto Google Merchant Center pod kątem błędów lub ostrzeżeń.
-4.  **Zaplanowane pobieranie:** Po zatwierdzeniu kanału, skonfiguruj zaplanowane pobieranie w Google Merchant Center, używając adresu URL dostarczonego przez moduł. Zapewnia to, że Google zawsze ma najnowsze dane produktów.
-5.  **Regularny przegląd:** Okresowo przeglądaj diagnostykę Google Merchant Center pod kątem wszelkich odrzuceń lub ostrzeżeń i odpowiednio dostosuj ustawienia modułu lub dane produktów w PrestaShop.
+Ta strona nie buduje pliku katalogu.
 
-#### index.php (gmfeed/controllers/admin/index.php)
+## 4. Strona w Katalogu
 
-Ten plik prawdopodobnie służy jako symbol zastępczy lub przekierowanie w strukturze kontrolera administracyjnego modułu i nie reprezentuje odrębnego, konfigurowalnego ekranu dla sprzedawcy. Główna konfiguracja i zarządzanie odbywa się za pośrednictwem `AdminExportProductsFeedGoogleController`.
+![Pulpit](https://mypresta.eu/docs/images/docs/gmfeed-dashboard.webp)
 
-### 2.3 Tabela szybkiego odniesienia do konfiguracji
+Ekran jest po angielsku. W tej instrukcji ta zakładka to **Pulpit**.
 
-| Ekran / Widok | Ustawienie / Opcja | Domyślne / Zalecane | Cel i wpływ |
-| --- | --- | --- | --- |
-| **Strona konfiguracji modułu** | Pokaż drzewo kategorii | TAK | Włącza filtrowanie kategorii na ekranie eksportu dla precyzyjnego wyboru produktów. |
-| **AdminExportProductsFeedGoogle** | ID | ID produktu | Unikalny identyfikator dla każdego produktu w kanale. |
-| | GTIN | EAN/UPC produktu | Globalny Numer Jednostki Handlowej do identyfikacji produktu. |
-| | Identifier\_exists | Tak | Wskazuje, czy istnieją unikalne identyfikatory. |
-| | Tytuł | Nazwa produktu | Tytuł produktu dla Google Shopping. |
-| | Dostępność | Automatycznie wykrywana | Status magazynowy produktu (dostępny, niedostępny). |
-| | Availability\_date | Automatycznie wykrywana | Data dostępności dla przedsprzedaży. |
-| | Inwentarz | Automatycznie wykrywany | Aktualna ilość w magazynie. |
-| | Marka | Producent produktu | Nazwa marki produktu. |
-| | Link | URL produktu | Bezpośredni link do strony produktu. |
-| | Link do obrazu | URL głównego obrazu produktu | URL głównego obrazu produktu. |
-| | Additional\_image\_link | URL-e dodatkowych obrazów produktu | URL-e dodatkowych obrazów produktu. |
-| | Podtytuł pozycji | Opcjonalnie | Krótki, dodatkowy szczegół produktu. |
-| | Opis | Opis produktu | Szczegółowy opis produktu. |
-| | Typ produktu | Twoja ścieżka kategorii | Twoja wewnętrzna kategoryzacja produktu. |
-| | Stan | Nowy | Stan produktu (nowy, używany, odnowiony). |
-| | Cena | Cena produktu | Aktualna cena sprzedaży. |
-| | Cena promocyjna | Specyficzna cena produktu | Obniżona cena, jeśli jest w promocji. |
-| | Stawka podatku | Stawka podatku w sklepie | Obowiązująca stawka podatku. |
-| | Słowa kluczowe kontekstowe | Opcjonalnie | Dodatkowe słowa kluczowe dla trafności produktu. |
-| | Kategoria produktu Google | Wybierz z taksonomii Google | Standaryzowana kategoria produktu Google. |
-| | Eksportuj atrybut rozmiaru | TAK (dla odzieży) | Uwzględnia atrybuty rozmiaru produktu w kanale. |
-| | Eksportuj wykluczone kategorie | Wybierz według potrzeb | Wyklucza produkty z wybranych kategorii. |
-| | Eksportuj datę dostępności | TAK (dla przedsprzedaży) | Uwzględnia atrybut `availability_date`. |
+![Pliki danych](https://mypresta.eu/docs/images/docs/gmfeed-feeds.webp)
 
-## 3. Rozwiązywanie problemów dla sprzedawców i często zadawane pytania (FAQ)
+Ekran jest po angielsku. W tej instrukcji ta zakładka to **Pliki danych**.
 
-**P1: Moje produkty nie pojawiają się w Google Shopping lub otrzymuję odrzucenia. Co powinienem sprawdzić w pierwszej kolejności?**
-O1:
+Otwórz **Katalog > Google Merchant Feed**.
 
--   **Konto Google Merchant Center (GMC):** Zaloguj się do swojego konta GMC i sprawdź sekcję „Diagnostyka”. To tam Google zgłasza konkretne błędy lub ostrzeżenia dotyczące Twoich produktów i kanału.
--   **Przetwarzanie kanału:** Upewnij się, że Twój kanał został pomyślnie przetworzony przez Google. Sprawdź sekcję „Kanały” w GMC.
--   **Wymagane atrybuty:** Zweryfikuj, czy wszystkie obowiązkowe atrybuty Google (ID, Tytuł, Link, Link do obrazu, Cena, Opis, GTIN/Marka/MPN, Dostępność, Kategoria produktu Google) są poprawnie zmapowane i wypełnione w ustawieniach eksportu modułu.
--   **Niezgodności danych:** Google jest bardzo rygorystyczne w kwestii zgodności cen i dostępności między Twoim kanałem a Twoją stroną internetową. Upewnij się, że dane produktów w PrestaShop są dokładne i że Google pobiera najnowszy kanał.
--   **Kategoria produktu Google:** Upewnij się, że wybrałeś najbardziej dokładną kategorię produktu Google dla swoich produktów.
+**Pulpit** pokazuje **Saved feeds**, **Cron runs today**, **Runs last 7 days** i **Saved files**, o ile `translations/pl.php` nie ma tych napisów z szablonu `dashboard`. Liczby pochodzą z `gms` i `gms_log`. Gdy żaden adres nie został wywołany, strona pokazuje źródło angielskie **No cron or URL generations yet. Save a feed, then call its catalog URL from a scheduler.**
 
-**P2: Wprowadziłem zmiany w moich produktach w PrestaShop, ale nie aktualizują się one w Google Shopping.**
-O2:
+**Pliki danych** listują wiersze z `gms`, od najwyższego `id_gms`. **Utwórz nowy plik danych** otwiera formularz. Duplikat kopiuje zapisany ciąg zapytania, usuwa z niego `export_id_gms`, `id_gms` i `gmfeed_write_key` oraz dopisuje ` (copy)` do nazwy. Pusta nazwa startuje od **Untitled feed**. Tekst po duplikacie to źródło angielskie **Feed duplicated. Review the copy and save if you need a different filename or URL.** Usunięcie kasuje ten wiersz `gms`. Tekst to źródło angielskie **Feed removed.** Plik zapisany na dysku nie jest przy tym kasowany.
 
--   **Wygeneruj nowy kanał:** Po wprowadzeniu zmian w PrestaShop musisz wygenerować nowy kanał za pomocą przycisku „Generuj kanał” w module.
--   **Zaplanowane pobieranie Google:** Google Merchant Center musi pobrać ten zaktualizowany kanał. Jeśli masz skonfigurowane zaplanowane pobieranie, zaktualizuje się ono automatycznie w następnym zaplanowanym czasie. Możesz również ręcznie uruchomić pobieranie na swoim koncie Google Merchant Center w sekcji „Kanały” > „Pobierz teraz”.
--   **Buforowanie:** Wyczyść pamięć podręczną Smarty w PrestaShop (Parametry zaawansowane > Wydajność) i pamięć podręczną przeglądarki, aby upewnić się, że widzisz najnowszą wersję konfiguracji modułu i wygenerowanego kanału.
+![Aktualizacje](https://mypresta.eu/docs/images/docs/gmfeed-updates.webp)
 
-**P3: Jak wykluczyć niektóre produkty lub kategorie z kanału Google?**
-O3:
+Ekran jest po angielsku. W tej instrukcji ta zakładka to **Aktualizacje**.
 
--   Na głównym ekranie konfiguracji modułu upewnij się, że opcja „Pokaż drzewo kategorii” jest włączona.
--   Następnie, na ekranie `AdminExportProductsFeedGoogle`, użyj opcji „Eksportuj wykluczone kategorie”. Zobaczysz drzewo swoich kategorii. Wybierz kategorie, których produkty chcesz wykluczyć z kanału.
--   Wygeneruj nowy kanał po dokonaniu tych wyborów.
+**Aktualizacje** to formularz z `lib/updateChecker.php`. **Check now** wysyła `submit_settings_updates_now`. **Save** wysyła `submit_settings_updates` i zapisuje `mypresta_updates`. Konstruktor pyta zdalny serwer, gdy `mypresta_updates` nie jest 0 i `update_gmfeed` jest starsze niż 172800 sekund. Wartość licencji wysyłana przy braku `mkey` to `nokey`. Ostrzeżenie pojawia się, gdy `updatev_gmfeed` jest wyższe niż 2.4.3 i żądanie nie jest ajax.
 
-**P4: Proces generowania kanału trwa bardzo długo lub przekracza limit czasu dla mojego dużego sklepu.**
-O4:
+## 5. Formularz pliku danych
 
--   **Zasoby serwera:** Generowanie dużych kanałów może być zasobochłonne. Skontaktuj się z dostawcą hostingu, aby upewnić się, że Twój serwer ma wystarczający limit pamięci PHP, czas wykonania i zasoby procesora.
--   **Ustawienia PHP:** Zwiększ `max_execution_time` i `memory_limit` w pliku `php.ini` (lub za pośrednictwem panelu sterowania hostingu).
--   **Filtruj produkty:** Jeśli to możliwe, spróbuj segmentować swój kanał, wykluczając mniej ważne kategorie lub produkty, aby zmniejszyć rozmiar kanału.
--   **Aktualizacje modułu:** Upewnij się, że używasz najnowszej wersji modułu, ponieważ ulepszenia wydajności są często uwzględniane w aktualizacjach.
+![Utwórz nowy plik danych](https://mypresta.eu/docs/images/docs/gmfeed-form.webp)
 
-## 4. Przewodnik dla programistów i webmasterów (architektura techniczna i mapa kodu)
+Ekran jest po angielsku. W tej instrukcji ten widok to **Utwórz nowy plik danych**. Zrzut pokazuje górę formularza. Pozostałe pola są niżej.
 
-### 4.1 Przegląd architektury
+**Create feed** i **Edit feed** używają tego samego formularza. Te napisy nie mają wpisu w `translations/pl.php`, więc ekran pokazuje źródło angielskie. Nazwa pliku jest wymagana. **Active** **Yes** / **No** trafia do `gms.active`. Nowy plik jest aktywny. **Shop** zapisuje `gms.id_shop`. Pozostałe pola trafiają do `gms.conf` jako ciąg zapytania.
 
-Moduł `Google merchant center feed` przestrzega standardowej architektury modułów PrestaShop, głównie wykorzystując kontrolery Panelu Administracyjnego do konfiguracji i generowania kanałów. Wykorzystuje kontroler frontowy do udostępniania wygenerowanego adresu URL kanału dla zaplanowanych pobrań Google. Moduł nie rozszerza `ObjectModel` dla niestandardowych tabel bazy danych, ale opiera się na klasie `Configuration` PrestaShop do przechowywania ustawień. Integruje bibliotekę narzędzi wyszukiwania innych firm dla funkcji autouzupełniania.
+Brakujący klucz na nowym formularzu dostaje wartość z tabeli. Podczas edycji brakujący klucz dostaje tę samą wartość i nie czyta wspólnej konfiguracji `gm_`.
 
-### 4.2 Kontrolery (`controllers/`)
+| Klucz | Domyślna wartość nowego formularza | Co robi z nią kod |
+|---|---|---|
+| `export_file_format` | `csv` | `csv` albo `xml`. Inne rozszerzenie `sanitizeExportExtension` sprowadza do `csv`. |
+| `export_type` | `product` | `sanitizeExportType` zostawia tylko `products` i `combinations`. Zapisane `product` jest więc traktowane jako `products`. |
+| `export_save_file` | `0` | `0` wysyła katalog w odpowiedzi. `1` zapisuje plik w `/modules/gmfeed/`. |
+| `export_filename` | puste | Używane tylko przy zapisie do pliku. Puste staje się typem eksportu. Znaki inne niż litery, cyfry, `_` i `-` są usuwane. |
+| `export_identification` | `id_product` | Identyfikator produktu zapisany jako id katalogu. |
+| `export_delimiter` | pionowa kreska | Separator kolumn CSV. |
+| `export_enclosure` | `0` | Wartość otaczająca przekazana do zapisu CSV. |
+| `export_language` | `PS_LANG_DEFAULT` | Język nazw i opisów. |
+| `export_currency` | `PS_CURRENCY_DEFAULT` | Waluta cen. |
+| `export_tax` | `price_tin` | Która kolumna ceny jest wypełniana. |
+| `export_specific` | `1` | Gdy waluta domyślna sklepu różni się od waluty kontekstu, wartość inna niż zero każe krokowi ceny użyć cen specyficznych. |
+| `export_category` | `all` | Kategorie włączone do katalogu. |
+| `export_manufacturers` | `all` | Producenci włączeni do katalogu. |
+| `export_manufacturers_default` | `Default` | Tekst marki, gdy produkt nie ma producenta. |
+| `export_suppliers` | `all` | Dostawcy włączeni do katalogu. |
+| `export_gtin` | `upc` | Który kod produktu jest zapisany jako GTIN. |
+| `export_img` | `1` | Typ obrazu przekazany do `getImageLink`. Lista pokazuje nazwy typów obrazów. |
+| `export_what_pictures` | `0` | `0` to źródło **Export cover only** i usuwa kolumnę dodatkowych zdjęć. `1` to **Export all pictures**. |
+| `export_active` | false | Trafia do `Product::getProducts` jako flaga tylko aktywnych. `0` to **Export all products.** `1` to **Export only active products**. |
+| `export_instock` | false | `1` pomija wiersz, gdy ilość jest 0 albo mniejsza. `0` to **Export all products.** `1` to **Export only in-stock products**. |
+| `export_igid` | `0` | `0` usuwa `item_group_id`. |
+| `export_gender` | `0` | `0` usuwa kolumnę płci. |
+| `export_age_group` | `0` | `0` usuwa kolumnę grupy wiekowej. |
+| `export_size` | `0` | `0` usuwa kolumnę rozmiaru. |
+| `export_color` | `0` | `0` usuwa kolumnę koloru. |
+| `export_shipping_info` | `0` | `0` to **Do not include**. `1` to **Include (shipping price calculated for each item separately)**. `2` to **Set shipping price manually**. |
+| `export_product_weight` | `0` | Waga zostaje wyłączona, dopóki ta wartość nie zostanie zmieniona. |
+| `export_product_type` | `0` | Typ produktu zostaje wyłączony, dopóki ta wartość nie zostanie zmieniona. |
+| `export_removehtml` | `0` | Wartość inna niż `0` usuwa HTML z opisu. |
+| `export_nophoto_exclude` | `0` | `1` odrzuca produkt bez zdjęcia. |
+| `export_adult` | `0` | Pole adult zostaje wyłączone, dopóki ta wartość nie zostanie zmieniona. |
+| `export_storecode` | `0` | `0` usuwa kolumnę kodu sklepu. |
+| `export_country_prices` | `PS_COUNTRY_DEFAULT` | Kraj użyty do ceny. |
+| `export_group_prices` | `PS_UNIDENTIFIED_GROUP` | Grupa klientów użyta do ceny. |
+| `remember_settings` | true | Gdy wysłana wartość to `1`, ten sam zapis wpisuje też `gm_{klucz}` do Configuration. Klucz zapisu, sklep, id pliku i flaga aktywności są pomijane. |
+| `feed_active` | włączone dla nowego pliku | `gms.active`. `0` sprawia, że adres zwraca HTTP 503 i tekst `Feed is disabled`. |
 
-#### Kontrolery Front Office
+**Save to file** opisuje katalog `modules/gmfeed/` i podaje, że zapis pliku z adresu wymaga klucza pokazanego na tym formularzu. Klucz to `gmfeed_write_key`, HMAC z `gmfeed.write.` i id sklepu, z użyciem `_COOKIE_KEY_`. Zalogowany pracownik zapisuje plik bez tego klucza. Inna osoba dostaje `Access denied`.
 
--   `controllers/front/feed.php`
-    *   **Nazwa klasy:** `GmfeedFeedModuleFrontController`
-    *   **Klasa nadrzędna:** `ModuleFrontController`
-    *   **Odpowiedzialność:** Ten kontroler jest odpowiedzialny za dostarczanie wygenerowanego kanału produktów XML/CSV do Google Merchant Center. Kiedy Google wykonuje zaplanowane pobieranie, trafia na adres URL obsługiwany przez ten kontroler. Kontroler pobiera najnowsze wygenerowane dane kanału i wyprowadza je, zazwyczaj z odpowiednimi nagłówkami do pobierania plików lub bezpośredniego wyświetlania.
--   `controllers/front/index.php`
-    *   **Nazwa klasy:** `GmfeedIndexModuleFrontController`
-    *   **Klasa nadrzędna:** `ModuleFrontController`
-    *   **Odpowiedzialność:** Jest to prawdopodobnie symbol zastępczy lub domyślny kontroler frontowy, który może przekierowywać lub po prostu wyświetlać pustą stronę. Nie wydaje się mieć bezpośredniej roli funkcjonalnej w generowaniu lub wyświetlaniu kanału na podstawie dostarczonych informacji.
+Tekst po zapisie to źródło angielskie **Feed saved. Its catalog URL is ready to use.**
 
-#### Kontrolery administracyjne Panelu Administracyjnego
+## 6. Adres katalogu i plik
 
--   `controllers/admin/AdminExportProductsFeedGoogle.php`
-    *   **Nazwa klasy:** `AdminExportProductsFeedGoogleController`
-    *   **Klasa nadrzędna:** `ModuleAdminController`
-    *   **Nazwa zakładki:** „Eksportuj kanał produktów” (lub podobna, połączona z głównej konfiguracji modułu)
-    *   **Zarządzana encja:** Generowanie kanału produktów.
-    *   **Odpowiedzialność:** Jest to główny kontroler administracyjny do zarządzania i generowania kanału Google Merchant Center. Obsługuje wyświetlanie formularza konfiguracji dla atrybutów kanału (GTIN, Tytuł, Cena itp.), przetwarza przesłane formularze i uruchamia logikę generowania kanału. Współpracuje z danymi produktów, kategorii i atrybutów PrestaShop w celu skompilowania kanału. Zarządza również wykluczaniem kategorii (`gm_export_exclude_categories`) i innymi ustawieniami specyficznymi dla kanału.
--   `controllers/admin/index.php`
-    *   **Nazwa klasy:** `GmfeedIndexModuleAdminController`
-    *   **Klasa nadrzędna:** `ModuleAdminController`
-    *   **Nazwa zakładki:** (Prawdopodobnie nie jest to bezpośrednia zakładka, ale część wewnętrznego routingu modułu)
-    *   **Odpowiedzialność:** Podobnie jak jego odpowiednik front-office, jest to prawdopodobnie symbol zastępczy lub domyślny kontroler administracyjny. Nie wydaje się zarządzać konkretną encją ani zapewniać odrębnego interfejsu użytkownika.
+Adres katalogu to frontowy kontroler modułu `feed` oraz `?feed=` i id z `gms`. `gms::getFeedUrl` dopisuje też `gmfeed_write_key`, gdy buduje link dla zaplecza.
 
-### 4.3 Klasy podstawowe i modele (`classes/`)
+Otwarcie tego adresu wczytuje zapisany ciąg zapytania i podmienia wartości `export_` oraz `gmfeed_` z żądania, z wyjątkiem klucza zapisu i `debug_feed`. Brak pliku albo `conf` o długości 20 znaków lub krótszej kończy się tekstem `feed does not exists`. Plik z ustawionym `id_shop` innym niż bieżący sklep kończy się tekstem `Feed is not available in this store`.
 
-Dostarczone informacje wskazują, że w katalogu `classes/` nie ma niestandardowych klas ani modeli. Moduł prawdopodobnie wykonuje swoje operacje bezpośrednio w głównym pliku modułu (`gmfeed.php`) i jego kontrolerach, wykorzystując istniejące klasy `ObjectModel` PrestaShop (takie jak `Product`, `Category`, `Manufacturer`, `AttributeGroup`, `Attribute`) oraz klasę `Configuration` do przechowywania ustawień.
+`debug_feed` wypisuje zapisane parametry i nie zapisuje pliku.
 
-### 4.4 Zasoby JavaScript (`views/js/`)
+Nazwa pliku to oczyszczone `export_filename` plus `.csv`, `.xml` albo `.txt`. Ścieżka musi zostać w `/modules/gmfeed/`. `.htaccess` w tym katalogu zabrania bezpośredniego uruchamiania plików PHP. `index.php` zostaje dozwolony. Katalog podaje kontroler frontowy, nie otwarcie plików PHP.
 
--   `gmfeed/lib/searchTool/views/js/autocomplete.js`
-    *   **Zakres:** Prawdopodobnie Panel Administracyjny.
-    *   **Szczegóły:** Ten skrypt jest częścią biblioteki narzędzi wyszukiwania, prawdopodobnie używanej do funkcji autouzupełniania w formularzach konfiguracji administracyjnej, takich jak wybieranie kategorii produktów Google lub wykluczanie konkretnych produktów/kategorii. Wiązałby się z polami wejściowymi, wykonywałby żądania AJAX do punktu końcowego backendu (prawdopodobnie obsługiwanego przez jeden z kontrolerów administracyjnych) w celu pobrania sugestii i wyświetlałby je użytkownikowi.
+Każde uruchomienie wstawia `gms_log`: czas, czas trwania, liczbę pozycji, status, informację czy zapisano plik, nazwę pliku, format i źródło `url`.
 
-### 4.5 Arkusze stylów CSS (`views/css/`)
+## 7. Kategorie Google
 
--   `gmfeed/lib/searchTool/views/css/autocomplete.css`
-    *   **Zakres:** Stylizacja formularza administracyjnego Panelu Administracyjnego.
-    *   **Szczegóły:** Zapewnia stylizację sugestii autouzupełniania i pól wejściowych, zapewniając spójny i przyjazny dla użytkownika wygląd narzędzia wyszukiwania w interfejsie administracyjnym modułu.
-    *   **Kluczowe selektory CSS:** Prawdopodobnie zawiera klasy dla kontenera autouzupełniania, listy sugestii, aktywnej sugestii i pola wejściowego.
--   `gmfeed/views/admin-theme.css`
-    *   **Zakres:** Stylizacja formularza administracyjnego Panelu Administracyjnego.
-    *   **Szczegóły:** Zawiera ogólne reguły stylizacji specyficzne dla stron konfiguracji modułu w Panelu Administracyjnym PrestaShop. Może to obejmować dostosowania układu, stylizację przycisków, stylizację elementów formularza lub specyficzne wskazówki wizualne dla interfejsu modułu.
-    *   **Kluczowe selektory CSS:** Identyfikatory lub klasy kontenerów specyficzne dla modułu, klasy elementów formularza.
+Formularz listuje pliki taksonomii z `/modules/gmfeed/google/`. Język sklepu jest oznaczony jako obecny, gdy istnieje `google/{language_code}.txt`. Ten pakiet zawiera `google/en-us.txt`. Pierwsza linia tego pliku to `# Google_Product_Taxonomy_Version: 2015-02-19`.
 
-### 4.6 Struktura szablonów Smarty (`views/templates/`)
+Parowanie kategorii sklepu zapisuje `pixelgoogle`: `id_google`, `id_category`, `id_lang`, `value`. **Pokaż drzewo kategorii** zmienia tylko sposób narysowania tej listy.
 
-#### Szablony hooków (`views/templates/hook/`)
+## 8. Tabele
 
-Dossier modułu wskazuje `actionAdminControllerSetMedia` jako hook front-office, co jest niezwykłe, ponieważ jest to hook administracyjny. Bardziej prawdopodobne jest, że moduł używa `actionAdminControllerSetMedia` do ładowania swoich zasobów JS/CSS w panelu administracyjnym, a poniższe szablony są renderowane w kontekście administracyjnym.
+Instalacja tworzy trzy tabele, gdy ich nie ma. Przed każdą nazwą jest prefiks sklepu.
 
-#### Szablony administracyjne (`views/templates/admin/`)
+| Tabela | Co zapisuje instrukcja CREATE |
+|---|---|
+| `pixelgoogle` | `id_pixelgoogle` auto increment, klucz główny, `id_google`, `id_category`, `id_lang`, `value` varchar 254. Zestaw znaków `utf8`. |
+| `gms` | `id_gms` auto increment, `name`, `id_shop` domyślnie 0, `conf` text, `active` domyślnie 1. Klucze `idtoskey` i `id_shop`. Instrukcja CREATE nie ma klucza głównego. |
+| `gms_log` | `id_gms_log` auto increment, klucz główny, `id_gms`, `date_add`, `duration_ms`, `items`, `status` domyślnie `ok`, `save_file`, `file_name`, `format`, `source` domyślnie `url`. |
 
--   `gmfeed/lib/searchTool/views/scripts.tpl`
-    *   **Cel:** Prawdopodobnie zawiera kod JavaScript lub inicjalizuje funkcję autouzupełniania. Ten szablon byłby renderowany w Panelu Administracyjnym w celu skonfigurowania narzędzia wyszukiwania.
--   `gmfeed/views/categories-fancybox.tpl`
-    *   **Cel:** Ten szablon służy do wyświetlania drzewa kategorii do wyboru/wykluczenia, prawdopodobnie w wyskakującym okienku Fancybox (lub podobnym modalnym). Renderowałby hierarchiczną listę kategorii.
--   `gmfeed/views/exclude-products.tpl`
-    *   **Cel:** Ten szablon wyświetlałby interfejs do wybierania produktów do wykluczenia z kanału, potencjalnie za pomocą narzędzia wyszukiwania i drzewa kategorii.
--   `gmfeed/views/google_lang_links.tpl`
-    *   **Cel:** Ten szablon może być używany do wyświetlania linków lub informacji związanych z Google Merchant Center dla różnych języków, prawdopodobnie prowadząc sprzedawcę do konfiguracji kanałów dla różnych języków sklepu.
--   `gmfeed/views/returnAlert.tpl`
-    *   **Cel:** Ogólny szablon do wyświetlania alertów lub wiadomości dla użytkownika w Panelu Administracyjnym, takich jak komunikaty o sukcesie po wygenerowaniu kanału lub powiadomienia o błędach.
--   `gmfeed/views/script-fancybox.tpl`
-    *   **Cel:** Ten szablon prawdopodobnie zawiera kod JavaScript do inicjalizacji i konfiguracji biblioteki Fancybox (lub podobnego modalnego), używanej do wyświetlania wyskakujących okienek, takich jak drzewo kategorii.
--   `gmfeed/views/script.tpl`
-    *   **Cel:** Ogólny szablon skryptu dla Panelu Administracyjnego modułu, potencjalnie zawierający różne funkcje JavaScript, słuchacze zdarzeń lub wywołania AJAX związane z procesem konfiguracji i generowania kanału.
+Otwarcie strony w Katalogu uruchamia `gms::ensureSchema()`. To dodaje `gms.active` i `gms.id_shop`, gdy ich nie ma, tworzy `gms_log`, gdy tabeli nie ma, i wypełnia `id_shop` 0 wartością `PS_SHOP_DEFAULT`.
 
-### 4.7 Schemat bazy danych i mapa hooków
+Wspólna konfiguracja, która nie jest kolumną: `pf_tree`, `gm_{pole}` gdy formularz zapisuje je poza plikiem, `mypresta_updates`, `update_gmfeed`, `updatev_gmfeed`.
 
--   **Tabele bazy danych**:
-    *   Moduł nie wydaje się tworzyć niestandardowych tabel SQL na podstawie dostarczonych informacji (brak `classes/` z `ObjectModel` lub plików SQL `install/uninstall`).
-    *   Ustawienia konfiguracji (np. `pf_tree`, `gm_export_size_attribute`, `gm_export_exclude_categories`, `gm_export_availability_date`) są przechowywane w tabeli `ps_configuration`. Wartość `gm_export_exclude_categories` byłaby prawdopodobnie serializowaną tablicą identyfikatorów kategorii.
--   **Tabela zarejestrowanych hooków**:
+Zasoby strony w Katalogu: `views/css/admin-app.css`, `views/js/admin-app.js`, fancybox, autocomplete. Strona konfiguracji modułu ładuje fancybox. Skrypt wyszukiwania id pochodzi z `lib/searchTool/`.
 
-| Nazwa hooka | Czas wykonania | Cel techniczny |
-| --- | --- | --- |
-| `actionAdminControllerSetMedia` | Wykonywany, gdy kontroler administracyjny jest inicjowany, a jego media (JS/CSS) są ustawiane. | Używany przez moduł do ładowania jego specyficznych plików JavaScript i CSS (np. `autocomplete.js`, `admin-theme.css`) do Panelu Administracyjnego dla jego ekranów konfiguracji. |
+## 9. Odinstalowanie
 
-## 5. Oficjalne wsparcie i aktualizacje
+`uninstall()` kasuje zakładkę Katalogu `AdminExportProductsFeedGoogle`, a potem uruchamia odinstalowanie nadrzędne. Nadrzędne usuwa moduł i rejestrację hooka.
 
-W celu uzyskania oficjalnych aktualizacji, wsparcia technicznego i najnowszych wersji modułu „Google merchant center feed”, prosimy odwołać się do swojego konta klienta na [MyPresta.eu](https://mypresta.eu/). Nasz zespół wsparcia jest dostępny, aby pomóc w przypadku wszelkich problemów lub pytań dotyczących funkcjonalności modułu i jego integracji z Twoim sklepem PrestaShop.
+Metoda nie kasuje tabel `pixelgoogle`, `gms` ani `gms_log`. Nie kasuje `pf_tree`, `mypresta_updates`, `update_gmfeed`, `updatev_gmfeed` ani kluczy `gm_`. Nie kasuje plików zapisanych w `/modules/gmfeed/`. Kolejna instalacja używa `CREATE TABLE IF NOT EXISTS`, więc wiersze zostawione w tabelach zostają.
+
+## 10. Pomoc
+
+Strona modułu: [Google Merchant Center Feed](https://mypresta.eu/modules/social-networks/google-merchant-center-feed.html).
