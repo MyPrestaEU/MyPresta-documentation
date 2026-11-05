@@ -1,8 +1,8 @@
 ---
-title: "Microsoft Advertising UET Tag & Conversions API - Merchant Manual & Configuration Guide"
-description: "Complete user manual, screen-by-screen setup guide, and developer reference for the Microsoft Advertising UET Tag & Conversions API PrestaShop module by MyPresta.eu."
+title: "Microsoft Advertising UET Tag & Conversions API - documentation and user manual"
+description: "Use this manual to configure tracking, verify events with live diagnostics, and fix problems after installing the module."
 sidebar:
-  label: "Microsoft Advertising UET Tag & Conversions API - Merchant Manual & Configuration Guide"
+  label: "Microsoft Advertising UET Tag & Conversions API - documentation and user manual"
 ---
 
 > ⚠️ **Notice:** This is the official documentation for the PrestaShop module.
@@ -12,307 +12,415 @@ sidebar:
 > ---
 
 
-# Microsoft Advertising UET Tag & Conversions API
-
-## 1. Requirements & Compatibility
-
-- **Supported PrestaShop Versions**: PrestaShop 1.7.x, 8.x, 9.x
-- **PHP Compatibility**: PHP 7.1 - 8.5
-- **Hosting Requirements**: Standard PHP extensions such as cURL, JSON, and OpenSSL are required for the module to function correctly, especially for the Conversions API features. These are typically enabled by default on most modern hosting environments.
-
-## 2. Complete Configuration Walkthrough (Every Setting Grouped by Screen)
-
-### 2.1 Module Configuration Page (Back Office > Modules > Configure)
-
-This is the main hub for setting up your Microsoft Advertising tracking. You’ll find a series of tabs and settings designed to guide you through the process.
-
-#### Main Configuration Tab (Initial View)
-
-- **What this setting does:** This tab typically provides an overview and initial setup options, often including a wizard to simplify the first-time configuration.
-- **Effect of changing this setting:** Completing the wizard or filling in the initial details will enable the basic tracking functionality and prepare the module for more advanced settings.
-- **Recommended value:** Follow the wizard steps carefully.
-- **Merchant scenario / example:** When you first install the module, the wizard will ask for your UET Tag ID and guide you through choosing your tracking method (UET Tag, Conversions API, or both).
-
-#### UET Tag ID
-
-- **What this setting does:** This is your unique identifier provided by Microsoft Advertising. It tells Microsoft which account to associate the tracking data with.
-- **Effect of changing this setting:**
-  - *When entered correctly:* The module will embed the UET Tag on your store, allowing Microsoft Advertising to track user behavior.
-  - *When left empty or incorrect:* No UET Tag tracking will occur, and your Microsoft Advertising campaigns will not receive front-office conversion data.
-- **Recommended value:** Your exact UET Tag ID from your Microsoft Advertising account.
-- **Merchant scenario / example:** You’ve created a Microsoft Advertising account and set up a UET Tag. You copy the ID (e.g., `12345678`) and paste it here.
-
-#### Tracking Mode (UET Tag, Conversions API, or Both)
-
-- **What this setting does:** Determines how conversion data is sent to Microsoft Advertising.
-  - **UET Tag Only:** Traditional client-side tracking via JavaScript in the customer’s browser.
-  - **Conversions API Only:** Server-side tracking, sending data directly from your PrestaShop server to Microsoft. More resilient to browser privacy settings.
-  - **Both (Hybrid):** Uses both UET Tag and Conversions API, with a mechanism to deduplicate events, ensuring accurate counting even if both methods report the same conversion.
-- **Effect of changing this setting:**
-  - *UET Tag Only:* Relies solely on browser-based tracking, which can be affected by ad blockers or privacy settings.
-  - *Conversions API Only:* Provides more robust tracking, but requires server-side setup and may not capture all client-side events (like page views) as easily.
-  - *Both (Hybrid):* Offers the most comprehensive and reliable tracking, combining the strengths of both methods while preventing duplicate conversions.
-- **Recommended value:** **Both (Hybrid)** is generally recommended for maximum accuracy and resilience.
-- **Merchant scenario / example:** You want the most accurate data possible, so you select “Both (Hybrid)” to ensure conversions are tracked even if a customer uses an ad blocker.
-
-#### Conversions API Access Token
-
-- **What this setting does:** This is a secure token generated in your Microsoft Advertising account, authorizing your PrestaShop store to send data directly to Microsoft’s servers via the Conversions API.
-- **Effect of changing this setting:**
-  - *When entered correctly:* Enables server-side tracking for the Conversions API.
-  - *When left empty or incorrect:* The Conversions API will not function, and server-side conversion data will not be sent.
-- **Recommended value:** Your exact Conversions API Access Token from your Microsoft Advertising account.
-- **Merchant scenario / example:** You’ve generated an Access Token in your Microsoft Advertising account (e.g., under “Tools” > “Conversion Tracking” > “Conversions API”). You paste this long string of characters here.
-
-#### Enable Enhanced Conversions
-
-- **What this setting does:** When enabled, this feature sends hashed customer data (like email addresses) along with conversion events. This helps Microsoft match conversions more accurately, especially when cookies are limited, improving your campaign performance.
-- **Effect of changing this setting:**
-  - *When enabled:* More accurate conversion matching, potentially leading to better optimization of your ad campaigns.
-  - *When disabled:* Conversions rely solely on standard tracking methods, which might be less accurate in certain privacy-focused browser environments.
-- **Recommended value:** **YES** (Enabled), as it significantly improves data matching.
-- **Merchant scenario / example:** You want to give Microsoft Advertising the best possible data to optimize your campaigns, so you enable Enhanced Conversions.
-
-#### Consent Management Integration
-
-- **What this setting does:** This module can integrate with existing cookie consent modules (like GDPR modules) to ensure the UET Tag only fires after a customer has given their consent.
-- **Effect of changing this setting:**
-  - *When enabled and integrated:* The UET Tag will respect customer consent choices. If a customer declines tracking cookies, the UET Tag will not load.
-  - *When disabled or not integrated:* The UET Tag might load regardless of consent, potentially leading to compliance issues.
-- **Recommended value:** **YES** (Enabled) if you use a cookie consent module and need to comply with privacy regulations (e.g., GDPR, CCPA).
-- **Merchant scenario / example:** Your store uses a GDPR module. You enable this setting to ensure your Microsoft Advertising tracking is compliant with privacy laws.
-
-#### Debug Mode
-
-- **What this setting does:** Activates a special mode that displays detailed information about the UET Tag and Conversions API events directly on your front-office pages (visible only to you, the administrator, or specific IP addresses). This is invaluable for verifying that tracking is set up correctly.
-- **Effect of changing this setting:**
-  - *When enabled:* You will see a debug overlay or console messages on your store’s front-office, showing which events are being tracked and what data is being sent.
-  - *When disabled:* The module operates silently, with no visible debug information.
-- **Recommended value:** **NO** (Disabled) for live production stores. **YES** (Enabled) temporarily during setup and troubleshooting.
-- **Merchant scenario / example:** You’ve just installed the module and want to confirm that “Add to Cart” events are being sent correctly. You enable Debug Mode, add a product to your cart, and check the debug output.
+## 1. Requirements
 
-#### Event Mapping (Advanced)
+Prepare the shop, Microsoft Advertising account, and scheduled task before configuration.
 
-- **What this setting does:** Allows you to customize how specific PrestaShop actions (e.g., “Product Added to Cart”) are mapped to Microsoft Advertising event names (e.g., “add\_to\_cart”). You can also define custom parameters to send with each event.
-- **Effect of changing this setting:**
-  - *When configured:* Ensures that your events are correctly categorized and enriched with relevant data in Microsoft Advertising.
-  - *When misconfigured:* Events might not be tracked, or the data sent might be inaccurate, leading to poor campaign optimization.
-- **Recommended value:** Use the default mappings unless you have a specific reason to change them based on your Microsoft Advertising setup.
-- **Merchant scenario / example:** You want to send the product’s brand as a custom parameter with every “view\_item” event. You would configure this mapping here.
+- Use PrestaShop 1.7, 8, or 9.
+- Use PHP 7.1–8.x, according to the PHP version required by your PrestaShop installation.
+- Enable the PHP cURL, JSON, OpenSSL, and hash extensions.
+- Have a Microsoft Advertising account and a UET Tag ID. Also obtain a Conversions API bearer token for **Conversions API** or **UET + CAPI**.
+- Have access to CRON when using CAPI, because its queue must run regularly.
+- Configure an external CMP or cookie module before turning **Require marketing / analytics consent** to **Yes**.
+- No other PrestaShop module is required. A Microsoft Merchant Center feed module is optional and can help align catalog IDs.
 
-#### Linker Domains (Advanced)
-
-- **What this setting does:** If you have multiple subdomains or related websites that share the same UET Tag, this setting helps ensure that user sessions are correctly linked across these domains.
-- **Effect of changing this setting:**
-  - *When configured:* Allows for seamless tracking of user journeys across multiple domains under your control.
-  - *When not configured (and needed):* User sessions might be broken, leading to inaccurate conversion attribution.
-- **Recommended value:** Leave empty unless you operate multiple subdomains or related sites that need cross-domain tracking.
-- **Merchant scenario / example:** You have your main store at `shop.example.com` and a blog at `blog.example.com`, both using the same UET Tag. You would add `blog.example.com` to the linker domains list.
+## 2. Installation
 
-#### Configuration Quick Reference Table
-
-| Screen / View | Setting / Option | Default / Recommended | Purpose & Impact |
-| --- | --- | --- | --- |
-| Main Config | UET Tag ID | Your Tag ID | Enables UET Tag tracking. Essential for client-side data. |
-| Main Config | Tracking Mode | Both (Hybrid) | Selects UET Tag, Conversions API, or both for data transmission. Hybrid is most robust. |
-| Main Config | Conversions API Access Token | Your Access Token | Authorizes server-side data sending to Microsoft. |
-| Main Config | Enable Enhanced Conversions | YES | Improves conversion matching accuracy by sending hashed customer data. |
-| Main Config | Consent Management Integration | YES (if applicable) | Ensures UET Tag respects customer privacy choices (GDPR, CCPA). |
-| Main Config | Debug Mode | NO (YES for testing) | Displays tracking data on front-office for verification. |
-| Main Config | Event Mapping | Default | Customizes how PrestaShop actions map to Microsoft events. |
-| Main Config | Linker Domains | Empty (if not needed) | Enables cross-domain tracking for related websites. |
-
-### 2.2 Dedicated Admin Screens & Controller Views
-
-#### 2.2.1 AdminMybingAjaxController (Back Office > Modules > Microsoft Advertising UET Tag & Conversions API > Live Statistics / Health Score / Doctor / Data Quality)
-
-This controller powers the dynamic, interactive sections of the module’s configuration, providing real-time insights and diagnostic tools. You won’t navigate to a separate menu item for this, but rather interact with specific tabs within the main module configuration.
-
-- **Screen Name & Menu Location:** These are typically sub-tabs within the main module configuration page (e.g., “Live Statistics”, “Health Score”, “Data Quality Coach”, “Catalog Doctor”).
-- **Available Actions & Settings:**
-  - **Live Statistics:** Displays recent events sent to Microsoft Advertising, showing page views, add-to-carts, purchases, etc., in near real-time. This helps you confirm that events are firing correctly.
-  - **Health Score:** Analyzes your tracking setup and provides a score based on best practices, highlighting potential issues or areas for improvement.
-  - **Data Quality Coach:** Offers specific recommendations to improve the quality and completeness of the data you’re sending to Microsoft, especially for Enhanced Conversions.
-  - **Catalog Doctor:** Helps diagnose issues with your product data that might affect product feed advertising or dynamic remarketing.
-- **Effect of changes:** Interacting with these screens primarily provides information and diagnostic feedback. There are no direct “settings” to change here, but the insights gained will inform adjustments you might make in the main configuration or your product catalog.
-- **Recommended workflow for daily store management:**
-  - Regularly check **Live Statistics** after making changes or launching new campaigns to ensure events are being tracked.
-  - Periodically review the **Health Score** and **Data Quality Coach** for recommendations to optimize your tracking setup.
-  - If you encounter issues with product-related ads, consult the **Catalog Doctor**.
-
-#### 2.2.2 index.php (Back Office > Modules > Microsoft Advertising UET Tag & Conversions API)
-
-This refers to the main entry point for the module’s back-office interface, which is the configuration page itself. All the settings described in section 4.1 are managed through this main view. There isn’t a separate “index.php” screen to navigate to beyond the initial module configuration.
-
-## 3. Merchant Troubleshooting & Frequently Asked Questions (FAQ)
-
-**Q: My conversions aren’t showing up in Microsoft Advertising. What should I do?**
-A:
-
-1. **Check UET Tag ID & Access Token:** Double-check that your UET Tag ID and Conversions API Access Token are correctly entered in the module configuration. Even a single typo can prevent tracking.
-2. **Verify Tracking Mode:** Ensure your “Tracking Mode” is set to “Both (Hybrid)” for maximum reliability.
-3. **Enable Debug Mode:** Activate “Debug Mode” in the module settings and perform a test purchase on your store. Look for the debug overlay or console messages to see if events are firing.
-4. **Clear Cache:** Go to **Advanced Parameters > Performance** in your PrestaShop Back Office and clear the Smarty cache and any other caches. Sometimes old settings can persist.
-5. **Check Microsoft Advertising Account:** Log into your Microsoft Advertising account and check the UET Tag status and conversion goal setup. Ensure your conversion goals are correctly configured to match the events sent by the module (e.g., “Purchase”).
-
-**Q: The module says “Consent Management Integration” is enabled, but I don’t have a GDPR module. Is this an issue?**
-A: If you don’t have a dedicated cookie consent module installed and configured, this setting won’t have any practical effect. The module will assume consent by default. However, for legal compliance (e.g., GDPR, CCPA), it’s highly recommended to use a proper cookie consent module. If you install one later, this module will automatically integrate with it.
-
-**Q: My custom theme looks a bit off after installing the module, or I see a blank page.**
-A: This module primarily works in the background and should not affect your theme’s visual appearance.
-
-1. **Clear Cache:** The most common fix for display issues after module installation is to clear your PrestaShop cache (**Advanced Parameters > Performance**).
-2. **Check for Conflicts:** If the issue persists, temporarily disable other recently installed modules to check for conflicts.
-3. **PHP Errors:** If you see a blank page, enable PHP error reporting on your server (or check your server’s error logs) to identify any critical errors.
-   If the problem continues, contact MyPresta.eu support with details of your theme and any error messages.
-
-**Q: How do I translate the module’s texts into other languages?**
-A:
-
-1. Go to **International > Translations** in your PrestaShop Back Office.
-2. Select “Installed modules translations” as the type of translation.
-3. Choose your theme, the language you want to translate, and then select “Microsoft Advertising UET Tag & Conversions API” from the module list.
-4. You can then translate any visible strings used by the module.
-
-**Q: Why is the “Data Quality Coach” or “Health Score” showing warnings?**
-A: These tools are designed to help you optimize your tracking. Warnings often indicate:
-
-- **Missing Enhanced Conversion Data:** Ensure customer data (like email) is available and being sent.
-- **Product Data Issues:** Your product catalog might have missing GTINs, MPNs, or other identifiers crucial for product feed advertising.
-- **Low Event Volume:** If your store has very little traffic, the tools might not have enough data to provide a comprehensive analysis.
-  Address the specific recommendations provided by the tools to improve your data quality and tracking health.
-
-## 4. Developer & Webmaster Guide (Technical Architecture & Code Map)
-
-### 4.1 Architecture Overview
-
-The `Microsoft Advertising UET Tag & Conversions API` module (`mybing`) is built following PrestaShop’s MVC (Model-View-Controller) pattern, with a strong emphasis on modularity and extensibility. It utilizes a factory pattern for tracker instantiation (`MybingTrackerFactory`) to support different tracking modes (UET, CAPI, Hybrid) and leverages a robust event system (`MybingEvents`) to capture various e-commerce actions. Data quality and diagnostics are handled by dedicated classes (`MybingHealthScore`, `MybingDataQualityCoach`, `MybingCatalogDoctor`). The module integrates with PrestaShop’s hook system for front-office event injection and uses dedicated admin controllers for its advanced configuration and diagnostic tools.
-
-### 4.2 Controllers (`controllers/`)
-
-#### Front-Office Controllers
-
-- `mybing/controllers/front/ajax.php`
-  - **Class Name:** `MybingAjaxModuleFrontController` (extends `ModuleFrontController`)
-  - **Responsibility:** Handles AJAX requests from the front-office, primarily for sending client-side events or data that cannot be directly handled by the UET tag (e.g., for consent management integration, or specific data collection before a page redirect). It might also be used for sending CAPI events that are triggered client-side but need server-side processing.
-- `mybing/controllers/front/cron.php`
-  - **Class Name:** `MybingCronModuleFrontController` (extends `ModuleFrontController`)
-  - **Responsibility:** Provides an endpoint for a cron job. This is typically used for server-side tasks that need to run periodically, such as sending deferred Conversions API events, synchronizing data, or performing maintenance tasks related to the module’s functionality.
-- `mybing/controllers/front/index.php`
-  - **Class Name:** `MybingIndexModuleFrontController` (extends `ModuleFrontController`)
-  - **Responsibility:** A generic front controller, often used as a fallback or for simple, non-AJAX front-office interactions. In this module, it might be used for specific redirects or to handle initial requests related to tracking setup.
-
-#### Back-Office Admin Controllers
-
-- `mybing/controllers/admin/AdminMybingAjaxController.php`
-  - **Class Name:** `AdminMybingAjaxController` (extends `AdminController`)
-  - **Tab Name:** Not a standalone tab, but an AJAX endpoint for the main module configuration.
-  - **Managed Entity:** Handles dynamic data loading and processing for the module’s diagnostic and statistics tabs (Live Statistics, Health Score, Data Quality Coach, Catalog Doctor). It processes requests for event logs, health checks, and data quality reports, returning JSON responses to the admin JavaScript.
-- `mybing/controllers/admin/index.php`
-  - **Class Name:** `AdminMybingIndexController` (extends `AdminController`)
-  - **Tab Name:** Not a standalone tab. This is a placeholder or a generic admin controller that might be used for specific internal redirects or actions within the module’s admin interface, but the primary configuration is handled by the `getContent()` method of the main module class.
-
-### 4.3 Core Classes & Models (`classes/`)
-
-- `mybing/classes/autoload.php`: Standard PrestaShop autoload file, ensuring module classes are loaded correctly.
-- `mybing/classes/index.php`: Placeholder file, often to prevent directory listing.
-- `mybing/classes/MybingCapiClient.php`: Handles the communication with the Microsoft Advertising Conversions API endpoint. Encapsulates HTTP requests, authentication (Access Token), and data formatting for server-side event submission.
-- `mybing/classes/MybingCapiTracker.php`: Implements `MybingTrackerInterface` for server-side (Conversions API) tracking. Responsible for collecting event data, preparing it for the CAPI client, and sending it.
-- `mybing/classes/MybingCatalogDoctor.php`: Provides diagnostic logic for analyzing product data quality, identifying issues that might affect product feeds or dynamic remarketing in Microsoft Advertising.
-- `mybing/classes/MybingConsent.php`: Manages integration with cookie consent modules. Determines if user consent has been given for tracking and controls the firing of the UET tag accordingly.
-- `mybing/classes/MybingCurrencyHelper.php`: Utility class for handling currency conversions and formatting, ensuring event values are sent correctly to Microsoft Advertising.
-- `mybing/classes/MybingDataQualityCoach.php`: Analyzes the quality and completeness of data being sent for events, especially for Enhanced Conversions, and provides recommendations for improvement.
-- `mybing/classes/MybingEventId.php`: Generates and manages unique event IDs for deduplication, crucial for hybrid tracking (UET + CAPI).
-- `mybing/classes/MybingEventMap.php`: Defines the mapping between PrestaShop actions (e.g., `actionCartSave`) and Microsoft Advertising event names (e.g., `add_to_cart`), including custom parameters.
-- `mybing/classes/MybingEvents.php`: Central class for defining and triggering all tracked e-commerce events (e.g., `PageView`, `AddToCart`, `Purchase`). It acts as an event dispatcher within the module.
-- `mybing/classes/MybingHealthScore.php`: Calculates a “health score” for the overall tracking setup, evaluating configuration, data quality, and event firing.
-- `mybing/classes/MybingHybridTracker.php`: Implements `MybingTrackerInterface` for hybrid tracking. Orchestrates both UET Tag and Conversions API tracking, ensuring event deduplication using `event_id`.
-- `mybing/classes/MybingLiveStats.php`: Collects and provides real-time statistics on events being tracked, displayed in the admin interface.
-- `mybing/classes/MybingProductIdResolver.php`: Helps resolve and format product IDs according to Microsoft Advertising’s requirements (e.g., GTIN, MPN, custom\_label).
-- `mybing/classes/MybingPropertyRules.php`: Defines rules and logic for extracting and formatting various event properties (e.g., product price, quantity, category) for Microsoft Advertising.
-- `mybing/classes/MybingTrackerFactory.php`: Factory class responsible for creating the appropriate tracker instance (`MybingUetTracker`, `MybingCapiTracker`, or `MybingHybridTracker`) based on the module’s configuration.
-- `mybing/classes/MybingTrackerInterface.php`: Defines the contract for all tracker classes, ensuring a consistent interface for event tracking methods.
-- `mybing/classes/MybingUetTracker.php`: Implements `MybingTrackerInterface` for client-side (UET Tag) tracking. Responsible for generating the JavaScript code to be injected into the front-office.
-- `mybing/classes/MybingUserData.php`: Collects and formats user-specific data (e.g., email, phone, address) for Enhanced Conversions, including hashing.
-
-### 4.4 JavaScript Assets (`views/js/`)
-
-- `mybing/views/js/mybing-admin.js`: Back-office JavaScript for general admin functionality, form interactions, and dynamic updates within the module configuration page.
-- `mybing/views/js/mybing-debug.js`: Front-office JavaScript specifically for the debug mode, displaying tracking information and event payloads to the administrator.
-- `mybing/views/js/mybing-ghost.js`: Front-office JavaScript, potentially for handling “ghost” events or specific client-side interactions that need to be tracked without direct user action.
-- `mybing/views/js/mybing-live.js`: Back-office JavaScript for the “Live Statistics” tab, handling AJAX requests to `AdminMybingAjaxController` and updating the live event feed.
-- `mybing/views/js/mybing-tcf.js`: Front-office JavaScript for integration with Transparency and Consent Framework (TCF) or other consent management platforms, ensuring UET Tag fires only with consent.
-- `mybing/views/js/mybing-wizard.js`: Back-office JavaScript for the initial setup wizard, guiding the merchant through the configuration steps.
-- `mybing/views/js/mybing.js`: Main front-office JavaScript file. Contains the core logic for initializing the UET Tag, capturing client-side events (e.g., `add_to_cart`), and sending data to the UET Tag or the module’s AJAX controller for CAPI processing. It binds to various DOM events and PrestaShop’s `prestashop.on` events.
-
-### 4.5 CSS Stylesheets (`views/css/`)
-
-- `mybing/views/css/mybing-admin.css`: Back-office CSS for styling the module’s configuration page, diagnostic tools, and wizard, ensuring a consistent and user-friendly admin interface.
-- `mybing/views/css/mybing-debug.css`: Front-office CSS for styling the debug overlay, making tracking information clearly visible to the administrator without disrupting the store’s design.
-
-### 4.6 Smarty Template Structure (`views/templates/`)
-
-#### Hook templates (`views/templates/hook/`)
-
-- `mybing/views/templates/hook/capi-pageview.tpl`: Renders a hidden element or script to trigger a server-side PageView event via CAPI, often used when the UET tag might be blocked.
-- `mybing/views/templates/hook/debug.tpl`: Renders the HTML structure for the front-office debug overlay, displaying event data.
-- `mybing/views/templates/hook/displayOrderConfirmation.tpl`: Injected into the `displayOrderConfirmation` hook. Renders the UET Tag purchase event script and/or triggers the CAPI purchase event after a successful order.
-- `mybing/views/templates/hook/ghost.tpl`: Renders a hidden script or element for “ghost” tracking, potentially for specific background events or data collection.
-- `mybing/views/templates/hook/header.tpl`: Injected into the `displayHeader` hook. Renders the main UET Tag base script, consent management integration, and initial PageView events.
-- `mybing/views/templates/hook/payment.tpl`: Potentially used for tracking events related to payment method selection or initiation, though `displayOrderConfirmation` is more common for final purchase.
-- `mybing/views/templates/hook/product-details.tpl`: Injected into a product page hook (e.g., `displayProductButtons` or `displayProductExtraContent`). Renders scripts for `view_item` events and `add_to_cart` event listeners.
-
-#### Admin templates (`views/templates/admin/`)
-
-- `mybing/views/templates/admin/consent-guide.tpl`: Displays guidance and information regarding consent management integration.
-- `mybing/views/templates/admin/doctor.tpl`: Renders the interface for the “Catalog Doctor” diagnostic tool.
-- `mybing/views/templates/admin/dq.tpl`: Renders the interface for the “Data Quality Coach” recommendations.
-- `mybing/views/templates/admin/health.tpl`: Renders the interface for the “Health Score” overview.
-- `mybing/views/templates/admin/linker-domains.tpl`: Renders the input field and explanation for configuring linker domains.
-- `mybing/views/templates/admin/live-maintain.tpl`: Renders a maintenance message or status for the live statistics feature.
-- `mybing/views/templates/admin/live.tpl`: Renders the interface for “Live Statistics,” displaying recent events.
-- `mybing/views/templates/admin/mode-context.tpl`: Provides contextual information about the chosen tracking mode.
-- `mybing/views/templates/admin/mode-note-both.tpl`: Displays a specific note or explanation when “Both (Hybrid)” mode is selected.
-- `mybing/views/templates/admin/mode-note-capi.tpl`: Displays a specific note or explanation when “Conversions API Only” mode is selected.
-- `mybing/views/templates/admin/mode-note-uet.tpl`: Displays a specific note or explanation when “UET Tag Only” mode is selected.
-- `mybing/views/templates/admin/mode-picker.tpl`: Renders the radio buttons or dropdown for selecting the tracking mode.
-- `mybing/views/templates/admin/properties-list.tpl`: Renders a list or table of event properties and their values for configuration or display.
-- `mybing/views/templates/admin/recent-events.tpl`: Renders a table or list of recently tracked events, often part of the “Live Statistics.”
-- `mybing/views/templates/admin/tabs.tpl`: Renders the tab navigation structure for the module’s configuration page (e.g., General, Live Stats, Health Score).
-- `mybing/views/templates/admin/tag-chips.tpl`: Renders visual “chips” or indicators for configured UET Tag IDs.
-- `mybing/views/templates/admin/tag-ids.tpl`: Renders the input field for UET Tag IDs.
-- `mybing/views/templates/admin/wizard.tpl`: Renders the step-by-step interface for the initial setup wizard.
-
-#### Front-office templates (`views/templates/front/`)
-
-- No dedicated standalone page templates identified. Front-office rendering is primarily handled via hook templates.
-
-### 4.7 Database Schema & Hooks Map
-
-#### Database Tables
-
-The module does not explicitly create custom SQL tables based on the provided inventory. Configuration records are stored in PrestaShop’s `ps_configuration` table, using keys prefixed with `MYBING_` (e.g., `MYBING_UET_ID`, `MYBING_CAPI_TOKEN`, `MYBING_TRACKING_MODE`).
-
-#### Registered Hooks Table
-
-| Hook Name | Execution Timing | Technical Purpose |
-| --- | --- | --- |
-| `displayHeader` | In the `<head>` section of every front-office page. | Injects the base UET Tag JavaScript, initializes consent management, and triggers `PageView` events. |
-| `displayOrderConfirmation` | On the order confirmation page after a successful purchase. | Triggers `Purchase` events for both UET Tag and Conversions API, including order details. |
-| `actionFrontControllerSetMedia` | When a front controller sets its media assets. | Injects module-specific JavaScript and CSS into the front-office. |
-| `actionCartSave` | When a product is added to or removed from the cart. | Triggers `AddToCart` or `RemoveFromCart` events. |
-| `actionProductAdd` | When a product is added to the cart (specific to some themes/modules). | Alternative or supplementary hook for `AddToCart` events. |
-| `actionProductUpdate` | When a product is updated in the Back Office. | Potentially used for `Catalog Doctor` to re-evaluate product data quality. |
-| `actionObjectProductUpdateAfter` | After a product `ObjectModel` is updated. | Similar to `actionProductUpdate`, for data quality checks or cache invalidation. |
-| `actionObjectOrderAddAfter` | After an order `ObjectModel` is added. | Triggers server-side `Purchase` events via Conversions API, ensuring robust tracking. |
-| `actionObjectOrderUpdateAfter` | After an order `ObjectModel` is updated. | Potentially for tracking order status changes (e.g., refund, cancellation) if configured in Microsoft Ads. |
-| `displayProductExtraContent` | On the product page, often below the main content. | Can be used to inject product-specific tracking scripts or data for `ViewItem` events. |
-| `displayFooter` | At the end of the `<body>` section on every front-office page. | Can be used for deferred script loading or additional tracking elements. |
-| `actionAdminControllerSetMedia` | When an admin controller sets its media assets. | Injects module-specific JavaScript and CSS into the Back Office for the configuration page. |
-| `actionAdminMybingAjaxController` | Custom hook for `AdminMybingAjaxController` to handle specific AJAX actions. | Used internally for dynamic updates and data retrieval in the module’s diagnostic tabs. |
-| `actionModuleInstall` | During module installation. | Performs initial setup, creates configuration entries, and registers hooks. |
-| `actionModuleUninstall` | During module uninstallation. | Cleans up configuration entries and unregisters hooks. |
-
-## 5. Official Support & Updates
-
-For the latest module updates, bug fixes, and official developer support, please refer to your customer account at [MyPresta.eu](https://mypresta.eu/my-account/orders/). Our support team is available to assist with any technical issues or questions regarding the module’s functionality.
+1. Open **Modules > Module Manager**.
+2. Click **Upload a module** and upload the ZIP file.
+3. Install **Microsoft Advertising UET / Conversions API**.
+4. Find it in **Module Manager** and click **Configure**.
+5. Complete **Setup Wizard** or configure all tabs manually.
+
+The module does not create a visible **Catalog** menu item. Its data endpoint is a hidden back-office tab used internally.
+
+Installation does not clear the PrestaShop cache. Clear it under **Advanced Parameters > Performance** only if old assets or an old configuration screen remain visible.
+
+Uninstalling removes the module's event log, multi-tag rules, CAPI queue, hidden endpoint, and module configuration keys. Update-checker keys may remain. Reinstalling starts with default settings and does not restore deleted events or rules.
+
+## 3. Configuration and back-office work
+
+Open **Modules > Module Manager**, find **Microsoft Advertising UET / Conversions API**, and click **Configure**.
+
+Follow this process:
+
+1. Complete **Setup Wizard**.
+2. Confirm the channel and credentials in **Tracking mode**.
+3. Select signals in **Events**.
+4. Match event product IDs to your feed in **Catalog IDs**.
+5. Configure **Privacy & consent**.
+6. Define paid and refund behavior in **Order lifecycle**.
+7. Add **Multi-tag rules** only for context-specific credentials.
+8. Schedule the displayed CRON URL every 1–5 minutes when CAPI is active.
+9. Browse the storefront and verify events in **Live Statistics** and **Health & diagnostics**.
+10. Confirm the events in Microsoft Advertising.
+
+Screenshots in this manual come from an English back office.
+
+### 3.1 Setup Wizard
+
+Use the wizard for first-time setup. It guides you through **Mode**, **Tag ID**, **CAPI token**, **Test**, and **Done**.
+
+![Setup Wizard](https://mypresta.eu/docs/images/docs/mybing-wizard.webp)
+
+| Field | On start | What it does |
+|---|---|---|
+| **Mode** | Not selected | Choose **UET Tag** for browser tracking, **Conversions API** for server tracking, or **UET + CAPI** for both. Dual mode uses a shared event identifier for deduplication. |
+| **Tag ID** | Empty | Paste the ID from Microsoft Advertising under UET Tag or Conversion Tracking. It is required in every mode. |
+| **CAPI token** | Empty | In CAPI or dual mode, paste the bearer token from the Conversions API section of the UET Tag. Treat it as a password. |
+| **Enable Ghost Collector (msclkid / anonymousId sync)** | Yes | Collect Microsoft click and anonymous visitor identifiers in CAPI-capable modes without making UET tracking calls. Keep it enabled for stronger matching and session continuity. |
+| **Test** | Not run | In UET mode, validate the Tag ID and then verify a storefront page view. In CAPI-capable modes, click **Send test purchase** to send a €1 test purchase. Allow 10–30 minutes for Microsoft Advertising to show it. |
+| **Done** | Incomplete | Finish setup and open shortcuts to **Tracking mode**, **Health & Data Quality Coach**, or **Live Statistics**. |
+
+Use **Start over** to run the wizard again. Existing credentials remain pre-filled until changed.
+
+### 3.2 Tracking mode and credentials
+
+Select how all events reach Microsoft Advertising, complete the fields shown for that mode, and click **Save**.
+
+![Tracking mode and credentials](https://mypresta.eu/docs/images/docs/mybing-tracking-mode.webp)
+
+| Field | On start | What it does |
+|---|---|---|
+| **Tracking mode** | Not selected | **UET Tag** sends from the browser. **Conversions API** queues server events. **UET + CAPI** sends both with the same event ID so Microsoft can deduplicate them. |
+| **Tag ID(s)** | Empty | Type a UET Tag ID and press comma or Enter. The ID is required for UET, CAPI, and dual mode. |
+| **Conversions API token** | Empty | Paste the bearer token from **Microsoft Advertising > UET tag > Use Conversions API > Copy Token**. |
+| **CAPI endpoint override (advanced)** | Empty | Leave empty to use Microsoft's standard destination. Set it only when Microsoft documents a custom host for your account. |
+| **Ghost collector (CAPI)** | Yes | Capture `msclkid` and anonymous visitor ID for CAPI matching. It does not call UET tracking. |
+| **Bing ID Sync (remarketing)** | Yes | When UET is active, send the anonymous visitor ID through Bing ID Sync to improve remarketing audience matching. |
+
+For CAPI or dual mode, copy the displayed **CRON URL** to your scheduler and run it every 1–5 minutes.
+
+### 3.3 Events
+
+Select and save a tracking mode first. Then enable only the signals you need and click **Save**.
+
+![Tracked events](https://mypresta.eu/docs/images/docs/mybing-events.webp)
+
+| Field | On start | What it does |
+|---|---|---|
+| **PAGE_VIEW** | Yes | Record every storefront page load. It supports traffic reporting and attribution; turning it off does not stop other events. |
+| **view_item (+ select_item)** | Yes | Send `view_item` on product pages and `select_item` when a product is clicked in category, search, or bestseller lists. |
+| **view_item_list** | Yes | Send approximately the first 20 products from category, search, and bestseller-style lists with IDs, names, prices, and positions. It has its own switch. |
+| **add_to_cart** | Yes | Record cart additions. UET and dual mode use the native cart event plus optional CSS fallback. CAPI-only mode uses the server path and does not need CSS selectors. |
+| **REMOVE_FROM_CART (Microsoft: Other)** | Yes | Record cart removals as **Other**, because Microsoft has no native remove-from-cart type. |
+| **CHECKOUT** | Yes | Fire when the customer enters the cart or order flow and mark purchase intent. |
+| **CHECKOUT details** | Yes | Add value, currency, and product data to **CHECKOUT**. Turning it off sends minimal parameters. |
+| **ADD_PAYMENT_INFO (Microsoft: Other)** | Yes | Fire on the payment step as **Other**. Use it as an optional late-funnel signal for Live Statistics. |
+| **purchase** | Yes | Send **OffMicrosoftPurchases** with order value, currency, and product lines. A stable client deduplication ID makes refreshes safe. Use **Order lifecycle** to delay it until payment. |
+| **SEARCH** | Yes | Record storefront searches with the search term. |
+| **ADD_TO_WISHLIST (Microsoft: Other)** | Yes | Record wishlist additions as **Other** when the theme exposes compatible controls. |
+| **SIGN_UP (Signup)** | Yes | Send **Signup** when a customer account is created. |
+| **LEAD / SUBSCRIBE (newsletter)** | Yes | Send **Lead** for newsletter subscriptions. Disable it if another tool tracks the same conversion. |
+| **LEAD (legacy product interest)** | No | Preserve the old product-interest Lead behavior. Leave it off unless a historical campaign requires it; using it with `view_item` can inflate leads. |
+| **CONTACT** | Yes | Fire when the contact form is submitted, using server and browser fallback detection. |
+| **REFUND (Microsoft: Other)** | Yes | Fire when an order reaches a configured refund or cancellation state. Microsoft receives it as **Other** for local correction and statistics. |
+| **Rich product payloads (productId / items)** | Yes | Include product IDs, quantities, and prices. Turning it off leaves minimal value/currency data except where list or click events require IDs. Keep it on for catalog matching. |
+| **Add to cart CSS selector** | `.add-to-cart` | In UET and dual mode, identify the product-page button when the theme does not fire the native cart event. |
+| **Product price CSS selector** | `.current-price span` | In UET and dual mode, read the visible fallback price. A wrong selector sends zero; combine it with **Reformat price string** when necessary. |
+
+For CAPI, enable **Advanced matching (email / phone)** and **Ghost collector (CAPI)** for better matching.
+
+### 3.4 Catalog IDs and Catalog ID Doctor
+
+Make event product IDs exactly match your Microsoft Merchant Center feed, click **Save**, then review **Catalog ID Doctor**.
+
+![Catalog IDs and Catalog ID Doctor](https://mypresta.eu/docs/images/docs/mybing-catalog.webp)
+
+| Field | On start | What it does |
+|---|---|---|
+| **Product identification** | `id_product` | Choose the product ID, combination ID, or product ID plus separator plus combination ID. Combined IDs suit feeds that list variants. A different feed format prevents matching. |
+| **Separator** | `-` | Separate product and combination IDs in combined mode. Product 12 and combination 5 become `12-5`. Use the same separator in the feed. |
+| **Product ID prefix** | Empty per language | Add a language-specific value before every ID only when the feed uses it too. |
+| **Product ID suffix** | Empty per language | Add a language-specific value after every ID only when the feed uses it too. |
+| **Exclude free products** | No | Omit zero-priced products from cart and purchase product lines and value calculations. |
+| **Force currency conversion** | No | Convert all monetary values to one target currency. Enable only when the shop currency is not accepted by Microsoft Advertising. |
+| **Target currency** | Store-dependent selection | Select the destination currency. It is ignored while forced conversion is off. |
+| **Reformat price string** | No | In UET or dual mode, clean formatted theme prices before the CSS add-to-cart fallback reads them. It is not used in CAPI-only mode. |
+
+**Catalog ID Doctor** shows generated examples from an active product and combination, recent IDs found in event data, and hints about the selected base ID, separator, prefix, and suffix. If it reports **No active products found to validate catalog productId values**, activate a product and reopen the tab.
+
+### 3.5 Privacy and consent
+
+Configure an external consent source first. The module does not display a cookie banner.
+
+![Privacy and consent](https://mypresta.eu/docs/images/docs/mybing-privacy.webp)
+
+| Field | On start | What it does |
+|---|---|---|
+| **Require marketing / analytics consent** | No | Block UET, CAPI, and Ghost until consent is granted. Without a connected CMP, tracking remains silent. |
+| **Default consent state** | `auto` | `auto` waits for cookie, TCF, or browser-event consent; `grant` allows immediately; `revoke` blocks until granted. Use `auto` with a banner and `grant` only with an appropriate lawful basis. |
+| **IAB TCF 2.x (__tcfapi)** | Yes | Listen to a certified CMP. Purpose 1 plus one of purposes 2, 3, or 4 unlocks ads and updates Microsoft UET advertising-storage consent. |
+| **Include logged-in customer ID** | No | Add the PrestaShop customer ID to logged-in context and diagnostics as an optional external-ID signal. Disclose it in the privacy policy. |
+| **Advanced matching (email / phone)** | No | Send email and available hashed email/phone fields for improved UET and CAPI attribution. Ensure the privacy policy covers this. It is strongly recommended for CAPI. |
+| **Ignore admin / employee traffic** | Yes | Skip storefront tracking when an employee session is detected. |
+| **Simple bot filter** | No | Skip requests whose browser identification resembles a bot or crawler. This is heuristic. |
+
+For an EU setup, configure the CMP, use `auto`, enable required consent, and keep TCF enabled when supported. Test both accept and decline in a private browser. The guide recognizes common marketing/statistics cookies, its own consent cookie, and its TCF result. Cookiebot callbacks are supported directly; other CMPs can dispatch the module's consent event.
+
+### 3.6 Order lifecycle
+
+Control when sales and refunds enter conversion reporting.
+
+![Order lifecycle](https://mypresta.eu/docs/images/docs/mybing-orders.webp)
+
+| Field | On start | What it does |
+|---|---|---|
+| **Purchase only when paid** | No | Delay purchase until an order state is paid. Enable it when unpaid bank transfer or cash-on-delivery orders inflate conversions. |
+| **Paid statuses** | Empty | Select an optional whitelist of paid states. Leave empty to use PrestaShop's built-in paid flag. A filled list is used when paid-only tracking is on. |
+| **Refund / cancel statuses** | Empty | Select states that trigger Refund. Empty uses automatic detection from status names containing refund or cancel. The Refund event must also be enabled. |
+
+For delayed payment, enable paid-only tracking, move a test order into a paid state, and verify that purchase appears once.
+
+### 3.7 Multi-tag rules
+
+Use rules when a shop, language, country, or currency needs different credentials. The first matching active rule wins in ascending **Position** order. Without a match, global credentials are used.
+
+![Multi-tag rules](https://mypresta.eu/docs/images/docs/mybing-multitag.webp)
+
+The **Active rules** list shows **Tag ID**, CAPI token source, **Shop**, **Language**, **Country**, **Currency**, **Active**, and **Actions**. Click **Delete** and confirm to remove a rule. There are no edit or bulk actions; recreate a rule to change it.
+
+| Field | On start | What it does |
+|---|---|---|
+| **Tag ID (UET)** | Empty | Set the UET Tag for matching traffic. It may be empty only for a token-only CAPI override. |
+| **Conversions API token** | Empty | Override the global token. Empty inherits the token from **Tracking mode**. |
+| **Shop** | **All shops** | Limit the rule to one multistore shop or all shops. |
+| **Language** | **All languages** | Limit it to one storefront language or all languages. |
+| **Country** | **All countries** | Limit it to the current customer-country context. |
+| **Currency** | **All currencies** | Limit it to the current currency. |
+| **Active** | Yes | Enable or disable the rule. Inactive rules are ignored. |
+| **Position** | `0` | Set evaluation order. Lower numbers win when several rules match. |
+
+Click **Add rule**. **Property rule saved** confirms success. If **Could not save rule — provide a valid Tag ID and/or Conversions API token.** appears, correct the Tag ID or supply a token.
+
+### 3.8 Live Statistics
+
+Open this tab in one window and browse the storefront in another. Events appear on the 30-minute real-time timeline.
+
+![Live Statistics](https://mypresta.eu/docs/images/docs/mybing-live.webp)
+
+**Recovery Radar** shows purchases without add-to-cart, add-to-cart without product detail views, refunds versus purchases, and CAPI/Ghost recovery. Use event checkboxes to filter the timeline; PageView is hidden by default. **Pause** stops polling without stopping tracking, and **Refresh** fetches current data.
+
+| Field | On start | What it does |
+|---|---|---|
+| **Enable live dashboard** | Yes | Turn timeline polling on or off. Turning it off pauses the feed, while tracking and Health/Radar records continue. |
+| **Also log PageView into the event database** | No | Add noisy PageView rows to the local log. It does not control Microsoft PageView firing or other event logging. Enable only for debugging. |
+| **Keep events for (days)** | `14` | Purge rows older than this age. Accepted values are 1–365; 7–30 is typical. |
+| **Live poll interval (seconds)** | `5` | Poll every 2–60 seconds. Lower values are faster but create more back-office requests. |
+
+Use **Purge older than retention**, **Delete failed only**, or **Clear entire event log** for immediate cleanup. Clearing all requires confirmation and cannot be undone. **Export recent events (CSV)** downloads recent non-PageView records.
+
+### 3.9 Health and diagnostics
+
+Use this tab after setup and whenever conversions are missing.
+
+![Health and diagnostics](https://mypresta.eu/docs/images/docs/mybing-health.webp)
+
+**Health Score** audits mode, credentials, queue freshness, Ghost, PageView, consent, TCF, purchase, deduplication, recent errors, catalog format, and data quality. Read each failed check, not only the **Excellent**, **Good**, **Fair**, or **Needs work** label.
+
+For CAPI, schedule **CAPI CRON URL** every 1–5 minutes. Review **Last CAPI flush**, processed, sent, pending, failed, queue totals, and rows older than 10 minutes.
+
+**Data Quality Coach** estimates matching coverage from recent server payloads or a current purchase sample. It lists present and missing identifiers, expected lifts, averages by event, and shop-level fixes. Improve anonymous ID, `msclkid`, advanced email/phone matching, and optional customer ID where appropriate. Confirm final diagnostics in Microsoft Advertising.
+
+| Field | On start | What it does |
+|---|---|---|
+| **Enable front debug inspector** | No | Show a floating storefront overlay with events, payloads, CAPI destination, queue state, and errors. Turn it off after testing. Temporarily append `?mybing_debug=1` to a storefront URL to enable it without saving. |
+
+Under **Test & queue**:
+
+- **Send test purchase** sends a test conversion; check Microsoft Advertising after 10–30 minutes.
+- **Test CAPI token** checks that Tag ID and token are present.
+- **Process CAPI queue** runs the same queue path as CRON.
+
+**Recent events log** shows event, ID, channel, status, response/error, date, and result. Use **Re-send** for an immediate attempt or **Re-add to queue** for the next CRON run.
+
+**Recent queue rows** show event details, status, attempts, last error, and update time. Use per-row actions or **Re-send all failed now** and **Re-add all failed to queue**.
+
+### 3.10 Updates
+
+Check for a newer module version here.
+
+![Updates](https://mypresta.eu/docs/images/docs/mybing-updates.webp)
+
+| Field | On start | What it does |
+|---|---|---|
+| **Manual Check** | No result | Click **Check Now** to contact the update service once. It shows **Module is up to date!** or **New version available!**. |
+| **Automatic Notifications** | Existing shared update preference | **Enabled** checks approximately every three days and can warn employees. **Disabled** leaves update management manual. |
+| **Product Page** | Link displayed | Open the official module page for release information, documentation, and support access. |
+
+Click **Save** after changing notifications.
+
+## 4. Storefront
+
+The module adds no visible storefront block, form, button, or customer-account page. Customers use the normal product, cart, checkout, registration, newsletter, contact, and confirmation screens.
+
+Product pages contain a hidden product-data block used by tracking. It does not alter the visible theme. When debug is enabled, a floating inspector becomes visible; disable it after testing because it exposes tracking details.
+
+For CAPI, copy **CAPI CRON URL** from **Tracking mode** or **Health & diagnostics** into the hosting scheduler and run it every 1–5 minutes. The protected URL processes queued events and retention. Do not publish it because it contains an access key.
+
+The storefront data endpoint is called automatically for consent, visitor IDs, cart, page view, checkout, contact, and debug actions. Do not construct or open it manually.
+
+| Visible message | What to do |
+|---|---|
+| Debug inspector shows consent denied | Accept marketing consent through the CMP or repair the CMP connection. |
+| Debug inspector shows queued | Run CRON or **Process CAPI queue**, then check **Health & diagnostics**. |
+| Debug inspector shows failed | Read the response in **Health & diagnostics**, correct credentials or connectivity, and click **Re-send**. |
+
+## 5. Problems
+
+| Symptom | Cause and action |
+|---|---|
+| Wizard remains incomplete | Save a valid mode, Tag ID, and token when applicable; run **Test** and finish **Done**. |
+| No UET events appear | Save a valid Tag ID, include UET in the mode, enable the event, review consent, and test in a private customer session. |
+| **Missing Tag ID and/or Conversions API token** | Enter both in **Tracking mode**, save, and run **Test CAPI token** again. |
+| CAPI events remain queued | Schedule **CAPI CRON URL** every 1–5 minutes, click **Process CAPI queue** once, and inspect **Last CAPI flush**. |
+| CAPI test or re-send fails | Read **Response / error**, correct Tag ID/token/connectivity, leave the endpoint override empty unless Microsoft supplied one, and retry. |
+| Tracking stops after consent is required | Configure the external CMP, use `auto`, connect TCF or its callbacks, then accept marketing consent and retest. |
+| Catalog products do not match | Align **Product identification**, separator, prefix, and suffix with the feed and review **Catalog ID Doctor**. |
+| Purchases appear before payment | Enable **Purchase only when paid** and optionally select exact paid states. |
+| Paid orders do not create purchase | Enable **purchase** and ensure the order state is paid or included in **Paid statuses**. |
+| Refunds do not appear | Enable Refund and select the correct **Refund / cancel statuses**. |
+| Your tests are ignored | Use a private browser without an employee session or temporarily disable **Ignore admin / employee traffic**. |
+| Bot-like test traffic is absent | Disable **Simple bot filter** for the test, then restore it as needed. |
+| UET add-to-cart is absent | Update the button and price CSS selectors to match the theme. |
+| Add-to-cart value is zero or malformed | Correct the price selector and enable **Reformat price string** when required. |
+| Payment-step Other event is absent although its toggle is Yes | The theme or payment step did not fire the module path. Treat this signal as optional and verify the remaining funnel. |
+| Live Statistics waits for events | Enable the dashboard, resume it, clear filters, click **Refresh**, and browse the storefront as a customer. |
+| PageView reaches Microsoft but is absent locally | Enable local PageView logging temporarily; it is off by default. |
+| Wrong multi-tag credential is used | Delete/recreate overlapping rules and give the most specific one the lowest position. |
+| Rule cannot be saved | Supply a valid Tag ID and/or token, then click **Add rule**. |
+| Health warns about data quality | Follow **Highest-impact fixes**, enable Ghost and Advanced matching where lawful, and collect valid checkout phone data. |
+| Module screen looks stale | Clear cache under **Advanced Parameters > Performance** and reload. |
+
+## 6. Developer reference
+
+### 6.1 Architecture
+
+The technical name is `mybing`, version `1.4.0`. The main class is `mybing extends Module`; list name is **Microsoft Advertising UET / Conversions API**, author `MyPresta.eu`, category `front_office_features`.
+
+`MybingTrackerFactory` selects `MybingUetTracker`, `MybingCapiTracker`, or `MybingHybridTracker`. `MybingEvents` builds events; `MybingEventId` generates and persists deduplication IDs. `MybingProductIdResolver`, `MybingCurrencyHelper`, and `MybingUserData` normalize catalog, money, and identity data. `MybingCapiClient` builds requests, sends them, and manages retries. `MybingLiveStats`, `MybingHealthScore`, `MybingDataQualityCoach`, and `MybingCatalogDoctor` power diagnostics.
+
+Dual mode shares an event ID between browser and server channels. The default endpoint is `https://capi.uet.microsoft.com/v1/{tagId}/events`. Each CRON call processes up to 50 queue rows and applies retention.
+
+### 6.2 Files and classes
+
+| File or class | Responsibility |
+|---|---|
+| `mybing.php` | Install/uninstall, defaults, forms, actions, CRON, front configuration, and hooks. |
+| `classes/MybingTrackerInterface.php` | Tracker contract. |
+| `classes/MybingTrackerFactory.php` | Mode and event-switch resolution. |
+| `classes/MybingUetTracker.php` | Browser payloads and local UET records. |
+| `classes/MybingCapiTracker.php` | Server delivery and queueing. |
+| `classes/MybingHybridTracker.php` | Dual output and deduplication. |
+| `classes/MybingCapiClient.php` | Payloads, cURL, responses, queue, retries, and flush summaries. |
+| `classes/MybingEvents.php` | Commerce event implementation. |
+| `classes/MybingEventMap.php` | Internal-to-Microsoft event map. |
+| `classes/MybingEventId.php` | Event IDs, deduplication, and event-table healing. |
+| `classes/MybingUserData.php` | Click/visitor IDs, customer data, normalization, and hashing. |
+| `classes/MybingConsent.php` | Consent requirement, defaults, cookies, and TCF. |
+| `classes/MybingPropertyRules.php` | Context rule schema, matching, and credential resolution. |
+| `classes/MybingProductIdResolver.php` | Catalog ID generation. |
+| `classes/MybingCurrencyHelper.php` | Currency context and conversion. |
+| `classes/MybingLiveStats.php` | Feed, summaries, Radar, retention, and cleanup. |
+| `classes/MybingHealthScore.php` | Weighted health checks and queue diagnostics. |
+| `classes/MybingDataQualityCoach.php` | Identity coverage estimates. |
+| `classes/MybingCatalogDoctor.php` | Sample and recent product IDs. |
+| `controllers/admin/AdminMybingAjaxController.php` | Authenticated JSON back-office bridge. |
+| `controllers/front/ajax.php` | Token-protected tracking JSON endpoint. |
+| `controllers/front/cron.php` | Key-protected queue JSON endpoint. |
+| `views/js/mybing.js` | Main front bindings and dispatch. |
+| `views/js/mybing-tcf.js` | TCF consent bridge. |
+| `views/js/mybing-ghost.js` | Visitor/click-ID sync. |
+| `views/js/mybing-debug.js` | Front inspector. |
+| `views/js/mybing-admin.js`, `mybing-wizard.js`, `mybing-live.js` | Back-office forms, wizard, and live dashboard. |
+| `views/templates/hook/header.tpl` | UET, consent, matching, page view, events, script, and ID Sync. |
+| `views/templates/hook/product-details.tpl` | Hidden product JSON. |
+| `views/templates/hook/displayOrderConfirmation.tpl` | Browser purchase output. |
+| `views/templates/hook/capi-pageview.tpl`, `ghost.tpl`, `debug.tpl` | CAPI page view, Ghost, and inspector output. |
+| `views/templates/hook/payment.tpl` | Payment-event template not invoked by a hook handler in 1.4.0. |
+| `sql/install.php`, `sql/uninstall.php` | Create/heal and drop custom tables. |
+| `lib/updateChecker.php` | Manual and periodic update checks. |
+
+### 6.3 Controllers
+
+`AdminMybingAjaxController extends ModuleAdminController` is installed as hidden tab `AdminMybingAjax` with parent `-1`. It requires an employee and emits JSON. Actions: `liveFeed`, `liveRadar`, `liveClear`, `wizardSave`, `wizardTest`, `wizardComplete`, `wizardReset`, `dqReport`/`emqReport`, and `exportCsv`.
+
+`MybingAjaxModuleFrontController extends ModuleFrontController` is SSL and JSON-only. It accepts the secure key or generated front token. Actions: `ghost`, `consent`, `addToCart`, `removeFromCart`, `wishlist`, `selectItem`, `contact`, `beginCheckout`, `recalculate`, `pageview`, `ping`, and debug-only `inspect`. Errors include `invalid_token`, `disabled`, `empty_cart`, `invalid_currency`, `disabled_or_consent`, `debug_off`, and `unknown_action`.
+
+`MybingCronModuleFrontController` accepts `key` or `secure_key`, returns JSON, emits HTTP 403 with `access_denied` for invalid access, and calls `runCapiCron()`.
+
+`controllers/front/index.php` only sends no-cache headers and redirects upward.
+
+### 6.4 Hooks
+
+| Registered hook | Implementation |
+|---|---|
+| `displayHeader` | Filters traffic; dispatches page, list, product, checkout, search, contact, and newsletter signals; renders UET/Ghost/CAPI output. |
+| `displayOrderConfirmation` | Resolves order, tracks allowed purchase, renders browser output. |
+| `actionValidateOrder` | Tracks purchase at creation unless paid-only delays it. |
+| `actionOrderStatusPostUpdate` | Tracks delayed paid purchase and refund/cancel transitions. |
+| `actionCustomerAccountAdd` | Tracks signup and stores browser output for the next page. |
+| `actionFrontControllerSetMedia` | Adds front configuration and main, TCF, Ghost, and debug assets. |
+| `displayPaymentTop` | Registered, but `hookDisplayPaymentTop()` is not implemented in 1.4.0. |
+| `displayFooter` | Renders debug inspector and queue bootstrap when enabled. |
+| `actionCartUpdateQuantityBefore`, `actionBeforeCartUpdateQty` | Track server cart quantity changes; the latter delegates to the former. |
+| `actionObjectProductInCartDeleteBefore`, `actionObjectProductInCartDeleteAfter` | Snapshot then track full cart-line deletion. |
+| `displayProductAdditionalInfo` | Renders hidden product details. |
+| `actionNewsletterRegistrationAfter` | Tracks newsletter lead. |
+| `displayContactContent` | Adds the hidden contact marker. |
+
+There are no custom `enable()` or `disable()` methods.
+
+### 6.5 Database
+
+The actual PrestaShop prefix replaces `ps_`.
+
+| Table | Contents |
+|---|---|
+| `ps_mybing_events` | Event name/ID, order/cart/shop, channel, payload, status, HTTP code, response, date, lookup indexes, and unique event/name/shop dedupe key. |
+| `ps_mybing_properties` | Tag, token, shop/language/country/currency selectors, active, position, and date. |
+| `ps_mybing_queue` | Payload, attempts, status, last error, created/updated dates. |
+
+Installation retries with `utf8` if `utf8mb4` fails. `MybingPropertyRules::ensureSchema()` can add `tag_id` and `access_token` when configuration is opened and migrate a legacy refresh token. The event schema soft-adds its unique index. Uninstall drops all three tables.
+
+### 6.6 Configuration keys
+
+| Keys | Defaults and purpose |
+|---|---|
+| `MYBING_MODE` | Empty; tracker mode. |
+| `MYBING_TAG_ID`, `MYBING_CAPI_TOKEN`, `MYBING_CAPI_ENDPOINT` | Empty; global credentials/destination. |
+| `MYBING_MSCLKID_DAYS`, `MYBING_ID_SYNC` | `90`, `1`; click-ID life and ID Sync. |
+| `MYBING_PAGEVIEW`, `MYBING_PURCHASE`, `MYBING_PURCHASE_PAID_ONLY` | `1`, `1`, `0`. |
+| `MYBING_LEAD`, `MYBING_LEAD_N`, `MYBING_INITIATE`, `MYBING_INITIATE_D` | `0`, `1`, `1`, `1`. |
+| `MYBING_SEARCH`, `MYBING_ADDTOCART`, `MYBING_REMOVECART`, `MYBING_WISHLIST` | All `1`. |
+| `MYBING_ADDPAYMENT`, `MYBING_CONTACT`, `MYBING_REFUND` | All `1`. |
+| `MYBING_DPA`, `MYBING_VCONTENT`, `MYBING_VIEW_ITEM_LIST`, `MYBING_REG` | All `1`. |
+| `MYBING_ATTRID`, `MYBING_SEPSIGN`, `MYBING_PREFIX`, `MYBING_SUFIX` | `0`, `-`, empty per language, empty per language. |
+| `MYBING_EXFREE`, `MYBING_ATC_B`, `MYBING_ATC_PPP`, `MYBING_PREPRICE` | `0`, `.add-to-cart`, `.current-price span`, `0`. |
+| `MYBING_CONCURR`, `MYBING_CURRSELECT` | `0`, `0`. |
+| `MYBING_CONSENT_REQUIRED`, `MYBING_CONSENT_MODE`, `MYBING_TCF` | `0`, `auto`, `1`. |
+| `MYBING_GHOST`, `MYBING_USER_ID`, `MYBING_ENHANCED_CONV` | `1`, `0`, `0`. |
+| `MYBING_IGNORE_ADMIN`, `MYBING_BOT_FILTER`, `MYBING_DEBUG` | `1`, `0`, `0`. |
+| `MYBING_PAID_STATUSES`, `MYBING_REFUND_STATUSES` | Empty comma-separated state IDs. |
+| `MYBING_STATS_ENABLED`, `MYBING_STATS_RETENTION`, `MYBING_STATS_POLL`, `MYBING_STATS_LOG_PV` | `1`, `14`, `5`, `0`. |
+| `MYBING_WIZARD_DONE`, `MYBING_WIZARD_REDO` | `0`, `0`. |
+| `MYBING_INSTALL_SQL_WARN`, `MYBING_INSTALL_ERROR` | Runtime install diagnostics. |
+| `MYBING_LAST_FLUSH` | Runtime JSON flush summary; not in the uninstall key list. |
+
+Setup/uninstall also deletes legacy `MYBING_CAPI_AUTH_CLIENT_ID`, `MYBING_CAPI_AUTH_CLIENT_SECRET`, `MYBING_CAPI_AUTH_REFRESH_TOKEN`, `MYBING_CAPI_AUTH_ACCESS_TOKEN`, `MYBING_CAPI_AUTH_ACCESS_EXPIRES`, `MYBING_PROFILE_ID`, `MYBING_CAPI_REGION`, `MYBING_CAPI_COUNTRY`, `MYBING_ATC_PC`, `MYBING_ATC_PP`, `MYBING_LINKER_DOMAINS`, and `MYBING_ADS_ID`. `MYBING_DEBUG_MODE` is purged during setup but is absent from the uninstall list.
+
+The updater uses `mypresta_updates`, `update_mybing`, and `updatev_mybing`; these may remain after uninstall. `mypresta_updates` is shared.
+
+### 6.7 Uninstall, translations, and extension
+
+`uninstall()` deletes the hidden tab, drops all module tables, deletes `getConfigurationKeys()` values and installation diagnostics, then calls `parent::uninstall()`. It does not delete updater keys or `MYBING_LAST_FLUSH`.
+
+There are no PrestaShop overrides. Translations live in `translations/{iso}.php`; most UI strings use `$this->l()` or Smarty `{l}`, while event names and some class diagnostics remain English.
+
+Themes can reposition supported hooks and style the inspector, but the product block is intentionally hidden. Preserve data attributes and scripts when overriding hook templates. A custom CMP can dispatch `mybing.consent` with grant `1` or `0`, or provide a signal recognized by `MybingConsent`.
+
+## 7. Help
+
+Open the module page: https://mypresta.eu/modules/advertising-and-marketing/microsoft-advertising-uet-tag-conversions-api.html
+
+Log in to your customer account on mypresta.eu, open the contact page, and choose **Support for paid modules**. Login is required; then select this module from your purchase history and include the tracking mode, visible error, and diagnostic result.

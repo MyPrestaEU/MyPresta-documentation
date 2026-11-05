@@ -1,8 +1,8 @@
 ---
-title: "Pulsante Reso UE – Modulo di Recesso Online - Manuale Commerciante e Guida alla Configurazione"
-description: "Manuale utente completo, guida alla configurazione schermata per schermata e riferimento per sviluppatori per il modulo PrestaShop Pulsante Reso UE – Modulo di Recesso Online di MyPresta.eu."
+title: "Return Button Pro - documentazione e manuale utente"
+description: "Configuri il modulo di recesso UE, gestisca i casi nel back office e risolva i problemi più comuni se già utilizza Return Button Pro."
 sidebar:
-  label: "Pulsante Reso UE – Modulo di Recesso Online - Manuale Commerciante e Guida alla Configurazione"
+  label: "Return Button Pro - documentazione e manuale utente"
 ---
 
 > ⚠️ **Notice:** This is the documentazione ufficiale per il modulo PrestaShop.
@@ -12,514 +12,411 @@ sidebar:
 > ---
 
 
-# Pulsante Reso UE – Modulo di Recesso Online
-
-## 1. Requisiti e Compatibilità
-
-- **Versioni PrestaShop supportate**: PrestaShop 1.6.x, 1.7.x, 8.x, 9.x
-- **Compatibilità PHP**: PHP 5.6 - 8.5
-- **Requisiti di hosting**: Sono richieste estensioni PHP standard (cURL, JSON, OpenSSL), che sono tipicamente disponibili nella maggior parte degli ambienti di hosting moderni.
-
-## 2. Guida completa alla configurazione (Ogni impostazione raggruppata per schermata)
-
-### 2.1 Pagina di configurazione del modulo (Back Office > Moduli > Configura)
-
-Questa è la schermata di configurazione principale dove controlli il comportamento generale e l'aspetto del pulsante e del modulo di reso.
-
-#### Scheda Impostazioni Generali
-
--   **Abilita Modulo:**
-
-    -   **Cosa fa questa impostazione:** Questo è l'interruttore principale per l'intero modulo.
-    -   **Effetto della modifica di questa impostazione:**
-        -   *Quando abilitato:* Il pulsante di reso e il modulo di recesso online diventano attivi e visibili ai clienti in base alle altre impostazioni.
-        -   *Quando disabilitato:* Il modulo è completamente disattivato. Il pulsante non apparirà e i moduli non saranno accessibili.
-    -   **Valore consigliato:** SÌ
-    -   **Scenario / esempio del commerciante:** Lo disabiliteresti solo se desideri temporaneamente interrompere l'offerta di resi online, magari durante la manutenzione o un cambio di politica.
--   **Visualizza Pulsante Reso In:**
-
-    -   **Cosa fa questa impostazione:** Determina dove apparirà il pulsante principale "Reso" o "Recesso" nel front office del tuo negozio. Puoi selezionare più posizioni.
-    -   **Effetto della modifica di questa impostazione:**
-        -   *Quando selezionato (ad esempio, Header):* Un pulsante apparirà nella posizione scelta, fornendo un link diretto al modulo di reso.
-        -   *Quando deselezionato:* Il pulsante non apparirà in quella specifica posizione.
-    -   **Valore consigliato:** Header e/o Footer per un facile accesso, e Pagina Prodotto per informare i clienti in anticipo.
-    -   **Scenario / esempio del commerciante:** Se vuoi che i clienti trovino facilmente l'opzione di reso da qualsiasi pagina, abilita "Header" e "Footer". Se vuoi enfatizzare la tua politica di reso sulle pagine dei prodotti, abilita "Pagina Prodotto".
--   **Testo Pulsante:**
-
-    -   **Cosa fa questa impostazione:** Ti consente di personalizzare il testo visualizzato sul pulsante di reso.
-    -   **Effetto della modifica di questa impostazione:** Il testo sul pulsante cambierà al valore specificato.
-    -   **Valore consigliato:** "Richiesta di Reso", "Modulo di Recesso Online" o "Avvia un Reso".
-    -   **Scenario / esempio del commerciante:** Potresti cambiarlo da "Reso" a "Modulo di Recesso" per allinearti a una terminologia legale specifica nella tua regione.
--   **Stato Minimo Ordine per Recesso:**
-
-    -   **Cosa fa questa impostazione:** Definisce lo stato dell'ordine più precoce in cui un cliente può avviare una richiesta di reso per un ordine. Gli ordini con uno stato inferiore a questo non saranno idonei.
-    -   **Effetto della modifica di questa impostazione:**
-        -   *Quando impostato su "Pagamento accettato":* I clienti possono richiedere un reso solo dopo che il loro pagamento è stato elaborato con successo.
-        -   *Quando impostato su "Spedito":* I clienti possono richiedere un reso solo dopo che il loro ordine è stato contrassegnato come spedito.
-    -   **Valore consigliato:** "Pagamento accettato" o "Spedito", a seconda della tua politica.
-    -   **Scenario / esempio del commerciante:** Se accetti resi solo per articoli che sono stati effettivamente pagati ed elaborati, imposta questo su "Pagamento accettato". Se accetti resi solo per articoli che hanno già lasciato il tuo magazzino, impostalo su "Spedito".
--   **Giorni Massimi per Recesso:**
-
-    -   **Cosa fa questa impostazione:** Imposta il numero massimo di giorni dopo l'effettuazione di un ordine (o la spedizione, a seconda della tua politica) durante i quali un cliente può inviare una richiesta di reso.
-    -   **Effetto della modifica di questa impostazione:**
-        -   *Quando impostato su 14:* I clienti hanno 14 giorni dalla data dell'ordine per richiedere un reso. Dopo 14 giorni, l'opzione non sarà più disponibile per quell'ordine.
-        -   *Quando impostato su 30:* I clienti hanno 30 giorni.
-    -   **Valore consigliato:** 14 (per la conformità standard UE) o 30 (se offri un periodo di reso esteso).
-    -   **Scenario / esempio del commerciante:** Per rispettare il diritto di recesso standard di 14 giorni dell'UE, imposta questo su 14. Se offri una politica più generosa, puoi estenderlo a 30 o più.
--   **Consenti Recessi Ospiti:**
-
-    -   **Cosa fa questa impostazione:** Determina se i clienti che hanno effettuato il checkout come ospiti (senza creare un account) possono utilizzare il modulo di recesso online.
-    -   **Effetto della modifica di questa impostazione:**
-        -   *Quando abilitato:* I clienti ospiti possono accedere al modulo fornendo il loro riferimento d'ordine e l'indirizzo email.
-        -   *Quando disabilitato:* Solo i clienti registrati che hanno effettuato l'accesso possono avviare un reso.
-    -   **Valore consigliato:** SÌ (per la massima comodità del cliente e la conformità UE).
-    -   **Scenario / esempio del commerciante:** L'abilitazione di questa opzione garantisce che tutti i clienti, indipendentemente dal loro metodo di checkout, possano facilmente avviare un reso, il che è fondamentale per la conformità e la soddisfazione del cliente.
--   **Consenti Allegati:**
-
-    -   **Cosa fa questa impostazione:** Consente ai clienti di caricare file (ad esempio, foto di prodotti danneggiati, prova d'acquisto) quando inviano la loro richiesta di reso.
-    -   **Effetto della modifica di questa impostazione:**
-        -   *Quando abilitato:* Un campo di caricamento apparirà sul modulo.
-        -   *Quando disabilitato:* I clienti non possono caricare file.
-    -   **Valore consigliato:** SÌ (specialmente per prodotti in cui potrebbe essere necessaria una prova visiva per danni o difetti).
-    -   **Scenario / esempio del commerciante:** Se vendi articoli fragili, consentire gli allegati aiuta i clienti a fornire rapidamente prove di danni, accelerando il processo di risoluzione.
--   **Dimensione Massima Allegato (MB):**
-
-    -   **Cosa fa questa impostazione:** Imposta la dimensione massima del file per ogni allegato che un cliente può caricare.
-    -   **Effetto della modifica di questa impostazione:** I file più grandi di questo limite verranno rifiutati dal modulo.
-    -   **Valore consigliato:** 2-5 MB.
-    -   **Scenario / esempio del commerciante:** L'impostazione di un limite ragionevole impedisce ai clienti di caricare file eccessivamente grandi che potrebbero rallentare il tuo server o il sistema di posta elettronica.
--   **Estensioni Allegati Consentite (separate da virgola):**
-
-    -   **Cosa fa questa impostazione:** Specifica quali tipi di file (ad esempio, jpg, png, pdf) i clienti sono autorizzati a caricare.
-    -   **Effetto della modifica di questa impostazione:** Saranno accettati solo file con queste estensioni.
-    -   **Valore consigliato:** jpg, jpeg, png, gif, pdf.
-    -   **Scenario / esempio del commerciante:** Limitare ai formati di immagine e documento comuni garantisce di ricevere file utilizzabili e previene caricamenti dannosi.
--   **Richiedi Messaggio di Stato:**
-
-    -   **Cosa fa questa impostazione:** Quando modifichi lo stato di una richiesta di reso nel back office, questa impostazione determina se sei tenuto ad aggiungere un messaggio al cliente.
-    -   **Effetto della modifica di questa impostazione:**
-        -   *Quando abilitato:* Un campo di input per un messaggio sarà obbligatorio quando si aggiorna uno stato di reso.
-        -   *Quando disabilitato:* Puoi cambiare gli stati senza aggiungere un messaggio.
-    -   **Valore consigliato:** SÌ (per una comunicazione chiara e tracce di controllo).
-    -   **Scenario / esempio del commerciante:** L'abilitazione di questa opzione garantisce che il tuo team fornisca sempre un motivo o un aggiornamento al cliente quando cambia lo stato, migliorando la trasparenza.
-
-#### Scheda Stati Ordine
-
-Questa scheda ti consente di definire i vari stati per le richieste di reso e come interagiscono con gli stati degli ordini PrestaShop esistenti.
-
--   **Nuovo Stato Recesso:**
-
-    -   **Cosa fa questa impostazione:** Seleziona lo stato dell'ordine PrestaShop che verrà assegnato a una nuova richiesta di reso quando viene inviata per la prima volta da un cliente.
-    -   **Effetto della modifica di questa impostazione:** Tutte le nuove richieste di reso verranno automaticamente contrassegnate con questo stato nel tuo back office.
-    -   **Valore consigliato:** Crea un nuovo stato d'ordine personalizzato come "Reso Richiesto" o "Recesso in Sospeso" per una chiara identificazione.
-    -   **Scenario / esempio del commerciante:** Creando uno stato specifico "Reso Richiesto", il tuo team di assistenza clienti può facilmente filtrare e identificare le nuove richieste di reso che richiedono la loro attenzione.
--   **Stato Recesso Accettato:**
-
-    -   **Cosa fa questa impostazione:** Seleziona lo stato dell'ordine PrestaShop che verrà assegnato quando tu, come commerciante, accetti la richiesta di reso di un cliente.
-    -   **Effetto della modifica di questa impostazione:** Quando contrassegni un reso come "Accettato" nel modulo, il suo stato cambierà a questo stato dell'ordine selezionato.
-    -   **Valore consigliato:** Crea un nuovo stato d'ordine personalizzato come "Reso Accettato" o "Recesso Approvato".
-    -   **Scenario / esempio del commerciante:** Una volta che hai esaminato una richiesta e l'hai approvata, cambiare il suo stato in "Reso Accettato" può attivare un'email al cliente con ulteriori istruzioni.
--   **Stato Recesso Rifiutato:**
-
-    -   **Cosa fa questa impostazione:** Seleziona lo stato dell'ordine PrestaShop che verrà assegnato quando rifiuti la richiesta di reso di un cliente.
-    -   **Effetto della modifica di questa impostazione:** Quando contrassegni un reso come "Rifiutato" nel modulo, il suo stato cambierà a questo stato dell'ordine selezionato.
-    -   **Valore consigliato:** Crea un nuovo stato d'ordine personalizzato come "Reso Rifiutato" o "Recesso Rifiutato".
-    -   **Scenario / esempio del commerciante:** Se una richiesta di reso non rientra nella tua politica (ad esempio, oltre la finestra di reso), cambieresti il suo stato in "Reso Rifiutato" e idealmente invieresti un messaggio che ne spieghi il motivo.
--   **Stato Recesso Chiuso:**
-
-    -   **Cosa fa questa impostazione:** Seleziona lo stato dell'ordine PrestaShop che verrà assegnato quando una richiesta di reso è completata o risolta (ad esempio, rimborso emesso, sostituzione inviata).
-    -   **Effetto della modifica di questa impostazione:** Quando contrassegni un reso come "Chiuso" nel modulo, il suo stato cambierà a questo stato dell'ordine selezionato.
-    -   **Valore consigliato:** Crea un nuovo stato d'ordine personalizzato come "Reso Completato" o "Recesso Chiuso".
-    -   **Scenario / esempio del commerciante:** Dopo che un rimborso è stato elaborato, contrassegnare il reso come "Reso Completato" fornisce una chiara traccia di controllo e lo rimuove dalla tua coda di resi attivi.
--   **Stati Ordine da Escludere dal Recesso:**
-
-    -   **Cosa fa questa impostazione:** Ti consente di selezionare stati d'ordine PrestaShop specifici per i quali i clienti *non possono* avviare una richiesta di reso, anche se soddisfano altri criteri.
-    -   **Effetto della modifica di questa impostazione:** Gli ordini con uno qualsiasi degli stati selezionati non mostreranno l'opzione di reso al cliente.
-    -   **Valore consigliato:** "Annullato", "Rimborsato", "Errore" o qualsiasi altro stato che indichi che un ordine non è più idoneo per una nuova richiesta di reso.
-    -   **Scenario / esempio del commerciante:** Se un ordine è già stato "Rimborsato", non vorresti che un cliente potesse inviare un'altra richiesta di reso per esso.
-
-### 2.2 Schermate Amministrative Dedicate e Viste Controller
-
-#### Richieste di Recesso (Back Office > Ordini > Richieste di Recesso)
-
-Questo è l'hub centrale per la gestione di tutte le richieste di reso e recesso inviate dai tuoi clienti.
-
--   **Nome schermata e posizione menu:** Puoi trovare questa schermata navigando su **Ordini > Richieste di Recesso** nel menu del tuo back office PrestaShop.
--   **Azioni e impostazioni disponibili:**
-    -   **Tabella di elenco:** Visualizza un elenco completo di tutte le richieste di reso, inclusi:
-        -   **ID:** Identificatore univoco per la richiesta.
-        -   **Nome Cliente:** Il cliente che ha inviato la richiesta.
-        -   **Riferimento Ordine:** L'ordine PrestaShop associato.
-        -   **Data:** Quando la richiesta è stata inviata.
-        -   **Stato:** Lo stato attuale della richiesta (ad esempio, "Reso Richiesto", "Reso Accettato").
-        -   **Azioni:** Pulsanti per "Visualizzare" i dettagli della richiesta, cambiarne lo stato o eseguire altre attività di gestione.
-    -   **Filtro e ricerca:** Puoi filtrare l'elenco per stato, cliente, riferimento ordine e intervallo di date per trovare rapidamente richieste specifiche.
-    -   **Azioni di massa:** Ti consente di selezionare più richieste ed eseguire azioni come cambiarne lo stato contemporaneamente.
-    -   **Visualizza dettagli:** Cliccando su "Visualizza" per una richiesta specifica si apre una pagina dettagliata dove puoi:
-        -   Vedere tutte le informazioni fornite dal cliente (motivo, commenti, file allegati).
-        -   Rivedere i prodotti inclusi nella richiesta di reso.
-        -   Visualizzare una cronologia delle modifiche di stato e delle note interne.
-        -   Aggiungere note private per la comunicazione interna del team.
-        -   Cambiare lo stato della richiesta (ad esempio, da "Reso Richiesto" a "Reso Accettato").
-        -   Inviare messaggi al cliente (se "Richiedi Messaggio di Stato" è abilitato).
-        -   Scaricare allegati.
-        -   Stampare il modulo di recesso.
--   **Effetto delle modifiche:**
-    -   **Modifica dello stato:** Aggiorna lo stato della richiesta di reso, il che può attivare notifiche email al cliente e aggiornare la visualizzazione nel suo account cliente.
-    -   **Aggiunta di note:** Registra la comunicazione interna o le decisioni relative alla richiesta, visibili solo agli utenti del back office.
-    -   **Invio di messaggi:** Comunica direttamente con il cliente riguardo alla sua richiesta di reso.
--   **Flusso di lavoro consigliato per la gestione quotidiana del negozio:**
-    1.  Controlla regolarmente l'elenco "Richieste di Recesso" per nuove richieste (stato "Reso Richiesto").
-    2.  Esamina ogni nuova richiesta, controllando i dettagli dell'ordine, i commenti del cliente e gli eventuali allegati.
-    3.  Decidi se accettare o rifiutare la richiesta in base alla politica di reso del tuo negozio.
-    4.  Cambia lo stato di conseguenza (ad esempio, a "Reso Accettato" o "Reso Rifiutato"). Se "Richiedi Messaggio di Stato" è abilitato, fornisci un messaggio chiaro al cliente.
-    5.  Procedi con i passaggi successivi (ad esempio, emetti un rimborso, organizza la spedizione di reso) e aggiorna lo stato a "Reso Completato" una volta risolto.
-    6.  Usa le note interne per la comunicazione del team o per registrare azioni specifiche intraprese.
-
-### 2.3 Tabella di riferimento rapido della configurazione
-
-| Schermata / Vista | Impostazione / Opzione | Predefinito / Consigliato | Scopo e Impatto |
-| --- | --- | --- | --- |
-| **Pagina di Configurazione Modulo** | Abilita Modulo | SÌ | Attiva/disattiva l'intero modulo. |
-| | Visualizza Pulsante Reso In | Header, Footer, Pagina Prodotto | Controlla dove appare il pulsante di reso nel front office. |
-| | Testo Pulsante | "Richiesta di Reso" | Personalizza il testo sul pulsante di reso. |
-| | Stato Minimo Ordine per Recesso | "Pagamento accettato" | Imposta lo stato dell'ordine più precoce per l'idoneità al reso. |
-| | Giorni Massimi per Recesso | 14 | Definisce la finestra di reso in giorni dalla data dell'ordine. |
-| | Consenti Recessi Ospiti | SÌ | Consente ai clienti non registrati di utilizzare il modulo. |
-| | Consenti Allegati | SÌ | Abilita/disabilita il caricamento di file sul modulo. |
-| | Dimensione Massima Allegato (MB) | 2-5 MB | Imposta la dimensione massima per i file caricati. |
-| | Estensioni Allegati Consentite | jpg, jpeg, png, gif, pdf | Specifica i tipi di file consentiti per i caricamenti. |
-| | Richiedi Messaggio di Stato | SÌ | Rende obbligatorio un messaggio quando si cambia lo stato del reso. |
-| **Scheda Stati Ordine** | Nuovo Stato Recesso | "Reso Richiesto" (personalizzato) | Stato per le richieste appena inviate. |
-| | Stato Recesso Accettato | "Reso Accettato" (personalizzato) | Stato quando il commerciante approva una richiesta. |
-| | Stato Recesso Rifiutato | "Reso Rifiutato" (personalizzato) | Stato quando il commerciante rifiuta una richiesta. |
-| | Stato Recesso Chiuso | "Reso Completato" (personalizzato) | Stato quando una richiesta è completamente risolta. |
-| | Stati Ordine da Escludere dal Recesso | "Annullato", "Rimborsato" | Impedisce i resi per gli ordini con questi stati. |
-| **Richieste di Recesso (Admin)** | Visualizza/Modifica Richiesta | N/A | Gestisci le singole richieste di reso, cambia stato, aggiungi note. |
-| | Filtra/Cerca | N/A | Individua richieste specifiche in base a vari criteri. |
-| | Azioni di Massa | N/A | Esegui azioni su più richieste selezionate. |
-
-## 3. Risoluzione dei problemi del commerciante e domande frequenti (FAQ)
-
-**D1: Il pulsante di reso non appare nel mio negozio. Cosa devo fare?**
-R1:
-
--   **Controlla lo stato del modulo:** Vai su **Moduli > Gestione moduli**, trova "Pulsante Reso UE – Modulo di Recesso Online" e assicurati che sia "Abilitato".
--   **Controlla le posizioni di visualizzazione:** Nella configurazione del modulo, nella scheda "Impostazioni Generali", verifica di aver selezionato almeno una posizione "Visualizza Pulsante Reso In" (ad esempio, Header, Footer).
--   **Svuota la cache:** Vai su **Parametri Avanzati > Prestazioni** e clicca su "Svuota cache" (o "Svuota cache Smarty" nelle versioni precedenti). A volte, il vecchio contenuto della cache impedisce la visualizzazione di nuovi elementi del modulo.
--   **Compatibilità del tema:** Sebbene il modulo sia progettato per un'ampia compatibilità, i temi personalizzati potrebbero richiedere piccole modifiche. Se il pulsante non appare ancora, contatta il supporto MyPresta.eu con i dettagli del tuo tema.
-
-**D2: I clienti segnalano di non poter inviare un reso per un ordine specifico, anche se rientra nel periodo di reso.**
-R2:
-
--   **Controlla lo stato minimo dell'ordine:** Nella configurazione del modulo, in "Impostazioni Generali", rivedi "Stato Minimo Ordine per Recesso". Assicurati che l'ordine del cliente abbia raggiunto questo stato. Ad esempio, se è impostato su "Spedito" e l'ordine è ancora "Pagamento accettato", non vedranno l'opzione.
--   **Controlla gli stati dell'ordine esclusi:** Nella configurazione del modulo, nella scheda "Stati Ordine", controlla "Stati Ordine da Escludere dal Recesso". Se l'ordine del cliente ha uno di questi stati (ad esempio, "Annullato", "Rimborsato"), non sarà in grado di avviare un nuovo reso.
--   **Giorni massimi per il recesso:** Ricontrolla l'impostazione "Giorni Massimi per Recesso". La finestra di reso potrebbe essere scaduta per quell'ordine specifico.
-
-**D3: Ho cambiato un'impostazione, ma non si riflette nel front office.**
-R3:
-
--   **Svuota la cache:** Questa è la ragione più comune. Svuota sempre la cache di PrestaShop dopo aver apportato modifiche alla configurazione in qualsiasi modulo. Vai su **Parametri Avanzati > Prestazioni** e clicca su "Svuota cache". Se utilizzi un modulo di caching di terze parti o un CDN, svuota anche le loro cache.
--   **Cache del browser:** Chiedi ai tuoi clienti (o a te stesso) di svuotare la cache del browser o prova a visualizzare la pagina in una finestra in incognito/privata per escludere problemi di caching lato browser.
-
-**D4: Come posso tradurre il testo del modulo in altre lingue?**
-R4:
-
--   Vai su **Internazionale > Traduzioni** nel tuo back office PrestaShop.
--   Seleziona "Traduzioni dei moduli installati".
--   Scegli il tuo tema, la lingua che desideri tradurre e quindi seleziona "Pulsante Reso UE – Modulo di Recesso Online" dall'elenco dei moduli.
--   Vedrai quindi un elenco di tutte le stringhe traducibili all'interno del modulo, inclusi il testo del pulsante, le etichette del modulo e i messaggi. Inserisci le tue traduzioni e salva.
-
-**D5: Voglio personalizzare l'aspetto del modulo di reso per abbinarlo al mio tema.**
-R5:
-
--   Il modulo include file CSS (`front-classic.css`, `front-hummingbird.css`, `front.css`) progettati per i temi PrestaShop comuni.
--   Per uno stile avanzato, avrai bisogno di uno sviluppatore web. Possono ispezionare la struttura HTML del modulo e sovrascrivere le sue regole CSS nel file `custom.css` del tuo tema o creando un nuovo foglio di stile che si carica dopo il CSS del modulo. Evita di modificare direttamente i file CSS del modulo, poiché le tue modifiche andranno perse durante gli aggiornamenti.
-
-## 4. Guida per Sviluppatori e Webmaster (Architettura Tecnica e Mappa del Codice)
-
-### 4.1 Panoramica dell'Architettura
-
-Il modulo "Pulsante Reso UE – Modulo di Recesso Online" (`rbpro`) segue l'architettura MVC (Model-View-Controller) standard di PrestaShop. Sfrutta `ModuleFrontController` per le interazioni lato cliente e `AdminController` per la gestione del back-office. La logica di business principale è incapsulata in classi di servizio e ObjectModel dedicate, garantendo l'integrità dei dati e la separazione delle preoccupazioni. Il modulo si integra con il sistema di hook di PrestaShop per l'iniezione dinamica di contenuti e utilizza Smarty per il templating. Include anche livelli di compatibilità per diverse versioni di PrestaShop e una classe di sicurezza per la convalida degli input.
-
-### 4.2 Controller (`controllers/`)
-
-#### Controller Front-Office
-
-Questi controller gestiscono le interazioni del cliente relative al modulo di reso e al tracciamento dello stato.
-
--   `rbpro/controllers/front/confirm.php`
-
-    -   **Nome Classe:** `RbpConfirmModuleFrontController` (estende `RbpModuleFrontController`)
-    -   **Responsabilità:** Visualizza il passaggio di conferma finale del modulo di recesso. Elabora i dati del modulo inviati, crea la voce `RbpWithdrawal` e reindirizza alla pagina di successo o di errore. Gestisce la convalida dei dati prima del salvataggio.
--   `rbpro/controllers/front/form.php`
-
-    -   **Nome Classe:** `RbpFormModuleFrontController` (estende `RbpModuleFrontController`)
-    -   **Responsabilità:** Renderizza il modulo di recesso online principale. Gestisce la visualizzazione iniziale degli ordini/prodotti idonei, elabora le selezioni dell'utente e prepara i dati per il passaggio di conferma. Gestisce l'accesso degli ospiti tramite riferimento d'ordine ed email.
--   `rbpro/controllers/front/print.php`
-
-    -   **Nome Classe:** `RbpPrintModuleFrontController` (estende `RbpModuleFrontController`)
-    -   **Responsabilità:** Fornisce una versione stampabile del modulo di recesso o dei dettagli della richiesta. Tipicamente utilizzato dai clienti da includere con il loro pacco restituito.
--   `rbpro/controllers/front/RbpModuleFrontController.php`
-
-    -   **Nome Classe:** `RbpModuleFrontController` (estende `ModuleFrontController`)
-    -   **Responsabilità:** Questa è una classe base per tutti i controller front-office all'interno del modulo `rbpro`. Fornisce funzionalità comuni come l'impostazione dei breadcrumb, la gestione delle risorse specifiche del modulo e potenzialmente controlli di sicurezza condivisi o l'inizializzazione dei dati.
--   `rbpro/controllers/front/status.php`
-
-    -   **Nome Classe:** `RbpStatusModuleFrontController` (estende `RbpModuleFrontController`)
-    -   **Responsabilità:** Visualizza lo stato attuale e la cronologia di una specifica richiesta di reso al cliente. Accessibile tramite un link di tracciamento univoco o dall'account del cliente.
--   `rbpro/controllers/front/track.php`
-
-    -   **Nome Classe:** `RbpTrackModuleFrontController` (estende `RbpModuleFrontController`)
-    -   **Responsabilità:** Fornisce un'interfaccia semplice per i clienti (specialmente gli ospiti) per inserire un riferimento d'ordine e un'email per tracciare lo stato della loro richiesta di recesso.
-
-#### Controller Admin Back-Office
-
--   `rbpro/controllers/admin/AdminRbpWithdrawalController.php`
-    -   **Nome Classe:** `AdminRbpWithdrawalController` (estende `ModuleAdminController`)
-    -   **Nome Tab:** "Richieste di Recesso" (sotto "Ordini")
-    -   **Entità Gestita:** `RbpWithdrawal`
-    -   **Responsabilità:** Gestisce l'elenco, la visualizzazione, la modifica e gli aggiornamenti di stato di tutte le richieste di recesso dei clienti nel back office di PrestaShop. Implementa `renderList()` per la tabella di panoramica e `renderForm()` per la vista dettagliata di una singola richiesta. Gestisce azioni come il cambio di stato, l'aggiunta di note e la gestione degli allegati.
-
-### 4.3 Classi e Modelli Core (`classes/`)
-
--   `rbpro/classes/index.php`
-
-    -   **Responsabilità:** File `index.php` vuoto standard per prevenire l'elenco delle directory.
--   `rbpro/classes/RbpCompatibility.php`
-
-    -   **Responsabilità:** Fornisce metodi statici per gestire problemi di compatibilità tra diverse versioni di PrestaShop (ad esempio, logica specifica per `_PS_VERSION_`, sostituzioni di funzioni deprecate). Garantisce che il modulo funzioni correttamente da PS 1.6 a 9.x.
--   `rbpro/classes/RbpSecurity.php`
-
-    -   **Responsabilità:** Contiene metodi statici per attività relative alla sicurezza, come la convalida degli input, la sanificazione e potenzialmente la generazione/verifica di token CSRF per moduli specifici.
--   `rbpro/classes/RbpStatsService.php`
-
-    -   **Responsabilità:** Una classe di servizio responsabile della raccolta e potenzialmente dell'elaborazione di statistiche relative alle richieste di recesso (ad esempio, numero di richieste, tempo medio di elaborazione).
--   `rbpro/classes/RbpWithdrawal.php`
-
-    -   **Estende:** `ObjectModel`
-    -   **Tabella Database:** `rbp_withdrawal`
-    -   **Campi `$definition`:** Definisce la struttura di una richiesta di recesso, inclusi campi come `id_customer`, `id_order`, `id_order_state`, `reference`, `email`, `date_add`, `date_upd`, `status`, `reason`, `message`, ecc.
-    -   **Metodi Pubblici Chiave:** Metodi per operazioni CRUD sulle richieste di recesso, recupero di prodotti associati, cronologia e note.
--   `rbpro/classes/RbpWithdrawalAttachment.php`
-
-    -   **Estende:** `ObjectModel`
-    -   **Tabella Database:** `rbp_withdrawal_attachment`
-    -   **Campi `$definition`:** Definisce la struttura per gli allegati collegati a una richiesta di recesso, inclusi `id_rbp_withdrawal`, `filename`, `original_filename`, `mime_type`, `date_add`.
-    -   **Metodi Pubblici Chiave:** Metodi per la gestione dei file allegati (caricamento, recupero, eliminazione).
--   `rbpro/classes/RbpWithdrawalHistory.php`
-
-    -   **Estende:** `ObjectModel`
-    -   **Tabella Database:** `rbp_withdrawal_history`
-    -   **Campi `$definition`:** Definisce la cronologia delle modifiche di stato per una richiesta di recesso, inclusi `id_rbp_withdrawal`, `id_order_state`, `id_employee`, `message`, `date_add`.
-    -   **Metodi Pubblici Chiave:** Metodi per la registrazione e il recupero delle modifiche di stato e dei messaggi associati.
--   `rbpro/classes/RbpWithdrawalNote.php`
-
-    -   **Estende:** `ObjectModel`
-    -   **Tabella Database:** `rbp_withdrawal_note`
-    -   **Campi `$definition`:** Definisce le note interne aggiunte dai dipendenti a una richiesta di recesso, inclusi `id_rbp_withdrawal`, `id_employee`, `note`, `date_add`.
-    -   **Metodi Pubblici Chiave:** Metodi per l'aggiunta e il recupero di note interne.
--   `rbpro/classes/RbpWithdrawalProduct.php`
-
-    -   **Estende:** `ObjectModel`
-    -   **Tabella Database:** `rbp_withdrawal_product`
-    -   **Campi `$definition`:** Definisce i prodotti specifici inclusi in una richiesta di recesso, collegandosi a `id_rbp_withdrawal`, `id_order_detail`, `id_product`, `id_product_attribute`, `quantity`, `reason`.
-    -   **Metodi Pubblici Chiave:** Metodi per la gestione dell'elenco dei prodotti all'interno di una richiesta di reso.
--   `rbpro/classes/RbpWithdrawalService.php`
-
-    -   **Responsabilità:** Una classe di livello di servizio che orchestra la logica di business complessa che coinvolge più ObjectModel correlati a `RbpWithdrawal`. Esempi includono la creazione di una nuova richiesta di recesso (che coinvolge `RbpWithdrawal`, `RbpWithdrawalProduct`, `RbpWithdrawalHistory`), l'aggiornamento del suo stato, l'invio di notifiche email e la gestione degli allegati.
-
-### 4.4 Risorse JavaScript (`views/js/`)
-
--   `rbpro/lib/searchTool/views/js/autocomplete.js`
-
-    -   **Ambito:** Back-office (probabilmente per la ricerca di ordini/clienti nei moduli di amministrazione).
-    -   **Dettagli:** Implementa la funzionalità di autocompletamento per i campi di input, tipicamente per la ricerca di clienti o ordini durante la creazione/modifica manuale delle richieste di recesso nel back office. Si lega agli eventi `keyup` ed effettua chiamate AJAX per recuperare i suggerimenti.
--   `rbpro/views/js/admin-order-state-picker.js`
-
-    -   **Ambito:** Back-office (configurazione del modulo e `AdminRbpWithdrawalController`).
-    -   **Dettagli:** Migliora i menu a discesa di selezione dello stato dell'ordine nella configurazione del modulo e potenzialmente nella vista dettagliata del recesso. Può aggiungere segnali visivi o capacità di filtro.
--   `rbpro/views/js/front.js`
 
-    -   **Ambito:** Front-office (moduli di recesso e pagine di stato).
-    -   **Dettagli:** Gestisce le interazioni lato client sul modulo di recesso, come:
-        -   Selezione dinamica del prodotto in base all'ordine.
-        -   Convalida dei campi del modulo prima dell'invio.
-        -   Chiamate AJAX per l'invio del modulo o il caricamento dei dati.
-        -   Visualizzazione di messaggi o gestione del caricamento di file.
--   `rbpro/views/js/order-history.js`
+Le schermate di questo manuale mostrano il back office in inglese. Utilizzi gli stessi nomi di menu e etichette riportati qui.
 
-    -   **Ambito:** Front-office (account cliente > cronologia ordini).
-    -   **Dettagli:** Integra il pulsante o il link "Richiedi Reso" nella pagina della cronologia ordini del cliente. Può utilizzare AJAX per verificare l'idoneità dell'ordine o mostrare/nascondere dinamicamente il pulsante.
+## 1. Requisiti
 
-### 4.5 Fogli di Stile CSS (`views/css/`)
+Return Button Pro funziona su PrestaShop 1.6, 1.7, 8 e 9. Usi il pacchetto adatto al negozio: la build dedicata a PrestaShop 1.6 per i negozi 1.6 e la build per PrestaShop 1.7–9 per quelli più recenti. Se nello storico ordini MyPresta.eu sono disponibili entrambi i pacchetti, scarichi lo ZIP corretto.
 
--   `rbpro/lib/searchTool/views/css/autocomplete.css`
+- PrestaShop: 1.6.x, 1.7.x, 8.x e 9.x
+- PHP: le versioni su cui gira già il Suo PrestaShop, inclusi ambienti più vecchi con PrestaShop 1.6 (PHP 5.6 e PHP 7.x) e le versioni richieste da PrestaShop 1.7–9 (PHP 7.1+ / PHP 8.x in base a hosting e negozio). Il modulo è mantenuto anche per ambienti PHP 7.x e per il PHP attuale del negozio.
+- Estensioni PHP usate dal modulo: JSON, curl (controlli aggiornamento), fileinfo (controlli MIME degli allegati), hash (token e sicurezza ospiti)
+- Altri moduli: non richiesti. Se il modulo gratuito Return Button è installato e abilitato, lo disabiliti prima di configurare o usare Return Button Pro. Entrambi non possono funzionare contemporaneamente.
+- Account esterni: nessuno. I controlli aggiornamento opzionali di MyPresta.eu usano Internet dalla scheda **Updates**.
 
-    -   **Ambito:** Back-office.
-    -   **Dettagli:** Stili per i menu a discesa di autocompletamento e i campi di input di ricerca utilizzati nel pannello di amministrazione.
--   `rbpro/views/css/admin-config.css`
+## 2. Installazione
 
-    -   **Ambito:** Back-office (pagina di configurazione del modulo).
-    -   **Dettagli:** Stili per il modulo di configurazione principale del modulo, inclusi schede, campi di input e layout generale.
--   `rbpro/views/css/admin-dashboard.css`
+1. Carichi lo ZIP del modulo in **Modules** → **Module Manager**, quindi installi e abiliti **Return Button Pro**.
+2. Dopo l’installazione, sotto **Customers** compare la voce **Withdrawals**. Apra la configurazione da **Module Manager** → **Return Button Pro** → **Configure** (schede: **Dashboard**, **Settings**, **Updates**).
+3. L’installazione non svuota la cache PrestaShop. Svuoti la cache autonomamente dopo modifiche al tema o agli hook se il front store appare ancora errato.
 
-    -   **Ambito:** Back-office (potenzialmente per una dashboard del modulo o una vista statistiche).
-    -   **Dettagli:** Stili per eventuali elementi personalizzati della dashboard o visualizzazioni statistiche all'interno dell'interfaccia di amministrazione del modulo.
--   `rbpro/views/css/admin-order-state-picker.css`
+Disinstallazione: la voce di menu **Withdrawals** viene rimossa e i valori di configurazione vengono eliminati. Le tabelle di recesso e i record dei casi restano nel database come prova legale. La reinstallazione non cancella quei record; il modulo può riutilizzarli quando le tabelle esistono già. Gli allegati del personale caricati nella cartella del modulo non vengono rimossi alla disinstallazione.
 
-    -   **Ambito:** Back-office.
-    -   **Dettagli:** Stili specifici per gli elementi di selezione dello stato dell'ordine migliorati nell'amministrazione.
--   `rbpro/views/css/admin-searchtool.css`
+Se aggiorna dal modulo gratuito Return Button, Pro può copiare impostazioni compatibili e migrare tabelle Pro vuote dai dati del modulo gratuito quando Pro non ha ancora righe. Disabiliti prima il modulo gratuito.
 
-    -   **Ambito:** Back-office.
-    -   **Dettagli:** Stili generali per gli strumenti di ricerca e i componenti di filtro all'interno dell'interfaccia di amministrazione.
--   `rbpro/views/css/admin-withdrawal-view.css`
+## 3. Configurazione e lavoro nel back office
 
-    -   **Ambito:** Back-office (vista dettagliata di `AdminRbpWithdrawalController`).
-    -   **Dettagli:** Stili per la vista dettagliata di una singola richiesta di recesso, incluse sezioni per le informazioni del cliente, i prodotti, la cronologia e le note.
--   `rbpro/views/css/front-classic.css`
+### 3.1 Processo completo di recesso
 
-    -   **Ambito:** Front-office (per la compatibilità con il tema Classic).
-    -   **Dettagli:** Regolazioni di stile specifiche per il modulo di recesso e i pulsanti per integrarsi perfettamente con il tema Classic di PrestaShop.
--   `rbpro/views/css/front-hummingbird.css`
+Flusso end-to-end dal front store alla gestione del personale:
 
-    -   **Ambito:** Front-office (per la compatibilità con il tema Hummingbird).
-    -   **Dettagli:** Regolazioni di stile specifiche per il modulo di recesso e i pulsanti per integrarsi perfettamente con il tema Hummingbird di PrestaShop.
--   `rbpro/views/css/front.css`
+1. Il cliente trova l’ingresso al recesso: pulsante nel footer, link Il mio account, pulsante nel dettaglio ordine, oppure l’URL del modulo quando l’accesso ospite è attivo.
+2. **Passo 1 – ordine:** i clienti autenticati vedono i propri ordini con indicazioni di idoneità (giorni rimasti, motivi di indisponibilità). Gli ospiti inseriscono riferimento ordine e e-mail. Il cliente seleziona un ordine idoneo, sceglie **Full order** o **Partial** (con quantità sulle righe consentite), aggiunge facoltativamente un messaggio e l’IBAN, quindi continua.
+3. **Passo 2 – conferma:** il cliente rivede il riepilogo della dichiarazione. Quando **Require legal confirmation checkbox** è attivo, deve spuntare il testo legale e poi inviare.
+4. Il modulo salva il caso, lo porta a **Registered** e invia la conferma al cliente (supporto durevole) più una notifica al negozio (e **Notification email** se impostata). La pagina di successo mostra il riferimento di recesso.
+5. Il personale apre **Customers** → **Withdrawals** (o il pannello laterale dell’ordine), apre **View**, imposta lo stato (**In progress**, **Refunded**, **Rejected**, ecc.) e inserisce un messaggio al cliente quando richiesto.
+6. Il cliente segue lo stato tramite **Track withdrawal status**, la pagina di stato e **Print / save PDF**. I messaggi del personale dai cambi di stato compaiono nella cronologia di recesso del cliente.
 
-    -   **Ambito:** Front-office (stile generale).
-    -   **Dettagli:** CSS principale per il modulo di recesso front-office, i pulsanti e le pagine di stato, fornendo uno stile di base che può essere sovrascritto da fogli di stile specifici del tema.
+Stati usati dal modulo:
 
-### 4.6 Struttura del Template Smarty (`views/templates/`)
+| Campo | All’inizio | Cosa fa |
+|---|---|---|
+| **Pending** | Stato breve quando la dichiarazione viene salvata per la prima volta | Caso aperto prima che termini la conferma legale del cliente, o quando il personale imposta questo stato in seguito. Concorre al blocco dei duplicati con gli altri stati aperti. |
+| **Registered** | Dopo la conferma del cliente al passo 2 | Dichiarazione registrata; tentativi di e-mail di conferma. Stato predefinito dopo l’invio. |
+| **In progress** | Azione del personale | Il negozio gestisce il caso (resi, controlli, preparazione rimborso). Continua a bloccare una seconda richiesta attiva se il blocco duplicati è attivo. |
+| **Refunded** | Azione del personale | Caso chiuso con rimborso. Visibile nella pagina di stato del cliente. |
+| **Rejected** | Azione del personale | Caso chiuso senza rimborso. Usi un messaggio chiaro al cliente quando l’impostazione lo richiede. |
 
-#### Template Hook (`views/templates/hook/`)
+Ambito sul modulo: **Full order** o **Partial**. Tipo: **Contract withdrawal** (pagato) o **Contract cancellation (unpaid order)** quando l’ordine non è mai stato pagato.
 
-Questi template vengono renderizzati quando il modulo è agganciato a specifici punti di visualizzazione.
+### 3.2 Dashboard
 
--   `rbpro/views/templates/hook/account-link-classic.tpl`
+Apra **Modules** → **Module Manager** → **Return Button Pro** → **Configure** → **Dashboard**.
 
-    -   **Hook:** `displayCustomerAccount` (o simile)
-    -   **Output:** Un link nella sezione "Il mio account" del cliente per il tema Classic, che porta al modulo di recesso o alla pagina di tracciamento.
--   `rbpro/views/templates/hook/account-link-hummingbird.tpl`
+![Dashboard](https://mypresta.eu/docs/images/docs/rbpro-dashboard.webp)
 
-    -   **Hook:** `displayCustomerAccount` (o simile)
-    -   **Output:** Un link nella sezione "Il mio account" del cliente per il tema Hummingbird.
--   `rbpro/views/templates/hook/button-classic.tpl`
+Filtri con **From** / **To** e **Apply**, oppure reimposti con **Last 30 days**. Il pannello mostra totali di tutti i tempi, backlog in attesa, profilo tema rilevato, hook footer attivo, KPI (recessi nel periodo, tasso vs ordini, quota conferma e-mail, giorni medi dall’ordine al recesso, quota parziale/totale, cancellazioni, quota rimborsata dei casi chiusi, tasso di rifiuto), un grafico degli invii giornalieri, ripartizione per stato, prodotti più recessi e casi in attesa più vecchi con **Open**.
 
-    -   **Hook:** `displayHeader`, `displayFooter`, `displayLeftColumn`, `displayRightColumn`, `displayProductButtons` (o simile)
-    -   **Output:** Il pulsante principale "Reso" o "Recesso", stilizzato per il tema Classic.
--   `rbpro/views/templates/hook/button-hummingbird.tpl`
+Usi **Manage all withdrawals** per l’elenco sotto Customers, o **Export CSV** per scaricare i casi del negozio corrente.
 
-    -   **Hook:** `displayHeader`, `displayFooter`, `displayLeftColumn`, `displayRightColumn`, `displayProductButtons` (o simile)
-    -   **Output:** Il pulsante principale "Reso" o "Recesso", stilizzato per il tema Hummingbird.
--   `rbpro/views/templates/hook/button.tpl`
+### 3.3 Settings
 
-    -   **Hook:** `displayHeader`, `displayFooter`, `displayLeftColumn`, `displayRightColumn`, `displayProductButtons` (o simile)
-    -   **Output:** Un pulsante generico "Reso" o "Recesso", utilizzato come fallback o base per i pulsanti specifici del tema.
--   `rbpro/views/templates/hook/order-detail-classic.tpl`
+Apra la scheda **Settings** e clicchi su **Save** dopo le modifiche.
 
-    -   **Hook:** `displayOrderDetail` (o simile)
-    -   **Output:** Un'opzione o un pulsante nella pagina dei dettagli dell'ordine individuale del cliente per il tema Classic, che consente loro di avviare un reso per quell'ordine specifico.
--   `rbpro/views/templates/hook/order-detail-hummingbird.tpl`
+![Settings](https://mypresta.eu/docs/images/docs/rbpro-settings.webp)
 
-    -   **Hook:** `displayOrderDetail` (o simile)
-    -   **Output:** Un'opzione o un pulsante nella pagina dei dettagli dell'ordine individuale del cliente per il tema Hummingbird.
--   `rbpro/views/templates/hook/order-detail.tpl`
+#### Integrazione tema
 
-    -   **Hook:** `displayOrderDetail` (o simile)
-    -   **Output:** Un'opzione o un pulsante generico nella pagina dei dettagli dell'ordine individuale del cliente.
--   `rbpro/views/templates/hook/order-withdrawal-notice.tpl`
+Adatti il modulo a Classic, Hummingbird o a un tema personalizzato. Regoli queste opzioni se pulsanti o moduli risultano senza stile dopo un aggiornamento del tema.
 
-    -   **Hook:** `displayAdminOrder` (o simile)
-    -   **Output:** Un avviso o un riepilogo delle richieste di recesso relative a un ordine specifico, visualizzato all'interno della vista dell'ordine di amministrazione di PrestaShop.
+| Campo | All’inizio | Cosa fa |
+|---|---|---|
+| **Storefront theme profile** | Auto-detect | Sceglie quali template e CSS di front office carica il modulo (Classic vs Hummingbird). Stile corretto del pulsante, layout del modulo e aspetto del link Il mio account. Lasci Auto-detect salvo se il pulsante appare errato dopo un cambio tema; allora forzi Classic-type o Hummingbird-type in base al tema attivo. Dopo la modifica, svuoti la cache PrestaShop e aggiorni il front store. |
+| **Footer button hook** | Auto (by theme profile) | Definisce dove nel footer della pagina viene iniettato il pulsante di recesso. Auto segue il profilo tema (Hummingbird → displayFooterBefore, Classic → displayFooter). Se il pulsante manca o è disallineato, provi displayFooterBefore o displayFooter manualmente, salvi, svuoti la cache e controlli il footer del negozio. Per il posizionamento manuale, inserisca l’hook personalizzato in un template del tema e selezioni displayRbproButton qui; tenga **Footer button** abilitato così il pulsante appare solo in quel template. |
 
-#### Template Admin (`views/templates/admin/`)
+#### Generali e accesso
 
-Questi template sono utilizzati per l'interfaccia di back-office del modulo.
+| Campo | All’inizio | Cosa fa |
+|---|---|---|
+| **Module enabled** | Yes | Interruttore principale di tutto il modulo. Se disabilitato, pulsanti di recesso, modulo, accesso ospite e tracking sono nascosti sul front store; i record esistenti nel back office restano. Lo usi per manutenzione o revisione legale senza disinstallare. |
+| **Public status tracking page** | Yes | Abilita una pagina pubblica in cui i clienti verificano lo stato del recesso con riferimento + e-mail (senza login). Riduce i ticket «dove è il mio reso?». La abiliti se vuole un link **Track withdrawal status** accanto al pulsante del footer; comunichi il riferimento dall’e-mail di conferma. La disabiliti se gestisce lo stato solo via e-mail dell’account o telefono. |
+| **Guest access (order ref + email)** | Yes | Consente ai clienti non autenticati di aprire il modulo inserendo riferimento ordine e e-mail al passo 1. Consigliato per le vendite a distanza B2C in UE. Lo disattivi se solo i clienti autenticati possono recedere. Le sessioni ospite usano un cookie firmato. |
+| **Block duplicate active requests** | Yes | Impedisce un secondo recesso aperto per lo stesso ordine mentre uno è già Pending, Registered o In progress. Evita casi duplicati e rimborsi in conflitto. Lo lasci attivo in produzione. Lo disabiliti solo per test o processi insoliti di richiesta parziale. |
+| **Require legal confirmation checkbox (step 2)** | Yes | Obbliga il cliente a spuntare una casella con formulazione legale prima dell’invio. Traccia di consenso esplicito allineata alle regole di recesso UE. Modifichi il testo della casella per lingua in Texts & SEO. Se disabilitato, l’invio viene comunque registrato senza casella obbligatoria. |
+| **Require message to customer when changing status** | Yes | Il personale deve inserire un messaggio al cliente prima di aggiornare lo stato di un recesso. Il messaggio è memorizzato nella pista di audit e mostrato nella pagina di stato del cliente. Lo disattivi solo se necessita di cambi di stato rapidi senza scrivere ogni volta. |
+| **Show deadline countdown to customer** | Yes | Mostra quanti giorni restano del periodo legale di recesso (elenco ordini e modulo). Richiede un mapping corretto di **Order state = delivered** e il periodo di recesso. Se le date sembrano errate, controlli la cronologia ordine e lo stato consegnato. |
+| **Optional IBAN field** | No | Aggiunge un campo IBAN opzionale sul modulo per i rimborsi. Lo abiliti solo se rimborsa tramite bonifico e la privacy policy lo copre. Lo lasci disattivo se rimborsa solo sul metodo di pagamento originale. |
+| **Notification email** | Empty | Indirizzo aggiuntivo che riceve le notifiche di nuovi recessi (oltre al contatto del negozio). Esempio: returns@yourshop.com. Lo lasci vuoto per usare solo il flusso mail predefinito di PrestaShop senza questo destinatario. |
 
--   `rbpro/lib/searchTool/views/scripts.tpl`
+#### Regole di recesso
 
-    -   **Output:** Inclusione di JavaScript e CSS per la libreria dello strumento di ricerca, tipicamente inclusa nei moduli di amministrazione che utilizzano l'autocompletamento.
--   `rbpro/views/templates/admin/configure.tpl`
+| Campo | All’inizio | Cosa fa |
+|---|---|---|
+| **Withdrawal period (days from delivery)** | 14 | Giorni di calendario a disposizione dei clienti per recedere dopo che l’ordine è considerato consegnato. Predefinito 14 per i contratti a distanza UE. Lo cambi solo se la legge o i suoi termini richiedono un altro valore. Il conto alla rovescia parte dalla data di consegna derivata dalla cronologia ordine e da **Order state = delivered**. |
+| **Order state = delivered** | Auto | Stato ordine che segna la merce come consegnata (inizio del periodo di recesso). Scelga lo stato impostato quando il pacco è consegnato (ad esempio Delivered, o Shipped se quello è lo stato finale). Auto usa un valore sensato del negozio; lo sovrascriva se le scadenze usano la data sbagliata. |
+| **Allowed order statuses** | All order statuses | Controlla quando i clienti possono inviare un recesso in base allo stato attuale dell’ordine. Scelga **All order statuses** per saltare il filtro, oppure **Only selected statuses** e sposti gli stati dalla colonna sinistra a **Allowed for withdrawal**. Gli ordini fuori elenco risultano non disponibili nell’elenco ordini dell’account. |
+| **Excluded products** | Empty | Prodotti specifici non recessibili (beni sigillati, personalizzati, ecc.). Cerchi per nome o mantenga gli ID; le righe escluse mostrano il messaggio di esclusione sul modulo. |
+| **Excluded product variants** | Empty | Varianti specifiche escluse dal recesso. Cerchi il prodotto, poi selezioni la variante. |
+| **Excluded categories** | Empty | Tutti i prodotti in queste categorie non sono recessibili. |
+| **Excluded manufacturers** | Empty | I prodotti di questi produttori non possono essere recessi. |
+| **Excluded suppliers** | Empty | I prodotti collegati a questi fornitori non possono essere recessi. |
+| **Excluded customer groups** | Empty | I clienti in questi gruppi non possono usare il recesso affatto (nessun accesso al modulo, pulsanti nascosti). |
 
-    -   **Output:** Il modulo di configurazione principale per il modulo, renderizzato da `getContent()` in `index.php`. Contiene tutte le impostazioni descritte nella sezione 4.1.
--   `rbpro/views/templates/admin/dashboard.tpl`
+#### Footer e aspetto
 
-    -   **Output:** Una dashboard o una vista riassuntiva per il modulo, che potenzialmente mostra statistiche o richieste di recesso recenti.
--   `rbpro/views/templates/admin/order-state-picker.tpl`
+| Campo | All’inizio | Cosa fa |
+|---|---|---|
+| **Footer button** | Yes | Mostra la call-to-action principale di recesso nel footer del negozio (hook configurato sopra). Lo disabiliti se vuole solo i link Il mio account e dettaglio ordine. Richiede **Module enabled** e un hook footer corretto. |
+| **Footer theme** | Light footer (dark text) | Schema colori per testo e link del footer (non lo sfondo del pulsante). Scelga Light su footer chiari, Dark su footer neri/scuri così **Track withdrawal status** resta leggibile. Svuoti la cache dopo la modifica. |
+| **Footer alignment** | Center | Allineamento orizzontale del blocco pulsante del footer: Left, Center o Right. Influenza solo l’output dell’hook footer. |
+| **Button color** | #2563eb | Colore di sfondo dei pulsanti di recesso (footer, dettaglio ordine, ecc.). Scelga un colore hex con contrasto sufficiente rispetto al testo bianco. Non cambia il colore primario del tema a livello globale. |
+| **Custom CSS** | Empty | CSS aggiuntivo sulle pagine in cui compaiono i pulsanti del modulo. Per margini, font o nascondere elementi senza modificare i file del tema. Testi prima in staging. |
+| **Link in customer account** | Yes | Aggiunge una voce di recesso in My Account. Consigliato attivo. Lo disabiliti solo se si basa esclusivamente su link del footer o dell’ordine. |
+| **Link on order detail** | Yes | Mostra l’azione di recesso nella pagina dettaglio ordine quando l’ordine è idoneo. Gli ordini bloccati mostrano un breve motivo al posto del pulsante. |
 
-    -   **Output:** Un template personalizzato per la selezione degli stati dell'ordine, utilizzato nella configurazione del modulo o nella vista di recesso dell'amministrazione.
--   `rbpro/views/templates/admin/order-withdrawal-notice.tpl`
+#### Texts & SEO
 
-    -   **Output:** Un piccolo widget o avviso visualizzato all'interno della pagina dei dettagli dell'ordine di PrestaShop nel back office, che indica se esiste una richiesta di recesso attiva per quell'ordine.
--   `rbpro/views/templates/admin/updates.tpl`
+Compili ogni lingua attiva del negozio.
 
-    -   **Output:** Un template per la visualizzazione di notifiche di aggiornamento del modulo o changelog all'interno dell'interfaccia di amministrazione.
--   `rbpro/views/templates/admin/view.tpl`
+| Campo | All’inizio | Cosa fa |
+|---|---|---|
+| **Noindex on form page** | Yes | Aggiunge robots noindex,nofollow sull’URL del modulo di recesso così le pagine legali/modulo restano fuori dai risultati di ricerca. Lo disattivi solo se vuole indexare intenzionalmente il modulo. |
+| **Button label** | Withdraw from contract | Testo di tutti i pulsanti e link di recesso. Un’etichetta breve funziona meglio nel footer. Frase principale orientata al cliente del modulo. |
+| **Exclusion message** | This product is excluded from the statutory right of withdrawal. | Mostrato accanto ai prodotti esclusi sul modulo. Spieghi perché l’articolo non è selezionabile; menzioni i termini se necessario. |
+| **SEO title** | Withdraw from contract | Titolo HTML della pagina del modulo di recesso (scheda del browser). Lo tenga sotto circa 60 caratteri per lingua. |
+| **SEO description** | Online withdrawal form for distance contracts. | Meta description del modulo. Di solito inutilizzata per il ranking con noindex attivo. La lasci vuota per ometterla. |
+| **Legal confirmation checkbox text** | I confirm that I am submitting a withdrawal statement and understand the legal consequences. | Etichetta accanto alla casella obbligatoria al passo 2. Usi una formulazione chiara e adeguata al Paese. Richiesto quando **Require legal confirmation checkbox** è attivo. |
 
-    -   **Output:** Il template di vista dettagliata per una singola richiesta di recesso, renderizzato da `AdminRbpWithdrawalController::renderForm()`. Mostra tutti i dettagli della richiesta, i prodotti, la cronologia, le note e le opzioni di cambio stato.
+### 3.4 Updates
 
-#### Template Front-Office (`views/templates/front/`)
+Apra la scheda **Updates**.
 
-Questi sono template di pagina standalone per il processo di recesso lato cliente.
+| Campo | All’inizio | Cosa fa |
+|---|---|---|
+| **Manual Check** | — | Controlla su MyPresta.eu se esiste una versione più recente del modulo. Vedrà **New version available!** o **Module is up to date!**. Richiede curl e HTTPS in uscita. |
+| **Automatic Notifications** | Enabled (module default for update prefs) | Se abilitato, il back office può mostrare un avviso che esiste una nuova versione. Salvi con **Save**. |
+| **Product Page** | Link on form | Apre la pagina prodotto ufficiale per le informazioni di rilascio. Usi Supporto (§7) per l’aiuto sui moduli a pagamento dopo il login. |
 
--   `rbpro/views/templates/front/confirm_step.tpl`
+Se il modulo gratuito Return Button è ancora abilitato, impostazioni e azioni di aggiornamento restano bloccate finché non lo disabilita.
 
-    -   **Output:** Il passaggio di conferma del modulo di recesso, che riassume le selezioni del cliente prima dell'invio finale.
--   `rbpro/views/templates/front/error.tpl`
+### 3.5 Elenco recessi
 
-    -   **Output:** Una pagina di errore generica visualizzata se qualcosa va storto durante il processo di recesso (ad esempio, ordine non valido, problema tecnico).
--   `rbpro/views/templates/front/form.tpl`
+Vada a **Customers** → **Withdrawals**.
 
-    -   **Output:** Il modulo principale di richiesta di recesso online, che consente ai clienti di selezionare ordini, prodotti e fornire dettagli.
--   `rbpro/views/templates/front/print.tpl`
+![Withdrawals list](https://mypresta.eu/docs/images/docs/rbpro-withdrawals.webp)
 
-    -   **Output:** Una versione stampabile della richiesta di recesso, tipicamente un layout semplificato senza navigazione.
--   `rbpro/views/templates/front/status.tpl`
+L’ordinamento predefinito è l’invio più recente per primo. Colonne:
 
-    -   **Output:** La pagina che visualizza lo stato attuale e la cronologia di una specifica richiesta di recesso.
--   `rbpro/views/templates/front/success.tpl`
+| Campo | All’inizio | Cosa fa |
+|---|---|---|
+| **ID** | Auto | Id interno del caso. |
+| **Submitted** | From form | Data e ora dell’invio del cliente. |
+| **Order** | From order | Riferimento ordine PrestaShop. |
+| **First name** / **Last name** / **Email** | From customer | Identità di contatto del caso. |
+| **Scope** | Full order or Partial | Se è stato recessato l’intero ordine o righe selezionate. |
+| **Type** | Contract withdrawal or cancellation | Recesso su ordine pagato vs cancellazione di ordine non pagato. |
+| **Status** | Registered after confirm | Stato attuale del caso (Pending, Registered, In progress, Refunded, Rejected). |
+| **Email** | Yes/No | Se l’e-mail di conferma è stata registrata come inviata. |
 
-    -   **Output:** Una pagina di messaggio di successo visualizzata dopo che una richiesta di recesso è stata inviata con successo.
--   `rbpro/views/templates/front/track.tpl`
+Usi ricerca e ordinamento sull’elenco. Apra un caso con **View**. Non c’è azione **Add new**: le richieste sono create solo dai clienti sul front store. Se qualcuno tenta di creare un caso nel back office, l’avviso spiega che i recessi non possono essere creati manualmente e viene mostrato di nuovo l’elenco.
 
-    -   **Output:** Il modulo in cui i clienti possono inserire il loro riferimento d'ordine e l'email per tracciare una richiesta di recesso.
+Esporti CSV da **Dashboard** (**Export CSV**) quando serve un foglio di calcolo dei casi del negozio.
 
-### 4.7 Schema del Database e Mappa degli Hook
+### 3.6 Vista del caso di recesso
 
-#### Tabelle del Database
+Apra una riga con **View**.
 
-Il modulo crea e gestisce diverse tabelle personalizzate:
+L’intestazione mostra riferimento, ID, data di invio, stato, tipo, ambito, flag e ora e-mail inviata, scadenza, IP, user-agent, nome e e-mail del cliente, e un link all’ordine PrestaShop. Il blocco prodotti elenca ogni riga recessata con quantità e prezzo unitario. IBAN e messaggio del cliente compaiono quando il cliente li ha forniti.
 
--   `ps_rbp_withdrawal`: Memorizza i dettagli principali della richiesta di recesso (cliente, ordine, stato, motivo, ecc.).
--   `ps_rbp_withdrawal_attachment`: Memorizza i dettagli sui file caricati dai clienti per una richiesta di recesso.
--   `ps_rbp_withdrawal_history`: Registra tutte le modifiche di stato e i messaggi associati per ogni richiesta di recesso.
--   `ps_rbp_withdrawal_note`: Memorizza le note interne aggiunte dai dipendenti a una richiesta di recesso.
--   `ps_rbp_withdrawal_product`: Collega prodotti specifici da un ordine a una richiesta di recesso, inclusi quantità e motivo.
+**Update status**
 
-I record di configurazione sono memorizzati in `ps_configuration` con chiavi tipicamente prefissate con `RBP_` (ad esempio, `RBP_ALLOW_GUEST_WITHDRAWAL`, `RBP_MIN_ORDER_STATUS`).
+1. Scelga **New status**.
+2. Scriva **Message to customer** (obbligatorio quando quella impostazione è attiva; altrimenti facoltativo). Il testo di aiuto spiega che il messaggio appare nella cronologia di recesso del front store.
+3. Clicchi su **Update status**.
 
-#### Tabella degli Hook Registrati
+Successo: **Status updated.** Altri messaggi: **Please enter a message for the customer when changing the status.**, **Status is already set to this value.**, **Invalid status.**, **Could not update status.**
 
-| Nome Hook | Tempo di Esecuzione | Scopo Tecnico |
-| --- | --- | --- |
-| `displayHeader` | Nella sezione `<head>` di ogni pagina. | Inietta CSS/JS, visualizza il pulsante di reso (se configurato). |
-| `displayFooter` | Nel footer di ogni pagina. | Visualizza il pulsante di reso (se configurato). |
-| `displayLeftColumn` | Nella colonna sinistra delle pagine. | Visualizza il pulsante di reso (se configurato). |
-| `displayRightColumn` | Nella colonna destra delle pagine. | Visualizza il pulsante di reso (se configurato). |
-| `displayProductButtons` | Sulla pagina del prodotto, vicino al pulsante "aggiungi al carrello". | Visualizza il pulsante di reso (se configurato). |
-| `displayCustomerAccount` | Sulla pagina "Il mio account" del cliente. | Aggiunge un link al modulo di recesso/tracciamento. |
-| `displayOrderDetail` | Sulla pagina dei dettagli dell'ordine individuale del cliente. | Aggiunge un'opzione per richiedere un reso per quell'ordine. |
-| `displayAdminOrder` | Nel back office di PrestaShop, sulla pagina dei dettagli dell'ordine. | Visualizza un avviso o un riepilogo delle richieste di recesso correlate. |
-| `actionValidateOrder` | Dopo che un ordine è stato convalidato con successo. | Potenziale registrazione dei dettagli dell'ordine per futuri controlli di idoneità al recesso. |
-| `actionOrderStatusUpdate` | Dopo che lo stato di un ordine è stato modificato. | Controlla se lo stato dell'ordine influisce sull'idoneità al recesso o attiva notifiche. |
-| `actionFrontControllerSetMedia` | Prima che un controller front-office renderizzi il suo contenuto. | Carica risorse CSS e JavaScript specifiche del front-office. |
-| `actionAdminControllerSetMedia` | Prima che un controller admin renderizzi il suo contenuto. | Carica risorse CSS e JavaScript specifiche del back-office. |
-| `actionModuleInstall` | Durante l'installazione del modulo. | Crea tabelle del database, imposta i valori di configurazione predefiniti. |
-| `actionModuleUninstall` | Durante la disinstallazione del modulo. | Rimuove tabelle del database, pulisce i valori di configurazione. |
+**Resend confirmation email** reinviia la conferma al cliente, aggiorna il flag di inviato se ha successo e registra l’evento. Successo: **Confirmation email sent.** Fallimento: **Could not send email.**
 
-## 5. Supporto Ufficiale e Aggiornamenti
+**Internal notes** sono solo per il personale. Inserisca il testo e clicchi su **Add note**. Le note compaiono sotto **Internal notes** e nella pista di audit; non sostituiscono il messaggio di stato rivolto al cliente.
 
-Per aggiornamenti ufficiali, supporto tecnico e qualsiasi domanda relativa al modulo "Pulsante Reso UE – Modulo di Recesso Online", si prega di fare riferimento al proprio account cliente su [MyPresta.eu](https://mypresta.eu/). Il nostro team di supporto e gli sviluppatori sono disponibili per assistervi con qualsiasi problema o richiesta.
-"""
+**Attachments** accettano caricamenti del personale (PDF e immagini comuni, max 10 MB). Scarichi cliccando sul nome del file. Messaggi: **Attachment uploaded.**, **Invalid file or size over 10 MB.**, **File type not allowed.**, **Upload failed.**
+
+**Audit trail** elenca data, evento, dipendente e dettagli (transizioni di stato e messaggi). Eventi tipici: il cliente ha inviato la dichiarazione, il cliente ha confermato la dichiarazione legale, stato aggiornato, e-mail di conferma inviata, documento aggiunto, nota interna aggiunta.
+
+Usi **Back to list** per tornare a **Withdrawals**.
+
+### 3.7 Pannello laterale ordine nel back office
+
+Su PrestaShop 1.7.7 e successive, apra un ordine nel back office. Quando quell’ordine ha casi di recesso, un blocco laterale **Withdrawal requests** elenca ogni riferimento, badge di stato, data e **View** (apre il caso). Su build 1.7 più vecchie senza l’hook laterale ordine, usi **Customers** → **Withdrawals** e filtri per riferimento ordine.
+
+I casi in attesa possono anche generare un avviso nel back office con il conteggio delle richieste in attesa di revisione e un link all’elenco.
+
+## 4. Front store
+
+Qui non sono incluse schermate del front store; colleghi il tema e controlli il negozio live dopo aver salvato Settings e svuotato la cache.
+
+### 4.1 Footer
+
+Con **Footer button** attivo e l’hook corretto, le pagine mostrano il pulsante di recesso (etichetta da **Button label**) stilizzato con **Button color**, più **Track withdrawal status** quando il tracking pubblico è attivo. **Footer alignment** e **Footer theme** controllano layout e contrasto del testo. Se il tema non chiama mai l’hook footer selezionato, cambi l’hook o inserisca l’hook personalizzato in un template e selezioni quell’opzione sotto **Footer button hook**.
+
+### 4.2 Account cliente
+
+Con **Link in customer account** attivo, My Account mostra la voce di recesso (e il link di tracking dove il template dell’account lo include). I gruppi clienti esclusi non vedono punti di ingresso.
+
+### 4.3 Dettaglio ordine
+
+Con **Link on order detail** attivo, gli ordini idonei mostrano il pulsante di recesso precompilato per quell’ordine. I casi esistenti per l’ordine sono elencati con lo stato. Gli ordini non idonei mostrano un breve motivo al posto del pulsante, ad esempio periodo scaduto, stato non consentito, richiesta attiva duplicata o nessun prodotto idoneo.
+
+### 4.4 Accesso ospite
+
+Quando **Guest access** è attivo, un visitatore apre il modulo, inserisce riferimento ordine e e-mail, quindi continua come un cliente autenticato per quell’ordine. Quando l’accesso ospite è disattivo, gli ospiti vedono che devono accedere (o che deve abilitare l’accesso ospite in Settings). Token di sicurezza non validi e troppi tentativi mostrano messaggi chiari di attesa / nuovo tentativo.
+
+### 4.5 Traccia stato
+
+**Track withdrawal status** chiede il riferimento di recesso (formato tipo RBP-…) e l’e-mail, poi mostra stato, data di invio, ambito, stato dell’e-mail di conferma e link a dettagli e stampa. Coppia errata: **No withdrawal found for these details.**
+
+### 4.6 Pagina di stato e stampa
+
+Dopo l’invio, **Withdrawal submitted** mostra il riferimento, una checklist (dichiarazione salvata, e-mail di conferma, il negozio elaborerà), poi **View withdrawal details**, **Track status** e **Print / save PDF**. La pagina di stato elenca prodotti, quantità, prezzi, totali e **Withdrawal history** inclusi i messaggi del personale dagli aggiornamenti di stato. La stampa apre una pagina di prova stampabile con un token sicuro dal flusso di conferma.
+
+## 5. Problemi
+
+### 5.1 Return Button gratuito ancora abilitato
+
+**Sintomo:** la configurazione è bloccata; avviso che l’altro modulo di reso è abilitato; il salvataggio può indicare che le modifiche non sono state salvate finché quel modulo non è disabilitato.
+
+**Cosa fare:** **Modules** → **Module Manager** → trovi il modulo gratuito Return Button → **Disable**. Poi riapra Return Button Pro.
+
+### 5.2 Pulsante footer mancante
+
+**Sintomo:** nessun pulsante di recesso nel footer.
+
+**Cosa fare:** confermi che **Module enabled** e **Footer button** sono attivi. In **Settings**, imposti **Footer button hook** su Auto o provi le altre posizioni footer una alla volta. Svuoti la cache e ricarichi forzatamente il negozio. Per temi personalizzati, inserisca l’hook personalizzato del modulo nel template e selezioni quell’opzione in **Footer button hook**. Apra **Dashboard**: mostra il profilo tema rilevato e il nome dell’hook footer attivo per il confronto con il tema.
+
+### 5.3 «Return not available — the withdrawal period has ended.»
+
+**Sintomo:** dettaglio ordine o modulo bloccano il recesso con questo messaggio.
+
+**Cosa fare:** controlli **Withdrawal period** e **Order state = delivered**. Corregga la cronologia ordine se la consegna non è mai stata registrata. Estenda il periodo solo se i suoi termini lo consentono.
+
+### 5.4 «An active withdrawal request already exists for this order.»
+
+**Sintomo:** il cliente non può aprire un secondo caso.
+
+**Cosa fare:** concluda o chiuda il caso esistente (**Refunded** / **Rejected**), oppure disattivi temporaneamente **Block duplicate active requests** solo se il processo consente davvero più richieste aperte.
+
+### 5.5 «This order status does not allow withdrawal.»
+
+**Sintomo:** l’ordine è fuori dal filtro degli stati consentiti.
+
+**Cosa fare:** in **Settings**, imposti **Allowed order statuses** su **All order statuses**, oppure aggiunga lo stato attuale dell’ordine a **Allowed for withdrawal**.
+
+### 5.6 «No products in this order are eligible for withdrawal.» / messaggio di esclusione sulle righe
+
+**Sintomo:** ogni riga esclusa, oppure righe parziali selezionate non valide.
+
+**Cosa fare:** esamini prodotti, varianti, categorie, produttori e fornitori esclusi. Regoli **Exclusion message** così i clienti capiscono il motivo.
+
+### 5.7 «Withdrawal is not available for your customer account.»
+
+**Sintomo:** modulo o pulsanti nascosti per un cliente autenticato.
+
+**Cosa fare:** rimuova il gruppo del cliente da **Excluded customer groups**, oppure sposti il cliente in un gruppo consentito.
+
+### 5.8 «Please enter a message for the customer when changing the status.»
+
+**Sintomo:** l’aggiornamento di stato fallisce nella vista del caso.
+
+**Cosa fare:** compili **Message to customer**, oppure disattivi **Require message to customer when changing status** se il processo consente messaggi vuoti.
+
+### 5.9 E-mail di conferma non inviata
+
+**Sintomo:** il caso mostra e-mail non inviata; il cliente non ha conferma durevole.
+
+**Cosa fare:** corregga le impostazioni mail PrestaShop, controlli lo spam, usi **Resend confirmation email**. Imposti **Notification email** per le copie al personale. Confermi che l’e-mail di contatto del negozio funziona.
+
+### 5.10 L’ospite non trova l’ordine
+
+**Sintomo:** **No order found for the given details.** oppure attesa per rate limit.
+
+**Cosa fare:** faccia corrispondere esattamente riferimento ordine e e-mail dell’ordine. Attenda se ci sono troppi tentativi. Confermi che **Guest access** è attivo.
+
+### 5.11 Il controllo aggiornamenti fallisce o resta silenzioso
+
+**Sintomo:** il controllo manuale non segnala una versione.
+
+**Cosa fare:** si assicuri che curl funzioni e che il server raggiunga MyPresta.eu. Disabiliti il modulo gratuito se Pro è bloccato. Riprovi **Manual Check** nella scheda **Updates**.
+
+## 6. Per sviluppatori
+
+### 6.1 Panoramica
+
+- Nome tecnico: `rbpro`
+- Versione: pacchetto attuale 1.7–9 (es. 1.4.6); PrestaShop 1.6 come pacchetto separato (es. 1.4.5) con `ps_versions_compliancy` min `1.6.0.0`
+- Nome visualizzato: Return Button Pro
+- Autore: MyPresta.eu
+- Tab: `front_office_features`
+- Classe principale: `Rbpro`
+- `ps_versions_compliancy` nel pacchetto 1.7–9: min `1.7.0.0`; nel pacchetto 1.6: min `1.6.0.0`
+- Layer di servizio: `RbpWithdrawalService`; sicurezza: `RbpSecurity`; tema/hook: `RbpCompatibility`; analytics: `RbpStatsService`
+- Flusso: chiavi di configurazione → hook / controller front → tabelle `rbp_withdrawal*` → admin `AdminRbpWithdrawal` → stato/traccia/stampa cliente
+
+### 6.2 File importanti
+
+| Percorso | Ruolo |
+|---|---|
+| `rbpro.php` | Bootstrap del modulo, install/uninstall, schede configure, hook, default |
+| `classes/RbpWithdrawal.php` | Modello oggetto del caso e stati |
+| `classes/RbpWithdrawalService.php` | Idoneità, scadenze, create/confirm, e-mail, aggiornamenti di stato |
+| `classes/RbpSecurity.php` | CSRF, grant ospite, rate limit, sanitizzazione IBAN |
+| `classes/RbpCompatibility.php` | Profilo tema, risoluzione hook footer, URL admin, hook richiesti |
+| `controllers/admin/AdminRbpWithdrawalController.php` | Elenco e vista caso |
+| `controllers/front/form.php` | Modulo in due passi |
+| `controllers/front/confirm.php` | Pagina di successo |
+| `controllers/front/track.php` | Tracking pubblico |
+| `controllers/front/status.php` | Dettagli caso per il cliente |
+| `controllers/front/print.php` | Prova stampabile |
+| `sql/install.sql` | Crea le tabelle `rbp_*` |
+| `sql/uninstall.sql` | Solo commento — tabelle conservate |
+| `lib/updateChecker.php` | UI aggiornamento MyPresta (`rbproUpdate`) |
+| `views/templates/admin/*` | Dashboard, shell configure, vista caso, avviso laterale ordine |
+| `views/templates/front/*` | Modulo, confirm, track, status, print, error |
+| `views/templates/hook/*` | Pulsanti footer/account/ordine (classic / hummingbird) |
+| `mails/*` | Template `rbf_withdrawal_customer` / `rbf_withdrawal_admin` |
+| `translations/*.php` | Traduzioni del pack |
+
+### 6.3 Controller
+
+| Controller | Parent / ingresso | Note |
+|---|---|---|
+| Configure (`getContent`) | Module Manager | Schede `rbp_tab`: `dashboard`, `settings`, `updates` |
+| `AdminRbpWithdrawal` | Customers → Withdrawals | `add`/`edit` false; percorso di creazione solo lettura; export CSV; download allegati |
+| Front `form` | Module link | Passi 1–2; lookup ospite; cookie bozza |
+| Front `confirm` | Module link | Successo dopo l’invio |
+| Front `track` | Module link | Riferimento + e-mail |
+| Front `status` | Module link | Timeline + prodotti |
+| Front `print` | Module link | Token HMAC sul riferimento |
+
+I permessi seguono la scheda admin. I controller front richiedono il modulo abilitato per il modulo; il tracking rispetta `RBP_ENABLE_STATUS_TRACK`.
+
+### 6.4 Hook
+
+Registrati: `displayHeader`, `actionFrontControllerSetMedia`, `displayCustomerAccount`, `displayOrderDetail`, `actionPresentOrder`, `displayFooter`, `displayFooterBefore`, `displayFooterAfter`, `displayRbproButton`; su PS ≥ 1.7.7 anche `displayBackOfficeHeader`, `displayAdminOrderSide`.
+
+Eseguiti dal modulo: `actionRbpWithdrawalCreated`, `actionRbpWithdrawalConfirmed` (e hook legati allo stato dal service dove definiti).
+
+L’output del footer viene eseguito solo per il nome hook risolto da `RbpCompatibility::getFooterHookName()`.
+
+### 6.5 Override
+
+Nessun override di classe o controller. L’integrazione tema usa solo hook e template selezionabili.
+
+### 6.6 Database
+
+| Tabella | Contenuto |
+|---|---|
+| `PREFIX_rbp_withdrawal` | Intestazione caso: negozio, ordine, cliente, riferimento, ambito, tipo, stato, IBAN, messaggio, IP, UA, lingua, flag e-mail, scadenza, date |
+| `PREFIX_rbp_withdrawal_product` | Righe selezionate e quantità |
+| `PREFIX_rbp_withdrawal_note` | Note interne del personale |
+| `PREFIX_rbp_withdrawal_attachment` | Metadati caricamenti del personale |
+| `PREFIX_rbp_withdrawal_history` | Eventi di audit |
+
+La disinstallazione **non** elimina queste tabelle. `ensureDatabase()` crea le tabelle mancanti e può migrare da `rbf_*` quando le tabelle Pro sono vuote e quelle gratuite hanno righe.
+
+### 6.7 Chiavi di configurazione e traduzioni
+
+Default da `Rbpro::CONFIG`:
+
+| Chiave | Default |
+|---|---|
+| `RBP_ENABLED` | 1 |
+| `RBP_GUEST_ENABLED` | 1 |
+| `RBP_IBAN_ENABLED` | 0 |
+| `RBP_WITHDRAWAL_DAYS` | 14 |
+| `RBP_DELIVERED_STATUS` | 0 (Auto) |
+| `RBP_EXCLUDED_PRODUCTS` / `_COMBINATIONS` / `_CATEGORIES` / `_MANUFACTURERS` / `_SUPPLIERS` / `_CUSTOMER_GROUPS` | empty |
+| `RBP_ALLOWED_ORDER_STATES` | empty |
+| `RBP_ALLOWED_ORDER_STATES_RESTRICT` | 0 |
+| `RBP_FOOTER_ENABLED` | 1 |
+| `RBP_FOOTER_THEME` | light |
+| `RBP_FOOTER_POSITION` | center |
+| `RBP_BUTTON_COLOR` | `#2563eb` |
+| `RBP_CUSTOM_CSS` | empty |
+| `RBP_SHOW_ACCOUNT` / `RBP_SHOW_ORDER` | 1 |
+| `RBP_SEO_NOINDEX` | 1 |
+| `RBP_ADMIN_EMAIL` | empty |
+| `RBP_BLOCK_DUPLICATE` | 1 |
+| `RBP_SHOW_DEADLINE` | 1 |
+| `RBP_REQUIRE_CHECKBOX` | 1 |
+| `RBP_REQUIRE_STATUS_MESSAGE` | 1 |
+| `RBP_THEME_TYPE` | auto |
+| `RBP_FOOTER_HOOK` | auto |
+| `RBP_ENABLE_STATUS_TRACK` | 1 |
+
+Multilingua (non nell’array `CONFIG`, installati dai default): `RBP_BUTTON_TEXT`, `RBP_EXCLUSION_MSG`, `RBP_SEO_TITLE`, `RBP_SEO_DESC`, `RBP_LEGAL_CHECKBOX`. Runtime: `RBP_ADMIN_FOLDER`. Le preferenze di aggiornamento usano le chiavi del checker MyPresta. La migrazione dal modulo gratuito mappa `RBF_*` → `RBP_*` quando le chiavi Pro sono vuote.
+
+Traduzioni: `translations/{iso}.php`. Le stringhe `desc` dei campi vivono in `renderConfigurationForm()` tramite `$this->l()`.
+
+Stati: `pending`, `confirmed` (etichetta Registered), `processing`, `refunded`, `rejected`.
+
+### 6.8 Estensione
+
+Sovrascriva TPL/CSS degli hook nel tema per `modules/rbpro/...` senza modificare il modulo. Inserisca `{hook h='displayRbproButton'}` per il posizionamento personalizzato del pulsante. Ascolti `actionRbpWithdrawalCreated` / `actionRbpWithdrawalConfirmed`. Non si affidi agli override: non ce ne sono da concatenare.
+
+## 7. Supporto
+
+Pagina prodotto: https://mypresta.eu/modules/front-office-features/eu-return-button-online-withdrawal-form.html
+
+Aiuto per questo modulo a pagamento: acceda al suo account cliente su mypresta.eu, apra Contact e scelga **Support for paid modules**. Il modulo richiede login per i moduli a pagamento; dopo il login, selezioni Return Button Pro dalla cronologia degli acquisti.

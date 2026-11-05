@@ -1,8 +1,8 @@
 ---
-title: "Quote Enterprise - Instrukcja dla Sprzedawcy i Przewodnik Konfiguracji"
-description: "Kompletna instrukcja obsługi, przewodnik konfiguracji krok po kroku oraz odniesienie dla programistów dla modułu PrestaShop Quote Enterprise od MyPresta.eu."
+title: "Quote Enterprise - instrukcja handlowa"
 sidebar:
-  label: "Quote Enterprise - Instrukcja dla Sprzedawcy i Przewodnik Konfiguracji"
+  label: "Quote Enterprise - instrukcja handlowa"
+description: "Jak skonfigurować Quote Enterprise, prowadzić cały proces wyceny do zamówienia i rozwiązywać typowe problemy."
 ---
 
 > ⚠️ **Notice:** This is the oficjalna dokumentacja modułu PrestaShop.
@@ -12,369 +12,353 @@ sidebar:
 > ---
 
 
-# Quote Enterprise
+## 1. Wymagania
 
-## 1. Wymagania i kompatybilność
+Moduł działa na PrestaShop 1.7, 8 i 9 oraz na PHP od 7.1 do 8.5.
 
-- **Obsługiwane wersje PrestaShop**: PrestaShop 1.7.x, 8.x, 9.x
-- **Kompatybilność z PHP**: PHP 7.1 - 8.5
-- **Wymagania hostingowe**: Wymagane są standardowe rozszerzenia PHP (cURL, JSON, OpenSSL). Upewnij się, że Twój serwer spełnia minimalne wymagania PrestaShop.
+Serwer potrzebuje cURL i JSON. Nie wymaga innego modułu.
 
-## 2. Kompletny przewodnik konfiguracji (Każde ustawienie pogrupowane według ekranu)
+Klucze Google reCAPTCHA zakładacie sami tylko wtedy, gdy włączacie reCAPTCHA. Webhooki Slack lub Teams są opcjonalne i służą tylko do digestów dla personelu. Przypomnienia e-mail i digesty wymagają crona na URL crona modułu.
 
-### 2.1 Strona konfiguracji modułu (Panel Administracyjny > Moduły > Konfiguruj > Quote Enterprise)
+## 2. Instalacja
 
-Jest to główny ekran konfiguracji, na którym definiujesz podstawowe zachowanie i wygląd modułu Quote Enterprise.
+1. Wgrajcie moduł w **Moduły**, **Menadżer modułów** i włączcie go.
+2. Po instalacji w **Zamówienia** pojawiają się **Wyceny** i **Dziennik audytu**.
+3. Moduł nie czyści cache podczas instalacji.
+4. Instalacja tworzy tabele wycen i ukryty produkt wirtualny na pozycje usługowe oraz zapisuje domyślne ustawienia opisane poniżej.
 
-#### Zakładka Ustawienia ogólne
+Odinstalowanie usuwa pozycje menu, tabele modułu i klucze konfiguracji. Ukryty produkt opłat w katalogu nie jest usuwany przy odinstalowaniu.
 
--   **Włącz Quote Enterprise:**
-    -   **Co robi to ustawienie:** Jest to główny przełącznik dla całego modułu.
-    -   **Efekt zmiany tego ustawienia:**
-        -   *Gdy włączone:* System wycen staje się aktywny w Twoim sklepie, a klienci mogą zacząć prosić o wyceny.
-        -   *Gdy wyłączone:* Cała funkcjonalność wycen jest ukryta z front-office, i nie można prosić o nowe wyceny. Istniejące wyceny w panelu administracyjnym pozostają dostępne do zarządzania.
-    -   **Zalecana wartość:** TAK
-    -   **Scenariusz / przykład dla sprzedawcy:** Włącz to, gdy jesteś gotowy do oferowania usług wycen. Wyłącz tymczasowo podczas konserwacji lub jeśli zdecydujesz się zaprzestać oferowania wycen.
--   **Zezwól na zapytania o wycenę z koszyka:**
-    -   **Co robi to ustawienie:** Określa, czy klienci mogą przekształcić cały swój koszyk w zapytanie o wycenę.
-    -   **Efekt zmiany tego ustawienia:**
-        -   *Gdy włączone:* Przycisk lub link „Poproś o wycenę” pojawi się w podsumowaniu koszyka, umożliwiając klientom przesłanie wszystkich pozycji w koszyku do wyceny.
-        -   *Gdy wyłączone:* Klienci mogą prosić o wyceny tylko ze stron poszczególnych produktów lub za pomocą pływającego przycisku (jeśli włączony), a nie bezpośrednio z koszyka.
-    -   **Zalecana wartość:** TAK (dla większości scenariuszy B2B i zamówień hurtowych)
-    -   **Scenariusz / przykład dla sprzedawcy:** Jeśli głównie zajmujesz się dużymi zamówieniami wieloprzedmiotowymi, gdzie ceny są często negocjowane, włącz to. Jeśli Twoje wyceny dotyczą zazwyczaj pojedynczych, niestandardowych produktów, możesz to wyłączyć.
--   **Zezwól na zapytania o wycenę ze strony produktu:**
-    -   **Co robi to ustawienie:** Kontroluje, czy przycisk „Poproś o wycenę” pojawia się na stronach poszczególnych produktów.
-    -   **Efekt zmiany tego ustawienia:**
-        -   *Gdy włączone:* Klienci mogą dodać konkretny produkt do zapytania o wycenę bezpośrednio z jego strony, zamiast dodawać go do koszyka.
-        -   *Gdy wyłączone:* Opcja zapytania o wycenę jest usuwana ze stron produktów.
-    -   **Zalecana wartość:** TAK
-    -   **Scenariusz / przykład dla sprzedawcy:** Niezbędne dla produktów niestandardowych, przedmiotów o wysokiej wartości lub gdy chcesz zaoferować alternatywę dla bezpośredniego zakupu dowolnego produktu.
--   **Wyświetl pływający przycisk wyceny:**
-    -   **Co robi to ustawienie:** Dodaje stały, pływający przycisk do front-office Twojego sklepu, umożliwiając klientom zainicjowanie zapytania o wycenę z prawie każdej strony.
-    -   **Efekt zmiany tego ustawienia:**
-        -   *Gdy włączone:* Pojawi się mały, klikalny przycisk (często w rogu ekranu), otwierający formularz zapytania o wycenę lub listę istniejących wycen.
-        -   *Gdy wyłączone:* Pływający przycisk nie będzie widoczny.
-    -   **Zalecana wartość:** TAK (dla wysokiej widoczności i łatwości dostępu)
-    -   **Scenariusz / przykład dla sprzedawcy:** Użyj tego, aby opcja wyceny była bardzo widoczna w całym sklepie, zachęcając do większej liczby zapytań.
--   **Minimalna wartość zamówienia dla zapytania o wycenę:**
-    -   **Co robi to ustawienie:** Ustawia minimalną całkowitą wartość (w Twojej domyślnej walucie), którą musi spełnić zapytanie o wycenę, aby zostało przesłane.
-    -   **Efekt zmiany tego ustawienia:**
-        -   *Gdy ustawione na wartość (np. 100):* Klienci nie mogą przesłać zapytania o wycenę, jeśli całkowita wartość pozycji w ich zapytaniu jest niższa od tej kwoty. Zostanie wyświetlony komunikat o błędzie.
-        -   *Gdy ustawione na 0 lub pozostawione puste:* Nie jest egzekwowana żadna minimalna wartość.
-    -   **Zalecana wartość:** 0 (lub wartość, która odfiltrowuje trywialne zapytania)
-    -   **Scenariusz / przykład dla sprzedawcy:** Jeśli chcesz przetwarzać wyceny tylko dla znaczących zamówień, ustaw minimalną wartość (np. 500 zł), aby zmniejszyć obciążenie administracyjne dla małych zapytań.
--   **Domyślna ważność wyceny (dni):**
-    -   **Co robi to ustawienie:** Domyślnie określa, ile dni nowo utworzona wycena będzie ważna.
-    -   **Efekt zmiany tego ustawienia:**
-        -   *Gdy ustawione na liczbę (np. 30):* Wszystkie nowe wyceny utworzone przez Twój zespół automatycznie będą miały datę ważności 30 dni od ich utworzenia.
-        -   *Gdy ustawione na 0 lub pozostawione puste:* Wyceny nie będą miały domyślnego okresu ważności, a Twój zespół będzie musiał ręcznie ustawić jeden lub zarządzać nimi bez wygaśnięcia.
-    -   **Zalecana wartość:** 30 (lub okres typowy dla Twojej branży)
-    -   **Scenariusz / przykład dla sprzedawcy:** Ustawienie 30-dniowej ważności zachęca klientów do działania w rozsądnym terminie i chroni Cię przed wahaniami cen.
+## 3. Konfiguracja i praca w zapleczu
 
-#### Zakładka Szablony e-mail
+Otwórzcie **Moduły**, **Menadżer modułów**, **Quote Enterprise**, **Konfiguruj**. Moduł otwiera się na **Pulpicie**. Pasek górny: **Pulpit**, **Wyceny**, **Dziennik audytu**, **Ustawienia**, **PDF**, **E-maile**, **API**, **Powiadomienia**, **Aktualizacje**.
 
-Ta sekcja umożliwia dostosowanie powiadomień e-mail wysyłanych przez moduł.
+Zrzuty w tej instrukcji pochodzą z angielskiego zaplecza.
 
--   **Menedżer szablonów e-mail:**
-    -   **Co robi to ustawienie:** Zapewnia wizualny interfejs do edycji zawartości różnych szablonów e-mail związanych z wycenami (np. nowe zapytanie o wycenę, zaktualizowana wycena, zaakceptowana wycena).
-    -   **Efekt zmiany tego ustawienia:**
-        -   *Gdy edytujesz szablon:* Odpowiedni e-mail wysłany do klientów lub Twojego zespołu będzie odzwierciedlał Twoje zmiany, w tym tekst, branding i układ.
-    -   **Zalecana wartość:** Dostosuj, aby pasowały do głosu Twojej marki i zawierały jasne instrukcje.
-    -   **Scenariusz / przykład dla sprzedawcy:** Zmień e-mail „Nowe zapytanie o wycenę”, aby zawierał konkretne instrukcje dla Twojego zespołu sprzedaży lub dodaj spersonalizowane powitanie dla klientów.
+Codzienna praca z wycenami jest też w **Zamówienia**, **Wyceny** (pełna lista i edytor) oraz **Zamówienia**, **Dziennik audytu**.
 
-#### Zakładka Ustawienia zaawansowane
+### 3.1 Pełny proces wyceny
 
--   **Włącz REST API:**
-    -   **Co robi to ustawienie:** Aktywuje programistyczny interfejs (API) dla modułu, umożliwiając zewnętrznym systemom lub niestandardowym aplikacjom interakcję z Twoimi wycenami.
-    -   **Efekt zmiany tego ustawienia:**
-        -   *Gdy włączone:* Moduł udostępnia punkty końcowe, które mogą być używane przez programistów do programowego tworzenia, odczytywania, aktualizowania i usuwania wycen.
-        -   *Gdy wyłączone:* API jest nieaktywne i nie można uzyskać do niego dostępu.
-    -   **Zalecana wartość:** NIE (chyba że masz specyficzne potrzeby integracyjne)
-    -   **Scenariusz / przykład dla sprzedawcy:** Jeśli integrujesz się z systemem CRM, ERP lub niestandardową aplikacją mobilną, włączenie API pozwala tym systemom automatycznie tworzyć lub aktualizować wyceny w PrestaShop. Wymaga wiedzy programistycznej.
--   **Zarządzanie kluczami API:**
-    -   **Co robi to ustawienie:** Umożliwia generowanie i zarządzanie kluczami API, które są niezbędne do uwierzytelniania żądań do REST API modułu.
-    -   **Efekt zmiany tego ustawienia:**
-        -   *Gdy tworzysz klucz:* Otrzymujesz unikalny identyfikator, którego zewnętrzne aplikacje muszą używać do uzyskania dostępu do API.
-        -   *Gdy cofasz klucz:* Każda aplikacja używająca tego klucza straci dostęp do API.
-    -   **Zalecana wartość:** Generuj klucze tylko wtedy, gdy są potrzebne do konkretnych integracji.
-    -   **Scenariusz / przykład dla sprzedawcy:** Utwórz nowy klucz API dla swojego systemu CRM, aby przesyłać nowe leady jako zapytania o wycenę do PrestaShop.
--   **URL zadania Cron dla wygaśnięcia i podsumowania:**
-    -   **Co robi to ustawienie:** Udostępnia adres URL, który po uzyskaniu dostępu wyzwala zadania w tle, takie jak sprawdzanie wygaśnięcia wycen i wysyłanie codziennych podsumowań do Twojego zespołu.
-    -   **Efekt zmiany tego ustawienia:**
-        -   *Gdy skonfigurowane na Twoim serwerze:* Moduł będzie automatycznie wykonywał te zadania w regularnych odstępach czasu (np. codziennie), zapewniając, że wyceny są oznaczane jako wygasłe, a Twój zespół otrzymuje terminowe podsumowania.
-        -   *Gdy nie skonfigurowane:* Sprawdzanie wygaśnięcia i e-maile z podsumowaniem nie będą zautomatyzowane.
-    -   **Zalecana wartość:** Skonfiguruj ten adres URL jako codzienne zadanie cron na swoim serwerze hostingowym.
-    -   **Scenariusz / przykład dla sprzedawcy:** Skonfiguruj zadanie cron, aby uruchamiać ten adres URL raz dziennie, aby upewnić się, że klienci są powiadamiani o wygasających wycenach, a Twój zespół sprzedaży otrzymuje codzienne podsumowanie nowych zapytań.
+Traktujcie ten przebieg jak mapę. Sekcje poniżej opisują każdy ekran.
 
-### 2.2 Dedykowane ekrany administracyjne i widoki kontrolerów
+1. Klient prosi o wycenę ze strony produktu, listy produktów, koszyka albo listy wieloproduktowej. Goście mogą widzieć przyciski, jeśli na to pozwolicie, ale zapisanie wniosku zawsze wymaga konta klienta.
+2. Wniosek trafia jako wycena w statusie **Oczekuje na weryfikację** albo personel tworzy **Szkic** w zapleczu.
+3. Personel otwiera wycenę w **Zamówienia**, **Wyceny**, ustawia ceny, rabaty, wysyłkę i komunikaty, potem **Zapisz** albo **Zapisz i wyślij**.
+4. **Zapisz i wyślij** wysyła e-mail do klienta i ustawia status **Wysłana** (przy ponownym wysłaniu działa też przebieg negocjacji).
+5. Klient otwiera **Moje wyceny**, ogląda ofertę, może pobrać PDF, zaakceptować, odrzucić albo poprosić o zmiany (**Negocjacja**).
+6. Po **Zaakceptowana** klient może przejść do kasy. Kasa buduje koszyk z wyceny i może powstać zamówienie (**Przekształcona**). Wycena się blokuje.
+7. Po dacie ważności wyceny wysłane lub w negocjacji stają się **Wygasła** przy otwarciu albo przy cronie. Przypomnienia e-mail wymagają crona.
 
-#### 2.2.1 Zarządzanie wycenami (Panel Administracyjny > Quote Enterprise > Wyceny)
+Statusy: **Szkic**, **Oczekuje na weryfikację**, **Wysłana**, **Negocjacja**, **Zaakceptowana**, **Przekształcona**, **Wygasła**, **Odrzucona**, **Anulowana**.
 
-Jest to centralne centrum dla Twojego zespołu sprzedaży do zarządzania wszystkimi zapytaniami o wycenę.
+Klient może zaakceptować tylko **Wysłaną** i **Negocjację**. Status zmieniajcie ręcznie w edytorze, gdy trzeba.
 
--   **Nazwa ekranu i lokalizacja w menu:** **Quote Enterprise > Wyceny**
--   **Dostępne działania i ustawienia:**
-    -   **Tabela listy wycen:** Wyświetla wszystkie przesłane wyceny z kluczowymi informacjami, takimi jak nazwa klienta, status, całkowita wartość i data utworzenia.
-    -   **Filtrowanie i wyszukiwanie:** Narzędzia do znajdowania konkretnych wycen według klienta, statusu, zakresu dat itp.
-    -   **Wyświetl/Edytuj wycenę:** Kliknij dowolną wycenę, aby otworzyć szczegółowy widok, w którym możesz:
-        -   **Dostosuj produkty i ilości:** Modyfikuj pozycje, ilości i ceny w ramach wyceny.
-        -   **Dodaj/Usuń produkty:** Wyszukuj i dodawaj nowe produkty do wyceny lub usuwaj istniejące.
-        -   **Zastosuj rabaty:** Oferuj konkretne rabaty na całkowitą kwotę wyceny lub poszczególne pozycje.
-        -   **Ustaw ważność:** Zdefiniuj datę wygaśnięcia wyceny.
-        -   **Dodaj notatki/wiadomości:** Komunikuj się z klientem bezpośrednio za pośrednictwem interfejsu wyceny.
-        -   **Zmień status:** Zaktualizuj status wyceny (np. Oczekująca, Wysłana, Zaakceptowana, Odrzucona, Wygasła).
-        -   **Generuj PDF:** Utwórz profesjonalną fakturę proforma PDF dla klienta.
-        -   **Przekształć w zamówienie:** Jednym kliknięciem przekształć zaakceptowaną wycenę w standardowe zamówienie PrestaShop, gotowe do realizacji.
-        -   **Wyślij e-mail:** Wyślij zaktualizowane szczegóły wyceny lub wiadomości do klienta.
-    -   **Działania masowe:** Wybierz wiele wycen, aby wykonać działania takie jak zmiana statusu, usunięcie lub eksport.
--   **Efekt zmian:**
-    -   Modyfikacja wyceny aktualizuje jej szczegóły w bazie danych i może wywołać powiadomienia e-mail do klienta.
-    -   Przekształcenie w zamówienie tworzy nowe zamówienie w standardowym systemie zarządzania zamówieniami PrestaShop, wstępnie wypełnione wycenionymi pozycjami i cenami.
-    -   Zmiana statusu aktualizuje widok klienta na jego koncie i może wywołać określone szablony e-mail.
--   **Zalecany przepływ pracy dla codziennego zarządzania sklepem:**
-    1.  Regularnie sprawdzaj listę „Wyceny” pod kątem nowych żądań „Oczekujących”.
-    2.  Otwórz każde nowe żądanie, przejrzyj pozycje, dostosuj ceny/ilości, jeśli to konieczne, i dodaj wszelkie wewnętrzne notatki.
-    3.  Ustaw okres ważności i wygeneruj proformę PDF.
-    4.  Zmień status na „Wysłana” i wyślij wycenę e-mailem do klienta.
-    5.  Monitoruj wyceny „Wysłane”. Jeśli zaakceptowane, przekształć w zamówienie. Jeśli odrzucone lub wygasłe, odpowiednio zaktualizuj status.
+### 3.2 Pulpit
 
-#### 2.2.2 Dziennik audytu (Panel Administracyjny > Quote Enterprise > Dziennik audytu)
+Pulpit pokazuje lejek wycen. Otwórzcie **Parametry analityki**, ustawcie okres KPI i zakresy wykresów, potem **Zapisz parametry analityki**. Potwierdzenie: **Tracking parameters updated.** (lub lokalny odpowiednik).
 
-Ten ekran zapewnia szczegółową historię wszystkich działań wykonanych na wycenach.
+![Pulpit](https://mypresta.eu/docs/images/docs/quoteenterprise-dashboard.webp)
 
--   **Nazwa ekranu i lokalizacja w menu:** **Quote Enterprise > Dziennik audytu**
--   **Dostępne działania i ustawienia:**
-    -   **Tabela listy dziennika:** Wyświetla chronologiczną listę zdarzeń związanych z wycenami, w tym kto wykonał działanie, jakie działanie zostało podjęte (np. „Wycena utworzona”, „Cena zmieniona”, „Status zaktualizowany”) i kiedy to nastąpiło.
-    -   **Filtrowanie:** Filtruj dziennik według daty, użytkownika lub typu działania, aby znaleźć konkretne zdarzenia.
--   **Efekt zmian:** Jest to dziennik tylko do odczytu; nie możesz tu wprowadzać zmian. Służy jako zapis historyczny.
--   **Zalecany przepływ pracy dla codziennego zarządzania sklepem:**
-    -   Użyj dziennika audytu do śledzenia zmian, rozwiązywania problemów lub przeglądania aktywności zespołu w zakresie wycen. Jest to nieocenione dla odpowiedzialności i zrozumienia cyklu życia każdej wyceny.
+![Tabele pulpitu](https://mypresta.eu/docs/images/docs/quoteenterprise-dashboard-b.webp)
 
-### 2.3 Tabela szybkiego odniesienia do konfiguracji
+| Pole | Na start | Co robi |
+|---|---|---|
+| **Okres KPI** | **Ostatnie 90 dni** | Okno czasu dla kart KPI, tabeli lejka, top klientów i personelu. Wybierzcie 30, 90, 180 lub 365 dni i zapiszcie. Liczy utworzone, wysłane, zaakceptowane, przekształcone i odrzucone w tym okresie. |
+| **Zakres wykresu tygodniowego** | 12 | Liczba tygodni na wykresie tygodniowym (4–52). Zakładka Weekly: utworzone, wysłane, zaakceptowane, przekształcone na tydzień ISO. |
+| **Zakres wykresu miesięcznego** | 12 | Liczba miesięcy na wykresie miesięcznym (3–24). |
+| **Zakres wykresu rocznego** | 5 | Liczba lat na wykresie rocznym (2–10). |
+| **Domyślna zakładka wykresu** | **Monthly** | Która zakładka otwiera się pierwsza: Weekly, Monthly lub Yearly. Można przełączać bez zapisu. |
+| **Okno „wygasa wkrótce”** | 7 | Ile dni do przodu oznaczać wyceny jako wygasające. Zwykle 7 lub 14. Tylko wysłane i w negocjacji z datą ważności w tym oknie. |
 
-| Ekran / Widok | Ustawienie / Opcja | Domyślne / Zalecane | Cel i wpływ |
-| --- | --- | --- | --- |
-| **Konfiguracja modułu** | Włącz Quote Enterprise | TAK | Główny przełącznik funkcjonalności modułu. |
-| | Zezwól na zapytania o wycenę z koszyka | TAK | Dodaje przycisk wyceny do strony koszyka. |
-| | Zezwól na zapytania o wycenę ze strony produktu | TAK | Dodaje przycisk wyceny do stron produktów. |
-| | Wyświetl pływający przycisk wyceny | TAK | Pokazuje stały przycisk wyceny w front-office. |
-| | Minimalna wartość zamówienia dla zapytania o wycenę | 0 | Ustawia minimalną wartość dla przesłanych wycen. |
-| | Domyślna ważność wyceny (dni) | 30 | Ustawia domyślne wygaśnięcie dla nowych wycen. |
-| | Menedżer szablonów e-mail | Dostosuj | Edytuj zawartość e-maili dla różnych zdarzeń wyceny. |
-| | Włącz REST API | NIE | Aktywuje API dla integracji zewnętrznych (tylko dla programistów). |
-| | Zarządzanie kluczami API | N/A | Zarządzaj kluczami API dla bezpiecznego dostępu do API (tylko dla programistów). |
-| | URL zadania Cron dla wygaśnięcia i podsumowania | Skonfiguruj | Automatyzuje sprawdzanie wygaśnięcia wycen i podsumowania dla zespołu. |
-| **Zarządzanie wycenami** | Lista wycen | N/A | Przeglądaj, filtruj i zarządzaj wszystkimi wycenami. |
-| | Wyświetl/Edytuj wycenę | N/A | Dostosuj pozycje, ceny, status, generuj PDF, przekształcaj w zamówienie. |
-| | Działania masowe | N/A | Stosuj działania do wielu wybranych wycen. |
-| **Dziennik audytu** | Lista dziennika | N/A | Przeglądaj historyczne działania na wszystkich wycenach. |
+Karty KPI: wartość otwartego pipeline’u, oczekujące na weryfikację, wygasające, wartość przekształconych, konwersja, win rate. Niżej: utworzone, wysłane, zaakceptowane, przekształcone, odrzucone, średnia liczba dni do przekształcenia, średnia wartość wyceny. Wykresy: lejek w czasie. Tabele: lejek okresu, starzenie otwartego pipeline’u, wygasające, ostatnia aktywność, top klienci i personel. Otwarty pipeline to wyceny wysłane, w negocjacji lub zaakceptowane.
 
-## 3. Rozwiązywanie problemów dla sprzedawcy i często zadawane pytania (FAQ)
+### 3.3 Zakładka Wyceny w konfiguracji modułu
 
-**P: Moje przyciski „Poproś o wycenę” nie wyświetlają się w front-office.**
-O:
+To skrócony przegląd. Pełne filtry, akcje masowe i edytor są w **Zamówienia**, **Wyceny**.
 
-1.  **Sprawdź status modułu:** Upewnij się, że „Włącz Quote Enterprise” jest ustawione na TAK w konfiguracji modułu.
-2.  **Sprawdź konkretne ustawienia:** Zweryfikuj, czy „Zezwól na zapytania o wycenę z koszyka” i „Zezwól na zapytania o wycenę ze strony produktu” są włączone zgodnie z potrzebami.
-3.  **Wyczyść pamięć podręczną:** Przejdź do **Zaawansowane > Wydajność** i wyczyść pamięć podręczną PrestaShop (pamięć podręczna Smarty, pamięć podręczna systemu plików). Czasami zmiany nie pojawiają się, dopóki pamięć podręczna nie zostanie odświeżona.
-4.  **Kompatybilność z motywem:** Jeśli używasz niestandardowego motywu, może występować problem z kompatybilnością. Skontaktuj się z pomocą techniczną MyPresta.eu, podając szczegóły swojego motywu.
+![Przegląd wycen](https://mypresta.eu/docs/images/docs/quoteenterprise-quotes.webp)
 
-**P: Klienci nie otrzymują e-maili z powiadomieniami o wycenach.**
-O:
+Cel ekranu: szybka lista ostatnich wycen z konfiguracji. **View** otwiera pełny edytor. **Manage all quotes** — filtry, eksport, operacje masowe. Efekt: ustawienia zostają lekkie, a pełna praca dzieje się na dedykowanym ekranie.
 
-1.  **Sprawdź szablony e-mail:** W konfiguracji modułu przejdź do zakładki „Szablony e-mail” i upewnij się, że szablony są poprawnie skonfigurowane i zapisane.
-2.  **Ustawienia e-mail PrestaShop:** Zweryfikuj ogólne ustawienia e-mail PrestaShop (SMTP, PHP mail) w **Zaawansowane > E-mail**. Wyślij stamtąd testowy e-mail, aby potwierdzić, że system pocztowy Twojego sklepu działa.
-3.  **Foldery spamu:** Doradź klientom, aby sprawdzili swoje foldery spamu lub wiadomości-śmieci.
-4.  **Zadanie Cron (dla podsumowań/przypomnień):** Jeśli chodzi o przypomnienia o wygaśnięciu lub codzienne podsumowania, upewnij się, że adres URL zadania cron jest poprawnie skonfigurowany na Twoim serwerze, aby działał regularnie.
+**Utwórz wycenę:** wybierzcie klienta (wyszukiwanie), opcjonalnie **Notatka wewnętrzna**, kliknijcie **Create draft quote**. Przekierowanie do pełnego edytora. Bez klienta: **Please select a customer.**
 
-**P: Czy mogę dostosować wygląd formularza zapytania o wycenę lub przycisków?**
-O: Tak, moduł używa standardowego szablonowania PrestaShop. W przypadku podstawowych zmian stylów (kolory, czcionki) często można nadpisać CSS modułu w niestandardowym pliku CSS Twojego motywu. W przypadku bardziej złożonych zmian układu, musiałbyś nadpisać pliki TPL modułu w swoim motywie. Zazwyczaj wymaga to pomocy programisty.
+**Szablony wycen** (gdy istnieją): wybierzcie szablon i klienta, potem **Create from template**.
 
-**P: Jak przekształcić zaakceptowaną wycenę w regularne zamówienie?**
-O: W Panelu Administracyjnym PrestaShop przejdź do **Quote Enterprise > Wyceny**. Otwórz konkretną wycenę, którą chcesz przekształcić. W widoku szczegółów wyceny znajdzie się przycisk (np. „Przekształć w zamówienie” lub „Utwórz zamówienie”). Kliknięcie go wygeneruje nowe zamówienie na Twojej standardowej liście zamówień PrestaShop, wstępnie wypełnione wycenionymi pozycjami i cenami.
+Kolumny **Recent quotes**: Reference, Customer, Status, Total. Pusto: **No quotes yet.** Linki: **Manage all quotes**, **CSV**, **XML**, **Open full quotes list**.
 
-**P: Co się dzieje, jeśli wycena wygaśnie?**
-O: Jeśli zadanie cron jest skonfigurowane, moduł automatycznie oznaczy wygasłe wyceny jako „Wygasłe”. Klienci nie będą już mogli zaakceptować ani przekształcić wygasłej wyceny w zamówienie. Twój zespół sprzedaży nadal może przeglądać wygasłe wyceny i potencjalnie je reaktywować lub utworzyć nową wycenę, jeśli to konieczne.
+### 3.4 Lista wycen (menu Zamówienia)
 
-## 4. Przewodnik dla programistów i webmasterów (Architektura techniczna i mapa kodu)
+Otwórzcie **Zamówienia**, **Wyceny**. To główny ekran zarządzania.
 
-### 4.1 Przegląd architektury
+Kolumny: **ID**, **Reference**, **Customer**, **Status**, **Total**, **Valid until**, **Assigned**, **Created**. Akcje wiersza: edycja i duplikacja. Nie dodacie pustej wyceny z paska listy — twórzcie z przeglądu modułu, ze szablonu albo przez duplikację. Błąd: **Create quotes from module configuration or duplicate an existing quote.**
 
-Moduł Quote Enterprise przestrzega solidnej architektury PrestaShop MVC (Model-View-Controller), w dużym stopniu wykorzystując `ObjectModel` do trwałości danych. Bezproblemowo integruje się z systemem hooków PrestaShop dla wyświetlania w front-office i działań w back-office. Moduł zawiera dedykowane kontrolery administracyjne do zarządzania wycenami i dziennikami audytu, kontrolery front-office do interakcji z klientem (żądanie, lista, widok, API) oraz kompleksowy zestaw klas pomocniczych do logiki biznesowej, generowania PDF, obsługi e-maili i wielu innych. Dostępne jest również REST API do integracji z systemami zewnętrznymi.
+Akcje masowe:
 
-### 4.2 Kontrolery (`controllers/`)
+| Akcja | Co robi |
+|---|---|
+| **Assign to employee** | Przypisuje pracownika do zaznaczonych wycen. |
+| **Extend validity** | Przedłuża ważność zaznaczonych. |
+| **Send expiry reminder** | Wysyła przypomnienia do klientów (dialog potwierdzenia). |
+| **Export CSV** | Pobiera CSV zaznaczenia. |
+| **Export XML** | Pobiera XML zaznaczenia. |
 
-#### Kontrolery Front-Office
+Filtrujcie po statusie i szukajcie jak na standardowej liście PrestaShop. Otwórzcie wiersz, aby edytować.
 
--   `controllers/front/api.php`
-    -   Nazwa klasy: `QuoteenterpriseApiModuleFrontController` (rozszerza `ModuleFrontController`)
-    -   Odpowiedzialność: Obsługuje żądania API z front-office, prawdopodobnie dla specyficznych integracji skierowanych do klienta lub dynamicznego ładowania treści.
--   `controllers/front/cron.php`
-    -   Nazwa klasy: `QuoteenterpriseCronModuleFrontController` (rozszerza `ModuleFrontController`)
-    -   Odpowiedzialność: Służy jako punkt końcowy dla zadania cron, wyzwalając zadania w tle, takie jak sprawdzanie wygaśnięcia wycen i wysyłanie e-maili z podsumowaniem.
--   `controllers/front/index.php`
-    -   Nazwa klasy: `QuoteenterpriseIndexModuleFrontController` (rozszerza `ModuleFrontController`)
-    -   Odpowiedzialność: Prawdopodobnie kontroler zastępczy lub bazowy, lub obsługuje domyślną trasę dla sekcji front-office modułu.
--   `controllers/front/list.php`
-    -   Nazwa klasy: `QuoteenterpriseListModuleFrontController` (rozszerza `ModuleFrontController`)
-    -   Odpowiedzialność: Wyświetla listę wycen dla zalogowanego klienta w obszarze jego konta.
--   `controllers/front/pdf.php`
-    -   Nazwa klasy: `QuoteenterprisePdfModuleFrontController` (rozszerza `ModuleFrontController`)
-    -   Odpowiedzialność: Generuje i udostępnia klientom wersje PDF wycen do pobrania.
--   `controllers/front/quoteList.php`
-    -   Nazwa klasy: `QuoteenterpriseQuoteListModuleFrontController` (rozszerza `ModuleFrontController`)
-    -   Odpowiedzialność: Podobnie jak `list.php`, potencjalnie alternatywny lub specyficzny widok dla list wycen, być może do ładowania AJAX.
--   `controllers/front/request.php`
-    -   Nazwa klasy: `QuoteenterpriseRequestModuleFrontController` (rozszerza `ModuleFrontController`)
-    -   Odpowiedzialność: Obsługuje wyświetlanie i przesyłanie formularza zapytania o wycenę ze stron produktów, koszyka lub pływającego przycisku. Przetwarza dane formularza i tworzy nowe wpisy wycen.
--   `controllers/front/view.php`
-    -   Nazwa klasy: `QuoteenterpriseViewModuleFrontController` (rozszerza `ModuleFrontController`)
-    -   Odpowiedzialność: Wyświetla szczegółowy widok pojedynczej wyceny dla klienta, pokazując pozycje, ceny, status i wiadomości.
+### 3.5 Edytor wyceny — jak zarządzać wnioskiem
 
-#### Kontrolery administracyjne Back-Office
+Otwórzcie wycenę z listy. Legenda pokazuje numer i status, np. `Q-2026-00001 — Pending review`.
 
--   `controllers/admin/AdminQuoteEnterpriseAuditLog.php`
-    -   Nazwa klasy: `AdminQuoteEnterpriseAuditLogController` (rozszerza `ModuleAdminController`)
-    -   Nazwa zakładki: Quote Enterprise > Dziennik audytu
-    -   Zarządzana encja: `quote_audit_log` (prawdopodobnie niestandardowy `ObjectModel` dla wpisów audytu)
-    -   Odpowiedzialność: Zapewnia widok siatki dla administratorów do przeglądania wszystkich historycznych działań i zmian związanych z wycenami.
--   `controllers/admin/AdminQuoteEnterpriseQuotes.php`
-    -   Nazwa klasy: `AdminQuoteEnterpriseQuotesController` (rozszerza `ModuleAdminController`)
-    -   Nazwa zakładki: Quote Enterprise > Wyceny
-    -   Zarządzana encja: `quote` (prawdopodobnie niestandardowy `ObjectModel` dla wycen)
-    -   Odpowiedzialność: Główny interfejs do zarządzania wycenami, w tym listowanie, przeglądanie, edytowanie, przekształcanie w zamówienie i wysyłanie komunikatów.
--   `controllers/admin/index.php`
-    -   Nazwa klasy: `QuoteenterpriseAdminIndexModuleFrontController` (rozszerza `ModuleAdminController`)
-    -   Odpowiedzialność: Prawdopodobnie kontroler zastępczy lub bazowy dla administratora, potencjalnie przekierowujący do głównej listy wycen lub pulpitu nawigacyjnego.
+**Typowa ścieżka personelu dla nowego wniosku klienta**
 
-### 4.3 Klasy i modele podstawowe (`classes/`)
+1. Filtrujcie lub otwórzcie wyceny **Pending review**.
+2. Sprawdźcie **Messages from customer** (tekst wniosku, później prośby o zmianę lub powody odmowy). Tylko do odczytu.
+3. Dodajcie lub poprawcie **Line items** (produkty katalogowe i usługi własne).
+4. Ustawcie **Global discount %** / **Global discount amount**, **Shipping label** i kwoty wysyłki.
+5. Napiszcie **General message to customer** i opcjonalnie **Internal note**.
+6. Ustawcie **Validity period** i **Validity unit**, sprawdźcie aktualną datę ważności.
+7. W razie potrzeby ustawcie **Status**, potem **Save** (**Quote saved.**) albo **Save & send** (**Quote sent to customer by e-mail.**).
 
--   `classes/index.php`: Pusty plik, powszechna praktyka zapobiegania listowaniu katalogów.
--   `classes/QuoteAdmin.php`: Zawiera logikę dla zadań specyficznych dla administratora, potencjalnie związanych z konfiguracją modułu lub ogólnymi narzędziami administracyjnymi.
--   `classes/QuoteAdminAjax.php`: Obsługuje żądania AJAX pochodzące z back-office, takie jak dynamiczne wyszukiwanie produktów do dodania do wyceny.
--   `classes/QuoteAdminQuoteForm.php`: Zarządza złożoną logiką formularza do edycji i tworzenia wycen w back-office.
--   `classes/QuoteApi.php`: Główna klasa dla REST API modułu, obsługująca uwierzytelnianie, routing i serializację danych.
--   `classes/QuoteApiDocumentation.php`: Udostępnia metody do generowania lub wyświetlania dokumentacji dla punktów końcowych API modułu.
--   `classes/QuoteBulkActions.php`: Implementuje logikę do wykonywania działań na wielu wybranych wycenach na liście administratora (np. masowa zmiana statusu).
--   `classes/QuoteConverter.php`: Obsługuje kluczową logikę przekształcania zaakceptowanej wyceny w standardowe zamówienie PrestaShop.
--   `classes/QuoteDashboard.php`: Udostępnia dane i logikę dla widoku pulpitu nawigacyjnego modułu w back-office (jeśli istnieje), podsumowując aktywność wycen.
--   `classes/QuoteDuplicator.php`: Logika do duplikowania istniejących wycen.
--   `classes/QuoteenterpriseModuleFrontController.php`: Klasa bazowa dla kontrolerów front-office, udostępniająca wspólne metody i właściwości.
--   `classes/QuoteExpiry.php`: Zarządza logiką sprawdzania ważności wycen, oznaczania wycen jako wygasłych i wysyłania powiązanych powiadomień.
--   `classes/QuoteExporter.php`: Obsługuje eksport danych wycen (np. CSV, Excel).
--   `classes/QuoteFeeProduct.php`: Prawdopodobnie `ObjectModel` lub pomocnik do zarządzania specjalnymi „produktami opłatowymi”, które można dodawać do wycen (np. za usługi, niestandardowe opłaty).
--   `classes/QuoteListHelper.php`: Udostępnia metody pomocnicze do wyświetlania i filtrowania list wycen zarówno w front-office, jak i back-office.
--   `classes/QuoteMailer.php`: Scentralizowana klasa do wysyłania różnych powiadomień e-mail związanych z wycenami.
--   `classes/QuoteNotifyDigest.php`: Logika do kompilowania i wysyłania codziennych lub okresowych podsumowań aktywności wycen do administratorów.
--   `classes/QuotePdf.php`: Obsługuje generowanie faktur proforma PDF dla wycen.
--   `classes/QuoteProductHelper.php`: Metody pomocnicze do interakcji z produktami PrestaShop w kontekście wyceny.
--   `classes/QuoteQtyHelper.php`: Pomaga w zarządzaniu i walidacji ilości w wycenach.
--   `classes/QuoteQuotesManager.php`: Główna logika biznesowa do zarządzania wycenami, w tym tworzenia, aktualizacji i zmian statusu.
--   `classes/QuoteReference.php`: Zarządza generowaniem i unikalnością numerów referencyjnych wycen.
--   `classes/QuoteRequestHelper.php`: Pomaga w przetwarzaniu i walidacji zapytań o wycenę przesłanych przez klientów.
--   `classes/QuoteSchema.php`: Definiuje schemat bazy danych dla niestandardowych tabel używanych przez moduł (np. `ps_quote`, `ps_quote_product`, `ps_quote_audit_log`).
--   `classes/QuoteSettingDescTrait.php`: Cecha PHP prawdopodobnie używana do dostarczania wspólnych opisów lub metadanych dla ustawień modułu.
--   `classes/QuoteTaxHelper.php`: Obsługuje obliczenia podatkowe specyficzne dla wycen.
--   `classes/QuoteThemeCompat.php`: Zawiera logikę zapewniającą kompatybilność z różnymi motywami PrestaShop, potencjalnie poprzez wykrywanie funkcji motywu lub dostarczanie nadpisań.
--   `classes/QuoteTimeline.php`: Zarządza i wyświetla oś czasu zdarzeń dla konkretnej wyceny (podobnie do historii zamówień).
--   `classes/QuoteValidityHelper.php`: Metody pomocnicze do obliczania i walidacji dat wygaśnięcia wycen.
--   `classes/QuoteVisibility.php`: Kontroluje widoczność elementów związanych z wycenami w front-office (np. kto może prosić o wycenę, gdzie pojawiają się przyciski).
+**Blokada.** Zaakceptowane lub przekształcone wyceny są zablokowane. Wygasła: **This quote has expired. Click Unlock to extend validity and send an updated offer.** Przekształcona: **This quote is locked because it was converted to an order.** Zaakceptowana: **This quote is locked because the customer accepted it. Click Unlock to make changes.** Odblokowanie: **Quote unlocked for editing.** Ponowna blokada: **Quote locked again.**
 
-### 4.4 Zasoby JavaScript (`views/js/`)
+| Pole | Co robi (z opisów pól) |
+|---|---|
+| **Status** | Etap procesu sprzedaży. Draft: tylko wewnętrznie. Pending review: klient złożył wniosek, czekacie na wycenę. Sent: wysłana e-mailem. Accepted: klient zgodził się. Converted: powstało zamówienie. Tylko Sent i Negotiation klient może zaakceptować. Status zmieniajcie ręcznie, gdy trzeba. |
+| **Validity period** | Jak długo klient ma na akceptację, licząc od zapisu/wysyłki. Przykłady: 15 z Minutes, 1 z Hours, 30 z Days. Zapis przelicza wygaśnięcie od teraz. Po terminie klient nie zaakceptuje. Krótkie okresy mogą wygasnąć przed dziennym cronem przypomnień. |
+| **Validity unit** | Minuty, godziny lub dni wraz z liczbą ważności. |
+| **Payment hint** | Krótka notatka o płatności, np. „przelew 30 dni”. Na widoku klienta i PDF. Nie wymusza modułu płatności. |
+| **Global discount %** | Dodatkowy rabat 0–100 na wszystkie pozycje produktowe przed wysyłką. Przy kasie może wejść jako reguła koszyka. |
+| **Global discount amount (tax excl.)** | Stały rabat od podsumy produktów. Przy obu wartościach najpierw procent. |
+| **Shipping label** | Nazwa na PDF, np. „Express delivery”. |
+| **Shipping (tax excl.)** / **Shipping (tax incl.)** | Koszt dostawy. Brutto liczy się z netto przy regule podatkowej w ustawieniach. Wchodzi do sumy i do kasy jako stała wysyłka. |
+| **Messages from customer** | Wszystko, co napisał klient (wniosek, prośba o zmianę, odmowa). Tylko odczyt. Odpowiedź w polach poniżej. |
+| **General message to customer** | Stały komunikat zawsze widoczny dla klienta (zakres, lead time, warunki). Na widoku, PDF i w e-mailach. |
+| **Internal note** | Notatka dla zespołu. Nigdy nie widoczna dla klienta. |
+| **Line items** | Pozycje produktowe i usługi. Dodajcie produkt katalogowy (kombinacja gdy wymagana). Usługa: opis, ilość, cena netto, VAT %. Usługi na PDF; przy kasie trafiają do produktu fee. Komunikaty: **Product line added.**, **Custom line added.**, **Line removed.**, **Select a product to add.**, **Please select a product combination.**, **Enter a service line description.** |
+| **Comment for this send** | Jednorazowa notatka tylko dla tego **Save & send**. Wyjaśnia zmiany. Czyści się po wysyłce. W timeline, opcjonalnej historii PDF i e-mailu tej wysyłki. |
+| **Version history** | Migawki poprzednich wersji. |
+| **Save as template** | Nazwa szablonu i zapis. Potem nowe wyceny z szablonu dla innego klienta. **Please enter a template name.**, **Template "…" saved.** |
+| **Quote timeline** | Chronologia zdarzeń personelu i klienta. |
 
--   `lib/emailTemplatesManager/js/emailTemplatesManager.js`: Logika front-end dla edytora szablonów e-mail w back-office.
--   `lib/searchTool/views/js/autocomplete.js`: Zapewnia funkcjonalność autouzupełniania dla wyszukiwania produktów lub klientów w edytorze wycen w back-office.
--   `views/js/admin-audience-picker.js`: Obsługuje logikę wyboru grup klientów lub konkretnych klientów dla widoczności lub targetowania wycen w panelu administracyjnym.
--   `views/js/adminQuoteApi.js`: JavaScript dla ekranu konfiguracji API w panelu administracyjnym, potencjalnie obsługujący generowanie kluczy lub wyświetlanie dokumentacji API.
--   `views/js/adminQuoteDashboard.js`: Skrypty dla interaktywnych elementów lub wizualizacji danych na pulpicie nawigacyjnym administratora.
--   `views/js/adminQuoteDetail.js`: Obsługuje dynamiczne interakcje w szczegółowym widoku wyceny w back-office (np. dodawanie produktów, stosowanie rabatów, zmiany statusu).
--   `views/js/adminQuoteEditor.js`: Główny JavaScript dla formularza tworzenia/edycji wycen w back-office, w tym wybór produktów, aktualizacje ilości i korekty cen.
--   `views/js/adminQuoteSelector.js`: Używany do wybierania wycen, prawdopodobnie w oknie modalnym lub powiązanym kontekście.
--   `views/js/adminQuotesList.js`: Skrypty dla listy wycen administratora, w tym filtrowanie, sortowanie i działania masowe.
--   `views/js/front.js`: Ogólny JavaScript front-office dla modułu, obsługujący kliknięcia przycisków, wyskakujące okienka modalne dla zapytań o wycenę, przesyłanie formularzy i dynamiczne aktualizacje.
+Duplikacja z listy lub edytora: przy błędzie **Unable to duplicate quote.** Po duplikacji edytujecie kopię.
 
-### 4.5 Arkusze stylów CSS (`views/css/`)
+### 3.6 Dziennik audytu
 
--   `lib/emailTemplatesManager/css/emailTemplatesManager.css`: Stylizacja dla edytora szablonów e-mail w back-office.
--   `lib/searchTool/views/css/autocomplete.css`: Style dla wyników wyszukiwania autouzupełniania (np. wyszukiwanie produktów).
--   `views/css/admin-audience-picker.css`: Stylizacja dla interfejsu wyboru klienta/grupy w panelu administracyjnym.
--   `views/css/admin_quoteenterprise.css`: Główny arkusz stylów dla interfejsów back-office modułu (lista wycen, szczegóły, dziennik audytu).
--   `views/css/front-hummingbird.css`: Specyficzne dostosowania stylów front-office dla domyślnego motywu PrestaShop „Hummingbird”.
--   `views/css/front.css`: Ogólna stylizacja front-office dla przycisków wycen, formularzy i widoków konta klienta. Programiści mogą nadpisywać klasy takie jak `.quoteenterprise-button`, `.quoteenterprise-form`, `.quoteenterprise-list` w swoim motywie.
+Zakładka modułu: ostatnia aktywność (wnioski, wysyłki, akceptacja/odrzucenie, negocjacje). **View** — pełny kontekst. **Zamówienia**, **Dziennik audytu** — filtry, eksport, pełna historia.
 
-### 4.6 Struktura szablonów Smarty (`views/templates/`)
+Cel: dziennik tylko do dopisywania (compliance i diagnostyka). Wpisy nie do edycji ani usuwania. Wiersz przechowuje nazwę i ID aktora (pracownik lub klient) w momencie akcji. Odznaki: Employee, Customer, System.
 
-#### Szablony hooków (`views/templates/hook/`)
+### 3.7 Ustawienia — Motyw i wygląd
 
--   `hook/adminOrderQuote.tpl`: Renderuje blok związany z wyceną na standardowej stronie szczegółów zamówienia PrestaShop w panelu administracyjnym.
--   `hook/cartQuoteButton.tpl`: Wyświetla przycisk lub link „Poproś o wycenę” na stronie koszyka.
--   `hook/customerAccount-hummingbird.tpl`: Renderuje link do listy wycen w obszarze konta klienta dla motywu Hummingbird.
--   `hook/customerAccount.tpl`: Renderuje link do listy wycen w obszarze konta klienta dla klasycznych motywów.
--   `hook/productListQuote.tpl`: Wyświetla przycisk lub opcję wyceny na stronach listy produktów (kategoria, wyniki wyszukiwania).
--   `hook/quoteFloatButton.tpl`: Renderuje stały pływający przycisk wyceny w front-office.
--   `hook/quoteListModal.tpl`: Szablon dla okna modalnego wyświetlającego listę wycen.
--   `hook/quoteRequestButton.tpl`: Wyświetla przycisk „Poproś o wycenę” na stronach poszczególnych produktów.
--   `hook/quoteRequestModal.tpl`: Szablon dla okna modalnego, które otwiera formularz zapytania o wycenę.
+Otwórzcie **Ustawienia**. Po zmianach **Zapisz** na dole.
 
-#### Szablony administracyjne (`views/templates/admin/`)
+![Motyw i wygląd](https://mypresta.eu/docs/images/docs/quoteenterprise-settings-theme.webp)
 
--   `admin/api.tpl`: Renderuje interfejs konfiguracji API i zarządzania kluczami.
--   `admin/audience-picker.tpl`: Szablon dla narzędzia wyboru klienta/grupy w panelu administracyjnym.
--   `admin/audit.tpl`: Wyświetla tabelę dziennika audytu w back-office.
--   `admin/dashboard.tpl`: Renderuje przegląd pulpitu nawigacyjnego modułu w back-office.
--   `admin/notifications.tpl`: Wyświetla powiadomienia administracyjne związane z wycenami.
--   `admin/quoteDetail.tpl`: Kompleksowy szablon do przeglądania i edytowania pojedynczej wyceny w back-office.
--   `admin/quotes.tpl`: Renderuje główną tabelę listy wycen w back-office.
--   `admin/quotesOverview.tpl`: Sekcja podsumowania lub przeglądu wycen, prawdopodobnie na pulpicie nawigacyjnym.
--   `admin/scopeSelector.tpl`: Szablon do wyboru zakresu (np. sklep, język) w panelu administracyjnym.
--   `admin/visibilityConfigurator.tpl`: Szablon do konfigurowania reguł widoczności wycen.
--   `admin/_api_documentation_modal.tpl`: Renderuje okno modalne z dokumentacją API dla programistów.
--   `admin/_bulk_options.tpl`: Szablon dla rozwijanych list działań masowych w listach administracyjnych.
+| Pole | Na start | Co robi |
+|---|---|---|
+| **Front theme template** | **Auto-detect (recommended)** | Który zestaw szablonów i CSS dla Moje wyceny, podglądu i linku w koncie. Zostawcie Auto-detect, chyba że fork motywu jest źle wykrywany — wtedy wymuście Classic lub Hummingbird. |
+| **Quantity display format** | **Integer (e.g. 1, 2)** | Jak ilości widać na froncie, w BO, PDF i e-mailach. Albo **Fixed decimals (e.g. 1.000, 2.500)**. Pola formularza używają tego samego formatu. |
+| **Quantity decimal places** | 3 | Cyfry po przecinku przy fixed decimals. Typowo 3 B2B lub 2 retail. Ignorowane w trybie integer. |
 
-#### Szablony Front-office (`views/templates/front/`)
+### 3.8 Ustawienia — Ogólne
 
--   `front/list.tpl`: Wyświetla listę wycen klienta na jego koncie.
--   `front/request.tpl`: Główny szablon dla formularza zapytania o wycenę klienta.
--   `front/view.tpl`: Wyświetla szczegółowy widok pojedynczej wyceny dla klienta.
--   `front/_requestComplianceFields.tpl`: Częściowy szablon dla dodatkowych pól związanych z zgodnością w formularzu zapytania o wycenę.
--   `front/_requestLinesTable.tpl`: Częściowy szablon do wyświetlania linii produktów w formularzu zapytania o wycenę.
+![Ogólne](https://mypresta.eu/docs/images/docs/quoteenterprise-settings-general.webp)
 
-#### Szablony PDF (`views/templates/pdf/`)
+| Pole | Na start | Co robi |
+|---|---|---|
+| **Module enabled** | **Yes** | Główny włącznik całego procesu wycena→zamówienie. Yes: klienci proszą o wyceny, personel zarządza ofertami. No: ukrywa wszystkie przyciski i linki w koncie bez odinstalowania. Wyłączony: brak nowych wniosków i przycisków na koszyku, produkcie i kategoriach. Istniejące wyceny zostają w zapleczu. |
+| **Product page quote button** | **Yes** | Pokazuje **Request a quote** na stronie produktu. Dla B2B, gdy kupujący pyta o cenę jednego SKU. Klient zalogowany (lub dozwolony flow gościa) i w dozwolonej grupie. Instant otwiera formularz produktu. List dodaje ilość i kombinację do pływającej listy. |
+| **Cart quote button** | **Yes** | **Request a quote** w koszyku. Gdy klienci proszą o ofertę na kilka produktów naraz. Szanuje minimalną wartość koszyka poniżej. Zawartość koszyka staje się podstawą nowego wniosku po potwierdzeniu. |
+| **Category / list quote button** | **Yes** | Zwarty **Request quote** na listach (kategoria, wyszukiwanie, nowości). Te same reguły uprawnień. Instant: flow produktu. List: produkt (domyślna kombinacja, qty 1) do listy. |
+| **Product quote mode** | **Instant — open form for this product** | Instant: formularz bieżącego produktu. List: koszyk wycen; pływający przycisk otwiera jeden formularz ze wszystkimi produktami. Wnioski z koszyka pozostają osobne. Pływający przycisk tylko w trybie List, gdy lista niepusta. |
+| **Floating quote button position** | **Bottom right** | Albo **Bottom left**. Tylko przy trybie List. Badge z liczbą produktów; otwiera formularz wieloproduktowy. |
+| **Allow guests** | **No** | Czy osoby bez konta mogą zacząć wniosek. Wyłączone przy ścisłym B2B. Włączone: gość widzi przycisk, ale i tak loguje się lub rejestruje przed zapisem. Nie tworzy anonimowych wycen. |
 
--   `pdf/quote.tpl`: Szablon używany do generowania zawartości faktury proforma PDF.
+### 3.9 Ustawienia — Widoczność przycisku wyceny
 
-### 4.7 Schemat bazy danych i mapa hooków
+![Widoczność](https://mypresta.eu/docs/images/docs/quoteenterprise-settings-visibility.webp)
 
-#### Tabele bazy danych
+| Pole | Na start | Co robi |
+|---|---|---|
+| Grupy klientów | wszystkie | Kto widzi przyciski. Wszystkie grupy albo wybrane (np. Wholesale). Poza wybranymi grupami przycisków nie widać nawet przy włączonym module. |
+| **Enable catalog visibility rules** | **No** | Włącza reguły katalogowe. Ogranicza wyceny do produktów, kategorii, marek lub dostawców. Wyłączone: każdy produkt (reguły grup nadal). Włączone: whitelist/blacklist i filtry poniżej. |
+| **Catalog rule mode** | **Whitelist — only matching products** | Whitelist: przyciski tylko na pasujących. Blacklist: ukryj na pasujących. Produkt pasuje, jeśli jest na liście produktów albo należy do wybranej kategorii, producenta lub dostawcy. |
+| Selektory katalogu | puste | Kategorie (drzewo), produkty (szukaj), producenci i dostawcy. Puste = tylko filtry pomocnicze. Reguły łączą się OR — wystarczy jedno dopasowanie. |
+| **Minimum product price** | 0 | Ukryj przyciski poniżej tej ceny brutto na sklepie. 0 wyłącza. Przy włączonych regułach katalogowych. |
+| **Exclude virtual products** | **No** | Blokuj wyceny produktów wirtualnych / do pobrania przy regułach katalogowych. |
+| **Exclude out-of-stock products** | **No** | Ukryj przyciski, gdy produktu nie można zamówić przy braku stocku (zachowanie PrestaShop). |
+| **Mixed cart (eligible + excluded items)** | **Hide cart quote button** | Koszyk miesza wycenialne i niewycenialne: Show = przycisk widoczny, import tylko eligible; Hide = ukryty, aż koszyk będzie tylko wycenialny. Wszystko eligible → zawsze Show. Wszystko excluded → zawsze Hide. |
 
-Moduł tworzy niestandardowe tabele, zazwyczaj z prefiksem `ps_` (lub Twoim niestandardowym prefiksem). Kluczowe tabele to:
+### 3.10 Ustawienia — Formularz wniosku o wycenę produktu
 
--   `ps_quote`: Przechowuje główne szczegóły wyceny (ID klienta, status, suma, ważność, referencja itp.).
--   `ps_quote_product`: Przechowuje poszczególne produkty i ich ilości/ceny związane z każdą wyceną.
--   `ps_quote_audit_log`: Rejestruje wszystkie zmiany i działania wykonane na wycenach do celów audytu.
--   `ps_quote_api_key`: Przechowuje klucze API dla integracji zewnętrznych.
--   `ps_configuration`: Ustawienia modułu są przechowywane tutaj z kluczami takimi jak `QUOTEENTERPRISE_ENABLE`, `QUOTEENTERPRISE_MIN_VALUE` itp.
+| Pole | Na start | Co robi |
+|---|---|---|
+| **Require privacy policy acceptance** | **Yes** | Obowiązkowy checkbox prywatności w modalu wniosku (RODO). Klient musi zaakceptować przed wysłaniem. |
+| **Privacy policy CMS page** | brak | Strona CMS w linku checkboxa. Puste = tekst bez linku. |
+| **Enable reCAPTCHA** | **No** | Chroni formularz Google reCAPTCHA v2. Przy włączeniu wymagane klucze poniżej. |
+| **reCAPTCHA site key** | puste | Publiczny site key z panelu Google (v2 checkbox). |
+| **reCAPTCHA secret key** | puste | Secret key. W konfiguracji sklepu. |
+| **Minimum cart total** | 0 | Minimalna wartość koszyka przed pokazaniem przycisku w koszyku. Waluta sklepu. 0 = bez minimum. Tylko przycisk koszyka, nie pojedynczy produkt. |
 
-#### Tabela zarejestrowanych hooków
+### 3.11 Ustawienia — Oferty i numery
 
-| Nazwa hooka | Czas wykonania | Cel techniczny |
-| --- | --- | --- |
-| `displayHeader` | W sekcji `<head>` każdej strony. | Wstrzykiwanie zasobów CSS/JS, meta tagów lub globalna inicjalizacja modułu. |
-| `displayRightColumn` | W prawej kolumnie Twojego sklepu (jeśli włączone przez motyw). | Wyświetlanie pływającego przycisku wyceny lub statycznego bloku zapytania o wycenę. |
-| `displayLeftColumn` | W lewej kolumnie Twojego sklepu (jeśli włączone przez motyw). | Wyświetlanie pływającego przycisku wyceny lub statycznego bloku zapytania o wycenę. |
-| `displayFooter` | W sekcji stopki każdej strony. | Wyświetlanie pływającego przycisku wyceny lub statycznego bloku zapytania o wycenę. |
-| `displayProductButtons` | Na stronie produktu, w pobliżu przycisku „Dodaj do koszyka”. | Wyświetlanie przycisku „Poproś o wycenę” na stronach produktów. |
-| `displayShoppingCartFooter` | W podsumowaniu koszyka, poniżej listy produktów. | Wyświetlanie przycisku „Poproś o wycenę” w celu przekształcenia koszyka w wycenę. |
-| `displayCustomerAccount` | Na stronie „Moje konto” klienta. | Dodawanie linku do listy wycen klienta. |
-| `actionValidateOrder` | Po pomyślnym zatwierdzeniu zamówienia. | Potencjalnie używane do powiązania wyceny z wynikowym zamówieniem lub aktualizacji statusu wyceny. |
-| `actionAdminControllerSetMedia` | Gdy kontroler administracyjny ładuje swoje zasoby. | Wstrzykiwanie CSS/JS specyficznych dla modułu dla stron back-office. |
-| `displayAdminOrder` | Na stronie szczegółów zamówienia administratora PrestaShop. | Wyświetlanie bloku z informacjami o wycenie, jeśli zamówienie pochodziło z wyceny. |
-| `actionObjectProductUpdateAfter` | Po zaktualizowaniu produktu. | Potencjalnie do aktualizacji cen wycen, jeśli ceny produktów ulegną zmianie (funkcja zaawansowana). |
-| `actionObjectProductDeleteAfter` | Po usunięciu produktu. | Do obsługi produktów usuniętych z wycen. |
-| `actionObjectCustomerDeleteAfter` | Po usunięciu klienta. | Do obsługi wycen związanych z usuniętym klientem. |
-| `displayBackOfficeHeader` | W sekcji `<head>` każdej strony back-office. | Ogólne wstrzykiwanie zasobów back-office lub globalna konfiguracja modułu administracyjnego. |
-| `displayBackOfficeTop` | Na górze obszaru zawartości back-office. | Wyświetlanie alertów specyficznych dla modułu lub widżetów pulpitu nawigacyjnego. |
+| Pole | Na start | Co robi |
+|---|---|---|
+| **Default validity** | 30 | Domyślny czas ważności po utworzeniu. Liczba + jednostka: minuty (flash), godziny (tego dnia), dni (standard B2B). Ustawia valid_until przy nowych wycenach ze sklepu, BO i duplikatów. Nadpisanie w edytorze. |
+| **Default validity unit** | **Days** | Minutes, hours lub days z liczbą powyżej. Przypomnienia i automatyczny Expired nadal zależą od crona przy przypomnieniach. |
+| **Expiry reminder (days before)** | 3 | E-mail przed wygaśnięciem. Tylko dzienny cron. Każda kwalifikująca się wycena co najwyżej jedno przypomnienie z linkiem. Bez crona brak przypomnień. |
+| URL crona | token | Automatyczne przypomnienia i statusy. Dodajcie URL do crontab raz dziennie (np. 08:00). Regenerujcie token przy wycieku. Wygaśnięcie też przy otwarciu wyceny; e-maile przypomnień nadal wymagają crona. |
+| **Reference prefix** | Q | Prefiks numerów. Moduł dokłada rok i sekwencję, np. Q-2026-00042. Łatwiejsze rozpoznanie w e-mailu i PDF. |
+| **Notify staff on new request** | **Yes** | E-mail do personelu przy nowym wniosku. Preferencje > Kontakt. Szablon qe-request-staff w zakładce E-maile. |
 
-## 5. Oficjalne wsparcie i aktualizacje
+Żółta notatka: cron potrzebny do automatyzacji ważności; wygaśnięcie też przy otwarciu; przypomnienia używają URL crona.
 
-Aby uzyskać najnowsze aktualizacje modułu, poprawki błędów i oficjalne wsparcie, zaloguj się na swoje konto klienta na stronie [MyPresta.eu](https://mypresta.eu/my-account/orders/). Nasz zespół wsparcia jest dostępny, aby pomóc w przypadku wszelkich problemów lub pytań dotyczących modułu Quote Enterprise.
+### 3.12 Ustawienia — Kasa
+
+| Pole | Na start | Co robi |
+|---|---|---|
+| **Shipping / service tax rule** | domyślna reguła sklepu | VAT dla wysyłki i usług przy kwotach netto. Grupa reguł z Katalog → Produkty. Po wyborze zapis wyceny przelicza shipping brutto z netto. |
+| **Fee product (custom lines)** | tworzony przy instalacji | Ukryty produkt wirtualny na pozycje usługowe w kasie. Tworzony automatycznie — zmieniajcie tylko, gdy musicie wskazać inny produkt. Przy kasie suma usług = jedna pozycja koszyka z zablokowaną ceną. |
+
+### 3.13 PDF
+
+Zakładka **PDF**. Legenda: **PDF documents**. Przy wyłączonym PDF przyciski pobierania znikają, URL PDF zwraca not found.
+
+| Pole | Na start | Co robi |
+|---|---|---|
+| **Enable PDF** | **Yes** | Główny włącznik generowania PDF i linków. Wyłączcie, jeśli nie chcecie proform PDF. Wyłączone: brak przycisków w BO, sklepie i na zamówieniu; bezpośrednie URL PDF = not found. Szablony e-mail nadal mają pusty placeholder URL PDF. |
+| **Use shop logo on PDF** | **Yes** | Logo sklepu z Preferencje > Motywy. No: tylko własne logo poniżej (jeśli jest). Logo na górze PDF / proformy. |
+| **Add negotiation history to PDF** | **No** | Dopisuje krótki log komunikacji (prośby o zmianę, ponowne wysyłki, akceptacja, odmowa). Zwarta tabela przed warunkami. Pusto bez aktywności negocjacyjnej. |
+| **Custom PDF logo** | puste | Opcjonalne PNG/JPG tylko na PDF wycen. Nadpisuje logo sklepu. |
+| **PDF terms & conditions** | puste | Warunki prawne/handlowe na dole każdego PDF. |
+| **Authorized signature** | puste | Podpis, np. „Jan Kowalski, Dyrektor sprzedaży”. Puste = pominięte. |
+
+### 3.14 E-maile
+
+Zakładka **E-maile**. Transakcyjne maile cyklu wyceny. Edytujcie temat i treść per język. Placeholdery z sidebara (imię klienta, numer, link, sumy). Klucze: qe-request-staff, qe-quote-sent, qe-quote-accepted, qe-quote-rejected, qe-quote-negotiation, qe-quote-reminder, qe-staff-digest. Klienci i personel dostają je przy wniosku, wysyłce, akceptacji lub przed wygaśnięciem. Po zmianach testujcie.
+
+### 3.15 API
+
+Zakładka **API**. Połączenie CRM, ERP lub automatyki. Etykieta klucza i **Generate new API key**. Skopiujcie klucz. **Revoke** wyłącza (potwierdzenie). Pusto: **No API keys yet.** **API documentation**: list, get, pending, stats, update_status. Wywołujcie URL API modułu z kluczem.
+
+### 3.16 Powiadomienia
+
+Zakładka **Powiadomienia** (**Staff digest notifications**). Okresowe podsumowanie, gdy wyceny czekają na akcję, bez jednego maila na zdarzenie.
+
+Co liczy się jako oczekujące: **Pending review** (nowy wniosek) lub **Negotiation** (klient prosi o zmiany). Sent, accepted, expired, converted nie wchodzą. Cron według harmonogramu. Gdy digest włączony, jest przynajmniej jedna oczekująca wycena i minął interwał — wiadomość na każdy skonfigurowany kanał. Personel widzi skrót z numerami, statusem, klientem i linkami do BO (do 20 wycen).
+
+| Pole | Na start | Co robi |
+|---|---|---|
+| **Enable digest** | **No** | Główny włącznik. Włączcie po ustawieniu co najmniej jednego kanału. Cron musi być zaplanowany — digesty nie idą z wizyt stron. Wyłączony: cron nadal robi przypomnienia i statusy, bez digestu. |
+| **Interval (hours)** | 24 | Minimalny czas między digestami (1–168). Uruchamiajcie cron co najmniej tak często. Po udanym digescie następny czeka ten czas. |
+| **E-mail recipients** | puste | Przecinki lub średniki. Puste = e-mail sklepu z Preferencje > Kontakt. Szablon qe-staff-digest. |
+| **Slack webhook URL** | puste | Incoming webhook. Puste = bez Slack. |
+| **Teams webhook URL** | puste | Connector webhook. Puste = bez Teams. |
+
+**Zapisz** zapisuje. **Send test digest now** — test, gdy są oczekujące wyceny. Ten sam URL crona co w Ustawieniach.
+
+### 3.17 Aktualizacje
+
+Zakładka **Aktualizacje**. **Check Now** sprawdza nową wersję. **Automatic Notifications** włączone lub wyłączone. **Zapisz** zapisuje ustawienia aktualizacji.
+
+### 3.18 Blok wyceny na zamówieniu
+
+Na zamówieniu z wyceny zaplecze pokazuje **Source quote** z linkiem do wyceny i opcjonalnie **View quote PDF**.
+
+## 4. Front sklepu
+
+Klienci widzą narzędzia wycen, gdy moduł jest włączony i ich grupa jest dozwolona.
+
+**Strona produktu.** **Request a quote** otwiera formularz (instant) albo dodaje do listy (list). Checkbox prywatności i reCAPTCHA według ustawień.
+
+**Lista produktów.** **Request quote** — te same reguły.
+
+**Koszyk.** **Request a quote** — minimum koszyka i reguły mixed cart. Potwierdzony koszyk → wycena oczekująca.
+
+**Tryb list.** Pływający przycisk z liczbą otwiera formularz wieloproduktowy.
+
+**Konto klienta.** Link **Moje wyceny**: historia, status, ważność, **View**, PDF gdy włączone, **Checkout** po akceptacji, **Request re-opening** przy wygasłej/zablokowanej. Pusto: **You have no quotes yet…** Po wysłaniu: **Your quote request has been submitted…**
+
+**Widok wyceny.** Akceptacja, odrzucenie, prośba o zmiany, PDF, kasa po akceptacji. Zablokowana wygasła: **Locked — validity expired**.
+
+Goście mogą widzieć przyciski przy **Allow guests** = **Yes**, ale zapis tylko dla zalogowanego klienta.
+
+W tym pakiecie nie ma zrzutu frontu — sklep testowy był niedostępny przy kończeniu screenów.
+
+## 5. Typowe problemy
+
+**Brak przycisku na produkcie lub w koszyku.** Sprawdźcie **Module enabled**, właściwy włącznik przycisku, grupę klienta i widoczność katalogu. Dla koszyka: **Minimum cart total** i **Mixed cart**.
+
+**Gość nie kończy wniosku.** Zapis zawsze wymaga konta.
+
+**Wycena zablokowana / brak edycji.** Odblokujcie przy accepted lub expired (przedłużcie ważność). Przekształcone zostają zablokowane względem zamówienia.
+
+**Klient nie może zaakceptować.** Status musi być Sent lub Negotiation, a ważność w przyszłości.
+
+**Przypomnienia nie dochodzą.** Zaplanujcie cron i trzymajcie **Expiry reminder** powyżej zera. Otwarcie wyceny może ją wygasić bez crona; przypomnienia nadal potrzebują crona.
+
+**Brak przycisków PDF.** Włączcie **Enable PDF**.
+
+**reCAPTCHA blokuje formularz.** Wyłączcie albo wpiszcie oba klucze.
+
+**Digest personelu nie dochodzi.** Włączcie digest, ustawcie kanał, uruchamiajcie cron co najmniej tak często jak interwał.
+
+**Po odinstalowaniu zniknęło menu.** Zainstalujcie ponownie. Odinstalowanie kasuje tabele wycen. Produkt fee może zostać w katalogu.
+
+## 6. Przewodnik dewelopera
+
+### 6.1 Przegląd
+
+Nazwa techniczna `quoteenterprise`, wersja 1.7.6, klasa `quoteenterprise` extends `Module`. Display name przez `$this->l('Quote Enterprise')`. Autor MyPresta.eu. Tab `checkout`. URL produktu w `$this->mypresta_link`.
+
+Przepływ: wniosek → wiersz `quote` → edycja/wysyłka → akceptacja/negocjacja → kasa → zamówienie. Teksty pomocy dla merchantów: `QuoteSettingDescTrait` i metody `desc*` edytora.
+
+### 6.2 Pliki
+
+- `quoteenterprise.php` — instalacja, hooki, wejście do konfiguracji, URL crona.
+- `classes/QuoteAdmin.php` — zakładki konfiguracji i formularze ustawień.
+- `classes/QuoteAdminQuoteForm.php` — edytor wyceny.
+- `classes/QuoteQuotesManager.php` — przegląd, save/send/linie/szablony.
+- `classes/QuoteDashboard.php`, `QuoteVisibility.php`, `QuoteListHelper.php`, `QuoteRequestHelper.php`, `QuoteMailer.php`, `QuotePdf.php`, `QuoteApi.php`, `QuoteNotifyDigest.php`, `QuoteExpiry.php`, `QuoteConverter.php`, `QuoteFeeProduct.php`, `QuoteSettingDescTrait.php`.
+- `controllers/admin/AdminQuoteEnterpriseQuotes.php`, `AdminQuoteEnterpriseAuditLog.php`.
+- `controllers/front/` — `list`, `view`, `request`, `quoteList`, `pdf`, `cron`, `api`.
+- `models/` — `quote`, `quotedetail`, `quoteauditlog`, `quoterevision`, `quoteapikey`.
+- `views/templates/`, `lib/updateChecker.php`, `lib/emailTemplatesManager/`, `lib/searchTool/`.
+
+### 6.3 Kontrolery
+
+Admin pod **Zamówienia** (`AdminParentOrders`). Front w `$this->controllers`. Cron: `QE_CRON_TOKEN`. API: aktywny klucz i nazwa akcji.
+
+### 6.4 Hooki
+
+Zarejestrowane: `displayHeader`, `displayShoppingCart`, `displayCustomerAccount`, `displayProductAdditionalInfo`, `displayProductActions`, `displayFooterProduct`, `displayFooter`, `actionProductPriceCalculation`, `actionValidateOrder`, `actionAdminControllerSetMedia`, `displayProductListFunctionalButtons`, `displayProductListReviews`, `displayProductPriceBlock`, `displayAdminOrderMain`, `displayAdminOrderSide`, `displayAdminOrder`, `actionCartGetPackageShippingCost`. Brak własnych hooków zewnętrznych.
+
+### 6.5 Override’y
+
+Moduł nie dostarcza override’ów klas ani kontrolerów.
+
+### 6.6 Baza
+
+| Tabela | Zawartość |
+|---|---|
+| `quote` | Nagłówek wyceny. |
+| `quote_detail` | Pozycje. |
+| `quote_revision` | Migawki wersji. |
+| `quote_audit_log` | Aktywność tylko do dopisywania. |
+| `quote_api_key` | Klucze API. |
+| `qe_cart_quote` | Powiązanie koszyk–wycena. |
+
+Odinstalowanie kasuje te tabele. `QuoteSchema::ensure` i `inconsistency()` naprawiają braki przy otwarciu konfiguracji.
+
+### 6.7 Klucze i tłumaczenia
+
+Klucze `QE_*`. Domyślne w `installDefaults()`. Nowy język: `translations/{iso}.php`. Pomoc pól: `QuoteSettingDescTrait` i `desc*` edytora. Stringi: `$this->l()` i `{l s=... mod='quoteenterprise'}`.
+
+### 6.8 Rozszerzanie
+
+Nadpiszcie szablony frontu w `modules/quoteenterprise/` w motywie. Classic i Hummingbird. Inny układ PDF = zmiana szablonu PDF lub kodu.
+
+## 7. Support
+
+Strona modułu: [Quote Enterprise](https://mypresta.eu/modules/ordering-process/quote-enterprise.html).
+
+Aby napisać w sprawie tego modułu, zalogujcie się na konto klienta na [mypresta.eu](https://mypresta.eu/), otwórzcie [Kontakt](https://mypresta.eu/contact.html) i wybierzcie temat **Support for paid modules**. Formularz wymaga logowania. Po zalogowaniu wybierzcie ten moduł z historii zakupów.

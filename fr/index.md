@@ -27,14 +27,19 @@ Need help configuring your shop? Select a topic below to find user manuals, conf
 
 | Module Category | What You Can Configure | Documentation Hub |
 | :--- | :--- | :--- |
+| **IA & Automatisation** | Génération de contenu par IA, ChatGPT, Gemini, Claude, DeepSeek, descriptions automatiques de produits et SEO. | [Parcourir IA & Automatisation](./ai-artificial-intelligence/) |
+| **Back-Office & Admin Tools** | Order management utilities, bulk catalog tools, and store maintenance modules. | [Browse Back-Office](./back-office-tools/) |
+| **Marketing & Advertising** | Promotions, exit-intent modals, notifications, and customer engagement tools. | [Browse Marketing](./advertising-marketing/) |
 | **Front-Office Modules** | UX enhancements, product page widgets, banners, popups, and frontend extensions. | [Browse Front-Office](./front-office/) |
 | **Ordering & Checkout** | Purchase funnel optimizations, custom checkout fields, surcharge and delivery rules. | [Browse Ordering](./ordering-process/) |
 | **Payment Gateways** | Custom payment fees, payment restrictions, surcharge options, and COD features. | [Browse Payment](./payment/) |
 | **SEO & Search Visibility** | Meta tags, canonical URLs, schema markup, and search engine optimizations. | [Browse SEO](./seo/) |
-| **Marketing & Advertising** | Promotions, exit-intent modals, notifications, and customer engagement tools. | [Browse Marketing](./advertising-marketing/) |
-| **Back-Office & Admin Tools** | Order management utilities, bulk catalog tools, and store maintenance modules. | [Browse Back-Office](./back-office-tools/) |
 | **Sliders & Slideshows** | Responsive image carousels, video banners, and promotional media sliders. | [Browse Sliders](./sliders-slideshows/) |
 | **Social Networks** | Social media feeds, Facebook integrations, sharing widgets, and community tools. | [Browse Social](./social-networks/) |
+
+
+
+
 
 
 :::tip[Can't Find Your Module?]

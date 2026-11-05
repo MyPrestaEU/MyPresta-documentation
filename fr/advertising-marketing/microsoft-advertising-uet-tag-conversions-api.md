@@ -1,8 +1,8 @@
 ---
-title: "Balise UET et API de Conversions Microsoft Advertising - Manuel du Marchand et Guide de Configuration"
-description: "Manuel utilisateur complet, guide de configuration écran par écran et référence développeur pour le module PrestaShop Balise UET et API de Conversions Microsoft Advertising par MyPresta.eu."
+title: "Microsoft Advertising UET Tag & Conversions API - documentation et manuel utilisateur"
+description: "Configurez le suivi, vérifiez les événements avec les diagnostics en direct et résolvez les problèmes après l’installation du module."
 sidebar:
-  label: "Balise UET et API de Conversions Microsoft Advertising - Manuel du Marchand et Guide de Configuration"
+  label: "Microsoft Advertising UET Tag & Conversions API - documentation et manuel utilisateur"
 ---
 
 > ⚠️ **Notice:** This is the documentation officielle du module PrestaShop.
@@ -12,307 +12,415 @@ sidebar:
 > ---
 
 
-# Balise UET et API de Conversions Microsoft Advertising
-
-## 1. Exigences et compatibilité
-
-- **Versions PrestaShop prises en charge** : PrestaShop 1.7.x, 8.x, 9.x
-- **Compatibilité PHP** : PHP 7.1 - 8.5
-- **Exigences d'hébergement** : Les extensions PHP standard telles que cURL, JSON et OpenSSL sont requises pour que le module fonctionne correctement, en particulier pour les fonctionnalités de l'API de Conversions. Celles-ci sont généralement activées par défaut sur la plupart des environnements d'hébergement modernes.
-
-## 2. Guide de configuration complet (Chaque paramètre regroupé par écran)
-
-### 2.1 Page de configuration du module (Back Office > Modules > Configurer)
-
-C'est le centre principal pour configurer votre suivi Microsoft Advertising. Vous trouverez une série d'onglets et de paramètres conçus pour vous guider tout au long du processus.
-
-#### Onglet Configuration principale (Vue initiale)
-
--   **Ce que fait ce paramètre :** Cet onglet fournit généralement un aperçu et des options de configuration initiales, incluant souvent un assistant pour simplifier la première configuration.
--   **Effet de la modification de ce paramètre :** La complétion de l'assistant ou le remplissage des détails initiaux activera la fonctionnalité de suivi de base et préparera le module pour des paramètres plus avancés.
--   **Valeur recommandée :** Suivez attentivement les étapes de l'assistant.
--   **Scénario / exemple de marchand :** Lors de la première installation du module, l'assistant vous demandera votre ID de balise UET et vous guidera dans le choix de votre méthode de suivi (balise UET, API de Conversions, ou les deux).
-
-#### ID de balise UET
-
--   **Ce que fait ce paramètre :** C'est votre identifiant unique fourni par Microsoft Advertising. Il indique à Microsoft à quel compte associer les données de suivi.
--   **Effet de la modification de ce paramètre :**
-    -   *Lorsqu'il est saisi correctement :* Le module intégrera la balise UET sur votre boutique, permettant à Microsoft Advertising de suivre le comportement des utilisateurs.
-    -   *Lorsqu'il est laissé vide ou incorrect :* Aucun suivi de balise UET ne se produira, et vos campagnes Microsoft Advertising ne recevront pas de données de conversion du front-office.
--   **Valeur recommandée :** Votre ID de balise UET exact de votre compte Microsoft Advertising.
--   **Scénario / exemple de marchand :** Vous avez créé un compte Microsoft Advertising et configuré une balise UET. Vous copiez l'ID (par exemple, `12345678`) et le collez ici.
-
-#### Mode de suivi (Balise UET, API de Conversions, ou les deux)
-
--   **Ce que fait ce paramètre :** Détermine comment les données de conversion sont envoyées à Microsoft Advertising.
-    -   **Balise UET uniquement :** Suivi traditionnel côté client via JavaScript dans le navigateur du client.
-    -   **API de Conversions uniquement :** Suivi côté serveur, envoyant les données directement de votre serveur PrestaShop à Microsoft. Plus résilient aux paramètres de confidentialité des navigateurs.
-    -   **Les deux (Hybride) :** Utilise à la fois la balise UET et l'API de Conversions, avec un mécanisme de déduplication des événements, garantissant un comptage précis même si les deux méthodes signalent la même conversion.
--   **Effet de la modification de ce paramètre :**
-    -   *Balise UET uniquement :* Repose uniquement sur le suivi basé sur le navigateur, qui peut être affecté par les bloqueurs de publicité ou les paramètres de confidentialité.
-    -   *API de Conversions uniquement :* Fournit un suivi plus robuste, mais nécessite une configuration côté serveur et peut ne pas capturer tous les événements côté client (comme les vues de page) aussi facilement.
-    -   *Les deux (Hybride) :* Offre le suivi le plus complet et le plus fiable, combinant les forces des deux méthodes tout en empêchant les conversions en double.
--   **Valeur recommandée :** **Les deux (Hybride)** est généralement recommandé pour une précision et une résilience maximales.
--   **Scénario / exemple de marchand :** Vous souhaitez les données les plus précises possibles, vous sélectionnez donc "Les deux (Hybride)" pour vous assurer que les conversions sont suivies même si un client utilise un bloqueur de publicité.
-
-#### Jeton d'accès à l'API de Conversions
-
--   **Ce que fait ce paramètre :** Il s'agit d'un jeton sécurisé généré dans votre compte Microsoft Advertising, autorisant votre boutique PrestaShop à envoyer des données directement aux serveurs de Microsoft via l'API de Conversions.
--   **Effet de la modification de ce paramètre :**
-    -   *Lorsqu'il est saisi correctement :* Active le suivi côté serveur pour l'API de Conversions.
-    -   *Lorsqu'il est laissé vide ou incorrect :* L'API de Conversions ne fonctionnera pas, et les données de conversion côté serveur ne seront pas envoyées.
--   **Valeur recommandée :** Votre Jeton d'accès à l'API de Conversions exact de votre compte Microsoft Advertising.
--   **Scénario / exemple de marchand :** Vous avez généré un Jeton d'accès dans votre compte Microsoft Advertising (par exemple, sous "Outils" > "Suivi des conversions" > "API de Conversions"). Vous collez cette longue chaîne de caractères ici.
-
-#### Activer les conversions améliorées
-
--   **Ce que fait ce paramètre :** Lorsqu'il est activé, cette fonctionnalité envoie des données client hachées (comme les adresses e-mail) avec les événements de conversion. Cela aide Microsoft à faire correspondre les conversions plus précisément, surtout lorsque les cookies sont limités, améliorant ainsi les performances de vos campagnes.
--   **Effet de la modification de ce paramètre :**
-    -   *Lorsqu'il est activé :* Correspondance des conversions plus précise, ce qui peut potentiellement conduire à une meilleure optimisation de vos campagnes publicitaires.
-    -   *Lorsqu'il est désactivé :* Les conversions reposent uniquement sur les méthodes de suivi standard, ce qui pourrait être moins précis dans certains environnements de navigateur axés sur la confidentialité.
--   **Valeur recommandée :** **OUI** (Activé), car cela améliore considérablement la correspondance des données.
--   **Scénario / exemple de marchand :** Vous souhaitez donner à Microsoft Advertising les meilleures données possibles pour optimiser vos campagnes, vous activez donc les conversions améliorées.
-
-#### Intégration de la gestion du consentement
-
--   **Ce que fait ce paramètre :** Ce module peut s'intégrer aux modules de consentement aux cookies existants (comme les modules RGPD) pour garantir que la balise UET ne se déclenche qu'après que le client a donné son consentement.
--   **Effet de la modification de ce paramètre :**
-    -   *Lorsqu'il est activé et intégré :* La balise UET respectera les choix de consentement du client. Si un client refuse les cookies de suivi, la balise UET ne se chargera pas.
-    -   *Lorsqu'il est désactivé ou non intégré :* La balise UET pourrait se charger indépendamment du consentement, ce qui pourrait entraîner des problèmes de conformité.
--   **Valeur recommandée :** **OUI** (Activé) si vous utilisez un module de consentement aux cookies et que vous devez vous conformer aux réglementations en matière de confidentialité (par exemple, RGPD, CCPA).
--   **Scénario / exemple de marchand :** Votre boutique utilise un module RGPD. Vous activez ce paramètre pour vous assurer que votre suivi Microsoft Advertising est conforme aux lois sur la confidentialité.
-
-#### Mode Débogage
-
--   **Ce que fait ce paramètre :** Active un mode spécial qui affiche des informations détaillées sur la balise UET et les événements de l'API de Conversions directement sur vos pages du front-office (visible uniquement par vous, l'administrateur, ou des adresses IP spécifiques). C'est inestimable pour vérifier que le suivi est correctement configuré.
--   **Effet de la modification de ce paramètre :**
-    -   *Lorsqu'il est activé :* Vous verrez une superposition de débogage ou des messages de console sur le front-office de votre boutique, montrant quels événements sont suivis et quelles données sont envoyées.
-    -   *Lorsqu'il est désactivé :* Le module fonctionne silencieusement, sans information de débogage visible.
--   **Valeur recommandée :** **NON** (Désactivé) pour les boutiques en production. **OUI** (Activé) temporairement pendant la configuration et le dépannage.
--   **Scénario / exemple de marchand :** Vous venez d'installer le module et souhaitez confirmer que les événements "Ajouter au panier" sont envoyés correctement. Vous activez le mode débogage, ajoutez un produit à votre panier et vérifiez la sortie de débogage.
+## 1. Exigences
 
-#### Mappage d'événements (Avancé)
+Préparez la boutique, le compte Microsoft Advertising et la tâche planifiée avant la configuration.
 
--   **Ce que fait ce paramètre :** Vous permet de personnaliser la façon dont des actions spécifiques de PrestaShop (par exemple, "Produit ajouté au panier") sont mappées aux noms d'événements Microsoft Advertising (par exemple, "add\_to\_cart"). Vous pouvez également définir des paramètres personnalisés à envoyer avec chaque événement.
--   **Effet de la modification de ce paramètre :**
-    -   *Lorsqu'il est configuré :* Garantit que vos événements sont correctement catégorisés et enrichis avec des données pertinentes dans Microsoft Advertising.
-    -   *Lorsqu'il est mal configuré :* Les événements pourraient ne pas être suivis, ou les données envoyées pourraient être inexactes, entraînant une mauvaise optimisation des campagnes.
--   **Valeur recommandée :** Utilisez les mappages par défaut, sauf si vous avez une raison spécifique de les modifier en fonction de votre configuration Microsoft Advertising.
--   **Scénario / exemple de marchand :** Vous souhaitez envoyer la marque du produit comme paramètre personnalisé avec chaque événement "view\_item". Vous configurerez ce mappage ici.
+- Utilisez PrestaShop 1.7, 8 ou 9.
+- Utilisez PHP 7.1–8.x, selon la version PHP requise par votre installation PrestaShop.
+- Activez les extensions PHP cURL, JSON, OpenSSL et de hachage.
+- Avoir un compte Microsoft Advertising et un identifiant de balise UET. Obtenez également un jeton porteur de l'API Conversions pour **Conversions API** ou **UET + CAPI**.
+- Avoir accès à CRON lors de l'utilisation de CAPI, car sa file d'attente doit s'exécuter régulièrement.
+- Configurez un module CMP ou cookie externe avant de transformer **Require marketing / analytics consent** en **Yes**.
+- Aucun autre module PrestaShop n'est requis. Un module de flux Microsoft Merchant Center est facultatif et peut aider à aligner les identifiants de catalogue.
 
-#### Domaines de liaison (Avancé)
-
--   **Ce que fait ce paramètre :** Si vous avez plusieurs sous-domaines ou sites web liés qui partagent la même balise UET, ce paramètre aide à garantir que les sessions utilisateur sont correctement liées entre ces domaines.
--   **Effet de la modification de ce paramètre :**
-    -   *Lorsqu'il est configuré :* Permet un suivi transparent des parcours utilisateur sur plusieurs domaines sous votre contrôle.
-    -   *Lorsqu'il n'est pas configuré (et nécessaire) :* Les sessions utilisateur pourraient être interrompues, entraînant une attribution de conversion inexacte.
--   **Valeur recommandée :** Laissez vide, sauf si vous exploitez plusieurs sous-domaines ou sites liés qui nécessitent un suivi inter-domaine.
--   **Scénario / exemple de marchand :** Vous avez votre boutique principale sur `shop.example.com` et un blog sur `blog.example.com`, tous deux utilisant la même balise UET. Vous ajouteriez `blog.example.com` à la liste des domaines de liaison.
+## 2. Installation
 
-#### Tableau de référence rapide de la configuration
-
-| Écran / Vue | Paramètre / Option | Par défaut / Recommandé | Objectif et impact |
-| --- | --- | --- | --- |
-| Config principale | ID de balise UET | Votre ID de balise | Active le suivi de la balise UET. Essentiel pour les données côté client. |
-| Config principale | Mode de suivi | Les deux (Hybride) | Sélectionne la balise UET, l'API de Conversions, ou les deux pour la transmission des données. L'hybride est le plus robuste. |
-| Config principale | Jeton d'accès à l'API de Conversions | Votre Jeton d'accès | Autorise l'envoi de données côté serveur à Microsoft. |
-| Config principale | Activer les conversions améliorées | OUI | Améliore la précision de la correspondance des conversions en envoyant des données client hachées. |
-| Config principale | Intégration de la gestion du consentement | OUI (si applicable) | Garantit que la balise UET respecte les choix de confidentialité des clients (RGPD, CCPA). |
-| Config principale | Mode Débogage | NON (OUI pour les tests) | Affiche les données de suivi sur le front-office pour vérification. |
-| Config principale | Mappage d'événements | Par défaut | Personnalise la façon dont les actions PrestaShop sont mappées aux événements Microsoft. |
-| Config principale | Domaines de liaison | Vide (si non nécessaire) | Active le suivi inter-domaine pour les sites web liés. |
-
-### 2.2 Écrans d'administration dédiés et vues de contrôleur
-
-#### 2.2.1 AdminMybingAjaxController (Back Office > Modules > Balise UET et API de Conversions Microsoft Advertising > Statistiques en direct / Score de santé / Docteur / Qualité des données)
-
-Ce contrôleur alimente les sections dynamiques et interactives de la configuration du module, fournissant des informations en temps réel et des outils de diagnostic. Vous n'accéderez pas à un élément de menu séparé pour cela, mais interagirez plutôt avec des onglets spécifiques au sein de la configuration principale du module.
-
--   **Nom de l'écran et emplacement du menu :** Ce sont généralement des sous-onglets au sein de la page de configuration principale du module (par exemple, "Statistiques en direct", "Score de santé", "Coach de qualité des données", "Docteur du catalogue").
--   **Actions et paramètres disponibles :**
-    -   **Statistiques en direct :** Affiche les événements récents envoyés à Microsoft Advertising, montrant les vues de page, les ajouts au panier, les achats, etc., en temps quasi réel. Cela vous aide à confirmer que les événements se déclenchent correctement.
-    -   **Score de santé :** Analyse votre configuration de suivi et fournit un score basé sur les meilleures pratiques, mettant en évidence les problèmes potentiels ou les domaines à améliorer.
-    -   **Coach de qualité des données :** Offre des recommandations spécifiques pour améliorer la qualité et l'exhaustivité des données que vous envoyez à Microsoft, en particulier pour les conversions améliorées.
-    -   **Docteur du catalogue :** Aide à diagnostiquer les problèmes liés à vos données produit qui pourraient affecter la publicité de flux de produits ou le remarketing dynamique.
--   **Effet des modifications :** L'interaction avec ces écrans fournit principalement des informations et des retours de diagnostic. Il n'y a pas de "paramètres" directs à modifier ici, mais les informations obtenues éclaireront les ajustements que vous pourriez apporter dans la configuration principale ou votre catalogue de produits.
--   **Flux de travail recommandé pour la gestion quotidienne de la boutique :**
-    -   Vérifiez régulièrement les **Statistiques en direct** après avoir effectué des modifications ou lancé de nouvelles campagnes pour vous assurer que les événements sont suivis.
-    -   Examinez périodiquement le **Score de santé** et le **Coach de qualité des données** pour des recommandations afin d'optimiser votre configuration de suivi.
-    -   Si vous rencontrez des problèmes avec les annonces liées aux produits, consultez le **Docteur du catalogue**.
-
-#### 2.2.2 index.php (Back Office > Modules > Balise UET et API de Conversions Microsoft Advertising)
-
-Ceci fait référence au point d'entrée principal de l'interface back-office du module, qui est la page de configuration elle-même. Tous les paramètres décrits dans la section 4.1 sont gérés via cette vue principale. Il n'y a pas d'écran "index.php" séparé à naviguer au-delà de la configuration initiale du module.
-
-## 3. Dépannage du marchand et questions fréquemment posées (FAQ)
-
-**Q : Mes conversions n'apparaissent pas dans Microsoft Advertising. Que dois-je faire ?**
-R :
-
-1.  **Vérifiez l'ID de balise UET et le jeton d'accès :** Vérifiez à nouveau que votre ID de balise UET et votre jeton d'accès à l'API de Conversions sont correctement saisis dans la configuration du module. Même une seule faute de frappe peut empêcher le suivi.
-2.  **Vérifiez le mode de suivi :** Assurez-vous que votre "Mode de suivi" est défini sur "Les deux (Hybride)" pour une fiabilité maximale.
-3.  **Activez le mode débogage :** Activez le "Mode débogage" dans les paramètres du module et effectuez un achat test sur votre boutique. Recherchez la superposition de débogage ou les messages de la console pour voir si les événements se déclenchent.
-4.  **Videz le cache :** Allez dans **Paramètres avancés > Performances** dans votre Back Office PrestaShop et videz le cache Smarty et tout autre cache. Parfois, d'anciens paramètres peuvent persister.
-5.  **Vérifiez le compte Microsoft Advertising :** Connectez-vous à votre compte Microsoft Advertising et vérifiez l'état de la balise UET et la configuration des objectifs de conversion. Assurez-vous que vos objectifs de conversion sont correctement configurés pour correspondre aux événements envoyés par le module (par exemple, "Achat").
-
-**Q : Le module indique que "l'intégration de la gestion du consentement" est activée, mais je n'ai pas de module RGPD. Est-ce un problème ?**
-R : Si vous n'avez pas de module de consentement aux cookies dédié installé et configuré, ce paramètre n'aura aucun effet pratique. Le module supposera le consentement par défaut. Cependant, pour la conformité légale (par exemple, RGPD, CCPA), il est fortement recommandé d'utiliser un module de consentement aux cookies approprié. Si vous en installez un plus tard, ce module s'intégrera automatiquement à celui-ci.
-
-**Q : Mon thème personnalisé semble un peu décalé après l'installation du module, ou je vois une page blanche.**
-R : Ce module fonctionne principalement en arrière-plan et ne devrait pas affecter l'apparence visuelle de votre thème.
-
-1.  **Videz le cache :** La solution la plus courante pour les problèmes d'affichage après l'installation du module est de vider votre cache PrestaShop (**Paramètres avancés > Performances**).
-2.  **Vérifiez les conflits :** Si le problème persiste, désactivez temporairement les autres modules récemment installés pour vérifier les conflits.
-3.  **Erreurs PHP :** Si vous voyez une page blanche, activez le rapport d'erreurs PHP sur votre serveur (ou vérifiez les journaux d'erreurs de votre serveur) pour identifier toute erreur critique.
-    Si le problème persiste, contactez le support MyPresta.eu avec les détails de votre thème et tout message d'erreur.
-
-**Q : Comment traduire les textes du module dans d'autres langues ?**
-R :
-
-1.  Allez dans **International > Traductions** dans votre Back Office PrestaShop.
-2.  Sélectionnez "Traductions des modules installés" comme type de traduction.
-3.  Choisissez votre thème, la langue que vous souhaitez traduire, puis sélectionnez "Balise UET et API de Conversions Microsoft Advertising" dans la liste des modules.
-4.  Vous pouvez ensuite traduire toutes les chaînes visibles utilisées par le module.
-
-**Q : Pourquoi le "Coach de qualité des données" ou le "Score de santé" affiche-t-il des avertissements ?**
-R : Ces outils sont conçus pour vous aider à optimiser votre suivi. Les avertissements indiquent souvent :
-
--   **Données de conversion améliorées manquantes :** Assurez-vous que les données client (comme l'e-mail) sont disponibles et envoyées.
--   **Problèmes de données produit :** Votre catalogue de produits pourrait manquer de GTIN, MPN ou d'autres identifiants cruciaux pour la publicité de flux de produits.
--   **Faible volume d'événements :** Si votre boutique a très peu de trafic, les outils pourraient ne pas avoir suffisamment de données pour fournir une analyse complète.
-    Suivez les recommandations spécifiques fournies par les outils pour améliorer la qualité de vos données et la santé de votre suivi.
-
-## 4. Guide du développeur et du webmaster (Architecture technique et carte du code)
-
-### 4.1 Vue d'ensemble de l'architecture
-
-Le module `Balise UET et API de Conversions Microsoft Advertising` (`mybing`) est construit selon le modèle MVC (Model-View-Controller) de PrestaShop, avec un fort accent sur la modularité et l'extensibilité. Il utilise un modèle de fabrique pour l'instanciation du traqueur (`MybingTrackerFactory`) afin de prendre en charge différents modes de suivi (UET, CAPI, Hybride) et exploite un système d'événements robuste (`MybingEvents`) pour capturer diverses actions de commerce électronique. La qualité des données et les diagnostics sont gérés par des classes dédiées (`MybingHealthScore`, `MybingDataQualityCoach`, `MybingCatalogDoctor`). Le module s'intègre au système de hooks de PrestaShop pour l'injection d'événements côté front-office et utilise des contrôleurs d'administration dédiés pour sa configuration avancée et ses outils de diagnostic.
-
-### 4.2 Contrôleurs (`controllers/`)
-
-#### Contrôleurs Front-Office
-
--   `mybing/controllers/front/ajax.php`
-    -   **Nom de la classe :** `MybingAjaxModuleFrontController` (étend `ModuleFrontController`)
-    -   **Responsabilité :** Gère les requêtes AJAX du front-office, principalement pour l'envoi d'événements côté client ou de données qui ne peuvent pas être directement gérées par la balise UET (par exemple, pour l'intégration de la gestion du consentement, ou la collecte de données spécifiques avant une redirection de page). Il peut également être utilisé pour envoyer des événements CAPI qui sont déclenchés côté client mais nécessitent un traitement côté serveur.
--   `mybing/controllers/front/cron.php`
-    -   **Nom de la classe :** `MybingCronModuleFrontController` (étend `ModuleFrontController`)
-    -   **Responsabilité :** Fournit un point d'accès pour une tâche cron. Ceci est généralement utilisé pour les tâches côté serveur qui doivent s'exécuter périodiquement, telles que l'envoi d'événements d'API de Conversions différés, la synchronisation de données ou l'exécution de tâches de maintenance liées à la fonctionnalité du module.
--   `mybing/controllers/front/index.php`
-    -   **Nom de la classe :** `MybingIndexModuleFrontController` (étend `ModuleFrontController`)
-    -   **Responsabilité :** Un contrôleur frontal générique, souvent utilisé comme solution de repli ou pour des interactions simples et non-AJAX du front-office. Dans ce module, il pourrait être utilisé pour des redirections spécifiques ou pour gérer les requêtes initiales liées à la configuration du suivi.
-
-#### Contrôleurs d'administration Back-Office
-
--   `mybing/controllers/admin/AdminMybingAjaxController.php`
-    -   **Nom de la classe :** `AdminMybingAjaxController` (étend `AdminController`)
-    -   **Nom de l'onglet :** Pas un onglet autonome, mais un point d'accès AJAX pour la configuration principale du module.
-    -   **Entité gérée :** Gère le chargement et le traitement dynamique des données pour les onglets de diagnostic et de statistiques du module (Statistiques en direct, Score de santé, Coach de qualité des données, Docteur du catalogue). Il traite les requêtes pour les journaux d'événements, les vérifications de santé et les rapports de qualité des données, renvoyant des réponses JSON au JavaScript de l'administration.
--   `mybing/controllers/admin/index.php`
-    -   **Nom de la classe :** `AdminMybingIndexController` (étend `AdminController`)
-    -   **Nom de l'onglet :** Pas un onglet autonome. Il s'agit d'un espace réservé ou d'un contrôleur d'administration générique qui pourrait être utilisé pour des redirections ou des actions internes spécifiques au sein de l'interface d'administration du module, mais la configuration principale est gérée par la méthode `getContent()` de la classe principale du module.
-
-### 4.3 Classes et modèles principaux (`classes/`)
-
--   `mybing/classes/autoload.php` : Fichier d'autoload standard de PrestaShop, garantissant que les classes du module sont chargées correctement.
--   `mybing/classes/index.php` : Fichier de remplacement, souvent pour empêcher la liste des répertoires.
--   `mybing/classes/MybingCapiClient.php` : Gère la communication avec le point de terminaison de l'API de Conversions Microsoft Advertising. Encapsule les requêtes HTTP, l'authentification (Jeton d'accès) et le formatage des données pour la soumission d'événements côté serveur.
--   `mybing/classes/MybingCapiTracker.php` : Implémente `MybingTrackerInterface` pour le suivi côté serveur (API de Conversions). Responsable de la collecte des données d'événements, de leur préparation pour le client CAPI et de leur envoi.
--   `mybing/classes/MybingCatalogDoctor.php` : Fournit une logique de diagnostic pour analyser la qualité des données produit, identifiant les problèmes qui pourraient affecter les flux de produits ou le remarketing dynamique dans Microsoft Advertising.
--   `mybing/classes/MybingConsent.php` : Gère l'intégration avec les modules de consentement aux cookies. Détermine si le consentement de l'utilisateur a été donné pour le suivi et contrôle le déclenchement de la balise UET en conséquence.
--   `mybing/classes/MybingCurrencyHelper.php` : Classe utilitaire pour gérer les conversions et le formatage des devises, garantissant que les valeurs d'événements sont envoyées correctement à Microsoft Advertising.
--   `mybing/classes/MybingDataQualityCoach.php` : Analyse la qualité et l'exhaustivité des données envoyées pour les événements, en particulier pour les conversions améliorées, et fournit des recommandations d'amélioration.
--   `mybing/classes/MybingEventId.php` : Génère et gère des ID d'événements uniques pour la déduplication, crucial pour le suivi hybride (UET + CAPI).
--   `mybing/classes/MybingEventMap.php` : Définit le mappage entre les actions PrestaShop (par exemple, `actionCartSave`) et les noms d'événements Microsoft Advertising (par exemple, `add_to_cart`), y compris les paramètres personnalisés.
--   `mybing/classes/MybingEvents.php` : Classe centrale pour définir et déclencher tous les événements de commerce électronique suivis (par exemple, `PageView`, `AddToCart`, `Purchase`). Elle agit comme un répartiteur d'événements au sein du module.
--   `mybing/classes/MybingHealthScore.php` : Calcule un "score de santé" pour la configuration globale du suivi, évaluant la configuration, la qualité des données et le déclenchement des événements.
--   `mybing/classes/MybingHybridTracker.php` : Implémente `MybingTrackerInterface` pour le suivi hybride. Orchestre le suivi de la balise UET et de l'API de Conversions, assurant la déduplication des événements à l'aide de `event_id`.
--   `mybing/classes/MybingLiveStats.php` : Collecte et fournit des statistiques en temps réel sur les événements suivis, affichées dans l'interface d'administration.
--   `mybing/classes/MybingProductIdResolver.php` : Aide à résoudre et à formater les ID de produit selon les exigences de Microsoft Advertising (par exemple, GTIN, MPN, custom\_label).
--   `mybing/classes/MybingPropertyRules.php` : Définit les règles et la logique pour extraire et formater diverses propriétés d'événements (par exemple, prix du produit, quantité, catégorie) pour Microsoft Advertising.
--   `mybing/classes/MybingTrackerFactory.php` : Classe de fabrique responsable de la création de l'instance de traqueur appropriée (`MybingUetTracker`, `MybingCapiTracker` ou `MybingHybridTracker`) en fonction de la configuration du module.
--   `mybing/classes/MybingTrackerInterface.php` : Définit le contrat pour toutes les classes de traqueurs, garantissant une interface cohérente pour les méthodes de suivi d'événements.
--   `mybing/classes/MybingUetTracker.php` : Implémente `MybingTrackerInterface` pour le suivi côté client (balise UET). Responsable de la génération du code JavaScript à injecter dans le front-office.
--   `mybing/classes/MybingUserData.php` : Collecte et formate les données spécifiques à l'utilisateur (par exemple, e-mail, téléphone, adresse) pour les conversions améliorées, y compris le hachage.
-
-### 4.4 Actifs JavaScript (`views/js/`)
-
--   `mybing/views/js/mybing-admin.js` : JavaScript du back-office pour les fonctionnalités d'administration générales, les interactions de formulaire et les mises à jour dynamiques au sein de la page de configuration du module.
--   `mybing/views/js/mybing-debug.js` : JavaScript du front-office spécifiquement pour le mode débogage, affichant les informations de suivi et les charges utiles d'événements à l'administrateur.
--   `mybing/views/js/mybing-ghost.js` : JavaScript du front-office, potentiellement pour gérer les événements "fantômes" ou les interactions spécifiques côté client qui doivent être suivies sans action directe de l'utilisateur.
--   `mybing/views/js/mybing-live.js` : JavaScript du back-office pour l'onglet "Statistiques en direct", gérant les requêtes AJAX vers `AdminMybingAjaxController` et mettant à jour le flux d'événements en direct.
--   `mybing/views/js/mybing-tcf.js` : JavaScript du front-office pour l'intégration avec le Transparency and Consent Framework (TCF) ou d'autres plateformes de gestion du consentement, garantissant que la balise UET ne se déclenche qu'avec le consentement.
--   `mybing/views/js/mybing-wizard.js` : JavaScript du back-office pour l'assistant de configuration initial, guidant le marchand à travers les étapes de configuration.
--   `mybing/views/js/mybing.js` : Fichier JavaScript principal du front-office. Contient la logique de base pour initialiser la balise UET, capturer les événements côté client (par exemple, `add_to_cart`) et envoyer des données à la balise UET ou au contrôleur AJAX du module pour le traitement CAPI. Il se lie à divers événements DOM et aux événements `prestashop.on` de PrestaShop.
-
-### 4.5 Feuilles de style CSS (`views/css/`)
-
--   `mybing/views/css/mybing-admin.css` : CSS du back-office pour styliser la page de configuration du module, les outils de diagnostic et l'assistant, garantissant une interface d'administration cohérente et conviviale.
--   `mybing/views/css/mybing-debug.css` : CSS du front-office pour styliser la superposition de débogage, rendant les informations de suivi clairement visibles pour l'administrateur sans perturber la conception de la boutique.
-
-### 4.6 Structure des modèles Smarty (`views/templates/`)
-
-#### Modèles de hook (`views/templates/hook/`)
-
--   `mybing/views/templates/hook/capi-pageview.tpl` : Rend un élément ou un script caché pour déclencher un événement PageView côté serveur via CAPI, souvent utilisé lorsque la balise UET pourrait être bloquée.
--   `mybing/views/templates/hook/debug.tpl` : Rend la structure HTML pour la superposition de débogage du front-office, affichant les données d'événements.
--   `mybing/views/templates/hook/displayOrderConfirmation.tpl` : Injecté dans le hook `displayOrderConfirmation`. Rend le script d'événement d'achat de la balise UET et/ou déclenche l'événement d'achat CAPI après une commande réussie.
--   `mybing/views/templates/hook/ghost.tpl` : Rend un script ou un élément caché pour le suivi "fantôme", potentiellement pour des événements d'arrière-plan spécifiques ou la collecte de données.
--   `mybing/views/templates/hook/header.tpl` : Injecté dans le hook `displayHeader`. Rend le script de base principal de la balise UET, l'intégration de la gestion du consentement et les événements PageView initiaux.
--   `mybing/views/templates/hook/payment.tpl` : Potentiellement utilisé pour suivre les événements liés à la sélection ou à l'initiation d'un mode de paiement, bien que `displayOrderConfirmation` soit plus courant pour l'achat final.
--   `mybing/views/templates/hook/product-details.tpl` : Injecté dans un hook de page produit (par exemple, `displayProductButtons` ou `displayProductExtraContent`). Rend les scripts pour les événements `view_item` et les écouteurs d'événements `add_to_cart`.
-
-#### Modèles d'administration (`views/templates/admin/`)
-
--   `mybing/views/templates/admin/consent-guide.tpl` : Affiche des conseils et des informations concernant l'intégration de la gestion du consentement.
--   `mybing/views/templates/admin/doctor.tpl` : Rend l'interface de l'outil de diagnostic "Docteur du catalogue".
--   `mybing/views/templates/admin/dq.tpl` : Rend l'interface des recommandations du "Coach de qualité des données".
--   `mybing/views/templates/admin/health.tpl` : Rend l'interface de l'aperçu du "Score de santé".
--   `mybing/views/templates/admin/linker-domains.tpl` : Rend le champ de saisie et l'explication pour la configuration des domaines de liaison.
--   `mybing/views/templates/admin/live-maintain.tpl` : Rend un message de maintenance ou un statut pour la fonctionnalité de statistiques en direct.
--   `mybing/views/templates/admin/live.tpl` : Rend l'interface des "Statistiques en direct", affichant les événements récents.
--   `mybing/views/templates/admin/mode-context.tpl` : Fournit des informations contextuelles sur le mode de suivi choisi.
--   `mybing/views/templates/admin/mode-note-both.tpl` : Affiche une note ou une explication spécifique lorsque le mode "Les deux (Hybride)" est sélectionné.
--   `mybing/views/templates/admin/mode-note-capi.tpl` : Affiche une note ou une explication spécifique lorsque le mode "API de Conversions uniquement" est sélectionné.
--   `mybing/views/templates/admin/mode-note-uet.tpl` : Affiche une note ou une explication spécifique lorsque le mode "Balise UET uniquement" est sélectionné.
--   `mybing/views/templates/admin/mode-picker.tpl` : Rend les boutons radio ou la liste déroulante pour la sélection du mode de suivi.
--   `mybing/views/templates/admin/properties-list.tpl` : Rend une liste ou un tableau des propriétés d'événements et de leurs valeurs pour la configuration ou l'affichage.
--   `mybing/views/templates/admin/recent-events.tpl` : Rend un tableau ou une liste des événements récemment suivis, souvent dans le cadre des "Statistiques en direct".
--   `mybing/views/templates/admin/tabs.tpl` : Rend la structure de navigation par onglets pour la page de configuration du module (par exemple, Général, Statistiques en direct, Score de santé).
--   `mybing/views/templates/admin/tag-chips.tpl` : Rend des "jetons" visuels ou des indicateurs pour les ID de balise UET configurés.
--   `mybing/views/templates/admin/tag-ids.tpl` : Rend le champ de saisie pour les ID de balise UET.
--   `mybing/views/templates/admin/wizard.tpl` : Rend l'interface étape par étape pour l'assistant de configuration initial.
-
-#### Modèles Front-office (`views/templates/front/`)
-
--   Aucun modèle de page autonome dédié identifié. Le rendu du front-office est principalement géré via des modèles de hook.
-
-### 4.7 Schéma de base de données et carte des hooks
-
-#### Tables de base de données
-
-Le module ne crée pas explicitement de tables SQL personnalisées basées sur l'inventaire fourni. Les enregistrements de configuration sont stockés dans la table `ps_configuration` de PrestaShop, en utilisant des clés préfixées par `MYBING_` (par exemple, `MYBING_UET_ID`, `MYBING_CAPI_TOKEN`, `MYBING_TRACKING_MODE`).
-
-#### Tableau des hooks enregistrés
-
-| Nom du hook | Moment d'exécution | Objectif technique |
-| --- | --- | --- |
-| `displayHeader` | Dans la section `<head>` de chaque page du front-office. | Injecte le JavaScript de base de la balise UET, initialise la gestion du consentement et déclenche les événements `PageView`. |
-| `displayOrderConfirmation` | Sur la page de confirmation de commande après un achat réussi. | Déclenche les événements `Purchase` pour la balise UET et l'API de Conversions, y compris les détails de la commande. |
-| `actionFrontControllerSetMedia` | Lorsqu'un contrôleur frontal définit ses actifs multimédias. | Injecte le JavaScript et le CSS spécifiques au module dans le front-office. |
-| `actionCartSave` | Lorsqu'un produit est ajouté ou retiré du panier. | Déclenche les événements `AddToCart` ou `RemoveFromCart`. |
-| `actionProductAdd` | Lorsqu'un produit est ajouté au panier (spécifique à certains thèmes/modules). | Hook alternatif ou supplémentaire pour les événements `AddToCart`. |
-| `actionProductUpdate` | Lorsqu'un produit est mis à jour dans le Back Office. | Potentiellement utilisé par le `Catalog Doctor` pour réévaluer la qualité des données produit. |
-| `actionObjectProductUpdateAfter` | Après la mise à jour d'un `ObjectModel` de produit. | Similaire à `actionProductUpdate`, pour les vérifications de qualité des données ou l'invalidation du cache. |
-| `actionObjectOrderAddAfter` | Après l'ajout d'un `ObjectModel` de commande. | Déclenche les événements `Purchase` côté serveur via l'API de Conversions, assurant un suivi robuste. |
-| `actionObjectOrderUpdateAfter` | Après la mise à jour d'un `ObjectModel` de commande. | Potentiellement pour suivre les changements de statut de commande (par exemple, remboursement, annulation) si configuré dans Microsoft Ads. |
-| `displayProductExtraContent` | Sur la page produit, souvent sous le contenu principal. | Peut être utilisé pour injecter des scripts de suivi spécifiques au produit ou des données pour les événements `ViewItem`. |
-| `displayFooter` | À la fin de la section `<body>` de chaque page du front-office. | Peut être utilisé pour le chargement différé de scripts ou des éléments de suivi supplémentaires. |
-| `actionAdminControllerSetMedia` | Lorsqu'un contrôleur d'administration définit ses actifs multimédias. | Injecte le JavaScript et le CSS spécifiques au module dans le Back Office pour la page de configuration. |
-| `actionAdminMybingAjaxController` | Hook personnalisé pour `AdminMybingAjaxController` afin de gérer des actions AJAX spécifiques. | Utilisé en interne pour les mises à jour dynamiques et la récupération de données dans les onglets de diagnostic du module. |
-| `actionModuleInstall` | Lors de l'installation du module. | Effectue la configuration initiale, crée les entrées de configuration et enregistre les hooks. |
-| `actionModuleUninstall` | Lors de la désinstallation du module. | Nettoie les entrées de configuration et désenregistre les hooks. |
-
-## 5. Support officiel et mises à jour
-
-Pour les dernières mises à jour du module, les corrections de bugs et le support officiel des développeurs, veuillez vous référer à votre compte client sur [MyPresta.eu](https://mypresta.eu/my-account/orders/). Notre équipe de support est disponible pour vous aider avec tout problème technique ou question concernant la fonctionnalité du module.
+1. Ouvrez **Modules > Module Manager**.
+2. Cliquez sur **Upload a module** et téléchargez le fichier ZIP.
+3. Installez **Microsoft Advertising UET / Conversions API**.
+4. Recherchez-le dans **Module Manager** et cliquez sur **Configure**.
+5. Complétez **Setup Wizard** ou configurez tous les onglets manuellement.
+
+Le module ne crée pas d'élément de menu **Catalog** visible. Son point de terminaison de données est un onglet back-office caché utilisé en interne.
+
+L'installation ne vide pas le cache PrestaShop. Effacez-le sous **Advanced Parameters > Performance** uniquement si d'anciens actifs ou un ancien écran de configuration restent visibles.
+
+La désinstallation supprime le journal des événements du module, les règles multi-balises, la file d'attente CAPI, le point de terminaison masqué et les clés de configuration du module. Les clés du vérificateur de mise à jour peuvent rester. La réinstallation démarre avec les paramètres par défaut et ne restaure pas les événements ou les règles supprimés.
+
+## 3. Configuration et travail de back-office
+
+Ouvrez **Modules > Module Manager**, recherchez **Microsoft Advertising UET / Conversions API** et cliquez sur **Configure**.
+
+Suivez ce processus :
+
+1. Complétez **Setup Wizard**.
+2. Confirmez le canal et les informations d'identification dans **Tracking mode**.
+3. Sélectionnez les signaux dans **Events**.
+4. Faites correspondre les ID de produit d'événement à votre flux dans **Catalog IDs**.
+5. Configurez **Privacy & consent**.
+6. Définissez le comportement de paiement et de remboursement dans **Order lifecycle**.
+7. Ajoutez **Multi-tag rules** uniquement pour les informations d'identification spécifiques au contexte.
+8. Planifiez l'URL CRON affichée toutes les 1 à 5 minutes lorsque CAPI est actif.
+9. Parcourez la vitrine et vérifiez les événements dans **Live Statistics** et **Health & diagnostics**.
+10. Confirmez les événements dans Microsoft Advertising.
+
+Les captures d'écran de ce manuel proviennent d'un back-office anglais.
+
+### 3.1 Assistant de configuration
+
+Utilisez l'assistant pour la première configuration. Il vous guide à travers **Mode**, **Tag ID**, **CAPI token**, **Test** et **Done**.
+
+![Setup Wizard](https://mypresta.eu/docs/images/docs/mybing-wizard.webp)
+
+| Champ | Au démarrage | Ce qu'il fait |
+|---|---|---|
+| **Mode** | Non sélectionné | Choisissez **UET Tag** pour le suivi du navigateur, **Conversions API** pour le suivi du serveur ou **UET + CAPI** pour les deux. Le mode double utilise un identifiant d'événement partagé pour la déduplication. |
+| **Tag ID** | Vide | Collez l'ID de Microsoft Advertising sous Balise UET ou Suivi des conversions. Il est requis dans tous les modes. |
+| **CAPI token** | Vide | En mode CAPI ou double, collez le jeton du porteur depuis la section API Conversions de la balise UET. Traitez-le comme un mot de passe. |
+| **Enable Ghost Collector (msclkid / anonymousId sync)** | Oui | Collectez les identifiants de clic Microsoft et de visiteurs anonymes dans des modes compatibles CAPI sans effectuer d'appels de suivi UET. Gardez-le activé pour une correspondance plus forte et une continuité de session. |
+| **Test** | Ne pas exécuter | En mode UET, validez l'ID de balise, puis vérifiez l'affichage d'une page de vitrine. Dans les modes compatibles CAPI, cliquez sur **Send test purchase** pour envoyer un achat test de 1 €. Attendez 10 à 30 minutes pour que Microsoft Advertising l'affiche. |
+| **Done** | Incomplet | Terminez la configuration et ouvrez les raccourcis vers **Tracking mode**, **Health & Data Quality Coach** ou **Live Statistics**. |
+
+Utilisez **Start over** pour réexécuter l'assistant. Les informations d'identification existantes restent pré-remplies jusqu'à ce qu'elles soient modifiées.
+
+### 3.2 Mode de suivi et informations d'identification
+
+Sélectionnez la manière dont tous les événements parviennent à Microsoft Advertising, remplissez les champs affichés pour ce mode, puis cliquez sur **Save**.
+
+![Tracking mode and credentials](https://mypresta.eu/docs/images/docs/mybing-tracking-mode.webp)
+
+| Champ | Au démarrage | Ce qu'il fait |
+|---|---|---|
+| **Tracking mode** | Non sélectionné | **UET Tag** envoie depuis le navigateur. **Conversions API** met en file d'attente les événements du serveur. **UET + CAPI** envoie les deux avec le même ID d'événement afin que Microsoft puisse les dédupliquer. |
+| **Tag ID(s)** | Vide | Saisissez un ID de balise UET et appuyez sur virgule ou sur Entrée. L'ID est requis pour l'UET, le CAPI et le mode double. |
+| **Conversions API token** | Vide | Collez le jeton du porteur de **Microsoft Advertising > UET tag > Use Conversions API > Copy Token**. |
+| **CAPI endpoint override (advanced)** | Vide | Laissez vide pour utiliser la destination standard de Microsoft. Définissez-le uniquement lorsque Microsoft documente un hôte personnalisé pour votre compte. |
+| **Ghost collector (CAPI)** | Oui | Capturez `msclkid` et l’ID de visiteur anonyme pour la correspondance CAPI. Il n'appelle pas le suivi UET. |
+| **Bing ID Sync (remarketing)** | Oui | Lorsque l'UET est actif, envoyez l'ID de visiteur anonyme via Bing ID Sync pour améliorer la correspondance de l'audience de remarketing. |
+
+Pour le mode CAPI ou double, copiez le **CRON URL** affiché sur votre planificateur et exécutez-le toutes les 1 à 5 minutes.
+
+### 3.3 Événements
+
+Sélectionnez et enregistrez d'abord un mode de suivi. Activez ensuite uniquement les signaux dont vous avez besoin et cliquez sur **Save**.
+
+![Tracked events](https://mypresta.eu/docs/images/docs/mybing-events.webp)
+
+| Champ | Au démarrage | Ce qu'il fait |
+|---|---|---|
+| **PAGE_VIEW** | Oui | Enregistrez chaque chargement de page de vitrine. Il prend en charge les rapports et l'attribution du trafic ; le désactiver n'arrête pas les autres événements. |
+| **view_item (+ select_item)** | Oui | Envoyez `view_item` sur les pages de produits et `select_item` lorsqu'un produit est cliqué dans une catégorie, une recherche ou des listes de best-sellers. |
+| **view_item_list** | Oui | Envoyez environ les 20 premiers produits à partir de listes de catégories, de recherches et de best-sellers avec des identifiants, des noms, des prix et des positions. Il possède son propre interrupteur. |
+| **add_to_cart** | Oui | Enregistrez les ajouts au panier. L'UET et le mode double utilisent l'événement cart natif ainsi qu'une solution de secours CSS facultative. Le mode CAPI uniquement utilise le chemin du serveur et ne nécessite pas de sélecteurs CSS. |
+| **REMOVE_FROM_CART (Microsoft: Other)** | Oui | Enregistrez les suppressions de panier sous **Other**, car Microsoft n’a pas de type natif de suppression du panier. |
+| **CHECKOUT** | Oui | Déclenchez-vous lorsque le client entre dans le panier ou dans le flux de commande et marquez l'intention d'achat. |
+| **CHECKOUT details** | Oui | Ajoutez de la valeur, de la devise et des données produit à **CHECKOUT**. Le désactiver envoie des paramètres minimaux. |
+| **ADD_PAYMENT_INFO (Microsoft: Other)** | Oui | Lancez l'étape de paiement comme **Other**. Utilisez-le comme signal facultatif de fin d'entonnoir pour les statistiques en direct. |
+| **purchase** | Oui | Envoyez **OffMicrosoftPurchases** avec la valeur de la commande, la devise et les lignes de produits. Un ID de déduplication client stable sécurise les actualisations. Utilisez **Order lifecycle** pour le retarder jusqu'au paiement. |
+| **SEARCH** | Oui | Enregistrez les recherches en vitrine avec le terme de recherche. |
+| **ADD_TO_WISHLIST (Microsoft: Other)** | Oui | Enregistrez les ajouts à la liste de souhaits sous **Other** lorsque le thème expose des contrôles compatibles. |
+| **SIGN_UP (Signup)** | Oui | Envoyez **Signup** lorsqu'un compte client est créé. |
+| **LEAD / SUBSCRIBE (newsletter)** | Oui | Envoyez **Lead** pour les abonnements à la newsletter. Désactivez-le si un autre outil suit la même conversion. |
+| **LEAD (legacy product interest)** | Non | Préservez l’ancien comportement du Lead par intérêt pour le produit. Laissez-le désactivé à moins qu'une campagne historique ne l'exige ; son utilisation avec `view_item` peut gonfler les câbles. |
+| **CONTACT** | Oui | Se déclenche lorsque le formulaire de contact est soumis, en utilisant la détection de secours du serveur et du navigateur. |
+| **REFUND (Microsoft: Other)** | Oui | Se déclenche lorsqu'une commande atteint un état de remboursement ou d'annulation configuré. Microsoft le reçoit sous le nom **Other** pour la correction locale et les statistiques. |
+| **Rich product payloads (productId / items)** | Oui | Incluez les identifiants de produits, les quantités et les prix. Le désactiver laisse un minimum de données de valeur/devise, sauf lorsque les événements de liste ou de clic nécessitent des identifiants. Gardez-le pour la correspondance du catalogue. |
+| **Add to cart CSS selector** | `.add-to-cart` | En UET et en mode double, identifiez le bouton de la page produit lorsque le thème ne déclenche pas l'événement de panier natif. |
+| **Product price CSS selector** | `.current-price span` | En UET et en mode dual, lisez le prix de repli visible. Un mauvais sélecteur envoie zéro ; combinez-le avec **Reformat price string** si nécessaire. |
+
+Pour CAPI, activez **Advanced matching (email / phone)** et **Ghost collector (CAPI)** pour une meilleure correspondance.
+
+### 3.4 ID de catalogue et ID de catalogue Doctor
+
+Faites en sorte que les ID de produit d'événement correspondent exactement à votre flux Microsoft Merchant Center, cliquez sur **Save**, puis examinez **Catalog ID Doctor**.
+
+![Catalog IDs and Catalog ID Doctor](https://mypresta.eu/docs/images/docs/mybing-catalog.webp)
+
+| Champ | Au démarrage | Ce qu'il fait |
+|---|---|---|
+| **Product identification** | `id_product` | Choisissez l'ID de produit, l'ID de combinaison ou l'ID de produit plus le séparateur et l'ID de combinaison. Les identifiants combinés conviennent aux flux qui répertorient les variantes. Un format de flux différent empêche la correspondance. |
+| **Separator** | `-` | Séparez les ID de produit et de combinaison en mode combiné. Le produit 12 et la combinaison 5 deviennent `12-5`. Utilisez le même séparateur dans l’alimentation. |
+| **Product ID prefix** | Vide par langue | Ajoutez une valeur spécifique à la langue avant chaque identifiant uniquement lorsque le flux l'utilise également. |
+| **Product ID suffix** | Vide par langue | Ajoutez une valeur spécifique à la langue après chaque identifiant uniquement lorsque le flux l'utilise également. |
+| **Exclude free products** | Non | Omettez les produits à prix nul du panier et achetez des gammes de produits et des calculs de valeur. |
+| **Force currency conversion** | Non | Convertissez toutes les valeurs monétaires dans une devise cible. Activez uniquement lorsque la devise du magasin n'est pas acceptée par Microsoft Advertising. |
+| **Target currency** | Sélection en fonction du magasin | Sélectionnez la devise de destination. Il est ignoré lorsque la conversion forcée est désactivée. |
+| **Reformat price string** | Non | En UET ou en mode double, nettoyez les prix des thèmes formatés avant que le remplacement CSS de l'ajout au panier ne les lise. Il n'est pas utilisé en mode CAPI uniquement. |
+
+**Catalog ID Doctor** affiche des exemples générés à partir d'un produit et d'une combinaison actifs, les ID récents trouvés dans les données d'événement et des conseils sur l'ID de base, le séparateur, le préfixe et le suffixe sélectionnés. S'il signale **No active products found to validate catalog productId values**, activez un produit et rouvrez l'onglet.
+
+### 3.5 Confidentialité et consentement
+
+Configurez d’abord une source de consentement externe. Le module n'affiche pas de bandeau cookie.
+
+![Privacy and consent](https://mypresta.eu/docs/images/docs/mybing-privacy.webp)
+
+| Champ | Au démarrage | Ce qu'il fait |
+|---|---|---|
+| **Require marketing / analytics consent** | Non | Bloquez UET, CAPI et Ghost jusqu'à ce que le consentement soit accordé. Sans CMP connectée, le suivi reste silencieux. |
+| **Default consent state** | `auto` | `auto` attend le consentement d'un cookie, d'un TCF ou d'un événement de navigateur ; `grant` permet immédiatement ; `revoke` se bloque jusqu'à ce qu'il soit accordé. Utilisez `auto` avec une bannière et `grant` uniquement avec une base légale appropriée. |
+| **IAB TCF 2.x (__tcfapi)** | Oui | Écoutez un CMP certifié. L’objectif 1 et l’un des objectifs 2, 3 ou 4 déverrouillent les publicités et mettent à jour le consentement au stockage de publicités Microsoft UET. |
+| **Include logged-in customer ID** | Non | Ajoutez l'ID client PrestaShop au contexte de connexion et aux diagnostics en tant que signal d'identification externe facultatif. Divulguez-le dans la politique de confidentialité. |
+| **Advanced matching (email / phone)** | Non | Envoyez des e-mails et des champs e-mail/téléphone hachés disponibles pour une meilleure attribution UET et CAPI. Assurez-vous que la politique de confidentialité couvre cela. Il est fortement recommandé pour le CAPI. |
+| **Ignore admin / employee traffic** | Oui | Ignorez le suivi de la vitrine lorsqu'une session d'employé est détectée. |
+| **Simple bot filter** | Non | Ignorez les requêtes dont l’identification du navigateur ressemble à un robot ou à un robot. C'est heuristique. |
+
+Pour une configuration dans l'UE, configurez le CMP, utilisez `auto`, activez le consentement requis et laissez le TCF activé lorsqu'il est pris en charge. Testez à la fois l'acceptation et le refus dans un navigateur privé. Le guide reconnaît les cookies marketing/statistiques courants, son propre cookie de consentement et son résultat TCF. Les rappels Cookiebot sont directement pris en charge ; d’autres CMP peuvent envoyer l’événement de consentement du module.
+
+### 3.6 Cycle de vie des commandes
+
+Contrôlez le moment où les ventes et les remboursements entrent dans les rapports de conversion.
+
+![Order lifecycle](https://mypresta.eu/docs/images/docs/mybing-orders.webp)
+
+| Champ | Au démarrage | Ce qu'il fait |
+|---|---|---|
+| **Purchase only when paid** | Non | Retardez l’achat jusqu’à ce qu’un état de commande soit payé. Activez-le lorsque les virements bancaires impayés ou les commandes contre remboursement gonflent les conversions. |
+| **Paid statuses** | Vide | Sélectionnez une liste blanche facultative d’états payants. Laissez vide pour utiliser l’indicateur payant intégré de PrestaShop. Une liste remplie est utilisée lorsque le suivi payant uniquement est activé. |
+| **Refund / cancel statuses** | Vide | Sélectionnez les États qui déclenchent le remboursement. Empty utilise la détection automatique à partir des noms de statut contenant un remboursement ou une annulation. L'événement Remboursement doit également être activé. |
+
+Pour les paiements différés, activez le suivi des paiements uniquement, déplacez une commande test vers l'état payé et vérifiez que l'achat apparaît une fois.
+
+### 3.7 Règles multi-balises
+
+Utilisez des règles lorsqu'un magasin, une langue, un pays ou une devise nécessite des informations d'identification différentes. La première règle active correspondante l'emporte dans l'ordre croissant **Position**. Sans correspondance, les informations d'identification globales sont utilisées.
+
+![Multi-tag rules](https://mypresta.eu/docs/images/docs/mybing-multitag.webp)
+
+La liste **Active rules** affiche **Tag ID**, la source du jeton CAPI, **Shop**, **Language**, **Country**, **Currency**, **Active** et **Actions**. Cliquez sur **Delete** et confirmez pour supprimer une règle. Il n'y a pas de modification ou d'actions groupées ; recréer une règle pour la changer.
+
+| Champ | Au démarrage | Ce qu'il fait |
+|---|---|---|
+| **Tag ID (UET)** | Vide | Définissez la balise UET pour faire correspondre le trafic. Il peut être vide uniquement pour un remplacement CAPI de jeton uniquement. |
+| **Conversions API token** | Vide | Remplacez le jeton global. Empty hérite du jeton de **Tracking mode**. |
+| **Shop** | **All shops** | Limitez la règle à un magasin multimagasin ou à tous les magasins. |
+| **Language** | **All languages** | Limitez-le à une seule langue de vitrine ou à toutes les langues. |
+| **Country** | **All countries** | Limitez-le au contexte actuel du pays client. |
+| **Currency** | **All currencies** | Limitez-le à la devise actuelle. |
+| **Active** | Oui | Activez ou désactivez la règle. Les règles inactives sont ignorées. |
+| **Position** | `0` | Définir l’ordre d’évaluation. Les nombres inférieurs gagnent lorsque plusieurs règles correspondent. |
+
+Cliquez sur **Add rule**. **Property rule saved** confirme son succès. Si **Could not save rule — provide a valid Tag ID and/or Conversions API token.** apparaît, corrigez l'ID de balise ou fournissez un jeton.
+
+### 3.8 Statistiques en direct
+
+Ouvrez cet onglet dans une fenêtre et parcourez la vitrine dans une autre. Les événements apparaissent sur la chronologie en temps réel de 30 minutes.
+
+![Live Statistics](https://mypresta.eu/docs/images/docs/mybing-live.webp)
+
+**Recovery Radar** affiche les achats sans ajout au panier, l'ajout au panier sans vues détaillées du produit, les remboursements par rapport aux achats et la récupération CAPI/Ghost. Utilisez les cases à cocher d'événement pour filtrer la chronologie ; PageView est masqué par défaut. **Pause** arrête l'interrogation sans arrêter le suivi et **Refresh** récupère les données actuelles.
+
+| Champ | Au démarrage | Ce qu'il fait |
+|---|---|---|
+| **Enable live dashboard** | Oui | Activez ou désactivez l’interrogation de la chronologie. Le désactiver met le flux en pause, tandis que le suivi et les enregistrements de santé/radar se poursuivent. |
+| **Also log PageView into the event database** | Non | Ajoutez des lignes PageView bruyantes au journal local. Il ne contrôle pas le déclenchement de Microsoft PageView ou d'autres journaux d'événements. Activer uniquement pour le débogage. |
+| **Keep events for (days)** | `14` | Purger les lignes plus anciennes que cet âge. Les valeurs acceptées sont comprises entre 1 et 365 ; 7 à 30 est typique. |
+| **Live poll interval (seconds)** | `5` | Sondez toutes les 2 à 60 secondes. Les valeurs inférieures sont plus rapides mais créent davantage de demandes de back-office. |
+
+Utilisez **Purge older than retention**, **Delete failed only** ou **Clear entire event log** pour un nettoyage immédiat. Tout effacer nécessite une confirmation et ne peut pas être annulé. **Export recent events (CSV)** télécharge les enregistrements récents non-PageView.
+
+### 3.9 Santé et diagnostics
+
+Utilisez cet onglet après la configuration et chaque fois que des conversions sont manquantes.
+
+![Health and diagnostics](https://mypresta.eu/docs/images/docs/mybing-health.webp)
+
+Mode d'audit **Health Score**, informations d'identification, fraîcheur de la file d'attente, Ghost, PageView, consentement, TCF, achat, déduplication, erreurs récentes, format du catalogue et qualité des données. Lisez chaque vérification échouée, pas seulement l'étiquette **Excellent**, **Good**, **Fair** ou **Needs work**.
+
+Pour CAPI, planifiez **CAPI CRON URL** toutes les 1 à 5 minutes. Examinez **Last CAPI flush**, les lignes traitées, envoyées, en attente, en échec, les totaux de file d'attente et les lignes datant de plus de 10 minutes.
+
+**Data Quality Coach** estime la couverture correspondante à partir des charges utiles récentes du serveur ou d'un échantillon d'achat en cours. Il répertorie les identifiants présents et manquants, les améliorations attendues, les moyennes par événement et les correctifs au niveau du magasin. Améliorez l'identification anonyme, `msclkid`, la correspondance avancée e-mail/téléphone et l'identifiant client facultatif, le cas échéant. Confirmez les diagnostics finaux dans Microsoft Advertising.
+
+| Champ | Au démarrage | Ce qu'il fait |
+|---|---|---|
+| **Enable front debug inspector** | Non | Affichez une superposition de vitrine flottante avec les événements, les charges utiles, la destination CAPI, l'état de la file d'attente et les erreurs. Éteignez-le après le test. Ajoutez temporairement `?mybing_debug=1` à une URL de vitrine pour l'activer sans enregistrer. |
+
+Sous **Test & queue** :
+
+- **Send test purchase** envoie une conversion test ; vérifiez Microsoft Advertising après 10 à 30 minutes.
+- **Test CAPI token** vérifie que l'ID de balise et le jeton sont présents.
+- **Process CAPI queue** exécute le même chemin de file d'attente que CRON.
+
+**Recent events log** affiche l'événement, l'ID, le canal, l'état, la réponse/erreur, la date et le résultat. Utilisez **Re-send** pour une tentative immédiate ou **Re-add to queue** pour la prochaine exécution CRON.
+
+**Recent queue rows** affiche les détails de l'événement, l'état, les tentatives, la dernière erreur et l'heure de mise à jour. Utilisez des actions par ligne ou **Re-send all failed now** et **Re-add all failed to queue**.
+
+### 3.10 Mises à jour
+
+Recherchez une version plus récente du module ici.
+
+![Updates](https://mypresta.eu/docs/images/docs/mybing-updates.webp)
+
+| Champ | Au démarrage | Ce qu'il fait |
+|---|---|---|
+| **Manual Check** | Aucun résultat | Cliquez sur **Check Now** pour contacter le service de mise à jour une fois. Il affiche **Module is up to date!** ou **New version available!**. |
+| **Automatic Notifications** | Préférence de mise à jour partagée existante | **Enabled** vérifie environ tous les trois jours et peut avertir les employés. **Disabled** quitte le manuel de gestion des mises à jour. |
+| **Product Page** | Lien affiché | Ouvrez la page officielle du module pour obtenir des informations sur la version, la documentation et l'accès au support. |
+
+Cliquez sur **Save** après avoir modifié les notifications.
+
+## 4. Vitrine de magasin
+
+Le module n'ajoute aucun bloc de vitrine, formulaire, bouton ou page de compte client visible. Les clients utilisent les écrans normaux de produit, de panier, de paiement, d’inscription, de newsletter, de contact et de confirmation.
+
+Les pages produits contiennent un bloc de données produit masqué utilisé par le suivi. Cela ne modifie pas le thème visible. Lorsque le débogage est activé, un inspecteur flottant devient visible ; désactivez-le après le test car il expose les détails de suivi.
+
+Pour CAPI, copiez **CAPI CRON URL** depuis **Tracking mode** ou **Health & diagnostics** dans le planificateur d'hébergement et exécutez-le toutes les 1 à 5 minutes. L'URL protégée traite les événements mis en file d'attente et la rétention. Ne le publiez pas car il contient une clé d'accès.
+
+Le point de terminaison des données de vitrine est appelé automatiquement pour les actions de consentement, d’ID de visiteur, de panier, d’affichage de page, de paiement, de contact et de débogage. Ne le construisez pas et ne l’ouvrez pas manuellement.
+
+| Message visible | Que faire |
+|---|---|
+| L'inspecteur de débogage affiche le consentement refusé | Acceptez le consentement marketing via la CMP ou réparez la connexion CMP. |
+| L'inspecteur de débogage affiche la file d'attente | Exécutez CRON ou **Process CAPI queue**, puis vérifiez **Health & diagnostics**. |
+| L'inspecteur de débogage indique un échec | Lisez la réponse dans **Health & diagnostics**, corrigez les informations d'identification ou la connectivité, puis cliquez sur **Re-send**. |
+
+## 5. Problèmes
+
+| Symptôme | Cause et action |
+|---|---|
+| L'assistant reste incomplet | Enregistrez un mode, un ID de balise et un jeton valides, le cas échéant ; exécutez **Test** et terminez **Done**. |
+| Aucun événement UET n'apparaît | Enregistrez un ID de balise valide, incluez l'UET dans le mode, activez l'événement, examinez le consentement et testez dans une session client privée. |
+| **Missing Tag ID and/or Conversions API token** | Entrez les deux dans **Tracking mode**, enregistrez et exécutez à nouveau **Test CAPI token**. |
+| Les événements CAPI restent en file d'attente | Planifiez **CAPI CRON URL** toutes les 1 à 5 minutes, cliquez une fois sur **Process CAPI queue** et inspectez **Last CAPI flush**. |
+| Le test CAPI ou le renvoi échoue | Lisez **Response / error**, corrigez l'ID de balise/le jeton/la connectivité, laissez le remplacement du point de terminaison vide à moins que Microsoft n'en fournisse un, puis réessayez. |
+| Le suivi s'arrête une fois le consentement requis | Configurez le CMP externe, utilisez `auto`, connectez le TCF ou ses rappels, puis acceptez le consentement marketing et retestez. |
+| Les produits du catalogue ne correspondent pas | Alignez **Product identification**, le séparateur, le préfixe et le suffixe avec le flux et examinez **Catalog ID Doctor**. |
+| Les achats apparaissent avant le paiement | Activez **Purchase only when paid** et sélectionnez éventuellement les états payés exacts. |
+| Les commandes payantes ne créent pas d'achat | Activez **purchase** et assurez-vous que l’état de la commande est payé ou inclus dans **Paid statuses**. |
+| Les remboursements n'apparaissent pas | Activez le remboursement et sélectionnez le bon **Refund / cancel statuses**. |
+| Vos tests sont ignorés | Utilisez un navigateur privé sans session employé ou désactivez temporairement **Ignore admin / employee traffic**. |
+| Le trafic de test de type robot est absent | Désactivez **Simple bot filter** pour le test, puis restaurez-le si nécessaire. |
+| L'ajout au panier UET est absent | Mettez à jour les sélecteurs CSS de bouton et de prix pour qu'ils correspondent au thème. |
+| La valeur de l'ajout au panier est nulle ou mal formée | Corrigez le sélecteur de prix et activez **Reformat price string** si nécessaire. |
+| Étape de paiement L'autre événement est absent bien que son commutateur soit Oui | Le thème ou l'étape de paiement n'a pas déclenché le chemin du module. Traitez ce signal comme facultatif et vérifiez l’entonnoir restant. |
+| Les statistiques en direct attendent les événements | Activez le tableau de bord, reprenez-le, supprimez les filtres, cliquez sur **Refresh** et parcourez la vitrine en tant que client. |
+| PageView atteint Microsoft mais est absent localement | Activer temporairement la journalisation PageView locale ; il est désactivé par défaut. |
+| Des informations d'identification multi-tags incorrectes sont utilisées | Supprimez/recréez les règles qui se chevauchent et attribuez à la plus spécifique la position la plus basse. |
+| La règle ne peut pas être enregistrée | Fournissez un ID de balise et/ou un jeton valide, puis cliquez sur **Add rule**. |
+| Santé met en garde contre la qualité des données | Suivez **Highest-impact fixes**, activez la correspondance Ghost et Advanced lorsque cela est légal et collectez des données téléphoniques de paiement valides. |
+| L'écran du module semble obsolète | Videz le cache sous **Advanced Parameters > Performance** et rechargez. |
+
+## 6. Référence du développeur
+
+### 6.1 Architecture
+
+Le nom technique est `mybing`, version `1.4.0`. La classe principale est `mybing extends Module` ; le nom de la liste est **Microsoft Advertising UET / Conversions API**, auteur `MyPresta.eu`, catégorie `front_office_features`.
+
+`MybingTrackerFactory` sélectionne `MybingUetTracker`, `MybingCapiTracker` ou `MybingHybridTracker`. `MybingEvents` crée des événements ; `MybingEventId` génère et conserve les ID de déduplication. `MybingProductIdResolver`, `MybingCurrencyHelper` et `MybingUserData` normalisent les données de catalogue, d'argent et d'identité. `MybingCapiClient` crée des requêtes, les envoie et gère les tentatives. Diagnostics d'alimentation `MybingLiveStats`, `MybingHealthScore`, `MybingDataQualityCoach` et `MybingCatalogDoctor`.
+
+Le mode double partage un ID d'événement entre les canaux du navigateur et du serveur. Le point de terminaison par défaut est `https://capi.uet.microsoft.com/v1/{tagId}/events`. Chaque appel CRON traite jusqu'à 50 lignes de file d'attente et applique la rétention.
+
+### 6.2 Fichiers et classes
+
+| Fichier ou classe | Responsabilité |
+|---|---|
+| `mybing.php` | Installation/désinstallation, valeurs par défaut, formulaires, actions, CRON, configuration frontale et hooks. |
+| `classes/MybingTrackerInterface.php` | Contrat de traqueur. |
+| `classes/MybingTrackerFactory.php` | Résolution de changement de mode et d’événement. |
+| `classes/MybingUetTracker.php` | Charges utiles du navigateur et enregistrements UET locaux. |
+| `classes/MybingCapiTracker.php` | Livraison du serveur et mise en file d'attente. |
+| `classes/MybingHybridTracker.php` | Double sortie et déduplication. |
+| `classes/MybingCapiClient.php` | Charges utiles, cURL, réponses, file d'attente, tentatives et résumés de vidage. |
+| `classes/MybingEvents.php` | Mise en place d'événements commerciaux. |
+| `classes/MybingEventMap.php` | Carte des événements internes à Microsoft. |
+| `classes/MybingEventId.php` | ID d’événement, déduplication et guérison des tables d’événements. |
+| `classes/MybingUserData.php` | ID de clic/visiteur, données client, normalisation et hachage. |
+| `classes/MybingConsent.php` | Exigence de consentement, valeurs par défaut, cookies et TCF. |
+| `classes/MybingPropertyRules.php` | Schéma de règles contextuelles, correspondance et résolution des informations d'identification. |
+| `classes/MybingProductIdResolver.php` | Génération d’ID de catalogue. |
+| `classes/MybingCurrencyHelper.php` | Contexte monétaire et conversion. |
+| `classes/MybingLiveStats.php` | Flux, résumés, radar, rétention et nettoyage. |
+| `classes/MybingHealthScore.php` | Vérifications d’état pondérées et diagnostics de file d’attente. |
+| `classes/MybingDataQualityCoach.php` | Estimations de la couverture identitaire. |
+| `classes/MybingCatalogDoctor.php` | Échantillons et identifiants de produits récents. |
+| `controllers/admin/AdminMybingAjaxController.php` | Pont de back-office JSON authentifié. |
+| `controllers/front/ajax.php` | Point de terminaison JSON de suivi protégé par jeton. |
+| `controllers/front/cron.php` | Point de terminaison JSON de file d’attente protégée par clé. |
+| `views/js/mybing.js` | Principales reliures avant et expédition. |
+| `views/js/mybing-tcf.js` | Pont de consentement TCF. |
+| `views/js/mybing-ghost.js` | Synchronisation visiteur/ID de clic. |
+| `views/js/mybing-debug.js` | Inspecteur avant. |
+| `views/js/mybing-admin.js`, `mybing-wizard.js`, `mybing-live.js` | Formulaires de back-office, assistant et tableau de bord en direct. |
+| `views/templates/hook/header.tpl` | UET, consentement, correspondance, page vue, événements, script et ID Sync. |
+| `views/templates/hook/product-details.tpl` | Produit caché JSON. |
+| `views/templates/hook/displayOrderConfirmation.tpl` | Sortie d'achat du navigateur. |
+| `views/templates/hook/capi-pageview.tpl`, `ghost.tpl`, `debug.tpl` | Affichage de la page CAPI, Ghost et sortie de l'inspecteur. |
+| `views/templates/hook/payment.tpl` | Modèle d'événement de paiement non invoqué par un gestionnaire de hook dans la version 1.4.0. |
+| `sql/install.php`, `sql/uninstall.php` | Créez/réparez et supprimez des tables personnalisées. |
+| `lib/updateChecker.php` | Vérifications de mise à jour manuelles et périodiques. |
+
+### 6.3 Contrôleurs
+
+`AdminMybingAjaxController extends ModuleAdminController` est installé en tant qu'onglet caché `AdminMybingAjax` avec le parent `-1`. Il nécessite un employé et émet du JSON. Actions : `liveFeed`, `liveRadar`, `liveClear`, `wizardSave`, `wizardTest`, `wizardComplete`, `wizardReset`, `dqReport`/`emqReport` et `exportCsv`.
+
+`MybingAjaxModuleFrontController extends ModuleFrontController` est SSL et JSON uniquement. Il accepte la clé sécurisée ou le jeton frontal généré. Actions : `ghost`, `consent`, `addToCart`, `removeFromCart`, `wishlist`, `selectItem`, `contact`, `beginCheckout`, `recalculate`, `pageview`, `ping` et `inspect` de débogage uniquement. Les erreurs incluent `invalid_token`, `disabled`, `empty_cart`, `invalid_currency`, `disabled_or_consent`, `debug_off` et `unknown_action`.
+
+`MybingCronModuleFrontController` accepte `key` ou `secure_key`, renvoie JSON, émet HTTP 403 avec `access_denied` pour un accès non valide et appelle `runCapiCron()`.
+
+`controllers/front/index.php` envoie uniquement des en-têtes sans cache et redirige vers le haut.
+
+### 6.4 Crochets
+
+| Crochet enregistré | Mise en œuvre |
+|---|---|
+| `displayHeader` | Filtre le trafic ; envoie des signaux de page, de liste, de produit, de paiement, de recherche, de contact et de newsletter ; restitue la sortie UET/Ghost/CAPI. |
+| `displayOrderConfirmation` | Résout la commande, suit les achats autorisés, restitue la sortie du navigateur. |
+| `actionValidateOrder` | Suit l'achat lors de la création, à moins que le paiement ne le retarde. |
+| `actionOrderStatusPostUpdate` | Suit les achats payés retardés et les transitions de remboursement/annulation. |
+| `actionCustomerAccountAdd` | Suit l'inscription et stocke la sortie du navigateur pour la page suivante. |
+| `actionFrontControllerSetMedia` | Ajoute la configuration frontale et les ressources principales, TCF, Ghost et de débogage. |
+| `displayPaymentTop` | Enregistré, mais `hookDisplayPaymentTop()` n'est pas implémenté dans la version 1.4.0. |
+| `displayFooter` | Rend l'inspecteur de débogage et l'amorçage de la file d'attente lorsqu'ils sont activés. |
+| `actionCartUpdateQuantityBefore`, `actionBeforeCartUpdateQty` | Suivre les changements de quantité du panier du serveur ; ce dernier délègue au premier. |
+| `actionObjectProductInCartDeleteBefore`, `actionObjectProductInCartDeleteAfter` | Instantané, puis suivez la suppression complète de la ligne de panier. |
+| `displayProductAdditionalInfo` | Affiche les détails cachés du produit. |
+| `actionNewsletterRegistrationAfter` | Suit le responsable de la newsletter. |
+| `displayContactContent` | Ajoute le marqueur de contact masqué. |
+
+Il n’existe pas de méthodes `enable()` ou `disable()` personnalisées.
+
+### 6.5 Base de données
+
+Le préfixe PrestaShop actuel remplace `ps_`.
+
+| Tableau | Contenu |
+|---|---|
+| `ps_mybing_events` | Nom/ID de l'événement, commande/panier/boutique, canal, charge utile, statut, code HTTP, réponse, date, index de recherche et clé de déduplication unique de l'événement/nom/boutique. |
+| `ps_mybing_properties` | Sélecteurs de balise, de jeton, de boutique/langue/pays/devise, actif, position et date. |
+| `ps_mybing_queue` | Charge utile, tentatives, statut, dernière erreur, dates de création/mise à jour. |
+
+Nouvelles tentatives d'installation avec `utf8` si `utf8mb4` échoue. `MybingPropertyRules::ensureSchema()` peut ajouter `tag_id` et `access_token` lorsque la configuration est ouverte et migrer un jeton d'actualisation hérité. Le schéma d'événement ajoute son index unique. La désinstallation supprime les trois tables.
+
+### 6.6 Clés de configuration
+
+| Clés | Valeurs par défaut et objectif |
+|---|---|
+| `MYBING_MODE` | Vide; mode traqueur. |
+| `MYBING_TAG_ID`, `MYBING_CAPI_TOKEN`, `MYBING_CAPI_ENDPOINT` | Vide; informations d'identification/destination mondiales. |
+| `MYBING_MSCLKID_DAYS`, `MYBING_ID_SYNC` | `90`, `1` ; Durée de vie Click-ID et ID Sync. |
+| `MYBING_PAGEVIEW`, `MYBING_PURCHASE`, `MYBING_PURCHASE_PAID_ONLY` | `1`, `1`, `0`. |
+| `MYBING_LEAD`, `MYBING_LEAD_N`, `MYBING_INITIATE`, `MYBING_INITIATE_D` | `0`, `1`, `1`, `1`. |
+| `MYBING_SEARCH`, `MYBING_ADDTOCART`, `MYBING_REMOVECART`, `MYBING_WISHLIST` | Tous les `1`. |
+| `MYBING_ADDPAYMENT`, `MYBING_CONTACT`, `MYBING_REFUND` | Tous les `1`. |
+| `MYBING_DPA`, `MYBING_VCONTENT`, `MYBING_VIEW_ITEM_LIST`, `MYBING_REG` | Tous les `1`. |
+| `MYBING_ATTRID`, `MYBING_SEPSIGN`, `MYBING_PREFIX`, `MYBING_SUFIX` | `0`, `-`, vide par langue, vide par langue. |
+| `MYBING_EXFREE`, `MYBING_ATC_B`, `MYBING_ATC_PPP`, `MYBING_PREPRICE` | `0`, `.add-to-cart`, `.current-price span`, `0`. |
+| `MYBING_CONCURR`, `MYBING_CURRSELECT` | `0`, `0`. |
+| `MYBING_CONSENT_REQUIRED`, `MYBING_CONSENT_MODE`, `MYBING_TCF` | `0`, `auto`, `1`. |
+| `MYBING_GHOST`, `MYBING_USER_ID`, `MYBING_ENHANCED_CONV` | `1`, `0`, `0`. |
+| `MYBING_IGNORE_ADMIN`, `MYBING_BOT_FILTER`, `MYBING_DEBUG` | `1`, `0`, `0`. |
+| `MYBING_PAID_STATUSES`, `MYBING_REFUND_STATUSES` | ID d'état vides, séparés par des virgules. |
+| `MYBING_STATS_ENABLED`, `MYBING_STATS_RETENTION`, `MYBING_STATS_POLL`, `MYBING_STATS_LOG_PV` | `1`, `14`, `5`, `0`. |
+| `MYBING_WIZARD_DONE`, `MYBING_WIZARD_REDO` | `0`, `0`. |
+| `MYBING_INSTALL_SQL_WARN`, `MYBING_INSTALL_ERROR` | Diagnostics d'installation d'exécution. |
+| `MYBING_LAST_FLUSH` | Résumé du vidage JSON d’exécution ; pas dans la liste des clés de désinstallation. |
+
+L'installation/désinstallation supprime également les anciens `MYBING_CAPI_AUTH_CLIENT_ID`, `MYBING_CAPI_AUTH_CLIENT_SECRET`, `MYBING_CAPI_AUTH_REFRESH_TOKEN`, `MYBING_CAPI_AUTH_ACCESS_TOKEN`, `MYBING_CAPI_AUTH_ACCESS_EXPIRES`, `MYBING_PROFILE_ID`, `MYBING_CAPI_REGION`, `MYBING_CAPI_COUNTRY`, `MYBING_ATC_PC`, `MYBING_ATC_PP`, `MYBING_LINKER_DOMAINS` et `MYBING_ADS_ID`. `MYBING_DEBUG_MODE` est purgé lors de l'installation mais est absent de la liste de désinstallation.
+
+Le programme de mise à jour utilise `mypresta_updates`, `update_mybing` et `updatev_mybing` ; ceux-ci peuvent rester après la désinstallation. `mypresta_updates` est partagé.
+
+### 6.7 Désinstallation, traductions et extension
+
+`uninstall()` supprime l'onglet masqué, supprime toutes les tables de modules, supprime les valeurs `getConfigurationKeys()` et les diagnostics d'installation, puis appelle `parent::uninstall()`. Il ne supprime pas les clés de mise à jour ni `MYBING_LAST_FLUSH`.
+
+Il n'y a pas de remplacement PrestaShop. Les traductions vivent dans `translations/{iso}.php` ; la plupart des chaînes d'interface utilisateur utilisent `$this->l()` ou Smarty `{l}`, tandis que les noms d'événements et certains diagnostics de classe restent en anglais.
+
+Les thèmes peuvent repositionner les hooks pris en charge et styliser l'inspecteur, mais le bloc de produit est intentionnellement masqué. Conservez les attributs de données et les scripts lors du remplacement des modèles de hook. Un CMP personnalisé peut envoyer `mybing.consent` avec l'autorisation `1` ou `0`, ou fournir un signal reconnu par `MybingConsent`.
+
+## 7. Aide
+
+Ouvrez la page du module : https://mypresta.eu/modules/advertising-and-marketing/microsoft-advertising-uet-tag-conversions-api.html
+
+Connectez-vous à votre compte client sur mypresta.eu, ouvrez la page de contact et choisissez **Support for paid modules**. La connexion est requise ; sélectionnez ensuite ce module dans votre historique d'achat et incluez le mode de suivi, l'erreur visible et le résultat du diagnostic.

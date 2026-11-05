@@ -1,8 +1,8 @@
 ---
-title: "EU Return Button – Online Withdrawal Form - Merchant Manual & Configuration Guide"
-description: "Complete user manual, screen-by-screen setup guide, and developer reference for the EU Return Button – Online Withdrawal Form PrestaShop module by MyPresta.eu."
+title: "Return Button Pro - documentation and user manual"
+description: "Configure the EU withdrawal form, manage cases in the back office, and fix common problems for shop owners who already use Return Button Pro."
 sidebar:
-  label: "EU Return Button – Online Withdrawal Form - Merchant Manual & Configuration Guide"
+  label: "Return Button Pro - documentation and user manual"
 ---
 
 > ⚠️ **Notice:** This is the official documentation for the PrestaShop module.
@@ -12,513 +12,411 @@ sidebar:
 > ---
 
 
-# EU Return Button – Online Withdrawal Form
-
-## 1. Requirements & Compatibility
-
-- **Supported PrestaShop Versions**: PrestaShop 1.6.x, 1.7.x, 8.x, 9.x
-- **PHP Compatibility**: PHP 5.6 - 8.5
-- **Hosting Requirements**: Standard PHP extensions (cURL, JSON, OpenSSL) are required, which are typically available on most modern hosting environments.
-
-## 2. Complete Configuration Walkthrough (Every Setting Grouped by Screen)
-
-### 2.1 Module Configuration Page (Back Office > Modules > Configure)
-
-This is the main configuration screen where you control the general behavior and appearance of the return button and form.
-
-#### General Settings Tab
-
-- **Enable Module:**
-
-  - **What this setting does:** This is the master switch for the entire module.
-  - **Effect of changing this setting:**
-    - *When enabled:* The return button and online withdrawal form become active and visible to customers according to your other settings.
-    - *When disabled:* The module is completely deactivated. The button will not appear, and the forms will not be accessible.
-  - **Recommended value:** YES
-  - **Merchant scenario / example:** You would disable this only if you temporarily want to stop offering online returns, perhaps during maintenance or a policy change.
-- **Display Return Button In:**
-
-  - **What this setting does:** Determines where the main “Return” or “Withdrawal” button will appear on your store’s front office. You can select multiple locations.
-  - **Effect of changing this setting:**
-    - *When selected (e.g., Header):* A button will appear in the chosen location, providing a direct link to the return form.
-    - *When unselected:* The button will not appear in that specific location.
-  - **Recommended value:** Header and/or Footer for easy access, and Product Page to inform customers upfront.
-  - **Merchant scenario / example:** If you want customers to easily find the return option from any page, enable “Header” and “Footer”. If you want to emphasize your return policy on product pages, enable “Product Page”.
-- **Button Text:**
-
-  - **What this setting does:** Allows you to customize the text displayed on the return button.
-  - **Effect of changing this setting:** The text on the button will change to your specified value.
-  - **Recommended value:** “Return Request”, “Online Withdrawal Form”, or “Start a Return”.
-  - **Merchant scenario / example:** You might change it from “Return” to “Withdrawal Form” to align with specific legal terminology in your region.
-- **Minimum Order Status for Withdrawal:**
-
-  - **What this setting does:** Defines the earliest order status at which a customer can initiate a return request for an order. Orders with a status below this will not be eligible.
-  - **Effect of changing this setting:**
-    - *When set to “Payment accepted”:* Customers can only request a return once their payment has been successfully processed.
-    - *When set to “Shipped”:* Customers can only request a return after their order has been marked as shipped.
-  - **Recommended value:** “Payment accepted” or “Shipped”, depending on your policy.
-  - **Merchant scenario / example:** If you only accept returns for items that have actually been paid for and processed, set this to “Payment accepted”. If you only accept returns for items that have already left your warehouse, set it to “Shipped”.
-- **Maximum Days for Withdrawal:**
-
-  - **What this setting does:** Sets the maximum number of days after an order is placed (or shipped, depending on your policy) during which a customer can submit a return request.
-  - **Effect of changing this setting:**
-    - *When set to 14:* Customers have 14 days from the order date to request a return. After 14 days, the option will no longer be available for that order.
-    - *When set to 30:* Customers have 30 days.
-  - **Recommended value:** 14 (for standard EU compliance) or 30 (if you offer an extended return period).
-  - **Merchant scenario / example:** To comply with the standard 14-day EU right of withdrawal, set this to 14. If you offer a more generous policy, you can extend it to 30 or more.
-- **Allow Guest Withdrawals:**
-
-  - **What this setting does:** Determines whether customers who checked out as guests (without creating an account) can use the online withdrawal form.
-  - **Effect of changing this setting:**
-    - *When enabled:* Guest customers can access the form by providing their order reference and email address.
-    - *When disabled:* Only registered customers who are logged in can initiate a return.
-  - **Recommended value:** YES (for maximum customer convenience and EU compliance).
-  - **Merchant scenario / example:** Enabling this ensures that all customers, regardless of their checkout method, can easily initiate a return, which is crucial for compliance and customer satisfaction.
-- **Allow Attachments:**
-
-  - **What this setting does:** Allows customers to upload files (e.g., photos of damaged products, proof of purchase) when submitting their return request.
-  - **Effect of changing this setting:**
-    - *When enabled:* An upload field will appear on the form.
-    - *When disabled:* Customers cannot upload files.
-  - **Recommended value:** YES (especially for products where visual proof might be needed for damage or defects).
-  - **Merchant scenario / example:** If you sell fragile items, allowing attachments helps customers quickly provide evidence of damage, speeding up the resolution process.
-- **Attachment Max Size (MB):**
-
-  - **What this setting does:** Sets the maximum file size for each attachment a customer can upload.
-  - **Effect of changing this setting:** Files larger than this limit will be rejected by the form.
-  - **Recommended value:** 2-5 MB.
-  - **Merchant scenario / example:** Setting a reasonable limit prevents customers from uploading excessively large files that could slow down your server or email system.
-- **Attachment Allowed Extensions (comma separated):**
-
-  - **What this setting does:** Specifies which file types (e.g., jpg, png, pdf) customers are allowed to upload.
-  - **Effect of changing this setting:** Only files with these extensions will be accepted.
-  - **Recommended value:** jpg, jpeg, png, gif, pdf.
-  - **Merchant scenario / example:** Limiting to common image and document formats ensures you receive usable files and prevents malicious uploads.
-- **Require Status Message:**
-
-  - **What this setting does:** When you change the status of a return request in the back office, this setting determines if you are required to add a message to the customer.
-  - **Effect of changing this setting:**
-    - *When enabled:* An input field for a message will be mandatory when updating a return status.
-    - *When disabled:* You can change statuses without adding a message.
-  - **Recommended value:** YES (for clear communication and audit trails).
-  - **Merchant scenario / example:** Enabling this ensures your team always provides a reason or update to the customer when changing the status, improving transparency.
-
-#### Order States Tab
-
-This tab allows you to define the various statuses for return requests and how they interact with your existing PrestaShop order statuses.
-
-- **New Withdrawal Status:**
-
-  - **What this setting does:** Selects the PrestaShop order status that will be assigned to a new return request when it is first submitted by a customer.
-  - **Effect of changing this setting:** All new return requests will automatically be marked with this status in your back office.
-  - **Recommended value:** Create a new custom order status like “Return Requested” or “Withdrawal Pending” for clear identification.
-  - **Merchant scenario / example:** By creating a specific “Return Requested” status, your customer service team can easily filter and identify new return requests that need their attention.
-- **Accepted Withdrawal Status:**
-
-  - **What this setting does:** Selects the PrestaShop order status that will be assigned when you, as the merchant, accept a customer’s return request.
-  - **Effect of changing this setting:** When you mark a return as “Accepted” in the module, its status will change to this selected order status.
-  - **Recommended value:** Create a new custom order status like “Return Accepted” or “Withdrawal Approved”.
-  - **Merchant scenario / example:** Once you’ve reviewed a request and approved it, changing its status to “Return Accepted” can trigger an email to the customer with further instructions.
-- **Declined Withdrawal Status:**
-
-  - **What this setting does:** Selects the PrestaShop order status that will be assigned when you decline a customer’s return request.
-  - **Effect of changing this setting:** When you mark a return as “Declined” in the module, its status will change to this selected order status.
-  - **Recommended value:** Create a new custom order status like “Return Declined” or “Withdrawal Rejected”.
-  - **Merchant scenario / example:** If a return request falls outside your policy (e.g., past the return window), you would change its status to “Return Declined” and ideally send a message explaining why.
-- **Closed Withdrawal Status:**
-
-  - **What this setting does:** Selects the PrestaShop order status that will be assigned when a return request is completed or resolved (e.g., refund issued, replacement sent).
-  - **Effect of changing this setting:** When you mark a return as “Closed” in the module, its status will change to this selected order status.
-  - **Recommended value:** Create a new custom order status like “Return Completed” or “Withdrawal Closed”.
-  - **Merchant scenario / example:** After a refund has been processed, marking the return as “Return Completed” provides a clear audit trail and removes it from your active return queue.
-- **Order States to Exclude from Withdrawal:**
-
-  - **What this setting does:** Allows you to select specific PrestaShop order statuses for which customers *cannot* initiate a return request, even if they meet other criteria.
-  - **Effect of changing this setting:** Orders with any of the selected statuses will not show the return option to the customer.
-  - **Recommended value:** “Canceled”, “Refunded”, “Error”, or any other status that signifies an order is no longer eligible for a new return request.
-  - **Merchant scenario / example:** If an order has already been “Refunded,” you wouldn’t want a customer to be able to submit another return request for it.
-
-### 2.2 Dedicated Admin Screens & Controller Views
-
-#### Withdrawal Requests (Back Office > Orders > Withdrawal Requests)
-
-This is the central hub for managing all return and withdrawal requests submitted by your customers.
-
-- **Screen Name & Menu Location:** You can find this screen by navigating to **Orders > Withdrawal Requests** in your PrestaShop back office menu.
-- **Available Actions & Settings:**
-  - **Listing Table:** Displays a comprehensive list of all return requests, including:
-    - **ID:** Unique identifier for the request.
-    - **Customer Name:** The customer who submitted the request.
-    - **Order Reference:** The associated PrestaShop order.
-    - **Date:** When the request was submitted.
-    - **Status:** The current status of the request (e.g., “Return Requested”, “Return Accepted”).
-    - **Actions:** Buttons to “View” the request details, change its status, or perform other management tasks.
-  - **Filtering & Searching:** You can filter the list by status, customer, order reference, and date range to quickly find specific requests.
-  - **Bulk Actions:** Allows you to select multiple requests and perform actions like changing their status simultaneously.
-  - **View Details:** Clicking “View” for a specific request opens a detailed page where you can:
-    - See all customer-provided information (reason, comments, attached files).
-    - Review the products included in the return request.
-    - View a history of status changes and internal notes.
-    - Add private notes for internal team communication.
-    - Change the status of the request (e.g., from “Return Requested” to “Return Accepted”).
-    - Send messages to the customer (if “Require Status Message” is enabled).
-    - Download attachments.
-    - Print the withdrawal form.
-- **Effect of changes:**
-  - **Changing Status:** Updates the status of the return request, which can trigger email notifications to the customer and update the display in their customer account.
-  - **Adding Notes:** Records internal communication or decisions related to the request, visible only to back-office users.
-  - **Sending Messages:** Communicates directly with the customer regarding their return request.
-- **Recommended workflow for daily store management:**
-  1. Regularly check the “Withdrawal Requests” list for new requests (status “Return Requested”).
-  2. Review each new request, checking the order details, customer comments, and any attachments.
-  3. Decide whether to accept or decline the request based on your store’s return policy.
-  4. Change the status accordingly (e.g., to “Return Accepted” or “Return Declined”). If “Require Status Message” is enabled, provide a clear message to the customer.
-  5. Follow through with the next steps (e.g., issue a refund, arrange for return shipping) and update the status to “Return Completed” once resolved.
-  6. Use internal notes for team communication or to record specific actions taken.
-
-### 2.3 Configuration Quick Reference Table
-
-| Screen / View | Setting / Option | Default / Recommended | Purpose & Impact |
-| --- | --- | --- | --- |
-| **Module Configuration Page** | Enable Module | YES | Activates/deactivates the entire module. |
-|  | Display Return Button In | Header, Footer, Product Page | Controls where the return button appears on the front office. |
-|  | Button Text | “Return Request” | Customizes the text on the return button. |
-|  | Minimum Order Status for Withdrawal | “Payment accepted” | Sets the earliest order status for return eligibility. |
-|  | Maximum Days for Withdrawal | 14 | Defines the return window in days from order date. |
-|  | Allow Guest Withdrawals | YES | Allows non-registered customers to use the form. |
-|  | Allow Attachments | YES | Enables/disables file uploads on the form. |
-|  | Attachment Max Size (MB) | 2-5 MB | Sets the maximum size for uploaded files. |
-|  | Attachment Allowed Extensions | jpg, jpeg, png, gif, pdf | Specifies allowed file types for uploads. |
-|  | Require Status Message | YES | Makes a message mandatory when changing return status. |
-| **Order States Tab** | New Withdrawal Status | “Return Requested” (custom) | Status for newly submitted requests. |
-|  | Accepted Withdrawal Status | “Return Accepted” (custom) | Status when merchant approves a request. |
-|  | Declined Withdrawal Status | “Return Declined” (custom) | Status when merchant rejects a request. |
-|  | Closed Withdrawal Status | “Return Completed” (custom) | Status when a request is fully resolved. |
-|  | Order States to Exclude from Withdrawal | “Canceled”, “Refunded” | Prevents returns for orders with these statuses. |
-| **Withdrawal Requests (Admin)** | View/Edit Request | N/A | Manage individual return requests, change status, add notes. |
-|  | Filter/Search | N/A | Locate specific requests by various criteria. |
-|  | Bulk Actions | N/A | Perform actions on multiple selected requests. |
-
-## 3. Merchant Troubleshooting & Frequently Asked Questions (FAQ)
-
-**Q1: The return button isn’t showing up on my store. What should I do?**
-A1:
-
-- **Check Module Status:** Go to **Modules > Module Manager**, find “EU Return Button – Online Withdrawal Form”, and ensure it is “Enabled”.
-- **Check Display Locations:** In the module’s configuration, under the “General Settings” tab, verify that you have selected at least one “Display Return Button In” location (e.g., Header, Footer).
-- **Clear Cache:** Go to **Advanced Parameters > Performance** and click “Clear cache” (or “Clear Smarty cache” in older versions). Sometimes, old cached content prevents new module elements from appearing.
-- **Theme Compatibility:** While the module is designed for broad compatibility, custom themes might require minor adjustments. If the button still doesn’t appear, contact MyPresta.eu support with details about your theme.
-
-**Q2: Customers are reporting they can’t submit a return for a specific order, even though it’s within the return period.**
-A2:
-
-- **Check Minimum Order Status:** In the module’s configuration, under “General Settings”, review “Minimum Order Status for Withdrawal”. Ensure the customer’s order has reached this status. For example, if it’s set to “Shipped” and the order is still “Payment accepted”, they won’t see the option.
-- **Check Excluded Order States:** In the module’s configuration, under the “Order States” tab, check “Order States to Exclude from Withdrawal”. If the customer’s order has one of these statuses (e.g., “Canceled”, “Refunded”), they won’t be able to initiate a new return.
-- **Maximum Days for Withdrawal:** Double-check the “Maximum Days for Withdrawal” setting. The return window might have expired for that specific order.
-
-**Q3: I changed a setting, but it’s not reflected on the front office.**
-A3:
-
-- **Clear Cache:** This is the most common reason. Always clear your PrestaShop cache after making configuration changes in any module. Navigate to **Advanced Parameters > Performance** and click “Clear cache”. If you use a third-party caching module or CDN, clear their caches as well.
-- **Browser Cache:** Ask your customers (or yourself) to clear their browser cache or try viewing the page in an incognito/private window to rule out browser-side caching issues.
-
-**Q4: How do I translate the module’s text into other languages?**
-A4:
-
-- Go to **International > Translations** in your PrestaShop back office.
-- Select “Installed modules translations”.
-- Choose your theme, the language you want to translate, and then select “EU Return Button – Online Withdrawal Form” from the module list.
-- You will then see a list of all translatable strings within the module, including button text, form labels, and messages. Enter your translations and save.
-
-**Q5: I want to customize the look and feel of the return form to match my theme.**
-A5:
-
-- The module includes CSS files (`front-classic.css`, `front-hummingbird.css`, `front.css`) designed for common PrestaShop themes.
-- For advanced styling, you’ll need a web developer. They can inspect the module’s HTML structure and override its CSS rules in your theme’s `custom.css` file or by creating a new stylesheet that loads after the module’s CSS. Avoid directly editing the module’s CSS files, as your changes will be lost during updates.
-
-## 4. Developer & Webmaster Guide (Technical Architecture & Code Map)
-
-### 4.1 Architecture Overview
-
-The “EU Return Button – Online Withdrawal Form” module (`rbpro`) follows PrestaShop’s standard MVC (Model-View-Controller) architecture. It leverages `ModuleFrontController` for customer-facing interactions and `AdminController` for back-office management. Core business logic is encapsulated in dedicated service and ObjectModel classes, ensuring data integrity and separation of concerns. The module integrates with PrestaShop’s hook system for dynamic content injection and utilizes Smarty for templating. It also includes compatibility layers for different PrestaShop versions and a security class for input validation.
-
-### 4.2 Controllers (`controllers/`)
-
-#### Front-Office Controllers
-
-These controllers handle customer interactions related to the return form and status tracking.
-
-- `rbpro/controllers/front/confirm.php`
-
-  - **Class Name:** `RbpConfirmModuleFrontController` (extends `RbpModuleFrontController`)
-  - **Responsibility:** Displays the final confirmation step of the withdrawal form. Processes the submitted form data, creates the `RbpWithdrawal` entry, and redirects to the success or error page. Handles data validation before saving.
-- `rbpro/controllers/front/form.php`
-
-  - **Class Name:** `RbpFormModuleFrontController` (extends `RbpModuleFrontController`)
-  - **Responsibility:** Renders the main online withdrawal form. Handles initial display of eligible orders/products, processes user selections, and prepares data for the confirmation step. Manages guest access via order reference and email.
-- `rbpro/controllers/front/print.php`
-
-  - **Class Name:** `RbpPrintModuleFrontController` (extends `RbpModuleFrontController`)
-  - **Responsibility:** Provides a printable version of the withdrawal form or request details. Typically used by customers to include with their returned package.
-- `rbpro/controllers/front/RbpModuleFrontController.php`
-
-  - **Class Name:** `RbpModuleFrontController` (extends `ModuleFrontController`)
-  - **Responsibility:** This is a base class for all front-office controllers within the `rbpro` module. It provides common functionalities like setting up breadcrumbs, handling module-specific assets, and potentially shared security checks or data initialization.
-- `rbpro/controllers/front/status.php`
-
-  - **Class Name:** `RbpStatusModuleFrontController` (extends `RbpModuleFrontController`)
-  - **Responsibility:** Displays the current status and history of a specific return request to the customer. Accessible via a unique tracking link or from the customer’s account.
-- `rbpro/controllers/front/track.php`
-
-  - **Class Name:** `RbpTrackModuleFrontController` (extends `RbpModuleFrontController`)
-  - **Responsibility:** Provides a simple interface for customers (especially guests) to enter an order reference and email to track the status of their withdrawal request.
-
-#### Back-Office Admin Controllers
-
-- `rbpro/controllers/admin/AdminRbpWithdrawalController.php`
-  - **Class Name:** `AdminRbpWithdrawalController` (extends `ModuleAdminController`)
-  - **Tab Name:** “Withdrawal Requests” (under “Orders”)
-  - **Managed Entity:** `RbpWithdrawal`
-  - **Responsibility:** Manages the listing, viewing, editing, and status updates of all customer withdrawal requests in the PrestaShop back office. Implements `renderList()` for the overview table and `renderForm()` for the detailed view of a single request. Handles actions like changing status, adding notes, and managing attachments.
-
-### 4.3 Core Classes & Models (`classes/`)
-
-- `rbpro/classes/index.php`
-
-  - **Responsibility:** Standard empty `index.php` file to prevent directory listing.
-- `rbpro/classes/RbpCompatibility.php`
-
-  - **Responsibility:** Provides static methods to handle compatibility issues across different PrestaShop versions (e.g., `_PS_VERSION_` specific logic, deprecated function replacements). Ensures the module functions correctly from PS 1.6 to 9.x.
-- `rbpro/classes/RbpSecurity.php`
-
-  - **Responsibility:** Contains static methods for security-related tasks, such as input validation, sanitization, and potentially CSRF token generation/verification for module-specific forms.
-- `rbpro/classes/RbpStatsService.php`
-
-  - **Responsibility:** A service class responsible for collecting and potentially processing statistics related to withdrawal requests (e.g., number of requests, average processing time).
-- `rbpro/classes/RbpWithdrawal.php`
-
-  - **Extends:** `ObjectModel`
-  - **Database Table:** `rbp_withdrawal`
-  - **`$definition` fields:** Defines the structure of a withdrawal request, including fields like `id_customer`, `id_order`, `id_order_state`, `reference`, `email`, `date_add`, `date_upd`, `status`, `reason`, `message`, etc.
-  - **Key Public Methods:** Methods for CRUD operations on withdrawal requests, retrieving associated products, history, and notes.
-- `rbpro/classes/RbpWithdrawalAttachment.php`
-
-  - **Extends:** `ObjectModel`
-  - **Database Table:** `rbp_withdrawal_attachment`
-  - **`$definition` fields:** Defines the structure for attachments linked to a withdrawal request, including `id_rbp_withdrawal`, `filename`, `original_filename`, `mime_type`, `date_add`.
-  - **Key Public Methods:** Methods for managing attachment files (upload, retrieve, delete).
-- `rbpro/classes/RbpWithdrawalHistory.php`
-
-  - **Extends:** `ObjectModel`
-  - **Database Table:** `rbp_withdrawal_history`
-  - **`$definition` fields:** Defines the history of status changes for a withdrawal request, including `id_rbp_withdrawal`, `id_order_state`, `id_employee`, `message`, `date_add`.
-  - **Key Public Methods:** Methods for logging and retrieving status changes and associated messages.
-- `rbpro/classes/RbpWithdrawalNote.php`
-
-  - **Extends:** `ObjectModel`
-  - **Database Table:** `rbp_withdrawal_note`
-  - **`$definition` fields:** Defines internal notes added by employees to a withdrawal request, including `id_rbp_withdrawal`, `id_employee`, `note`, `date_add`.
-  - **Key Public Methods:** Methods for adding and retrieving internal notes.
-- `rbpro/classes/RbpWithdrawalProduct.php`
-
-  - **Extends:** `ObjectModel`
-  - **Database Table:** `rbp_withdrawal_product`
-  - **`$definition` fields:** Defines the specific products included in a withdrawal request, linking to `id_rbp_withdrawal`, `id_order_detail`, `id_product`, `id_product_attribute`, `quantity`, `reason`.
-  - **Key Public Methods:** Methods for managing the list of products within a return request.
-- `rbpro/classes/RbpWithdrawalService.php`
-
-  - **Responsibility:** A service layer class that orchestrates complex business logic involving multiple `RbpWithdrawal` related ObjectModels. Examples include creating a new withdrawal request (which involves `RbpWithdrawal`, `RbpWithdrawalProduct`, `RbpWithdrawalHistory`), updating its status, sending email notifications, and handling attachments.
-
-### 4.4 JavaScript Assets (`views/js/`)
-
-- `rbpro/lib/searchTool/views/js/autocomplete.js`
-
-  - **Scope:** Back-office (likely for searching orders/customers in admin forms).
-  - **Details:** Implements autocomplete functionality for input fields, typically for searching customers or orders when creating/editing withdrawal requests manually in the back office. Binds to `keyup` events and makes AJAX calls to fetch suggestions.
-- `rbpro/views/js/admin-order-state-picker.js`
-
-  - **Scope:** Back-office (module configuration and AdminRbpWithdrawalController).
-  - **Details:** Enhances the order state selection dropdowns in the module’s configuration and potentially in the withdrawal detail view. May add visual cues or filtering capabilities.
-- `rbpro/views/js/front.js`
 
-  - **Scope:** Front-office (withdrawal forms and status pages).
-  - **Details:** Handles client-side interactions on the withdrawal form, such as:
-    - Dynamic product selection based on order.
-    - Validation of form fields before submission.
-    - AJAX calls for form submission or data loading.
-    - Displaying messages or handling file uploads.
-- `rbpro/views/js/order-history.js`
+Screenshots in this manual show the English back office. Use the same menu names and labels as written here.
 
-  - **Scope:** Front-office (customer account > order history).
-  - **Details:** Integrates the “Request Return” button or link into the customer’s order history page. May use AJAX to check order eligibility or dynamically show/hide the button.
+## 1. Requirements
 
-### 4.5 CSS Stylesheets (`views/css/`)
+Return Button Pro works on PrestaShop 1.6, 1.7, 8, and 9. Use the module package that matches your shop: the dedicated PrestaShop 1.6 build for 1.6 shops, and the PrestaShop 1.7–9 build for newer shops. Download the correct ZIP from your MyPresta.eu order history when both packages are available.
 
-- `rbpro/lib/searchTool/views/css/autocomplete.css`
+- PrestaShop: 1.6.x, 1.7.x, 8.x, and 9.x
+- PHP: versions your PrestaShop already runs on, including older stacks with PrestaShop 1.6 (PHP 5.6 and PHP 7.x) and the PHP versions required by PrestaShop 1.7–9 (PHP 7.1+ / PHP 8.x as your host and shop require). The module is maintained for PHP 7.x environments as well as current shop PHP.
+- PHP extensions used by the module: JSON, curl (update checks), fileinfo (attachment MIME checks), hash (tokens and guest security)
+- Other modules: not required. If the free Return Button module is installed and enabled, disable it before you configure or use Return Button Pro. Both cannot run at the same time.
+- External accounts: none. Optional MyPresta.eu update checks use the internet from the Updates tab.
 
-  - **Scope:** Back-office.
-  - **Details:** Styles for the autocomplete dropdowns and search input fields used in the admin panel.
-- `rbpro/views/css/admin-config.css`
+## 2. Installation
 
-  - **Scope:** Back-office (module configuration page).
-  - **Details:** Styles for the main module configuration form, including tabs, input fields, and general layout.
-- `rbpro/views/css/admin-dashboard.css`
+1. Upload the module ZIP in **Modules** → **Module Manager**, then install and enable **Return Button Pro**.
+2. After install, a **Withdrawals** item appears under **Customers**. Open configuration from **Module Manager** → **Return Button Pro** → **Configure** (tabs: **Dashboard**, **Settings**, **Updates**).
+3. Installation does not clear the PrestaShop cache. Clear cache yourself after theme or hook changes if the storefront still looks wrong.
 
-  - **Scope:** Back-office (potentially for a module dashboard or statistics view).
-  - **Details:** Styles for any custom dashboard elements or statistical displays within the module’s admin interface.
-- `rbpro/views/css/admin-order-state-picker.css`
+Uninstall: the **Withdrawals** menu entry is removed and configuration values are deleted. Withdrawal tables and case records stay in the database for legal evidence. Reinstalling does not wipe those records; the module can use them again when tables already exist. Uploaded staff attachments under the module folder are not removed by uninstall.
 
-  - **Scope:** Back-office.
-  - **Details:** Specific styles for the enhanced order state selection elements in the admin.
-- `rbpro/views/css/admin-searchtool.css`
+If you upgrade from the free Return Button module, Pro can copy compatible settings and migrate empty Pro tables from free-module data when Pro has no rows yet. Disable the free module first.
 
-  - **Scope:** Back-office.
-  - **Details:** General styles for search tools and filtering components within the admin interface.
-- `rbpro/views/css/admin-withdrawal-view.css`
+## 3. Configuration and back-office work
 
-  - **Scope:** Back-office (AdminRbpWithdrawalController detail view).
-  - **Details:** Styles for the detailed view of a single withdrawal request, including sections for customer info, products, history, and notes.
-- `rbpro/views/css/front-classic.css`
+### 3.1 Full withdrawal process
 
-  - **Scope:** Front-office (for Classic theme compatibility).
-  - **Details:** Specific styling adjustments for the withdrawal form and buttons to integrate seamlessly with the PrestaShop Classic theme.
-- `rbpro/views/css/front-hummingbird.css`
+End-to-end flow from the storefront to staff handling:
 
-  - **Scope:** Front-office (for Hummingbird theme compatibility).
-  - **Details:** Specific styling adjustments for the withdrawal form and buttons to integrate seamlessly with the PrestaShop Hummingbird theme.
-- `rbpro/views/css/front.css`
+1. The customer finds the withdrawal entry: footer button, My Account link, order detail button, or the form URL when guest access is on.
+2. **Step 1 – order:** logged-in customers see their orders with eligibility hints (days left, unavailable reasons). Guests enter order reference and email. The customer selects an eligible order, chooses **Full order** or **Partial** (with quantities on allowed lines), optionally adds a message and IBAN, then continues.
+3. **Step 2 – confirm:** the customer reviews the statement summary. When **Require legal confirmation checkbox** is on, they must tick the legal text, then submit.
+4. The module saves the case, moves it to **Registered**, and sends the customer confirmation (durable medium) plus a shop notification (and **Notification email** when set). The success page shows the withdrawal reference.
+5. Staff open **Customers** → **Withdrawals** (or the order side panel), open **View**, set status (**In progress**, **Refunded**, **Rejected**, and so on), and enter a customer message when required.
+6. The customer follows status via **Track withdrawal status**, the status page, and **Print / save PDF**. Staff messages from status changes appear in the customer withdrawal history.
 
-  - **Scope:** Front-office (general styling).
-  - **Details:** Core CSS for the front-office withdrawal form, buttons, and status pages, providing a base style that can be overridden by theme-specific stylesheets.
+Statuses used by the module:
 
-### 4.6 Smarty Template Structure (`views/templates/`)
+| Field | At the start | What it does |
+|---|---|---|
+| **Pending** | Brief state when the statement is first saved | Open case before the customer’s legal confirmation finishes, or when staff set this status later. Counts toward duplicate blocking with other open statuses. |
+| **Registered** | After the customer confirms on step 2 | Statement recorded; confirmation emails attempted. Default post-submit status. |
+| **In progress** | Staff action | Shop is handling the case (returns, checks, refund prep). Still blocks a second active request when duplicate blocking is on. |
+| **Refunded** | Staff action | Case closed with refund outcome. Visible on the customer status page. |
+| **Rejected** | Staff action | Case closed without refund. Use a clear customer message when the setting requires it. |
 
-#### Hook templates (`views/templates/hook/`)
+Scope on the form: **Full order** or **Partial**. Type: **Contract withdrawal** (paid) or **Contract cancellation (unpaid order)** when the order was never paid.
 
-These templates are rendered when the module is hooked into specific display points.
+### 3.2 Dashboard
 
-- `rbpro/views/templates/hook/account-link-classic.tpl`
+Open **Modules** → **Module Manager** → **Return Button Pro** → **Configure** → **Dashboard**.
 
-  - **Hook:** `displayCustomerAccount` (or similar)
-  - **Outputs:** A link in the customer’s “My Account” section for the Classic theme, leading to the withdrawal form or tracking page.
-- `rbpro/views/templates/hook/account-link-hummingbird.tpl`
+![Dashboard](https://mypresta.eu/docs/images/docs/rbpro-dashboard.webp)
 
-  - **Hook:** `displayCustomerAccount` (or similar)
-  - **Outputs:** A link in the customer’s “My Account” section for the Hummingbird theme.
-- `rbpro/views/templates/hook/button-classic.tpl`
+Filter with **From** / **To** and **Apply**, or reset with **Last 30 days**. The panel shows all-time totals, pending backlog, detected theme profile, active footer hook, KPIs (withdrawals in period, rate vs orders, email confirmation share, average days from order to withdrawal, partial/full share, cancellations, refunded share of closed cases, rejection rate), a daily submissions chart, status breakdown, most withdrawn products, and oldest pending cases with **Open**.
 
-  - **Hook:** `displayHeader`, `displayFooter`, `displayLeftColumn`, `displayRightColumn`, `displayProductButtons` (or similar)
-  - **Outputs:** The main “Return” or “Withdrawal” button, styled for the Classic theme.
-- `rbpro/views/templates/hook/button-hummingbird.tpl`
+Use **Manage all withdrawals** for the list under Customers, or **Export CSV** for a download of cases in the current shop.
 
-  - **Hook:** `displayHeader`, `displayFooter`, `displayLeftColumn`, `displayRightColumn`, `displayProductButtons` (or similar)
-  - **Outputs:** The main “Return” or “Withdrawal” button, styled for the Hummingbird theme.
-- `rbpro/views/templates/hook/button.tpl`
+### 3.3 Settings
 
-  - **Hook:** `displayHeader`, `displayFooter`, `displayLeftColumn`, `displayRightColumn`, `displayProductButtons` (or similar)
-  - **Outputs:** A generic “Return” or “Withdrawal” button, used as a fallback or base for theme-specific buttons.
-- `rbpro/views/templates/hook/order-detail-classic.tpl`
+Open the **Settings** tab and click **Save** after changes.
 
-  - **Hook:** `displayOrderDetail` (or similar)
-  - **Outputs:** An option or button on the customer’s individual order detail page for the Classic theme, allowing them to initiate a return for that specific order.
-- `rbpro/views/templates/hook/order-detail-hummingbird.tpl`
+![Settings](https://mypresta.eu/docs/images/docs/rbpro-settings.webp)
 
-  - **Hook:** `displayOrderDetail` (or similar)
-  - **Outputs:** An option or button on the customer’s individual order detail page for the Hummingbird theme.
-- `rbpro/views/templates/hook/order-detail.tpl`
+#### Theme integration
 
-  - **Hook:** `displayOrderDetail` (or similar)
-  - **Outputs:** A generic option or button on the customer’s individual order detail page.
-- `rbpro/views/templates/hook/order-withdrawal-notice.tpl`
+Match the module to Classic, Hummingbird, or a custom theme. Adjust these if buttons or forms look unstyled after a theme update.
 
-  - **Hook:** `displayAdminOrder` (or similar)
-  - **Outputs:** A notice or summary of withdrawal requests related to a specific order, displayed within the PrestaShop admin order view.
+| Field | At the start | What it does |
+|---|---|---|
+| **Storefront theme profile** | Auto-detect | Chooses which front-office templates and CSS the module loads (Classic vs Hummingbird). Correct button styling, form layout, and My Account link appearance. Leave Auto-detect unless the button looks wrong after a theme change; then force Classic-type or Hummingbird-type to match your active theme. After changing, clear PrestaShop cache and refresh the storefront. |
+| **Footer button hook** | Auto (by theme profile) | Defines where in the page footer the withdrawal button is injected. Auto follows the theme profile (Hummingbird → displayFooterBefore, Classic → displayFooter). If the button is missing or misaligned, try displayFooterBefore or displayFooter manually, save, clear cache, and check the shop footer. For manual placement, put the custom hook in a theme template and select displayRbproButton here; keep **Footer button** enabled so the button shows only in that template. |
 
-#### Admin templates (`views/templates/admin/`)
+#### General & access
 
-These templates are used for the module’s back-office interface.
+| Field | At the start | What it does |
+|---|---|---|
+| **Module enabled** | Yes | Master switch for the entire module. When disabled, withdrawal buttons, the form, guest access, and tracking are hidden on the storefront; existing withdrawal records in the back office remain. Use this for maintenance or legal review without uninstalling. |
+| **Public status tracking page** | Yes | Enables a public page where customers check withdrawal status using withdrawal reference + email (no login). Reduces “where is my return?” tickets. Enable if you want a **Track withdrawal status** link next to the footer button; communicate the reference from the confirmation email. Disable if you handle status only by account email or phone. |
+| **Guest access (order ref + email)** | Yes | Allows non-logged-in customers to open the form by entering order reference and email on step 1. Recommended for B2C EU distance sales. Turn off if only logged-in customers may withdraw. Guest sessions use a signed cookie. |
+| **Block duplicate active requests** | Yes | Prevents a second open withdrawal for the same order while one is already Pending, Registered, or In progress. Avoids duplicate cases and conflicting refunds. Keep enabled in production. Disable only for testing or unusual partial-claim processes. |
+| **Require legal confirmation checkbox (step 2)** | Yes | Forces the customer to tick a legally worded checkbox before submitting. Explicit consent record aligned with EU withdrawal rules. Edit the checkbox text per language under Texts & SEO. If disabled, submission is still logged without a mandatory tick box. |
+| **Require message to customer when changing status** | Yes | Staff must enter a message to the customer before a withdrawal status can be updated. The message is stored in the audit trail and shown on the customer status page. Turn off only if you need fast status changes without writing each time. |
+| **Show deadline countdown to customer** | Yes | Shows how many days remain in the statutory withdrawal period (order list and form). Needs a correct **Order state = delivered** mapping and withdrawal period. If dates look wrong, check order history and the delivered state. |
+| **Optional IBAN field** | No | Adds an optional IBAN field on the form for refund payouts. Enable only if you refund by bank transfer and your privacy policy covers it. Leave off if you refund to the original payment method only. |
+| **Notification email** | Empty | Extra address that receives new withdrawal notifications (in addition to the shop contact). Example: returns@yourshop.com. Leave empty to use only PrestaShop’s default mail flow without this recipient. |
 
-- `rbpro/lib/searchTool/views/scripts.tpl`
+#### Withdrawal rules
 
-  - **Outputs:** JavaScript and CSS includes for the search tool library, typically included in admin forms that use autocomplete.
-- `rbpro/views/templates/admin/configure.tpl`
+| Field | At the start | What it does |
+|---|---|---|
+| **Withdrawal period (days from delivery)** | 14 | Calendar days customers have to withdraw after the order is considered delivered. Default 14 for EU distance contracts. Change only when law or your terms require another value. Countdown starts from the delivery date derived from order history and **Order state = delivered**. |
+| **Order state = delivered** | Auto | Order state that marks goods as delivered (start of the withdrawal period). Choose the state you set when the parcel is delivered (for example Delivered, or Shipped if that is your final state). Auto uses a sensible default from your shop; override if deadlines use the wrong date. |
+| **Allowed order statuses** | All order statuses | Controls when customers may submit a withdrawal based on the order’s current status. Choose **All order statuses** to skip the filter, or **Only selected statuses** and move statuses from the left column to **Allowed for withdrawal**. Orders outside the list show as unavailable in the account order list. |
+| **Excluded products** | Empty | Specific products that cannot be withdrawn (sealed goods, custom items, and similar). Search by name or keep IDs; excluded lines show the exclusion message on the form. |
+| **Excluded product variants** | Empty | Specific variants excluded from withdrawal. Search the product, then select the variant. |
+| **Excluded categories** | Empty | All products in these categories are non-withdrawable. |
+| **Excluded manufacturers** | Empty | Products from these manufacturers cannot be withdrawn. |
+| **Excluded suppliers** | Empty | Products linked to these suppliers cannot be withdrawn. |
+| **Excluded customer groups** | Empty | Customers in these groups cannot use withdrawal at all (no form access, buttons hidden). |
 
-  - **Outputs:** The main configuration form for the module, rendered by `getContent()` in `index.php`. Contains all the settings described in section 4.1.
-- `rbpro/views/templates/admin/dashboard.tpl`
+#### Footer & appearance
 
-  - **Outputs:** A dashboard or summary view for the module, potentially showing statistics or recent withdrawal requests.
-- `rbpro/views/templates/admin/order-state-picker.tpl`
+| Field | At the start | What it does |
+|---|---|---|
+| **Footer button** | Yes | Shows the main withdrawal call-to-action in the shop footer (hook configured above). Disable if you only want My Account and order-detail links. Requires **Module enabled** and a correct footer hook. |
+| **Footer theme** | Light footer (dark text) | Color scheme for footer text and links (not the button background). Choose Light on pale footers, Dark on black/dark footers so **Track withdrawal status** stays readable. Clear cache after change. |
+| **Footer alignment** | Center | Horizontal alignment of the footer button block: Left, Center, or Right. Affects footer hook output only. |
+| **Button color** | #2563eb | Background color of withdrawal buttons (footer, order detail, and similar). Pick a hex color with enough contrast against white text. Does not change the theme primary color globally. |
+| **Custom CSS** | Empty | Extra CSS on pages where module buttons appear. Use for margins, fonts, or hiding elements without editing theme files. Test on staging first. |
+| **Link in customer account** | Yes | Adds a withdrawal entry in My Account. Recommended on. Disable only if you rely solely on footer or order links. |
+| **Link on order detail** | Yes | Shows withdrawal action on the order detail page when the order is eligible. Blocked orders show a short reason instead of the button. |
 
-  - **Outputs:** A custom template for selecting order states, used in the module configuration or admin withdrawal view.
-- `rbpro/views/templates/admin/order-withdrawal-notice.tpl`
+#### Texts & SEO
 
-  - **Outputs:** A small widget or notice displayed within the PrestaShop order detail page in the back office, indicating if there’s an active withdrawal request for that order.
-- `rbpro/views/templates/admin/updates.tpl`
+Fill every active shop language.
 
-  - **Outputs:** A template for displaying module update notifications or changelogs within the admin interface.
-- `rbpro/views/templates/admin/view.tpl`
+| Field | At the start | What it does |
+|---|---|---|
+| **Noindex on form page** | Yes | Adds robots noindex,nofollow on the withdrawal form URL so legal/form pages stay out of search results. Turn off only if you intentionally want the form indexed. |
+| **Button label** | Withdraw from contract | Text on all withdrawal buttons and links. Short label works best in the footer. Main customer-facing phrase for the module. |
+| **Exclusion message** | This product is excluded from the statutory right of withdrawal. | Shown next to excluded products on the form. Explain why the item cannot be selected; mention your terms if needed. |
+| **SEO title** | Withdraw from contract | HTML page title of the withdrawal form (browser tab). Keep under about 60 characters per language. |
+| **SEO description** | Online withdrawal form for distance contracts. | Meta description for the form. Usually unused for ranking when noindex is on. Leave blank to omit. |
+| **Legal confirmation checkbox text** | I confirm that I am submitting a withdrawal statement and understand the legal consequences. | Label beside the mandatory checkbox on step 2. Use clear, country-appropriate wording. Required when **Require legal confirmation checkbox** is on. |
 
-  - **Outputs:** The detailed view template for a single withdrawal request, rendered by `AdminRbpWithdrawalController::renderForm()`. Shows all request details, products, history, notes, and status change options.
+### 3.4 Updates
 
-#### Front-office templates (`views/templates/front/`)
+Open the **Updates** tab.
 
-These are standalone page templates for the customer-facing withdrawal process.
+| Field | At the start | What it does |
+|---|---|---|
+| **Manual Check** | — | Checks MyPresta.eu for a newer module version. You see **New version available!** or **Module is up to date!** Needs curl and outbound HTTPS. |
+| **Automatic Notifications** | Enabled (module default for update prefs) | When enabled, the back office can show a notice that a new version exists. Save with **Save**. |
+| **Product Page** | Link on form | Opens the official product page for release information. Use Support (§7) for paid-module help after login. |
 
-- `rbpro/views/templates/front/confirm_step.tpl`
+If the free Return Button module is still enabled, settings and update actions are blocked until you disable it.
 
-  - **Outputs:** The confirmation step of the withdrawal form, summarizing the customer’s selections before final submission.
-- `rbpro/views/templates/front/error.tpl`
+### 3.5 Withdrawals list
 
-  - **Outputs:** A generic error page displayed if something goes wrong during the withdrawal process (e.g., invalid order, technical issue).
-- `rbpro/views/templates/front/form.tpl`
+Go to **Customers** → **Withdrawals**.
 
-  - **Outputs:** The main online withdrawal request form, allowing customers to select orders, products, and provide details.
-- `rbpro/views/templates/front/print.tpl`
+![Withdrawals list](https://mypresta.eu/docs/images/docs/rbpro-withdrawals.webp)
 
-  - **Outputs:** A printable version of the withdrawal request, typically a simplified layout without navigation.
-- `rbpro/views/templates/front/status.tpl`
+Default sort is newest submission first. Columns:
 
-  - **Outputs:** The page displaying the current status and history of a specific withdrawal request.
-- `rbpro/views/templates/front/success.tpl`
+| Field | At the start | What it does |
+|---|---|---|
+| **ID** | Auto | Internal case id. |
+| **Submitted** | From form | Date and time the customer submitted. |
+| **Order** | From order | PrestaShop order reference. |
+| **First name** / **Last name** / **Email** | From customer | Contact identity on the case. |
+| **Scope** | Full order or Partial | Whether the whole order or selected lines were withdrawn. |
+| **Type** | Contract withdrawal or cancellation | Paid withdrawal vs unpaid-order cancellation. |
+| **Status** | Registered after confirm | Current case status (Pending, Registered, In progress, Refunded, Rejected). |
+| **Email** | Yes/No | Whether the confirmation email was recorded as sent. |
 
-  - **Outputs:** A success message page displayed after a withdrawal request has been successfully submitted.
-- `rbpro/views/templates/front/track.tpl`
+Use search and sort on the list. Open a case with **View**. There is no **Add new** action: requests are created only by customers on the storefront. If someone tries to create a case in the back office, the warning explains that withdrawals cannot be created manually and the list is shown again.
 
-  - **Outputs:** The form where customers can enter their order reference and email to track a withdrawal request.
+Export CSV from **Dashboard** (**Export CSV**) when you need a spreadsheet of cases for the shop.
 
-### 4.7 Database Schema & Hooks Map
+### 3.6 Withdrawal case view
 
-#### Database Tables
+Open a row with **View**.
 
-The module creates and manages several custom tables:
+The header shows reference, ID, submitted date, status, type, scope, email-sent flag and time, deadline, IP, user-agent, customer name and email, and a link to the PrestaShop order. The products block lists each withdrawn line with quantity and unit price. IBAN and the customer message appear when the customer provided them.
 
-- `ps_rbp_withdrawal`: Stores the main withdrawal request details (customer, order, status, reason, etc.).
-- `ps_rbp_withdrawal_attachment`: Stores details about files uploaded by customers for a withdrawal request.
-- `ps_rbp_withdrawal_history`: Logs all status changes and associated messages for each withdrawal request.
-- `ps_rbp_withdrawal_note`: Stores internal notes added by employees to a withdrawal request.
-- `ps_rbp_withdrawal_product`: Links specific products from an order to a withdrawal request, including quantity and reason.
+**Update status**
 
-Configuration records are stored in `ps_configuration` with keys typically prefixed with `RBP_` (e.g., `RBP_ALLOW_GUEST_WITHDRAWAL`, `RBP_MIN_ORDER_STATUS`).
+1. Choose **New status**.
+2. Write **Message to customer** (required when that setting is on; optional otherwise). The help text explains that the message appears in the storefront withdrawal history.
+3. Click **Update status**.
 
-#### Registered Hooks Table
+Success: **Status updated.** Other messages: **Please enter a message for the customer when changing the status.**, **Status is already set to this value.**, **Invalid status.**, **Could not update status.**
 
-| Hook Name | Execution Timing | Technical Purpose |
-| --- | --- | --- |
-| `displayHeader` | In the `<head>` section of every page. | Inject CSS/JS, display return button (if configured). |
-| `displayFooter` | In the footer of every page. | Display return button (if configured). |
-| `displayLeftColumn` | In the left column of pages. | Display return button (if configured). |
-| `displayRightColumn` | In the right column of pages. | Display return button (if configured). |
-| `displayProductButtons` | On the product page, near the add-to-cart button. | Display return button (if configured). |
-| `displayCustomerAccount` | On the customer’s “My Account” page. | Add a link to the withdrawal form/tracking. |
-| `displayOrderDetail` | On the customer’s individual order detail page. | Add an option to request a return for that order. |
-| `displayAdminOrder` | In the PrestaShop back office, on the order detail page. | Display a notice or summary of related withdrawal requests. |
-| `actionValidateOrder` | After an order has been successfully validated. | Potentially log order details for future withdrawal eligibility checks. |
-| `actionOrderStatusUpdate` | After an order’s status has been changed. | Check if the order status affects withdrawal eligibility or trigger notifications. |
-| `actionFrontControllerSetMedia` | Before a front controller renders its content. | Load front-office specific CSS and JavaScript assets. |
-| `actionAdminControllerSetMedia` | Before an admin controller renders its content. | Load back-office specific CSS and JavaScript assets. |
-| `actionModuleInstall` | During module installation. | Create database tables, set default configuration values. |
-| `actionModuleUninstall` | During module uninstallation. | Remove database tables, clean up configuration values. |
+**Resend confirmation email** sends the customer confirmation again, updates the sent flag when successful, and logs the event. Success: **Confirmation email sent.** Failure: **Could not send email.**
 
-## 5. Official Support & Updates
+**Internal notes** are staff-only. Enter text and click **Add note**. Notes appear under **Internal notes** and in the audit trail; they are not a substitute for the customer-facing status message.
 
-For official updates, technical support, and any questions regarding the “EU Return Button – Online Withdrawal Form” module, please refer to your customer account at [MyPresta.eu](https://mypresta.eu/). Our support team and developers are available to assist you with any issues or inquiries.
+**Attachments** accept staff uploads (PDF and common images, max 10 MB). Download by clicking the file name. Messages: **Attachment uploaded.**, **Invalid file or size over 10 MB.**, **File type not allowed.**, **Upload failed.**
+
+**Audit trail** lists date, event, employee, and details (status transitions and messages). Typical events: customer submitted the statement, customer confirmed the legal statement, status updated, confirmation email sent, document added, internal note added.
+
+Use **Back to list** to return to **Withdrawals**.
+
+### 3.7 Order side panel in the back office
+
+On PrestaShop 1.7.7 and newer, open an order in the back office. When that order has withdrawal cases, a **Withdrawal requests** side block lists each reference, status badge, date, and **View** (opens the case). On older 1.7 builds without the side-order hook, use **Customers** → **Withdrawals** and filter by order reference.
+
+Pending cases can also raise a back-office warning with a count of requests pending review and a link to the list.
+
+## 4. Storefront
+
+No storefront screenshots are included here; wire the theme and check the live shop after saving Settings and clearing cache.
+
+### 4.1 Footer
+
+With **Footer button** on and the correct hook, pages show the withdrawal button (label from **Button label**) styled with **Button color**, plus **Track withdrawal status** when public tracking is on. **Footer alignment** and **Footer theme** control layout and text contrast. If the theme never calls the selected footer hook, change the hook or place the custom hook in a template and select that option under **Footer button hook**.
+
+### 4.2 Customer account
+
+With **Link in customer account** on, My Account shows the withdrawal entry (and track link where the account template includes it). Excluded customer groups see no entry points.
+
+### 4.3 Order detail
+
+With **Link on order detail** on, eligible orders show the withdrawal button pre-filled for that order. Existing cases for the order are listed with status. Ineligible orders show a short reason instead of the button, for example period ended, status not allowed, duplicate active request, or no eligible products.
+
+### 4.4 Guest access
+
+When **Guest access** is on, a visitor opens the form, enters order reference and email, then continues like a logged-in customer for that order. When guest access is off, guests see that they must log in (or you must enable guest access in Settings). Invalid security tokens and too many attempts show clear wait / retry messages.
+
+### 4.5 Track status
+
+**Track withdrawal status** asks for withdrawal reference (format like RBP-…) and email, then shows status, submitted date, scope, confirmation email state, and links to details and print. Wrong pair: **No withdrawal found for these details.**
+
+### 4.6 Status page and print
+
+After submit, **Withdrawal submitted** shows the reference, checklist (statement saved, confirmation email, shop will process), then **View withdrawal details**, **Track status**, and **Print / save PDF**. The status page lists products, quantities, prices, totals, and **Withdrawal history** including staff messages from status updates. Print opens a printable proof page using a secure token from the confirmation flow.
+
+## 5. Problems
+
+### 5.1 Free Return Button still enabled
+
+**Symptom:** configuration is blocked; alert that the other return module is enabled; saves may show that changes were not saved until that module is disabled.
+
+**What to do:** **Modules** → **Module Manager** → find the free Return Button module → **Disable**. Then open Return Button Pro again.
+
+### 5.2 Footer button missing
+
+**Symptom:** no withdrawal button in the footer.
+
+**What to do:** confirm **Module enabled** and **Footer button** are on. On **Settings**, set **Footer button hook** to Auto or try the other footer positions one by one. Clear cache and hard-refresh the shop. For custom themes, place the custom module hook in the template and select that option in **Footer button hook**. Open **Dashboard**: it shows the detected theme profile and the active footer hook name so you can compare with the theme.
+
+### 5.3 “Return not available — the withdrawal period has ended.”
+
+**Symptom:** order detail or form blocks withdrawal with this message.
+
+**What to do:** check **Withdrawal period** and **Order state = delivered**. Fix order history if delivery was never recorded. Extend the period only if your terms allow it.
+
+### 5.4 “An active withdrawal request already exists for this order.”
+
+**Symptom:** customer cannot open a second case.
+
+**What to do:** finish or close the existing case (**Refunded** / **Rejected**), or temporarily turn off **Block duplicate active requests** only if your process truly allows multiple open claims.
+
+### 5.5 “This order status does not allow withdrawal.”
+
+**Symptom:** order is outside the allowed status filter.
+
+**What to do:** on **Settings**, set **Allowed order statuses** to **All order statuses**, or add the current order state to **Allowed for withdrawal**.
+
+### 5.6 “No products in this order are eligible for withdrawal.” / exclusion message on lines
+
+**Symptom:** every line excluded, or selected partial lines invalid.
+
+**What to do:** review excluded products, variants, categories, manufacturers, and suppliers. Adjust **Exclusion message** so customers understand why.
+
+### 5.7 “Withdrawal is not available for your customer account.”
+
+**Symptom:** form or buttons hidden for a logged-in customer.
+
+**What to do:** remove the customer’s group from **Excluded customer groups**, or move the customer to an allowed group.
+
+### 5.8 “Please enter a message for the customer when changing the status.”
+
+**Symptom:** status update fails in the case view.
+
+**What to do:** fill **Message to customer**, or turn off **Require message to customer when changing status** if your process allows empty messages.
+
+### 5.9 Confirmation email not sent
+
+**Symptom:** case shows email not sent; customer has no durable confirmation.
+
+**What to do:** fix PrestaShop mail settings, check spam, use **Resend confirmation email**. Set **Notification email** for staff copies. Confirm the shop contact email works.
+
+### 5.10 Guest cannot find the order
+
+**Symptom:** **No order found for the given details.** or rate-limit wait.
+
+**What to do:** match exact order reference and order email. Wait if too many attempts. Confirm **Guest access** is on.
+
+### 5.11 Updates check fails or stays silent
+
+**Symptom:** manual check does not report a version.
+
+**What to do:** ensure curl works and the server can reach MyPresta.eu. Disable the free module if Pro is blocked. Retry **Manual Check** on the **Updates** tab.
+
+## 6. For developers
+
+### 6.1 Overview
+
+- Technical name: `rbpro`
+- Version: current 1.7–9 package (e.g. 1.4.6); PrestaShop 1.6 ships as a separate package (e.g. 1.4.5) with `ps_versions_compliancy` min `1.6.0.0`
+- Display name: Return Button Pro
+- Author: MyPresta.eu
+- Tab: `front_office_features`
+- Main class: `Rbpro`
+- `ps_versions_compliancy` on the 1.7–9 package: min `1.7.0.0`; on the 1.6 package: min `1.6.0.0`
+- Service layer: `RbpWithdrawalService`; security: `RbpSecurity`; theme/hooks: `RbpCompatibility`; analytics: `RbpStatsService`
+- Flow: Configuration keys → hooks / front controllers → `rbp_withdrawal*` tables → admin `AdminRbpWithdrawal` → customer status/track/print
+
+### 6.2 Important files
+
+| Path | Role |
+|---|---|
+| `rbpro.php` | Module bootstrap, install/uninstall, configure tabs, hooks, defaults |
+| `classes/RbpWithdrawal.php` | Case object model and statuses |
+| `classes/RbpWithdrawalService.php` | Eligibility, deadlines, create/confirm, emails, status updates |
+| `classes/RbpSecurity.php` | CSRF, guest grant, rate limit, IBAN sanitize |
+| `classes/RbpCompatibility.php` | Theme profile, footer hook resolution, admin URLs, required hooks |
+| `controllers/admin/AdminRbpWithdrawalController.php` | List and case view |
+| `controllers/front/form.php` | Two-step form |
+| `controllers/front/confirm.php` | Success page |
+| `controllers/front/track.php` | Public track |
+| `controllers/front/status.php` | Case details for customer |
+| `controllers/front/print.php` | Printable proof |
+| `sql/install.sql` | Creates `rbp_*` tables |
+| `sql/uninstall.sql` | Comment only — tables kept |
+| `lib/updateChecker.php` | MyPresta update UI (`rbproUpdate`) |
+| `views/templates/admin/*` | Dashboard, configure shell, case view, order side notice |
+| `views/templates/front/*` | Form, confirm, track, status, print, error |
+| `views/templates/hook/*` | Footer/account/order buttons (classic / hummingbird) |
+| `mails/*` | `rbf_withdrawal_customer` / `rbf_withdrawal_admin` templates |
+| `translations/*.php` | Pack translations |
+
+### 6.3 Controllers
+
+| Controller | Parent / entry | Notes |
+|---|---|---|
+| Configure (`getContent`) | Module Manager | Tabs `rbp_tab`: `dashboard`, `settings`, `updates` |
+| `AdminRbpWithdrawal` | Customers → Withdrawals | `add`/`edit` false; view-only create path; export CSV; attachment download |
+| Front `form` | Module link | Steps 1–2; guest lookup; draft cookie |
+| Front `confirm` | Module link | Success after submit |
+| Front `track` | Module link | Reference + email |
+| Front `status` | Module link | Timeline + products |
+| Front `print` | Module link | HMAC token on reference |
+
+Permissions follow the admin tab. Front controllers require module enabled for the form; tracking respects `RBP_ENABLE_STATUS_TRACK`.
+
+### 6.4 Hooks
+
+Registered: `displayHeader`, `actionFrontControllerSetMedia`, `displayCustomerAccount`, `displayOrderDetail`, `actionPresentOrder`, `displayFooter`, `displayFooterBefore`, `displayFooterAfter`, `displayRbproButton`; on PS ≥ 1.7.7 also `displayBackOfficeHeader`, `displayAdminOrderSide`.
+
+Module-executed: `actionRbpWithdrawalCreated`, `actionRbpWithdrawalConfirmed` (and status-related hooks from the service where defined).
+
+Footer output runs only for the hook name resolved by `RbpCompatibility::getFooterHookName()`.
+
+### 6.5 Overrides
+
+No class or controller overrides. Theme integration uses hooks and selectable templates only.
+
+### 6.6 Database
+
+| Table | Content |
+|---|---|
+| `PREFIX_rbp_withdrawal` | Case header: shop, order, customer, reference, scope, type, status, IBAN, message, IP, UA, lang, email flags, deadline, dates |
+| `PREFIX_rbp_withdrawal_product` | Selected lines and quantities |
+| `PREFIX_rbp_withdrawal_note` | Internal staff notes |
+| `PREFIX_rbp_withdrawal_attachment` | Staff uploads metadata |
+| `PREFIX_rbp_withdrawal_history` | Audit events |
+
+Uninstall does **not** drop these tables. `ensureDatabase()` creates missing tables and can migrate from `rbf_*` when Pro tables are empty and free tables have rows.
+
+### 6.7 Configuration keys and translations
+
+Defaults from `Rbpro::CONFIG`:
+
+| Key | Default |
+|---|---|
+| `RBP_ENABLED` | 1 |
+| `RBP_GUEST_ENABLED` | 1 |
+| `RBP_IBAN_ENABLED` | 0 |
+| `RBP_WITHDRAWAL_DAYS` | 14 |
+| `RBP_DELIVERED_STATUS` | 0 (Auto) |
+| `RBP_EXCLUDED_PRODUCTS` / `_COMBINATIONS` / `_CATEGORIES` / `_MANUFACTURERS` / `_SUPPLIERS` / `_CUSTOMER_GROUPS` | empty |
+| `RBP_ALLOWED_ORDER_STATES` | empty |
+| `RBP_ALLOWED_ORDER_STATES_RESTRICT` | 0 |
+| `RBP_FOOTER_ENABLED` | 1 |
+| `RBP_FOOTER_THEME` | light |
+| `RBP_FOOTER_POSITION` | center |
+| `RBP_BUTTON_COLOR` | `#2563eb` |
+| `RBP_CUSTOM_CSS` | empty |
+| `RBP_SHOW_ACCOUNT` / `RBP_SHOW_ORDER` | 1 |
+| `RBP_SEO_NOINDEX` | 1 |
+| `RBP_ADMIN_EMAIL` | empty |
+| `RBP_BLOCK_DUPLICATE` | 1 |
+| `RBP_SHOW_DEADLINE` | 1 |
+| `RBP_REQUIRE_CHECKBOX` | 1 |
+| `RBP_REQUIRE_STATUS_MESSAGE` | 1 |
+| `RBP_THEME_TYPE` | auto |
+| `RBP_FOOTER_HOOK` | auto |
+| `RBP_ENABLE_STATUS_TRACK` | 1 |
+
+Multilang (not in `CONFIG` array, installed by defaults): `RBP_BUTTON_TEXT`, `RBP_EXCLUSION_MSG`, `RBP_SEO_TITLE`, `RBP_SEO_DESC`, `RBP_LEGAL_CHECKBOX`. Runtime: `RBP_ADMIN_FOLDER`. Update prefs use MyPresta update checker keys. Free-module migration maps `RBF_*` → `RBP_*` when Pro keys are empty.
+
+Translations: `translations/{iso}.php`. Field `desc` strings live in `renderConfigurationForm()` via `$this->l()`.
+
+Statuses: `pending`, `confirmed` (label Registered), `processing`, `refunded`, `rejected`.
+
+### 6.8 Extending
+
+Override hook TPL/CSS in the theme for `modules/rbpro/...` without editing the module. Place `{hook h='displayRbproButton'}` for custom button placement. Listen to `actionRbpWithdrawalCreated` / `actionRbpWithdrawalConfirmed`. Do not rely on overrides — there are none to cascade.
+
+## 7. Support
+
+Product page: https://mypresta.eu/modules/front-office-features/eu-return-button-online-withdrawal-form.html
+
+For help with this paid module: log in to your customer account on mypresta.eu, open Contact, and choose **Support for paid modules**. The form requires login for paid modules; after login, select Return Button Pro from your purchase history.

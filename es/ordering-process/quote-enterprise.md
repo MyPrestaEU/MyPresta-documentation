@@ -1,8 +1,8 @@
 ---
-title: "Quote Enterprise - Manual del Comerciante y Guía de Configuración"
-description: "Manual de usuario completo, guía de configuración pantalla por pantalla y referencia para desarrolladores del módulo Quote Enterprise para PrestaShop de MyPresta.eu."
+title: "Quote Enterprise - manual del comerciante"
 sidebar:
-  label: "Quote Enterprise - Manual del Comerciante y Guía de Configuración"
+  label: "Quote Enterprise - manual del comerciante"
+description: "Cómo configurar Quote Enterprise, ejecutar el proceso completo de presupuesto a pedido y resolver problemas habituales."
 ---
 
 > ⚠️ **Notice:** This is the documentación oficial del módulo de PrestaShop.
@@ -12,378 +12,353 @@ sidebar:
 > ---
 
 
-# Quote Enterprise
-
-## 1. Requisitos y Compatibilidad
-
-- **Versiones de PrestaShop Compatibles**: PrestaShop 1.7.x, 8.x, 9.x
-- **Compatibilidad PHP**: PHP 7.1 - 8.5
-- **Requisitos de Alojamiento**: Se requieren extensiones PHP estándar (cURL, JSON, OpenSSL). Asegúrate de que tu servidor cumpla con los requisitos mínimos de PrestaShop.
-
-## 2. Recorrido Completo por la Configuración (Cada Ajuste Agrupado por Pantalla)
-
-### 2.1 Página de Configuración del Módulo (Back Office > Módulos > Configurar > Quote Enterprise)
-
-Esta es la pantalla de configuración principal donde defines el comportamiento central y la apariencia del módulo Quote Enterprise.
-
-#### Pestaña de Configuración General
-
-- **Habilitar Quote Enterprise:**
-
-  - **Qué hace este ajuste:** Este es el interruptor maestro para todo el módulo.
-  - **Efecto de cambiar este ajuste:**
-    - *Cuando está habilitado:* El sistema de cotizaciones se activa en tu tienda y los clientes pueden empezar a solicitar cotizaciones.
-    - *Cuando está deshabilitado:* Toda la funcionalidad de cotizaciones se oculta del front office y no se pueden solicitar nuevas cotizaciones. Las cotizaciones existentes en el back office siguen siendo accesibles para su gestión.
-  - **Valor recomendado:** SÍ
-  - **Escenario / ejemplo del comerciante:** Habilítalo cuando estés listo para ofrecer servicios de cotización. Desactívalo temporalmente durante el mantenimiento o si decides dejar de ofrecer cotizaciones.
-- **Permitir Solicitudes de Cotización desde el Carrito:**
-
-  - **Qué hace este ajuste:** Determina si los clientes pueden convertir todo su carrito de compras en una solicitud de cotización.
-  - **Efecto de cambiar este ajuste:**
-    - *Cuando está habilitado:* Un botón o enlace "Solicitar una Cotización" aparecerá en el resumen del carrito de compras, permitiendo a los clientes enviar todos los artículos de su carrito para una cotización.
-    - *Cuando está deshabilitado:* Los clientes solo pueden solicitar cotizaciones desde páginas de productos individuales o a través del botón flotante (si está habilitado), no directamente desde su carrito.
-  - **Valor recomendado:** SÍ (para la mayoría de los escenarios B2B y de pedidos al por mayor)
-  - **Escenario / ejemplo del comerciante:** Si principalmente tratas con pedidos grandes de varios artículos donde el precio a menudo se negocia, habilita esto. Si tus cotizaciones suelen ser para productos únicos y personalizados, podrías deshabilitarlo.
-- **Permitir Solicitudes de Cotización desde la Página de Producto:**
-
-  - **Qué hace este ajuste:** Controla si aparece un botón "Solicitar una Cotización" en las páginas de productos individuales.
-  - **Efecto de cambiar este ajuste:**
-    - *Cuando está habilitado:* Los clientes pueden añadir un producto específico a una solicitud de cotización directamente desde su página, en lugar de añadirlo al carrito.
-    - *Cuando está deshabilitado:* La opción de solicitud de cotización se elimina de las páginas de productos.
-  - **Valor recomendado:** SÍ
-  - **Escenario / ejemplo del comerciante:** Esencial para productos personalizados, artículos de alto valor o cuando deseas ofrecer una alternativa a la compra directa para cualquier producto.
-- **Mostrar Botón Flotante de Cotización:**
-
-  - **Qué hace este ajuste:** Añade un botón flotante persistente al front office de tu tienda, permitiendo a los clientes iniciar una solicitud de cotización desde casi cualquier página.
-  - **Efecto de cambiar este ajuste:**
-    - *Cuando está habilitado:* Aparecerá un pequeño botón clicable (a menudo en una esquina de la pantalla), abriendo el formulario de solicitud de cotización o una lista de cotizaciones existentes.
-    - *Cuando está deshabilitado:* El botón flotante no será visible.
-  - **Valor recomendado:** SÍ (para alta visibilidad y facilidad de acceso)
-  - **Escenario / ejemplo del comerciante:** Utiliza esto para hacer que la opción de cotización sea altamente visible en toda tu tienda, fomentando más solicitudes.
-- **Valor Mínimo del Pedido para la Solicitud de Cotización:**
-
-  - **Qué hace este ajuste:** Establece un valor total mínimo (en tu moneda predeterminada) que una solicitud de cotización debe cumplir para ser enviada.
-  - **Efecto de cambiar este ajuste:**
-    - *Cuando se establece un valor (por ejemplo, 100):* Los clientes no pueden enviar una solicitud de cotización si el valor total de los artículos en su solicitud es inferior a esta cantidad. Se mostrará un mensaje de error.
-    - *Cuando se establece en 0 o se deja vacío:* No se aplica ningún valor mínimo.
-  - **Valor recomendado:** 0 (o un valor que filtre solicitudes triviales)
-  - **Escenario / ejemplo del comerciante:** Si solo deseas procesar cotizaciones para pedidos significativos, establece un valor mínimo (por ejemplo, $500) para reducir la carga administrativa de las solicitudes pequeñas.
-- **Validez Predeterminada de la Cotización (Días):**
-
-  - **Qué hace este ajuste:** Define cuántos días será válida una cotización recién creada, por defecto.
-  - **Efecto de cambiar este ajuste:**
-    - *Cuando se establece un número (por ejemplo, 30):* Todas las nuevas cotizaciones creadas por tu equipo tendrán automáticamente una fecha de vencimiento 30 días después de su creación.
-    - *Cuando se establece en 0 o se deja vacío:* Las cotizaciones no tendrán un período de validez predeterminado, y tu equipo deberá establecerlo manualmente o gestionarlas sin vencimiento.
-  - **Valor recomendado:** 30 (o un período típico para tu industria)
-  - **Escenario / ejemplo del comerciante:** Establecer una validez de 30 días anima a los clientes a actuar dentro de un plazo razonable y te protege de las fluctuaciones de precios.
-
-#### Pestaña de Plantillas de Correo Electrónico
-
-Esta sección te permite personalizar las notificaciones por correo electrónico enviadas por el módulo.
-
-- **Gestor de Plantillas de Correo Electrónico:**
-  - **Qué hace este ajuste:** Proporciona una interfaz visual para editar el contenido de varias plantillas de correo electrónico relacionadas con las cotizaciones (por ejemplo, nueva solicitud de cotización, cotización actualizada, cotización aceptada).
-  - **Efecto de cambiar este ajuste:**
-    - *Cuando editas una plantilla:* El correo electrónico correspondiente enviado a los clientes o a tu equipo reflejará tus cambios, incluyendo texto, marca y diseño.
-  - **Valor recomendado:** Personaliza para que coincida con la voz de tu marca y proporciona instrucciones claras.
-  - **Escenario / ejemplo del comerciante:** Cambia el correo electrónico de "Nueva Solicitud de Cotización" para incluir instrucciones específicas para tu equipo de ventas o añade un saludo personalizado para los clientes.
-
-#### Pestaña de Configuración Avanzada
-
-- **Habilitar REST API:**
-
-  - **Qué hace este ajuste:** Activa una interfaz programática (API) para el módulo, permitiendo que sistemas externos o aplicaciones personalizadas interactúen con tus cotizaciones.
-  - **Efecto de cambiar este ajuste:**
-    - *Cuando está habilitado:* El módulo expone puntos finales que pueden ser utilizados por los desarrolladores para crear, leer, actualizar y eliminar cotizaciones programáticamente.
-    - *Cuando está deshabilitado:* La API está inactiva y no se puede acceder a ella.
-  - **Valor recomendado:** NO (a menos que tengas necesidades de integración específicas)
-  - **Escenario / ejemplo del comerciante:** Si te integras con un CRM, ERP o una aplicación móvil personalizada, habilitar la API permite que estos sistemas creen o actualicen automáticamente cotizaciones en PrestaShop. Requiere experiencia de desarrollador.
-- **Gestión de Claves API:**
-
-  - **Qué hace este ajuste:** Te permite generar y gestionar claves API, que son necesarias para autenticar las solicitudes a la REST API del módulo.
-  - **Efecto de cambiar este ajuste:**
-    - *Cuando creas una clave:* Obtienes un identificador único que las aplicaciones externas deben usar para acceder a la API.
-    - *Cuando revocas una clave:* Cualquier aplicación que use esa clave perderá el acceso a la API.
-  - **Valor recomendado:** Genera claves solo cuando sea necesario para integraciones específicas.
-  - **Escenario / ejemplo del comerciante:** Crea una nueva clave API para que tu sistema CRM envíe nuevos clientes potenciales como solicitudes de cotización a PrestaShop.
-- **URL de Tarea Cron para Vencimiento y Resumen:**
-
-  - **Qué hace este ajuste:** Proporciona una URL que, al ser accedida, activa tareas en segundo plano como la comprobación de vencimientos de cotizaciones y el envío de resúmenes diarios a tu equipo.
-  - **Efecto de cambiar este ajuste:**
-    - *Cuando se configura en tu servidor:* El módulo realizará automáticamente estas tareas a intervalos regulares (por ejemplo, diariamente), asegurando que las cotizaciones se marquen como vencidas y tu equipo reciba resúmenes oportunos.
-    - *Cuando no se configura:* Las comprobaciones de vencimiento y los correos electrónicos de resumen no se automatizarán.
-  - **Valor recomendado:** Configura esta URL como una tarea cron diaria en tu servidor de alojamiento.
-  - **Escenario / ejemplo del comerciante:** Configura una tarea cron para ejecutar esta URL una vez al día para asegurar que los clientes sean notificados de las cotizaciones que vencen y tu equipo de ventas reciba un resumen diario de las nuevas solicitudes.
-
-### 2.2 Pantallas de Administración Dedicadas y Vistas de Controlador
-
-#### 2.2.1 Gestión de Cotizaciones (Back Office > Quote Enterprise > Cotizaciones)
-
-Este es el centro neurálgico para que tu equipo de ventas gestione todas las solicitudes de cotización.
-
-- **Nombre de la Pantalla y Ubicación del Menú:** **Quote Enterprise > Cotizaciones**
-- **Acciones y Configuraciones Disponibles:**
-  - **Tabla de Lista de Cotizaciones:** Muestra todas las cotizaciones enviadas con información clave como el nombre del cliente, el estado, el valor total y la fecha de creación.
-  - **Filtrado y Búsqueda:** Herramientas para encontrar cotizaciones específicas por cliente, estado, rango de fechas, etc.
-  - **Ver/Editar Cotización:** Haz clic en cualquier cotización para abrir una vista detallada donde puedes:
-    - **Ajustar Productos y Cantidades:** Modifica los artículos, cantidades y precios dentro de la cotización.
-    - **Añadir/Eliminar Productos:** Busca y añade nuevos productos a la cotización o elimina los existentes.
-    - **Aplicar Descuentos:** Ofrece descuentos específicos sobre el total de la cotización o artículos individuales.
-    - **Establecer Validez:** Define la fecha de vencimiento de la cotización.
-    - **Añadir Notas/Mensajes:** Comunícate con el cliente directamente a través de la interfaz de cotización.
-    - **Cambiar Estado:** Actualiza el estado de la cotización (por ejemplo, Pendiente, Enviada, Aceptada, Rechazada, Vencida).
-    - **Generar PDF:** Crea una factura proforma profesional en PDF para el cliente.
-    - **Convertir a Pedido:** Con un solo clic, convierte una cotización aceptada en un pedido estándar de PrestaShop, listo para el pago.
-    - **Enviar Correo Electrónico:** Envía detalles de cotización actualizados o mensajes al cliente.
-  - **Acciones Masivas:** Selecciona varias cotizaciones para realizar acciones como cambiar el estado, eliminar o exportar.
-- **Efecto de los cambios:**
-  - Modificar una cotización actualiza sus detalles en la base de datos y puede activar notificaciones por correo electrónico al cliente.
-  - Convertir a pedido crea un nuevo pedido en el sistema de gestión de pedidos estándar de PrestaShop, pre-rellenado con los artículos y precios cotizados.
-  - Cambiar el estado actualiza la vista del cliente en su cuenta y puede activar plantillas de correo electrónico específicas.
-- **Flujo de trabajo recomendado para la gestión diaria de la tienda:**
-  1. Revisa regularmente la lista de "Cotizaciones" en busca de nuevas solicitudes "Pendientes".
-  2. Abre cada nueva solicitud, revisa los artículos, ajusta precios/cantidades si es necesario y añade cualquier nota interna.
-  3. Establece un período de validez y genera una proforma en PDF.
-  4. Cambia el estado a "Enviada" y envía la cotización por correo electrónico al cliente.
-  5. Haz un seguimiento de las cotizaciones "Enviadas". Si se aceptan, conviértelas en pedido. Si se rechazan o vencen, actualiza el estado en consecuencia.
-
-#### 2.2.2 Registro de Auditoría (Back Office > Quote Enterprise > Registro de Auditoría)
-
-Esta pantalla proporciona un historial detallado de todas las acciones realizadas en las cotizaciones.
-
-- **Nombre de la Pantalla y Ubicación del Menú:** **Quote Enterprise > Registro de Auditoría**
-- **Acciones y Configuraciones Disponibles:**
-  - **Tabla de Lista de Registros:** Muestra una lista cronológica de eventos relacionados con las cotizaciones, incluyendo quién realizó la acción, qué acción se tomó (por ejemplo, "Cotización Creada", "Precio Cambiado", "Estado Actualizado") y cuándo ocurrió.
-  - **Filtrado:** Filtra el registro por fecha, usuario o tipo de acción para encontrar eventos específicos.
-- **Efecto de los cambios:** Este es un registro de solo lectura; no puedes realizar cambios aquí. Sirve como un registro histórico.
-- **Flujo de trabajo recomendado para la gestión diaria de la tienda:**
-  - Utiliza el registro de auditoría para rastrear cambios, solucionar problemas o revisar la actividad del equipo en las cotizaciones. Es invaluable para la rendición de cuentas y para comprender el ciclo de vida de cada cotización.
-
-### 2.3 Tabla de Referencia Rápida de Configuración
-
-| Pantalla / Vista | Ajuste / Opción | Predeterminado / Recomendado | Propósito e Impacto |
-| --- | --- | --- | --- |
-| **Configuración del Módulo** | Habilitar Quote Enterprise | SÍ | Interruptor maestro para la funcionalidad del módulo. |
-|  | Permitir Solicitudes de Cotización desde el Carrito | SÍ | Añade el botón de cotización a la página del carrito. |
-|  | Permitir Solicitudes de Cotización desde la Página de Producto | SÍ | Añade el botón de cotización a las páginas de productos. |
-|  | Mostrar Botón Flotante de Cotización | SÍ | Muestra un botón de cotización persistente en el front office. |
-|  | Valor Mínimo del Pedido para la Solicitud de Cotización | 0 | Establece un valor mínimo para el envío de cotizaciones. |
-|  | Validez Predeterminada de la Cotización (Días) | 30 | Establece el vencimiento predeterminado para las nuevas cotizaciones. |
-|  | Gestor de Plantillas de Correo Electrónico | Personalizar | Edita el contenido del correo electrónico para varios eventos de cotización. |
-|  | Habilitar REST API | NO | Activa la API para integraciones externas (solo desarrolladores). |
-|  | Gestión de Claves API | N/A | Gestiona las claves API para un acceso seguro a la API (solo desarrolladores). |
-|  | URL de Tarea Cron para Vencimiento y Resumen | Configurar | Automatiza las comprobaciones de vencimiento de cotizaciones y los resúmenes del equipo. |
-| **Gestión de Cotizaciones** | Lista de Cotizaciones | N/A | Ver, filtrar y gestionar todas las cotizaciones. |
-|  | Ver/Editar Cotización | N/A | Ajustar artículos, precios, estado, generar PDF, convertir a pedido. |
-|  | Acciones Masivas | N/A | Aplicar acciones a múltiples cotizaciones seleccionadas. |
-| **Registro de Auditoría** | Lista de Registros | N/A | Revisar acciones históricas en todas las cotizaciones. |
-
-## 3. Solución de Problemas del Comerciante y Preguntas Frecuentes (FAQ)
-
-**P: Mis botones "Solicitar una Cotización" no aparecen en el front office.**
-R:
-
-1. **Verifica el Estado del Módulo:** Asegúrate de que "Habilitar Quote Enterprise" esté configurado en SÍ en la configuración del módulo.
-2. **Verifica la Configuración Específica:** Verifica que "Permitir Solicitudes de Cotización desde el Carrito" y "Permitir Solicitudes de Cotización desde la Página de Producto" estén habilitados según sea necesario.
-3. **Borra la Caché:** Ve a **Parámetros Avanzados > Rendimiento** y borra la caché de PrestaShop (caché de Smarty, caché del sistema de archivos). A veces, los cambios no aparecen hasta que se actualiza la caché.
-4. **Compatibilidad del Tema:** Si estás utilizando un tema personalizado, podría haber un problema de compatibilidad. Contacta con el soporte de MyPresta.eu con los detalles de tu tema.
-
-**P: Los clientes no reciben correos electrónicos de notificación de cotización.**
-R:
-
-1. **Verifica las Plantillas de Correo Electrónico:** En la configuración del módulo, ve a la pestaña "Plantillas de Correo Electrónico" y asegúrate de que las plantillas estén correctamente configuradas y guardadas.
-2. **Configuración de Correo Electrónico de PrestaShop:** Verifica tu configuración general de correo electrónico de PrestaShop (SMTP, correo PHP) en **Parámetros Avanzados > E-mail**. Envía un correo electrónico de prueba desde allí para confirmar que el sistema de correo de tu tienda funciona.
-3. **Carpetas de Spam:** Aconseja a los clientes que revisen sus carpetas de spam o correo no deseado.
-4. **Tarea Cron (para resúmenes/recordatorios):** Si se trata de recordatorios de vencimiento o resúmenes diarios, asegúrate de que la URL de la tarea cron esté correctamente configurada en tu servidor para ejecutarse regularmente.
-
-**P: ¿Puedo personalizar la apariencia del formulario de solicitud de cotización o los botones?**
-R: Sí, el módulo utiliza la plantilla estándar de PrestaShop. Para cambios básicos de estilo (colores, fuentes), a menudo puedes sobrescribir el CSS del módulo en el archivo CSS personalizado de tu tema. Para cambios de diseño más complejos, necesitarías sobrescribir los archivos TPL del módulo en tu tema. Esto generalmente requiere un desarrollador web.
-
-**P: ¿Cómo convierto una cotización aceptada en un pedido regular?**
-R: En el Back Office de PrestaShop, navega a **Quote Enterprise > Cotizaciones**. Abre la cotización específica que deseas convertir. Dentro de la vista detallada de la cotización, habrá un botón (por ejemplo, "Convertir a Pedido" o "Crear Pedido"). Al hacer clic en él, se generará un nuevo pedido en tu lista de pedidos estándar de PrestaShop, pre-rellenado con los artículos y precios cotizados.
-
-**P: ¿Qué sucede si una cotización vence?**
-R: Si la tarea cron está configurada, el módulo marcará automáticamente las cotizaciones vencidas como "Vencidas". Los clientes ya no podrán aceptar o convertir una cotización vencida en un pedido. Tu equipo de ventas aún puede ver las cotizaciones vencidas y potencialmente reactivar o crear una nueva cotización si es necesario.
-
-## 4. Guía para Desarrolladores y Webmasters (Arquitectura Técnica y Mapa de Código)
-
-### 4.1 Resumen de la Arquitectura
-
-El módulo Quote Enterprise sigue una sólida arquitectura MVC (Modelo-Vista-Controlador) de PrestaShop, aprovechando en gran medida `ObjectModel` para la persistencia de datos. Se integra perfectamente con el sistema de hooks de PrestaShop para la visualización en el front-office y las acciones en el back-office. El módulo incluye controladores de administración dedicados para gestionar cotizaciones y registros de auditoría, controladores frontales para la interacción del cliente (solicitud, lista, vista, API) y un conjunto completo de clases de ayuda para la lógica de negocio, generación de PDF, manejo de correo electrónico y más. También se proporciona una REST API para la integración de sistemas externos.
-
-### 4.2 Controladores (`controllers/`)
-
-#### Controladores del Front-Office
-
-- `controllers/front/api.php`
-  - Nombre de la clase: `QuoteenterpriseApiModuleFrontController` (extiende `ModuleFrontController`)
-  - Responsabilidad: Maneja las solicitudes de API desde el front-office, probablemente para integraciones específicas orientadas al cliente o carga de contenido dinámico.
-- `controllers/front/cron.php`
-  - Nombre de la clase: `QuoteenterpriseCronModuleFrontController` (extiende `ModuleFrontController`)
-  - Responsabilidad: Sirve como punto final para la tarea cron, activando tareas en segundo plano como la comprobación de vencimientos de cotizaciones y el envío de correos electrónicos de resumen.
-- `controllers/front/index.php`
-  - Nombre de la clase: `QuoteenterpriseIndexModuleFrontController` (extiende `ModuleFrontController`)
-  - Responsabilidad: Probablemente un controlador de reserva o base, o maneja una ruta predeterminada para la sección del front-office del módulo.
-- `controllers/front/list.php`
-  - Nombre de la clase: `QuoteenterpriseListModuleFrontController` (extiende `ModuleFrontController`)
-  - Responsabilidad: Muestra una lista de cotizaciones para el cliente que ha iniciado sesión en su área de cuenta.
-- `controllers/front/pdf.php`
-  - Nombre de la clase: `QuoteenterprisePdfModuleFrontController` (extiende `ModuleFrontController`)
-  - Responsabilidad: Genera y sirve versiones PDF de las cotizaciones para que los clientes las descarguen.
-- `controllers/front/quoteList.php`
-  - Nombre de la clase: `QuoteenterpriseQuoteListModuleFrontController` (extiende `ModuleFrontController`)
-  - Responsabilidad: Similar a `list.php`, potencialmente una vista alternativa o específica para listados de cotizaciones, posiblemente para carga AJAX.
-- `controllers/front/request.php`
-  - Nombre de la clase: `QuoteenterpriseRequestModuleFrontController` (extiende `ModuleFrontController`)
-  - Responsabilidad: Maneja la visualización y el envío del formulario de solicitud de cotización desde las páginas de productos, el carrito o el botón flotante. Procesa los datos del formulario y crea nuevas entradas de cotización.
-- `controllers/front/view.php`
-  - Nombre de la clase: `QuoteenterpriseViewModuleFrontController` (extiende `ModuleFrontController`)
-  - Responsabilidad: Muestra la vista detallada de una sola cotización para el cliente, mostrando artículos, precios, estado y mensajes.
-
-#### Controladores de Administración del Back-Office
-
-- `controllers/admin/AdminQuoteEnterpriseAuditLog.php`
-  - Nombre de la clase: `AdminQuoteEnterpriseAuditLogController` (extiende `ModuleAdminController`)
-  - Nombre de la pestaña: Quote Enterprise > Registro de Auditoría
-  - Entidad gestionada: `quote_audit_log` (probablemente un `ObjectModel` personalizado para entradas de auditoría)
-  - Responsabilidad: Proporciona una vista de cuadrícula para que los administradores revisen todas las acciones y cambios históricos relacionados con las cotizaciones.
-- `controllers/admin/AdminQuoteEnterpriseQuotes.php`
-  - Nombre de la clase: `AdminQuoteEnterpriseQuotesController` (extiende `ModuleAdminController`)
-  - Nombre de la pestaña: Quote Enterprise > Cotizaciones
-  - Entidad gestionada: `quote` (probablemente un `ObjectModel` personalizado para cotizaciones)
-  - Responsabilidad: La interfaz principal para gestionar cotizaciones, incluyendo listar, ver, editar, convertir a pedido y enviar comunicaciones.
-- `controllers/admin/index.php`
-  - Nombre de la clase: `QuoteenterpriseAdminIndexModuleFrontController` (extiende `ModuleAdminController`)
-  - Responsabilidad: Probablemente un marcador de posición o controlador de administración base, que potencialmente redirige a la lista principal de cotizaciones o al panel de control.
-
-### 4.3 Clases y Modelos Principales (`classes/`)
-
-- `classes/index.php`: Archivo vacío, práctica común para evitar la lista de directorios.
-- `classes/QuoteAdmin.php`: Contiene la lógica para tareas específicas de administración, potencialmente relacionadas con la configuración del módulo o utilidades generales de administración.
-- `classes/QuoteAdminAjax.php`: Maneja las solicitudes AJAX originadas desde el back-office, como la búsqueda dinámica de productos para añadir a una cotización.
-- `classes/QuoteAdminQuoteForm.php`: Gestiona la compleja lógica del formulario para editar y crear cotizaciones en el back-office.
-- `classes/QuoteApi.php`: Clase principal para la REST API del módulo, que maneja la autenticación, el enrutamiento y la serialización de datos.
-- `classes/QuoteApiDocumentation.php`: Proporciona métodos para generar o mostrar documentación para los puntos finales de la API del módulo.
-- `classes/QuoteBulkActions.php`: Implementa la lógica para realizar acciones en múltiples cotizaciones seleccionadas en la lista de administración (por ejemplo, cambio de estado masivo).
-- `classes/QuoteConverter.php`: Maneja la lógica crucial de convertir una cotización aceptada en un pedido estándar de PrestaShop.
-- `classes/QuoteDashboard.php`: Proporciona datos y lógica para la vista del panel de control del módulo en el back-office (si está presente), resumiendo la actividad de las cotizaciones.
-- `classes/QuoteDuplicator.php`: Lógica para duplicar cotizaciones existentes.
-- `classes/QuoteenterpriseModuleFrontController.php`: Clase base para los controladores del front-office, que proporciona métodos y propiedades comunes.
-- `classes/QuoteExpiry.php`: Gestiona la lógica para comprobar la validez de las cotizaciones, marcarlas como vencidas y enviar notificaciones relacionadas.
-- `classes/QuoteExporter.php`: Maneja la exportación de datos de cotizaciones (por ejemplo, CSV, Excel).
-- `classes/QuoteFeeProduct.php`: Probablemente un `ObjectModel` o un ayudante para gestionar productos de "tarifa" especiales que se pueden añadir a las cotizaciones (por ejemplo, para servicios, cargos personalizados).
-- `classes/QuoteListHelper.php`: Proporciona métodos de utilidad para mostrar y filtrar listas de cotizaciones tanto en el front como en el back office.
-- `classes/QuoteMailer.php`: Clase centralizada para enviar varias notificaciones por correo electrónico relacionadas con las cotizaciones.
-- `classes/QuoteNotifyDigest.php`: Lógica para compilar y enviar resúmenes diarios o periódicos de la actividad de las cotizaciones a los administradores.
-- `classes/QuotePdf.php`: Maneja la generación de facturas proforma en PDF para las cotizaciones.
-- `classes/QuoteProductHelper.php`: Métodos de utilidad para interactuar con los productos de PrestaShop en el contexto de una cotización.
-- `classes/QuoteQtyHelper.php`: Ayuda con la gestión y validación de cantidades dentro de las cotizaciones.
-- `classes/QuoteQuotesManager.php`: Lógica de negocio principal para gestionar cotizaciones, incluyendo creación, actualizaciones y cambios de estado.
-- `classes/QuoteReference.php`: Gestiona la generación y unicidad de los números de referencia de las cotizaciones.
-- `classes/QuoteRequestHelper.php`: Ayuda con el procesamiento y la validación de las solicitudes de cotización enviadas por los clientes.
-- `classes/QuoteSchema.php`: Define el esquema de la base de datos para las tablas personalizadas utilizadas por el módulo (por ejemplo, `ps_quote`, `ps_quote_product`, `ps_quote_audit_log`).
-- `classes/QuoteSettingDescTrait.php`: Un trait de PHP probablemente utilizado para proporcionar descripciones o metadatos comunes para la configuración del módulo.
-- `classes/QuoteTaxHelper.php`: Maneja los cálculos de impuestos específicos de las cotizaciones.
-- `classes/QuoteThemeCompat.php`: Contiene la lógica para garantizar la compatibilidad con varios temas de PrestaShop, potencialmente detectando características del tema o proporcionando sobrescrituras.
-- `classes/QuoteTimeline.php`: Gestiona y muestra la línea de tiempo de eventos para una cotización específica (similar al historial de pedidos).
-- `classes/QuoteValidityHelper.php`: Métodos de utilidad para calcular y validar las fechas de vencimiento de las cotizaciones.
-- `classes/QuoteVisibility.php`: Controla la visibilidad de los elementos relacionados con las cotizaciones en el front office (por ejemplo, quién puede solicitar una cotización, dónde aparecen los botones).
-
-### 4.4 Activos JavaScript (`views/js/`)
-
-- `lib/emailTemplatesManager/js/emailTemplatesManager.js`: Lógica de front-end para el editor de plantillas de correo electrónico en el back-office.
-- `lib/searchTool/views/js/autocomplete.js`: Proporciona funcionalidad de autocompletado para buscar productos o clientes en el editor de cotizaciones del back-office.
-- `views/js/admin-audience-picker.js`: Maneja la lógica para seleccionar grupos de clientes o clientes específicos para la visibilidad o segmentación de cotizaciones en la administración.
-- `views/js/adminQuoteApi.js`: JavaScript para la pantalla de configuración de la API de administración, que potencialmente maneja la generación de claves o la visualización de la documentación de la API.
-- `views/js/adminQuoteDashboard.js`: Scripts para elementos interactivos o visualización de datos en el panel de control de administración.
-- `views/js/adminQuoteDetail.js`: Maneja las interacciones dinámicas dentro de la vista detallada de la cotización en el back-office (por ejemplo, añadir productos, aplicar descuentos, cambios de estado).
-- `views/js/adminQuoteEditor.js`: JavaScript principal para el formulario de creación/edición de cotizaciones del back-office, incluyendo la selección de productos, actualizaciones de cantidad y ajustes de precios.
-- `views/js/adminQuoteSelector.js`: Se utiliza para seleccionar cotizaciones, posiblemente en un modal o contexto vinculado.
-- `views/js/adminQuotesList.js`: Scripts para la lista de cotizaciones de administración, incluyendo filtrado, clasificación y acciones masivas.
-- `views/js/front.js`: JavaScript general del front-office para el módulo, que maneja clics de botones, ventanas emergentes modales para solicitudes de cotización, envíos de formularios y actualizaciones dinámicas.
-
-### 4.5 Hojas de Estilo CSS (`views/css/`)
-
-- `lib/emailTemplatesManager/css/emailTemplatesManager.css`: Estilo para el editor de plantillas de correo electrónico en el back-office.
-- `lib/searchTool/views/css/autocomplete.css`: Estilos para los resultados de búsqueda de autocompletado (por ejemplo, búsqueda de productos).
-- `views/css/admin-audience-picker.css`: Estilo para la interfaz de selección de clientes/audiencia en la administración.
-- `views/css/admin_quoteenterprise.css`: Hoja de estilo principal para las interfaces del back-office del módulo (lista de cotizaciones, detalles, registro de auditoría).
-- `views/css/front-hummingbird.css`: Ajustes de estilo específicos del front-office para el tema predeterminado "Hummingbird" de PrestaShop.
-- `views/css/front.css`: Estilo general del front-office para botones de cotización, formularios y vistas de cuenta de cliente. Los desarrolladores pueden sobrescribir clases como `.quoteenterprise-button`, `.quoteenterprise-form`, `.quoteenterprise-list` en su tema.
-
-### 4.6 Estructura de Plantillas Smarty (`views/templates/`)
-
-#### Plantillas de Hook (`views/templates/hook/`)
-
-- `hook/adminOrderQuote.tpl`: Renderiza un bloque relacionado con la cotización dentro de la página de detalles del pedido estándar de PrestaShop en la administración.
-- `hook/cartQuoteButton.tpl`: Muestra el botón o enlace "Solicitar una Cotización" en la página del carrito de compras.
-- `hook/customerAccount-hummingbird.tpl`: Renderiza el enlace de la lista de cotizaciones en el área de la cuenta del cliente para el tema Hummingbird.
-- `hook/customerAccount.tpl`: Renderiza el enlace de la lista de cotizaciones en el área de la cuenta del cliente para temas clásicos.
-- `hook/productListQuote.tpl`: Muestra un botón o opción de cotización en las páginas de lista de productos (categoría, resultados de búsqueda).
-- `hook/quoteFloatButton.tpl`: Renderiza el botón de cotización flotante persistente en el front office.
-- `hook/quoteListModal.tpl`: Plantilla para una ventana modal que muestra una lista de cotizaciones.
-- `hook/quoteRequestButton.tpl`: Muestra el botón "Solicitar una Cotización" en las páginas de productos individuales.
-- `hook/quoteRequestModal.tpl`: Plantilla para la ventana modal que abre el formulario de solicitud de cotización.
-
-#### Plantillas de Administración (`views/templates/admin/`)
-
-- `admin/api.tpl`: Renderiza la configuración de la API y la interfaz de gestión de claves.
-- `admin/audience-picker.tpl`: Plantilla para la herramienta de selección de clientes/grupos en la administración.
-- `admin/audit.tpl`: Muestra la tabla del registro de auditoría en el back-office.
-- `admin/dashboard.tpl`: Renderiza la vista general del panel de control del módulo en el back-office.
-- `admin/notifications.tpl`: Muestra las notificaciones de administración relacionadas con las cotizaciones.
-- `admin/quoteDetail.tpl`: La plantilla completa para ver y editar una sola cotización en el back-office.
-- `admin/quotes.tpl`: Renderiza la tabla principal de la lista de cotizaciones en el back-office.
-- `admin/quotesOverview.tpl`: Una sección de resumen o vista general para las cotizaciones, posiblemente en el panel de control.
-- `admin/scopeSelector.tpl`: Plantilla para seleccionar el ámbito (por ejemplo, tienda, idioma) en la administración.
-- `admin/visibilityConfigurator.tpl`: Plantilla para configurar las reglas de visibilidad de las cotizaciones.
-- `admin/_api_documentation_modal.tpl`: Renderiza una ventana modal con documentación de la API para desarrolladores.
-- `admin/_bulk_options.tpl`: Plantilla para los desplegables de acciones masivas en las listas de administración.
-
-#### Plantillas del Front-Office (`views/templates/front/`)
-
-- `front/list.tpl`: Muestra la lista de cotizaciones del cliente en su cuenta.
-- `front/request.tpl`: La plantilla principal para el formulario de solicitud de cotización del cliente.
-- `front/view.tpl`: Muestra la vista detallada de una sola cotización para el cliente.
-- `front/_requestComplianceFields.tpl`: Plantilla parcial para campos adicionales relacionados con el cumplimiento en el formulario de solicitud de cotización.
-- `front/_requestLinesTable.tpl`: Plantilla parcial para mostrar las líneas de productos dentro de un formulario de solicitud de cotización.
-
-#### Plantillas PDF (`views/templates/pdf/`)
-
-- `pdf/quote.tpl`: Plantilla utilizada para generar el contenido de la factura proforma en PDF.
-
-### 4.7 Esquema de la Base de Datos y Mapa de Hooks
-
-#### Tablas de la Base de Datos
-
-El módulo crea tablas personalizadas, típicamente con el prefijo `ps_` (o tu prefijo personalizado). Las tablas clave incluyen:
-
-- `ps_quote`: Almacena los detalles principales de la cotización (ID de cliente, estado, total, validez, referencia, etc.).
-- `ps_quote_product`: Almacena los productos individuales y sus cantidades/precios asociados a cada cotización.
-- `ps_quote_audit_log`: Registra todos los cambios y acciones realizadas en las cotizaciones para fines de auditoría.
-- `ps_quote_api_key`: Almacena las claves API para integraciones externas.
-- `ps_configuration`: La configuración del módulo se almacena aquí con claves como `QUOTEENTERPRISE_ENABLE`, `QUOTEENTERPRISE_MIN_VALUE`, etc.
-
-#### Tabla de Hooks Registrados
-
-| Nombre del Hook | Momento de Ejecución | Propósito Técnico |
-| --- | --- | --- |
-| `displayHeader` | En la sección `<head>` de cada página. | Inyección de activos CSS/JS, metaetiquetas o inicialización global del módulo. |
-| `displayRightColumn` | En la columna derecha de tu tienda (si está habilitada por el tema). | Mostrar el botón de cotización flotante o un bloque estático de solicitud de cotización. |
-| `displayLeftColumn` | En la columna izquierda de tu tienda (si está habilitada por el tema). | Mostrar el botón de cotización flotante o un bloque estático de solicitud de cotización. |
-| `displayFooter` | En la sección del pie de página de cada página. | Mostrar el botón de cotización flotante o un bloque estático de solicitud de cotización. |
-| `displayProductButtons` | En la página del producto, cerca del botón "Añadir al carrito". | Mostrar el botón "Solicitar una Cotización" en las páginas de productos. |
-| `displayShoppingCartFooter` | En el resumen del carrito de compras, debajo de la lista de productos. | Mostrar el botón "Solicitar una Cotización" para convertir el carrito en cotización. |
-| `displayCustomerAccount` | En la página "Mi cuenta" del cliente. | Añadir un enlace a la lista de cotizaciones del cliente. |
-| `actionValidateOrder` | Después de que un pedido ha sido validado con éxito. | Potencialmente utilizado para vincular una cotización al pedido resultante o actualizar el estado de la cotización. |
-| `actionAdminControllerSetMedia` | Cuando un controlador de administración carga sus activos. | Inyección de CSS/JS específicos del módulo para las páginas del back-office. |
-| `displayAdminOrder` | En la página de detalles del pedido de administración de PrestaShop. | Mostrar un bloque con información de la cotización si el pedido se originó a partir de una cotización. |
-| `actionObjectProductUpdateAfter` | Después de que se actualiza un producto. | Potencialmente para actualizar los precios de las cotizaciones si los precios de los productos cambian (característica avanzada). |
-| `actionObjectProductDeleteAfter` | Después de que se elimina un producto. | Para manejar productos eliminados de las cotizaciones. |
-| `actionObjectCustomerDeleteAfter` | Después de que se elimina un cliente. | Para manejar cotizaciones asociadas a un cliente eliminado. |
-| `displayBackOfficeHeader` | En el `<head>` de cada página del back-office. | Inyección general de activos del back-office o configuración global del módulo de administración. |
-| `displayBackOfficeTop` | En la parte superior del área de contenido del back-office. | Mostrar alertas específicas del módulo o widgets del panel de control. |
-
-## 5. Soporte Oficial y Actualizaciones
-
-Para las últimas actualizaciones del módulo, correcciones de errores y soporte oficial, inicia sesión en tu cuenta de cliente en [MyPresta.eu](https://mypresta.eu/my-account/orders/). Nuestro equipo de soporte está disponible para ayudarte con cualquier problema o pregunta que puedas tener con respecto al módulo Quote Enterprise.
+## 1. Requirements
+
+El módulo funciona en PrestaShop 1.7, 8 y 9, y en PHP 7.1 a 8.5.
+
+El servidor necesita cURL y JSON. No necesita otro módulo.
+
+Usted crea las claves de Google reCAPTCHA solo si activa reCAPTCHA. Los webhooks de Slack o Teams son opcionales y solo para digests del personal. Los correos de recordatorio y los digests requieren un trabajo cron del servidor en la URL de cron del módulo.
+
+## 2. Installation
+
+1. Suba el módulo en **Modules**, **Module Manager**, y actívelo.
+2. Tras la instalación, **Orders** tiene dos entradas: **Quotes** y **Audit log**.
+3. El módulo no limpia la caché durante la instalación.
+4. La instalación crea las tablas de presupuestos y un producto virtual oculto para líneas de servicio personalizadas. También escribe los ajustes predeterminados descritos más abajo.
+
+La desinstalación elimina las entradas de menú, las tablas del módulo y las claves de configuración. El producto de tarifa oculto del catálogo no se elimina al desinstalar.
+
+## 3. Configuration and back-office work
+
+Abra **Modules**, **Module Manager**, **Quote Enterprise**, **Configure**. El módulo se abre en **Dashboard**. La barra superior tiene: **Dashboard**, **Quotes**, **Audit log**, **Settings**, **PDF**, **Emails**, **API**, **Notifications**, **Updates**.
+
+Las capturas de este manual proceden de un back office en inglés.
+
+El trabajo diario con presupuestos también está en **Orders**, **Quotes** (lista completa y editor) y **Orders**, **Audit log**.
+
+### 3.1 Full quote process
+
+Use este flujo como mapa. Las secciones siguientes explican cada pantalla.
+
+1. Un cliente solicita un presupuesto desde una página de producto, una lista de productos, el carrito o una lista de presupuesto multiproducto. Los invitados pueden ver botones si está permitido, pero guardar la solicitud siempre requiere una cuenta de cliente.
+2. La solicitud se convierte en un presupuesto en **Pending review** (solicitud del cliente) o el personal crea un **Draft** desde el back office.
+3. El personal abre el presupuesto en **Orders**, **Quotes**, define precios, descuentos, envío y mensajes, y luego **Save** o **Save & send**.
+4. **Save & send** envía un correo al cliente y pasa el presupuesto a **Sent** (o mantiene el flujo de negociación al reenviar).
+5. El cliente abre **My quotes**, ve la oferta, puede descargar el PDF, aceptar, rechazar o pedir cambios (**Negotiation**).
+6. Tras **Accepted**, el cliente puede pasar por la caja. El checkout construye un carrito a partir del presupuesto y puede convertirse en un pedido (**Converted**). El presupuesto queda entonces bloqueado.
+7. Pasada la fecha **valid until**, los presupuestos enviados o en negociación pasan a **Expired** al abrirlos o cuando se ejecuta el cron. Los correos de recordatorio requieren cron.
+
+Estados que verá: **Draft**, **Pending review**, **Sent**, **Negotiation**, **Accepted**, **Converted**, **Expired**, **Rejected**, **Cancelled**.
+
+Solo **Sent** y **Negotiation** pueden ser aceptados por el cliente. Cambie el estado manualmente en el editor cuando sea necesario.
+
+### 3.2 Dashboard
+
+El panel muestra el pipeline de presupuestos. Abra **Analytics parameters** para definir el periodo de KPI y los rangos de gráficos, luego pulse **Save analytics parameters**. Confirmación: **Tracking parameters updated.**
+
+![Dashboard](https://mypresta.eu/docs/images/docs/quoteenterprise-dashboard.webp)
+
+![Dashboard tables](https://mypresta.eu/docs/images/docs/quoteenterprise-dashboard-b.webp)
+
+| Field | At the start | What it does |
+|---|---|---|
+| **KPI period** | **Last 90 days** | Ventana temporal para las tarjetas KPI, la tabla de embudo, los principales clientes y el personal. Elija 30, 90, 180 o 365 días y guarde. Cuenta presupuestos creados, enviados, aceptados, convertidos y rechazados en ese periodo. |
+| **Weekly chart range** | 12 | Número de semanas en el gráfico de embudo semanal (4–52). La pestaña Weekly muestra creados, enviados, aceptados y convertidos por semana ISO. |
+| **Monthly chart range** | 12 | Número de meses en el gráfico de embudo mensual (3–24). |
+| **Yearly chart range** | 5 | Número de años en el gráfico de embudo anual (2–10). |
+| **Default chart tab** | **Monthly** | Qué pestaña de gráfico se abre primero: Weekly, Monthly o Yearly. Puede cambiar de pestaña sin guardar. |
+| **Expiring soon window** | 7 | Cuántos días por delante marcar presupuestos como próximos a caducar. Suele ser 7 o 14. Solo se listan presupuestos enviados y en negociación con fecha valid_until en esa ventana. |
+
+Tarjetas KPI: valor del pipeline abierto, pendientes de revisión, próximos a caducar, valor convertido, tasa de conversión, tasa de éxito. Debajo: creados, enviados, aceptados, convertidos, rechazados, media de días hasta convertir, valor medio del presupuesto. Los gráficos muestran el embudo en el tiempo. Tablas: embudo del periodo, envejecimiento del pipeline abierto, próximos a caducar, actividad reciente, principales clientes y personal. Pipeline abierto significa presupuestos enviados, en negociación o aceptados.
+
+### 3.3 Quotes tab in module configuration
+
+Esta pestaña es un resumen breve. Los filtros completos, las acciones masivas y el editor están en **Orders**, **Quotes**.
+
+![Quotes overview](https://mypresta.eu/docs/images/docs/quoteenterprise-quotes.webp)
+
+Finalidad de esta pantalla: una lista rápida de presupuestos recientes desde la configuración del módulo. Pulse **View** para abrir el editor completo. Use **Manage all quotes** para filtros, exportación y operaciones masivas. Efecto: mantiene ligera la configuración del módulo mientras el trabajo completo con presupuestos ocurre en la pantalla dedicada del back office.
+
+**Create quote:** seleccione un cliente (búsqueda), opcionalmente escriba un **Internal note**, pulse **Create draft quote**. Se le redirige al editor completo. Sin cliente: **Please select a customer.**
+
+**Quote templates** (cuando existen plantillas): elija una plantilla y un cliente, luego **Create from template**.
+
+Columnas de **Recent quotes**: Reference, Customer, Status, Total. Vacío: **No quotes yet.** Enlaces: **Manage all quotes**, **CSV**, **XML**, **Open full quotes list**.
+
+### 3.4 Quotes list (Orders menu)
+
+Abra **Orders**, **Quotes**. Esta es la pantalla principal de gestión.
+
+Columnas: **ID**, **Reference**, **Customer**, **Status**, **Total**, **Valid until**, **Assigned**, **Created**. Acciones de fila: editar y duplicar. No puede añadir un presupuesto en blanco desde la barra de la lista; créelo desde el resumen del módulo, desde una plantilla o duplicando. Error si lo intenta: **Create quotes from module configuration or duplicate an existing quote.**
+
+Acciones masivas:
+
+| Action | What it does |
+|---|---|
+| **Assign to employee** | Asigna el empleado a los presupuestos seleccionados. |
+| **Extend validity** | Adelanta la validez (valid until) de la selección. |
+| **Send expiry reminder** | Envía correos de recordatorio a los clientes seleccionados (diálogo de confirmación). |
+| **Export CSV** | Descarga CSV de la selección. |
+| **Export XML** | Descarga XML de la selección. |
+
+Filtre por estado y busque como en una lista estándar de PrestaShop. Abra una fila para editar.
+
+### 3.5 Quote editor — how to manage a request
+
+Abra un presupuesto desde la lista. La leyenda muestra la referencia y el estado, por ejemplo `Q-2026-00001 — Pending review`.
+
+**Ruta típica del personal para una solicitud nueva del cliente**
+
+1. Filtre o abra presupuestos en **Pending review**.
+2. Revise **Messages from customer** (texto de la solicitud, luego motivos de cambio o rechazo). Solo lectura.
+3. Añada o ajuste **Line items** (productos del catálogo y servicios personalizados).
+4. Defina **Global discount %** / **Global discount amount**, **Shipping label** e importes de envío.
+5. Escriba **General message to customer** y, opcionalmente, **Internal note**.
+6. Defina **Validity period** y **Validity unit**, compruebe el valid until actual.
+7. Defina **Status** si hace falta, luego **Save** (**Quote saved.**) o **Save & send** (**Quote sent to customer by e-mail.**).
+
+**Bloqueo.** Los presupuestos aceptados o convertidos se bloquean. Los caducados muestran: **This quote has expired. Click Unlock to extend validity and send an updated offer.** Convertidos: **This quote is locked because it was converted to an order.** Aceptados: **This quote is locked because the customer accepted it. Click Unlock to make changes.** Desbloqueo: **Quote unlocked for editing.** Volver a bloquear: **Quote locked again.**
+
+| Field | What it does (from field descriptions) |
+|---|---|
+| **Status** | Etapa actual en el flujo de ventas. Draft: solo interno. Pending review: el cliente solicitó, a la espera de su precio. Sent: enviado por correo al cliente. Accepted: el cliente aceptó. Converted: se convirtió en pedido. Solo Sent y Negotiation pueden ser aceptados por el cliente. Cambie el estado manualmente cuando sea necesario. |
+| **Validity period** | Cuánto tiempo tiene el cliente para aceptar, contado desde guardar/enviar. Ejemplos: 15 con Minutes, 1 con Hours, 30 con Days. Guardar recalcula el vencimiento desde ahora. El cliente no puede aceptar tras el vencimiento. Periodos cortos pueden caducar antes de que el cron diario envíe recordatorios. |
+| **Validity unit** | Minutos, horas o días junto al número de validez. |
+| **Payment hint** | Nota breve sobre el pago esperado, p. ej. "30 days net transfer". Se muestra en la vista del cliente y en el PDF. No fuerza un módulo de pago. |
+| **Global discount %** | Descuento extra 0–100 sobre todas las líneas de producto antes del envío. En el checkout puede aplicarse como regla de carrito. |
+| **Global discount amount (tax excl.)** | Descuento fijo sobre el subtotal de productos. El porcentaje se aplica primero cuando ambos están definidos. |
+| **Shipping label** | Nombre en el PDF, p. ej. "Express delivery". |
+| **Shipping (tax excl.)** / **Shipping (tax incl.)** | Cargo de entrega. El importe con impuestos se calcula automáticamente desde el sin impuestos cuando hay una regla fiscal en los ajustes del módulo. Incluido en el total y pasado al checkout como envío fijo. |
+| **Messages from customer** | Todo lo que escribió el cliente (solicitud, petición de cambio, rechazo). Solo lectura. Responda en los campos de abajo. |
+| **General message to customer** | Mensaje permanente siempre visible para el cliente (alcance, plazo, condiciones). Se muestra en la vista del presupuesto, PDF y correos. |
+| **Internal note** | Nota privada del equipo. Nunca se muestra al cliente. |
+| **Line items** | Líneas de producto y de servicio personalizado. Añada un producto del catálogo (elija combinación si hace falta). Añada una línea personalizada: descripción, cantidad, precio unitario sin impuestos, % de impuestos. Las líneas personalizadas aparecen en el PDF y en el checkout van al producto de tarifa. Mensajes: **Product line added.**, **Custom line added.**, **Line removed.**, **Select a product to add.**, **Please select a product combination.**, **Enter a service line description.** |
+| **Comment for this send** | Nota puntual solo para este **Save & send**. Explica qué cambió. Se borra tras el envío. Aparece en la línea de tiempo, historial opcional del PDF y el correo de ese envío. |
+| **Version history** | Instantáneas de versiones anteriores. |
+| **Save as template** | Introduzca un nombre de plantilla y guarde. Luego cree nuevos presupuestos desde esa plantilla para otro cliente. Mensajes: **Please enter a template name.**, **Template "…" saved.** |
+| **Quote timeline** | Cronología de eventos del personal y del cliente en este presupuesto. |
+
+Duplicar desde la lista o el editor: **Unable to duplicate quote.** si falla. Tras duplicar, edita la copia.
+
+### 3.6 Audit log
+
+Pestaña del módulo: actividad reciente (solicitudes, envíos, aceptación/rechazo, negociaciones). Use **View** para el contexto completo. Abra **Orders**, **Audit log** para filtros, exportación e historial completo.
+
+Finalidad: rastro de solo anexión para cumplimiento y resolución de problemas. Las entradas no se pueden editar ni eliminar. Cada fila guarda el nombre e ID del actor (empleado o cliente) en el momento de la acción. Insignias de actor: Employee, Customer, System.
+
+### 3.7 Settings — Theme & display
+
+Abra **Settings**. Pulse **Save** al final tras los cambios.
+
+![Theme and display](https://mypresta.eu/docs/images/docs/quoteenterprise-settings-theme.webp)
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Front theme template** | **Auto-detect (recommended)** | Selecciona qué plantilla y conjunto CSS se usan para My quotes, la vista previa del presupuesto y el enlace de la cuenta de cliente. Déjelo en Auto-detect salvo que la detección de su tema fork falle — entonces fuerce Classic o Hummingbird. |
+| **Quantity display format** | **Integer (e.g. 1, 2)** | Cómo se muestran las cantidades de línea en front office, back office, PDF y correos. O **Fixed decimals (e.g. 1.000, 2.500)**. Los campos de formulario usan el mismo formato para los valores por defecto. |
+| **Quantity decimal places** | 3 | Dígitos tras el decimal cuando el formato es decimales fijos. Suele ser 3 para B2B o 2 para retail. Se ignora en modo entero. |
+
+### 3.8 Settings — General
+
+![General](https://mypresta.eu/docs/images/docs/quoteenterprise-settings-general.webp)
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Module enabled** | **Yes** | Interruptor maestro de toda la función de presupuesto a pedido. Yes: los clientes solicitan presupuestos y el personal gestiona ofertas. No: oculta todos los botones de presupuesto y los enlaces de la cuenta de cliente sin desinstalar. Cuando está desactivado, no hay solicitudes nuevas ni botones en carrito, producto o páginas de categoría. Los presupuestos existentes permanecen en el back office. |
+| **Product page quote button** | **Yes** | Muestra **Request a quote** en cada página de producto. Para tiendas B2B donde el comprador pide precio de un solo SKU. El cliente debe estar conectado (o flujo de invitado permitido) y en un grupo permitido. El modo Instant abre el formulario para ese producto. El modo List añade cantidad y combinación a la lista flotante de presupuesto. |
+| **Cart quote button** | **Yes** | Muestra **Request a quote** en el carrito. Actívelo cuando los clientes pidan ofertas de varios productos a la vez. Respeta el mínimo de carrito indicado abajo. El contenido actual del carrito pasa a ser la base de una nueva solicitud de presupuesto tras confirmar. |
+| **Category / list quote button** | **Yes** | **Request quote** compacto en páginas de listado (categoría, búsqueda, novedades). Mismas reglas de elegibilidad. El modo Instant abre el flujo de presupuesto del producto. El modo List añade el producto (combinación por defecto, cantidad 1) a la lista flotante. |
+| **Product quote mode** | **Instant — open form for this product** | Instant: abrir el formulario del producto actual. List: añadir a una cesta de presupuesto; el botón flotante abre un formulario con todos los productos. Las solicitudes desde el carrito siguen siendo independientes. El botón flotante aparece solo en modo List cuando la lista no está vacía. |
+| **Floating quote button position** | **Bottom right** | O **Bottom left**. Solo cuando el modo de presupuesto de producto es List. La insignia muestra el número de productos; abre el formulario de solicitud multiproducto. |
+| **Allow guests** | **No** | Si los visitantes sin cuenta pueden iniciar una solicitud. Manténgalo desactivado para B2B estricto. Actívelo si los invitados deben ver el botón — aun así se les pide iniciar sesión o registrarse antes de guardar la solicitud. No crea presupuestos anónimos. |
+
+### 3.9 Settings — Quote button visibility
+
+![Visibility](https://mypresta.eu/docs/images/docs/quoteenterprise-settings-visibility.webp)
+
+| Field | At the start | What it does |
+|---|---|---|
+| Customer groups | all groups | Restringe quién puede ver los botones de presupuesto. Todos los grupos, o solo los seleccionados (p. ej. Wholesale). Los clientes fuera de los grupos seleccionados no verán los botones aunque el módulo esté activado. |
+| **Enable catalog visibility rules** | **No** | Activa o desactiva las reglas de botones de presupuesto basadas en el catálogo. Actívelas para limitar presupuestos a productos, categorías, marcas o proveedores concretos. Si están desactivadas, cualquier producto puede presupuestarse (siguen aplicando las reglas de grupo). Si están activadas, se aplican whitelist/blacklist y los filtros de abajo. |
+| **Catalog rule mode** | **Whitelist — only matching products** | Whitelist: botones solo en productos coincidentes. Blacklist: oculta botones en productos coincidentes. Un producto coincide si está en la lista de productos o pertenece a una categoría, fabricante o proveedor seleccionado. |
+| Catalog pickers | empty | Categorías (árbol), productos (búsqueda), fabricantes y proveedores. Déjelos vacíos para aplicar solo filtros auxiliares. Las reglas se combinan con OR — basta una coincidencia. |
+| **Minimum product price** | 0 | Oculta botones de presupuesto por debajo de este precio de tienda con impuestos. 0 desactiva. Se aplica cuando las reglas de catálogo están activadas. |
+| **Exclude virtual products** | **No** | Impide presupuestar productos descargables / virtuales cuando las reglas de catálogo están activadas. |
+| **Exclude out-of-stock products** | **No** | Oculta botones cuando el producto no se puede pedir sin stock (respeta el comportamiento de PrestaShop ante falta de stock). |
+| **Mixed cart (eligible + excluded items)** | **Hide cart quote button** | Cuando el carrito mezcla productos presupuestables y no presupuestables: Show = botón visible, solo se importan líneas elegibles; Hide = botón oculto hasta que el carrito sea solo presupuestable. Todo elegible → siempre mostrar. Todo excluido → siempre ocultar. |
+
+### 3.10 Settings — Product quote request form
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Require privacy policy acceptance** | **Yes** | Casilla de privacidad obligatoria en el modal de solicitud de presupuesto de producto (GDPR). Los clientes deben aceptar antes de enviar. |
+| **Privacy policy CMS page** | none | Página CMS enlazada desde la casilla. Si está vacía, el texto de la casilla no tiene enlace. |
+| **Enable reCAPTCHA** | **No** | Protege el formulario de solicitud de presupuesto de producto con Google reCAPTCHA v2. Al activarlo, se requieren las claves de sitio y secreta de abajo. |
+| **reCAPTCHA site key** | empty | Clave pública de sitio desde la administración de Google reCAPTCHA (casilla v2). |
+| **reCAPTCHA secret key** | empty | Clave secreta. Se guarda en la configuración de la tienda. |
+| **Minimum cart total** | 0 | Valor mínimo de carrito antes de mostrar el botón de presupuesto del carrito. Moneda predeterminada de la tienda. 0 = sin mínimo. Solo afecta al botón del carrito, no a solicitudes de un solo producto. Los carritos pequeños no mostrarán el botón. |
+
+### 3.11 Settings — Offers & references
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Default validity** | 30 | Duración predeterminada de validez de un presupuesto tras su creación. Número más unidad: minutos para ofertas flash, horas para decisiones el mismo día, días para B2B estándar. Define valid_until en presupuestos nuevos desde la tienda, el back office y duplicados. Puede anularse por presupuesto en el editor. |
+| **Default validity unit** | **Days** | Minutos, horas o días con el número de arriba. Los correos de recordatorio y el estado Expired automático siguen dependiendo del cron para los recordatorios. |
+| **Expiry reminder (days before)** | 3 | Correo de recordatorio antes del vencimiento. Lo envía solo el trabajo cron diario. Cada presupuesto elegible recibe como máximo un recordatorio con enlace para ver y aceptar. Sin cron, no hay recordatorios. |
+| Cron URL | generated token | Recordatorios automáticos de vencimiento y actualizaciones de estado. Añada la URL a crontab una vez al día (ejemplo 08:00). Regenere el token si queda expuesto. El vencimiento también se aplica al abrir el presupuesto; los correos de recordatorio siguen necesitando cron. |
+| **Reference prefix** | Q | Prefijo de los números de presupuesto. El módulo añade año y secuencia, p. ej. Q-2026-00042. Ayuda al personal y a los clientes a reconocer documentos en correo y PDF. |
+| **Notify staff on new request** | **Yes** | Correo al personal de la tienda cuando un cliente envía una solicitud. Compruebe que Preferences > Contact e-mail sea correcto. Plantilla: qe-request-staff en la pestaña Emails. |
+
+Aviso amarillo en pantalla: el cron es necesario para la automatización de validez; el vencimiento también se aplica al abrir; los recordatorios usan la URL de cron.
+
+### 3.12 Settings — Checkout
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Shipping / service tax rule** | shop default tax rule | Regla de IVA para envío y líneas de servicio personalizado cuando introduce importes sin impuestos. Elija un grupo de reglas fiscales en Catalog → Products. Al seleccionarlo, guardar un presupuesto recalcula el envío con impuestos desde el sin impuestos. |
+| **Fee product (custom lines)** | created on install | Producto virtual oculto que lleva las líneas de servicio personalizado al checkout. Se crea automáticamente — cámbielo solo si debe apuntar las líneas personalizadas a otro producto. En el checkout, los totales de servicio se convierten en una línea de carrito con el precio bloqueado del presupuesto. |
+
+### 3.13 PDF
+
+Abra la pestaña **PDF**. Leyenda: **PDF documents**. Cuando el PDF está desactivado, los botones de descarga se ocultan y las URL de PDF devuelven no encontrado.
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Enable PDF** | **Yes** | Interruptor maestro de generación de PDF y enlaces de descarga. Desactívelo si no quiere proformas PDF. Si está desactivado, los botones PDF se ocultan en back office, tienda y detalle de pedido; las URL directas de PDF devuelven no encontrado. Las plantillas de correo siguen recibiendo un marcador de URL de PDF vacío. |
+| **Use shop logo on PDF** | **Yes** | Usa el logotipo de la tienda de Preferences > Themes. No: usar solo un logotipo personalizado subido abajo (si hay). El logotipo aparece en la parte superior de los documentos PDF / proforma. |
+| **Add negotiation history to PDF** | **No** | Añade un registro breve de comunicación (peticiones de cambio, reenvíos, aceptación, rechazo). Tabla compacta antes de las condiciones. Vacío si no hay actividad de negociación. |
+| **Custom PDF logo** | empty | PNG o JPG opcional solo para PDF de presupuestos. Sustituye el logotipo de la tienda cuando existe. |
+| **PDF terms & conditions** | empty | Condiciones legales o comerciales al final de cada PDF. |
+| **Authorized signature** | empty | Nombre o línea del firmante, p. ej. "John Smith, Sales Director". Déjelo vacío para omitirlo. |
+
+### 3.14 Emails
+
+Abra la pestaña **Emails**. Correos transaccionales del ciclo de vida del presupuesto. Edite asunto y cuerpo por idioma. Use los marcadores de la barra lateral del editor (nombre del cliente, referencia del presupuesto, enlace, totales). Claves integradas: qe-request-staff, qe-quote-sent, qe-quote-accepted, qe-quote-rejected, qe-quote-negotiation, qe-quote-reminder, qe-staff-digest. Clientes y personal los reciben cuando se solicita, envía, acepta un presupuesto o está a punto de caducar. Pruebe tras los cambios.
+
+### 3.15 API
+
+Abra la pestaña **API**. Conecte CRM, ERP o automatización. Introduzca una etiqueta de clave y **Generate new API key**. Copie la clave. **Revoke** la desactiva (confirme). Vacío: **No API keys yet.** **API documentation** describe las acciones: list, get, pending, stats, update_status. Llame a la URL de API del módulo con la clave.
+
+### 3.16 Notifications
+
+Abra **Notifications** (**Staff digest notifications**). Resumen periódico cuando los presupuestos requieren acción, sin un correo por cada evento.
+
+Qué cuenta como en espera: **Pending review** (solicitud nueva) o **Negotiation** (el cliente pidió cambios). Sent, accepted, expired y converted no se incluyen. El cron se ejecuta según su programación. Cuando el digest está activado, hay al menos un presupuesto en espera y ha transcurrido el intervalo, se envía un mensaje a cada canal configurado. El personal ve un resumen con referencias, estado, nombre del cliente y enlaces al back office (hasta 20 presupuestos listados).
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Enable digest** | **No** | Interruptor maestro. Actívelo tras configurar al menos un canal. El cron debe estar programado — los digests no se envían por visitas a páginas. Si está desactivado, el cron sigue gestionando recordatorios de vencimiento y actualizaciones de estado, pero no hay digest. |
+| **Interval (hours)** | 24 | Tiempo mínimo entre digests (1–168). Ejecute el cron al menos con esa frecuencia. Tras un digest correcto, el siguiente espera hasta que pasen esas horas. |
+| **E-mail recipients** | empty | Separados por comas o punto y coma. Vacío usa el correo de la tienda de Preferences > Contact. Plantilla qe-staff-digest. |
+| **Slack webhook URL** | empty | URL de webhook entrante. Déjela vacía para omitir Slack. |
+| **Teams webhook URL** | empty | URL de webhook del conector. Déjela vacía para omitir Teams. |
+
+**Save** guarda los ajustes. **Send test digest now** envía una prueba cuando hay presupuestos en espera. Misma URL de cron que en Settings.
+
+### 3.17 Updates
+
+Abra **Updates**. **Check Now** comprueba si hay una versión nueva. **Automatic Notifications** activado o desactivado. **Save** guarda los ajustes de actualización.
+
+### 3.18 Quote block on an order
+
+En un pedido creado desde un presupuesto, el back office muestra **Source quote** con un enlace al presupuesto y, opcionalmente, **View quote PDF**.
+
+## 4. Front office
+
+Los clientes ven las herramientas de presupuesto cuando el módulo está activado y su grupo está permitido.
+
+**Product page.** **Request a quote** abre el formulario (instant) o añade a la lista de presupuesto (modo list). La casilla de privacidad y reCAPTCHA se aplican si están activados.
+
+**Product list.** **Request quote** — mismas reglas.
+
+**Cart.** **Request a quote** — respeta el mínimo de carrito y las reglas de carrito mixto. El carrito confirmado se convierte en un presupuesto pendiente.
+
+**List mode.** El botón flotante con contador abre el formulario de solicitud multiproducto.
+
+**Customer account.** Enlace a **My quotes**: historial, estado, valid until, **View**, PDF si está activado, **Checkout** tras aceptar, **Request re-opening** cuando está caducado/bloqueado. Vacío: **You have no quotes yet. Request a quote from a product page or your cart to get started.** Tras enviar: **Your quote request has been submitted. Our team will prepare an offer shortly.**
+
+**Quote view.** Aceptar, rechazar, pedir cambios, descargar PDF, checkout cuando está aceptado. Caducado bloqueado: **Locked — validity expired**.
+
+Los visitantes invitados pueden ver botones si **Allow guests** es **Yes**, pero la solicitud solo se guarda para un cliente conectado.
+
+No hay captura de la tienda en este paquete porque la tienda de prueba no era accesible cuando se terminaron las pantallas.
+
+## 5. Common problems
+
+**No quote button on product or cart.** Compruebe **Module enabled**, el interruptor del botón correspondiente, el grupo de cliente y la visibilidad del catálogo. Para el carrito, compruebe **Minimum cart total** y **Mixed cart**.
+
+**Guest cannot finish a request.** El envío siempre requiere una cuenta.
+
+**Quote is locked / cannot edit.** Desbloquee si está aceptado o caducado (extienda la validez). Los presupuestos convertidos permanecen bloqueados al pedido.
+
+**Customer cannot accept.** El estado debe ser Sent o Negotiation, y valid until debe estar en el futuro.
+
+**Reminder e-mails never arrive.** Programe la URL de cron y mantenga **Expiry reminder** por encima de cero. Abrir un presupuesto puede caducarlo sin cron; los recordatorios siguen necesitando cron.
+
+**PDF buttons missing.** Active **Enable PDF**.
+
+**reCAPTCHA blocks the form.** Desactívelo o introduzca ambas claves.
+
+**Staff digest never arrives.** Active el digest, configure un canal, ejecute el cron al menos con la frecuencia del intervalo.
+
+**Uninstalled and menu is gone.** Reinstale. La desinstalación elimina las tablas de presupuestos. El producto de tarifa puede permanecer en el catálogo.
+
+## 6. Developer guide
+
+### 6.1 Overview
+
+Nombre técnico `quoteenterprise`, versión 1.7.6, clase `quoteenterprise` extends `Module`. Nombre para mostrar mediante `$this->l('Quote Enterprise')`. Autor MyPresta.eu. Pestaña `checkout`. URL del producto en `$this->mypresta_link`.
+
+Flujo: solicitud → fila `quote` → edición/envío del personal → aceptación/negociación del cliente → checkout → pedido. Los textos de campos para comerciantes están en `QuoteSettingDescTrait` y en los métodos `desc*` del editor de presupuestos.
+
+### 6.2 Files
+
+- `quoteenterprise.php` — instalación, hooks, entrada de configuración, URL de cron.
+- `classes/QuoteAdmin.php` — pestañas de configuración y formularios de ajustes.
+- `classes/QuoteAdminQuoteForm.php` — editor de presupuestos.
+- `classes/QuoteQuotesManager.php` — resumen, guardar/enviar/líneas/plantillas.
+- `classes/QuoteDashboard.php`, `QuoteVisibility.php`, `QuoteListHelper.php`, `QuoteRequestHelper.php`, `QuoteMailer.php`, `QuotePdf.php`, `QuoteApi.php`, `QuoteNotifyDigest.php`, `QuoteExpiry.php`, `QuoteConverter.php`, `QuoteFeeProduct.php`, `QuoteSettingDescTrait.php`.
+- `controllers/admin/AdminQuoteEnterpriseQuotes.php`, `AdminQuoteEnterpriseAuditLog.php`.
+- `controllers/front/` — `list`, `view`, `request`, `quoteList`, `pdf`, `cron`, `api`.
+- `models/` — `quote`, `quotedetail`, `quoteauditlog`, `quoterevision`, `quoteapikey`.
+- `views/templates/`, `lib/updateChecker.php`, `lib/emailTemplatesManager/`, `lib/searchTool/`.
+
+### 6.3 Controllers
+
+Administración bajo **Orders** (`AdminParentOrders`). Controladores front en `$this->controllers`. El cron espera `QE_CRON_TOKEN`. La API espera una clave activa y un nombre de acción.
+
+### 6.4 Hooks
+
+Registrados: `displayHeader`, `displayShoppingCart`, `displayCustomerAccount`, `displayProductAdditionalInfo`, `displayProductActions`, `displayFooterProduct`, `displayFooter`, `actionProductPriceCalculation`, `actionValidateOrder`, `actionAdminControllerSetMedia`, `displayProductListFunctionalButtons`, `displayProductListReviews`, `displayProductPriceBlock`, `displayAdminOrderMain`, `displayAdminOrderSide`, `displayAdminOrder`, `actionCartGetPackageShippingCost`. No se exponen hooks personalizados.
+
+### 6.5 Overrides
+
+Este módulo no incluye overrides de clases ni de controladores.
+
+### 6.6 Database
+
+| Table | Contents |
+|---|---|
+| `quote` | Cabecera del presupuesto. |
+| `quote_detail` | Líneas. |
+| `quote_revision` | Instantáneas de versión. |
+| `quote_audit_log` | Actividad de solo anexión. |
+| `quote_api_key` | Claves API. |
+| `qe_cart_quote` | Enlace carrito–presupuesto. |
+
+La desinstalación elimina estas tablas. `QuoteSchema::ensure` e `inconsistency()` reparan piezas faltantes al abrir la configuración.
+
+### 6.7 Keys and translations
+
+Claves de configuración `QE_*`. Valores por defecto en `installDefaults()`. Nuevo idioma: `translations/{iso}.php`. Ayuda de campos para el comerciante: `QuoteSettingDescTrait` y métodos `desc*` del editor. Cadenas mediante `$this->l()` y `{l s=... mod='quoteenterprise'}`.
+
+### 6.8 Extending
+
+Sobrescriba las plantillas front bajo `modules/quoteenterprise/` en el tema. Se admiten Classic y Hummingbird. Un diseño PDF distinto implica cambiar la plantilla PDF o el código del módulo.
+
+## 7. Support
+
+Página del módulo: [Quote Enterprise](https://mypresta.eu/modules/ordering-process/quote-enterprise.html).
+
+Para escribir sobre este módulo, inicie sesión en su cuenta de cliente en [mypresta.eu](https://mypresta.eu/), abra [Contact](https://mypresta.eu/contact.html) y elija el asunto **Support for paid modules**. El formulario indica que el inicio de sesión es obligatorio. Tras iniciar sesión, elija este módulo en su historial de compras.

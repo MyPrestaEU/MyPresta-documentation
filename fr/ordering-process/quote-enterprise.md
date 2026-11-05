@@ -1,8 +1,8 @@
 ---
-title: "Quote Enterprise - Manuel Marchand & Guide de Configuration"
-description: "Manuel utilisateur complet, guide de configuration écran par écran et référence développeur pour le module PrestaShop Quote Enterprise par MyPresta.eu."
+title: "Quote Enterprise - manuel marchand"
 sidebar:
-  label: "Quote Enterprise - Manuel Marchand & Guide de Configuration"
+  label: "Quote Enterprise - manuel marchand"
+description: "Comment configurer Quote Enterprise, dérouler le processus complet du devis à la commande, et résoudre les problèmes courants."
 ---
 
 > ⚠️ **Notice:** This is the documentation officielle du module PrestaShop.
@@ -12,369 +12,353 @@ sidebar:
 > ---
 
 
-# Quote Enterprise
+## 1. Requirements
 
-## 1. Exigences et compatibilité
+Le module fonctionne sur PrestaShop 1.7, 8 et 9, et sur PHP 7.1 à 8.5.
 
-- **Versions PrestaShop prises en charge** : PrestaShop 1.7.x, 8.x, 9.x
-- **Compatibilité PHP** : PHP 7.1 - 8.5
-- **Exigences d'hébergement** : Les extensions PHP standard (cURL, JSON, OpenSSL) sont requises. Assurez-vous que votre serveur répond aux exigences minimales de PrestaShop.
+Le serveur a besoin de cURL et de JSON. Aucun autre module n’est requis.
 
-## 2. Guide de configuration complet (chaque paramètre regroupé par écran)
+Vous créez vous-même les clés Google reCAPTCHA uniquement si vous activez reCAPTCHA. Les webhooks Slack ou Teams sont facultatifs et servent uniquement aux digests destinés au personnel. Les e-mails de rappel et les digests nécessitent une tâche cron serveur sur l’URL cron du module.
 
-### 2.1 Page de configuration du module (Back Office > Modules > Configurer > Quote Enterprise)
+## 2. Installation
 
-C'est l'écran de configuration principal où vous définissez le comportement et l'apparence du module Quote Enterprise.
+1. Téléversez le module dans **Modules**, **Module Manager**, et activez-le.
+2. Après l’installation, **Orders** contient deux entrées : **Quotes** et **Audit log**.
+3. Le module ne vide pas le cache pendant l’installation.
+4. L’installation crée les tables de devis et un produit virtuel masqué pour les lignes de service personnalisées. Elle enregistre aussi les paramètres par défaut décrits ci-dessous.
 
-#### Onglet Paramètres généraux
+La désinstallation retire les entrées de menu, les tables du module et les clés de configuration. Le produit de frais masqué dans le catalogue n’est pas supprimé à la désinstallation.
 
--   **Activer Quote Enterprise :**
-    *   **Ce que fait ce paramètre :** C'est l'interrupteur principal pour l'ensemble du module.
-    *   **Effet de la modification de ce paramètre :**
-        *   *Lorsqu'il est activé :* Le système de devis devient actif sur votre boutique, et les clients peuvent commencer à demander des devis.
-        *   *Lorsqu'il est désactivé :* Toutes les fonctionnalités de devis sont masquées du front office, et aucun nouveau devis ne peut être demandé. Les devis existants dans le back office restent accessibles pour la gestion.
-    *   **Valeur recommandée :** OUI
-    *   **Scénario / exemple marchand :** Activez-le lorsque vous êtes prêt à offrir des services de devis. Désactivez-le temporairement pendant la maintenance ou si vous décidez d'arrêter d'offrir des devis.
--   **Autoriser les demandes de devis depuis le panier :**
-    *   **Ce que fait ce paramètre :** Détermine si les clients peuvent convertir l'intégralité de leur panier en une demande de devis.
-    *   **Effet de la modification de ce paramètre :**
-        *   *Lorsqu'il est activé :* Un bouton ou un lien "Demander un devis" apparaîtra dans le récapitulatif du panier, permettant aux clients de soumettre tous les articles de leur panier pour un devis.
-        *   *Lorsqu'il est désactivé :* Les clients ne peuvent demander des devis que depuis les pages de produits individuelles ou via le bouton flottant (si activé), pas directement depuis leur panier.
-    *   **Valeur recommandée :** OUI (pour la plupart des scénarios B2B et de commandes en gros)
-    *   **Scénario / exemple marchand :** Si vous traitez principalement des commandes importantes de plusieurs articles où les prix sont souvent négociés, activez ceci. Si vos devis concernent généralement des produits uniques et personnalisés, vous pouvez le désactiver.
--   **Autoriser les demandes de devis depuis la page produit :**
-    *   **Ce que fait ce paramètre :** Contrôle si un bouton "Demander un devis" apparaît sur les pages de produits individuelles.
-    *   **Effet de la modification de ce paramètre :**
-        *   *Lorsqu'il est activé :* Les clients peuvent ajouter un produit spécifique à une demande de devis directement depuis sa page, au lieu de l'ajouter au panier.
-        *   *Lorsqu'il est désactivé :* L'option de demande de devis est supprimée des pages de produits.
-    *   **Valeur recommandée :** OUI
-    *   **Scénario / exemple marchand :** Essentiel pour les produits personnalisés, les articles de grande valeur, ou lorsque vous souhaitez offrir une alternative à l'achat direct pour tout produit.
--   **Afficher le bouton de devis flottant :**
-    *   **Ce que fait ce paramètre :** Ajoute un bouton flottant persistant au front office de votre boutique, permettant aux clients d'initier une demande de devis depuis presque n'importe quelle page.
-    *   **Effet de la modification de ce paramètre :**
-        *   *Lorsqu'il est activé :* Un petit bouton cliquable (souvent dans un coin de l'écran) apparaîtra, ouvrant le formulaire de demande de devis ou une liste de devis existants.
-        *   *Lorsqu'il est désactivé :* Le bouton flottant ne sera pas visible.
-    *   **Valeur recommandée :** OUI (pour une grande visibilité et une facilité d'accès)
-    *   **Scénario / exemple marchand :** Utilisez ceci pour rendre l'option de devis très visible dans votre boutique, encourageant plus de demandes.
--   **Valeur minimale de commande pour la demande de devis :**
-    *   **Ce que fait ce paramètre :** Définit une valeur totale minimale (dans votre devise par défaut) qu'une demande de devis doit atteindre pour être soumise.
-    *   **Effet de la modification de ce paramètre :**
-        *   *Lorsqu'une valeur est définie (par exemple, 100) :* Les clients ne peuvent pas soumettre une demande de devis si la valeur totale des articles de leur demande est inférieure à ce montant. Un message d'erreur sera affiché.
-        *   *Lorsqu'il est défini sur 0 ou laissé vide :* Aucune valeur minimale n'est appliquée.
-    *   **Valeur recommandée :** 0 (ou une valeur qui filtre les demandes triviales)
-    *   **Scénario / exemple marchand :** Si vous ne souhaitez traiter les devis que pour des commandes importantes, définissez une valeur minimale (par exemple, 500 €) pour réduire la charge administrative des petites demandes.
--   **Validité par défaut du devis (jours) :**
-    *   **Ce que fait ce paramètre :** Définit le nombre de jours pendant lesquels un devis nouvellement créé sera valide, par défaut.
-    *   **Effet de la modification de ce paramètre :**
-        *   *Lorsqu'il est défini sur un nombre (par exemple, 30) :* Tous les nouveaux devis créés par votre équipe auront automatiquement une date d'expiration 30 jours après leur création.
-        *   *Lorsqu'il est défini sur 0 ou laissé vide :* Les devis n'auront pas de période de validité par défaut, et votre équipe devra en définir une manuellement ou les gérer sans expiration.
-    *   **Valeur recommandée :** 30 (ou une période typique pour votre secteur)
-    *   **Scénario / exemple marchand :** Définir une validité de 30 jours encourage les clients à agir dans un délai raisonnable et vous protège des fluctuations de prix.
+## 3. Configuration and back-office work
 
-#### Onglet Modèles d'e-mail
+Ouvrez **Modules**, **Module Manager**, **Quote Enterprise**, **Configure**. Le module s’ouvre sur **Dashboard**. La barre supérieure contient : **Dashboard**, **Quotes**, **Audit log**, **Settings**, **PDF**, **Emails**, **API**, **Notifications**, **Updates**.
 
-Cette section vous permet de personnaliser les notifications par e-mail envoyées par le module.
+Les captures d’écran de ce manuel proviennent d’un back-office en anglais.
 
--   **Gestionnaire de modèles d'e-mail :**
-    *   **Ce que fait ce paramètre :** Fournit une interface visuelle pour modifier le contenu de divers modèles d'e-mail liés aux devis (par exemple, nouvelle demande de devis, devis mis à jour, devis accepté).
-    *   **Effet de la modification de ce paramètre :**
-        *   *Lorsque vous modifiez un modèle :* L'e-mail correspondant envoyé aux clients ou à votre équipe reflétera vos modifications, y compris le texte, la marque et la mise en page.
-    *   **Valeur recommandée :** Personnalisez pour correspondre à la voix de votre marque et fournir des instructions claires.
-    *   **Scénario / exemple marchand :** Modifiez l'e-mail "Nouvelle demande de devis" pour inclure des instructions spécifiques pour votre équipe de vente ou ajoutez une salutation personnalisée pour les clients.
+Le travail quotidien sur les devis se trouve aussi sous **Orders**, **Quotes** (liste complète et éditeur) et **Orders**, **Audit log**.
 
-#### Onglet Paramètres avancés
+### 3.1 Full quote process
 
--   **Activer l'API REST :**
-    *   **Ce que fait ce paramètre :** Active une interface programmatique (API) pour le module, permettant aux systèmes externes ou aux applications personnalisées d'interagir avec vos devis.
-    *   **Effet de la modification de ce paramètre :**
-        *   *Lorsqu'il est activé :* Le module expose des points de terminaison qui peuvent être utilisés par les développeurs pour créer, lire, mettre à jour et supprimer des devis par programme.
-        *   *Lorsqu'il est désactivé :* L'API est inactive et ne peut pas être consultée.
-    *   **Valeur recommandée :** NON (sauf si vous avez des besoins d'intégration spécifiques)
-    *   **Scénario / exemple marchand :** Si vous intégrez un CRM, un ERP ou une application mobile personnalisée, l'activation de l'API permet à ces systèmes de créer ou de mettre à jour automatiquement des devis dans PrestaShop. Nécessite une expertise de développeur.
--   **Gestion des clés API :**
-    *   **Ce que fait ce paramètre :** Vous permet de générer et de gérer des clés API, qui sont nécessaires pour authentifier les requêtes vers l'API REST du module.
-    *   **Effet de la modification de ce paramètre :**
-        *   *Lorsque vous créez une clé :* Vous obtenez un identifiant unique que les applications externes doivent utiliser pour accéder à l'API.
-        *   *Lorsque vous révoquez une clé :* Toute application utilisant cette clé perdra l'accès à l'API.
-    *   **Valeur recommandée :** Générez des clés uniquement lorsque cela est nécessaire pour des intégrations spécifiques.
-    *   **Scénario / exemple marchand :** Créez une nouvelle clé API pour votre système CRM afin de pousser de nouveaux prospects en tant que demandes de devis dans PrestaShop.
--   **URL de la tâche Cron pour l'expiration et le résumé :**
-    *   **Ce que fait ce paramètre :** Fournit une URL qui, lorsqu'elle est consultée, déclenche des tâches d'arrière-plan telles que la vérification des expirations de devis et l'envoi de résumés quotidiens à votre équipe.
-    *   **Effet de la modification de ce paramètre :**
-        *   *Lorsqu'il est configuré sur votre serveur :* Le module effectuera automatiquement ces tâches à intervalles réguliers (par exemple, quotidiennement), garantissant que les devis sont marqués comme expirés et que votre équipe reçoit des résumés en temps opportun.
-        *   *Lorsqu'il n'est pas configuré :* Les vérifications d'expiration et les e-mails de résumé ne seront pas automatisés.
-    *   **Valeur recommandée :** Configurez cette URL comme une tâche cron quotidienne sur votre serveur d'hébergement.
-    *   **Scénario / exemple marchand :** Configurez une tâche cron pour exécuter cette URL une fois par jour afin de vous assurer que les clients sont informés des devis expirés et que votre équipe de vente reçoit un résumé quotidien des nouvelles demandes.
+Utilisez ce flux comme carte. Les sections ci-dessous détaillent chaque écran.
 
-### 2.2 Écrans d'administration dédiés et vues de contrôleur
+1. Un client demande un devis depuis une fiche produit, une liste de produits, le panier, ou une liste de devis multi-produits. Les visiteurs peuvent voir les boutons si cela est autorisé, mais l’enregistrement de la demande exige toujours un compte client.
+2. La demande devient un devis en **Pending review** (demande client) ou le personnel crée un **Draft** depuis le back-office.
+3. Le personnel ouvre le devis sous **Orders**, **Quotes**, définit les prix, remises, livraison et messages, puis **Save** ou **Save & send**.
+4. **Save & send** envoie un e-mail au client et passe le devis en **Sent** (ou conserve le flux de négociation lors d’un renvoi).
+5. Le client ouvre **My quotes**, consulte l’offre, peut télécharger le PDF, accepter, refuser, ou demander des modifications (**Negotiation**).
+6. Après **Accepted**, le client peut passer commande. Le checkout construit un panier à partir du devis et peut devenir une commande (**Converted**). Le devis se verrouille alors.
+7. Passé **valid until**, les devis envoyés ou en négociation deviennent **Expired** à l’ouverture ou lors de l’exécution du cron. Les e-mails de rappel nécessitent le cron.
 
-#### 2.2.1 Gestion des devis (Back Office > Quote Enterprise > Devis)
+Statuts que vous verrez : **Draft**, **Pending review**, **Sent**, **Negotiation**, **Accepted**, **Converted**, **Expired**, **Rejected**, **Cancelled**.
 
-C'est le centre névralgique pour votre équipe de vente afin de gérer toutes les demandes de devis.
+Seuls **Sent** et **Negotiation** peuvent être acceptés par le client. Modifiez le statut manuellement dans l’éditeur si nécessaire.
 
--   **Nom de l'écran et emplacement du menu :** **Quote Enterprise > Devis**
--   **Actions et paramètres disponibles :**
-    *   **Tableau de la liste des devis :** Affiche tous les devis soumis avec des informations clés telles que le nom du client, le statut, la valeur totale et la date de création.
-    *   **Filtrage et recherche :** Outils pour trouver des devis spécifiques par client, statut, plage de dates, etc.
-    *   **Afficher/Modifier le devis :** Cliquez sur n'importe quel devis pour ouvrir une vue détaillée où vous pouvez :
-        *   **Ajuster les produits et les quantités :** Modifier les articles, les quantités et les prix dans le devis.
-        *   **Ajouter/Supprimer des produits :** Rechercher et ajouter de nouveaux produits au devis ou supprimer des produits existants.
-        *   **Appliquer des remises :** Offrir des remises spécifiques sur le total du devis ou sur des articles individuels.
-        *   **Définir la validité :** Définir la date d'expiration du devis.
-        *   **Ajouter des notes/messages :** Communiquer avec le client directement via l'interface du devis.
-        *   **Changer le statut :** Mettre à jour le statut du devis (par exemple, En attente, Envoyé, Accepté, Rejeté, Expiré).
-        *   **Générer un PDF :** Créer une facture proforma PDF professionnelle pour le client.
-        *   **Convertir en commande :** En un seul clic, convertir un devis accepté en une commande PrestaShop standard, prête pour le paiement.
-        *   **Envoyer un e-mail :** Envoyer les détails du devis mis à jour ou des messages au client.
-    *   **Actions groupées :** Sélectionnez plusieurs devis pour effectuer des actions telles que changer le statut, supprimer ou exporter.
--   **Effet des modifications :**
-    *   La modification d'un devis met à jour ses détails dans la base de données et peut déclencher des notifications par e-mail au client.
-    *   La conversion en commande crée une nouvelle commande dans le système de gestion des commandes standard de PrestaShop, pré-remplie avec les articles et les prix du devis.
-    *   Le changement de statut met à jour la vue du client dans son compte et peut déclencher des modèles d'e-mail spécifiques.
--   **Flux de travail recommandé pour la gestion quotidienne du magasin :**
-    1.  Vérifiez régulièrement la liste "Devis" pour les nouvelles demandes "En attente".
-    2.  Ouvrez chaque nouvelle demande, examinez les articles, ajustez les prix/quantités si nécessaire, et ajoutez des notes internes.
-    3.  Définissez une période de validité et générez une proforma PDF.
-    4.  Changez le statut en "Envoyé" et envoyez le devis au client par e-mail.
-    5.  Faites un suivi des devis "Envoyés". S'ils sont acceptés, convertissez-les en commande. S'ils sont rejetés ou expirés, mettez à jour le statut en conséquence.
+### 3.2 Dashboard
 
-#### 2.2.2 Journal d'audit (Back Office > Quote Enterprise > Journal d'audit)
+Le tableau de bord affiche le pipeline des devis. Ouvrez **Analytics parameters** pour définir la période des KPI et les plages des graphiques, puis cliquez sur **Save analytics parameters**. Confirmation : **Tracking parameters updated.**
 
-Cet écran fournit un historique détaillé de toutes les actions effectuées sur les devis.
+![Dashboard](https://mypresta.eu/docs/images/docs/quoteenterprise-dashboard.webp)
 
--   **Nom de l'écran et emplacement du menu :** **Quote Enterprise > Journal d'audit**
--   **Actions et paramètres disponibles :**
-    *   **Tableau de la liste des journaux :** Affiche une liste chronologique des événements liés aux devis, y compris qui a effectué l'action, quelle action a été effectuée (par exemple, "Devis créé", "Prix modifié", "Statut mis à jour") et quand elle s'est produite.
-    *   **Filtrage :** Filtrez le journal par date, utilisateur ou type d'action pour trouver des événements spécifiques.
--   **Effet des modifications :** Il s'agit d'un journal en lecture seule ; vous ne pouvez pas y apporter de modifications. Il sert de registre historique.
--   **Flux de travail recommandé pour la gestion quotidienne du magasin :**
-    *   Utilisez le journal d'audit pour suivre les modifications, résoudre les problèmes ou examiner l'activité de l'équipe sur les devis. Il est inestimable pour la responsabilité et la compréhension du cycle de vie de chaque devis.
+![Dashboard tables](https://mypresta.eu/docs/images/docs/quoteenterprise-dashboard-b.webp)
 
-### 2.3 Tableau de référence rapide de la configuration
+| Field | At the start | What it does |
+|---|---|---|
+| **KPI period** | **Last 90 days** | Fenêtre temporelle pour les cartes KPI, le tableau d’entonnoir, les meilleurs clients et le personnel. Choisissez 30, 90, 180 ou 365 jours et enregistrez. Compte les devis créés, envoyés, acceptés, convertis et refusés sur cette période. |
+| **Weekly chart range** | 12 | Nombre de semaines sur le graphique d’entonnoir hebdomadaire (4–52). L’onglet Weekly affiche créés, envoyés, acceptés et convertis par semaine ISO. |
+| **Monthly chart range** | 12 | Nombre de mois sur le graphique d’entonnoir mensuel (3–24). |
+| **Yearly chart range** | 5 | Nombre d’années sur le graphique d’entonnoir annuel (2–10). |
+| **Default chart tab** | **Monthly** | Quel onglet de graphique s’ouvre en premier : Weekly, Monthly ou Yearly. Vous pouvez toujours changer d’onglet sans enregistrer. |
+| **Expiring soon window** | 7 | Nombre de jours à l’avance pour signaler les devis bientôt expirés. En général 7 ou 14. Seuls les devis envoyés et en négociation avec une date valid_until dans cette fenêtre sont listés. |
 
-| Écran / Vue | Paramètre / Option | Valeur par défaut / Recommandée | Objectif et impact |
-| --- | --- | --- | --- |
-| **Configuration du module** | Activer Quote Enterprise | OUI | Interrupteur principal pour la fonctionnalité du module. |
-| | Autoriser les demandes de devis depuis le panier | OUI | Ajoute un bouton de devis à la page du panier. |
-| | Autoriser les demandes de devis depuis la page produit | OUI | Ajoute un bouton de devis aux pages produits. |
-| | Afficher le bouton de devis flottant | OUI | Affiche un bouton de devis persistant sur le front office. |
-| | Valeur minimale de commande pour la demande de devis | 0 | Définit une valeur minimale pour les soumissions de devis. |
-| | Validité par défaut du devis (jours) | 30 | Définit l'expiration par défaut pour les nouveaux devis. |
-| | Gestionnaire de modèles d'e-mail | Personnaliser | Modifier le contenu des e-mails pour divers événements de devis. |
-| | Activer l'API REST | NON | Active l'API pour les intégrations externes (développeur uniquement). |
-| | Gestion des clés API | N/A | Gérer les clés API pour un accès sécurisé à l'API (développeur uniquement). |
-| | URL de la tâche Cron pour l'expiration et le résumé | Configurer | Automatise les vérifications d'expiration des devis et les résumés d'équipe. |
-| **Gestion des devis** | Liste des devis | N/A | Afficher, filtrer et gérer tous les devis. |
-| | Afficher/Modifier le devis | N/A | Ajuster les articles, les prix, le statut, générer un PDF, convertir en commande. |
-| | Actions groupées | N/A | Appliquer des actions à plusieurs devis sélectionnés. |
-| **Journal d'audit** | Liste des journaux | N/A | Examiner les actions historiques sur tous les devis. |
+Cartes KPI : valeur du pipeline ouvert, en attente de revue, bientôt expirés, valeur convertie, taux de conversion, taux de succès. En dessous : créés, envoyés, acceptés, convertis, refusés, durée moyenne jusqu’à conversion, valeur moyenne du devis. Les graphiques montrent l’entonnoir dans le temps. Tableaux : entonnoir de période, vieillissement du pipeline ouvert, bientôt expirés, activité récente, meilleurs clients et personnel. Le pipeline ouvert désigne les devis envoyés, en négociation ou acceptés.
 
-## 3. Dépannage marchand et questions fréquemment posées (FAQ)
+### 3.3 Quotes tab in module configuration
 
-**Q : Mes boutons "Demander un devis" n'apparaissent pas sur le front office.**
-R :
+Cet onglet est un aperçu court. Les filtres complets, actions groupées et l’éditeur se trouvent sous **Orders**, **Quotes**.
 
-1.  **Vérifier le statut du module :** Assurez-vous que "Activer Quote Enterprise" est défini sur OUI dans la configuration du module.
-2.  **Vérifier les paramètres spécifiques :** Vérifiez que "Autoriser les demandes de devis depuis le panier" et "Autoriser les demandes de devis depuis la page produit" sont activés si nécessaire.
-3.  **Vider le cache :** Allez dans **Paramètres avancés > Performances** et videz le cache de votre PrestaShop (cache Smarty, cache du système de fichiers). Parfois, les modifications n'apparaissent pas tant que le cache n'est pas actualisé.
-4.  **Compatibilité du thème :** Si vous utilisez un thème personnalisé, il peut y avoir un problème de compatibilité. Contactez le support MyPresta.eu avec les détails de votre thème.
+![Quotes overview](https://mypresta.eu/docs/images/docs/quoteenterprise-quotes.webp)
 
-**Q : Les clients ne reçoivent pas les e-mails de notification de devis.**
-R :
+Rôle de cet écran : une liste rapide des devis récents depuis la configuration du module. Cliquez sur **View** pour ouvrir l’éditeur de devis complet. Utilisez **Manage all quotes** pour les filtres, l’export et les opérations groupées. Effet : la configuration du module reste légère tandis que le travail complet sur les devis se fait dans l’écran back-office dédié.
 
-1.  **Vérifier les modèles d'e-mail :** Dans la configuration du module, accédez à l'onglet "Modèles d'e-mail" et assurez-vous que les modèles sont correctement configurés et enregistrés.
-2.  **Paramètres d'e-mail de PrestaShop :** Vérifiez vos paramètres d'e-mail généraux de PrestaShop (SMTP, e-mail PHP) sous **Paramètres avancés > E-mail**. Envoyez un e-mail de test à partir de là pour confirmer que le système de messagerie de votre boutique fonctionne.
-3.  **Dossiers de spam :** Conseillez aux clients de vérifier leurs dossiers de spam ou de courrier indésirable.
-4.  **Tâche Cron (pour les résumés/rappels) :** S'il s'agit de rappels d'expiration ou de résumés quotidiens, assurez-vous que l'URL de la tâche cron est correctement configurée sur votre serveur pour s'exécuter régulièrement.
+**Create quote :** sélectionnez un client (recherche), saisissez éventuellement une **Internal note**, cliquez sur **Create draft quote**. Vous êtes redirigé vers l’éditeur complet. Client vide : **Please select a customer.**
 
-**Q : Puis-je personnaliser l'apparence du formulaire de demande de devis ou des boutons ?**
-R : Oui, le module utilise le système de templating standard de PrestaShop. Pour des changements de style de base (couleurs, polices), vous pouvez souvent surcharger le CSS du module dans le fichier CSS personnalisé de votre thème. Pour des changements de mise en page plus complexes, vous devrez surcharger les fichiers TPL du module dans votre thème. Cela nécessite généralement un développeur web.
+**Quote templates** (lorsque des modèles existent) : choisissez un modèle et un client, puis **Create from template**.
 
-**Q : Comment convertir un devis accepté en commande normale ?**
-R : Dans le Back Office de PrestaShop, naviguez vers **Quote Enterprise > Devis**. Ouvrez le devis spécifique que vous souhaitez convertir. Dans la vue détaillée du devis, il y aura un bouton (par exemple, "Convertir en commande" ou "Créer une commande"). Cliquer dessus générera une nouvelle commande dans votre liste de commandes PrestaShop standard, pré-remplie avec les articles et les prix du devis.
+Colonnes **Recent quotes** : Reference, Customer, Status, Total. Vide : **No quotes yet.** Liens : **Manage all quotes**, **CSV**, **XML**, **Open full quotes list**.
 
-**Q : Que se passe-t-il si un devis expire ?**
-R : Si la tâche cron est configurée, le module marquera automatiquement les devis expirés comme "Expirés". Les clients ne pourront plus accepter ou convertir un devis expiré en commande. Votre équipe de vente peut toujours consulter les devis expirés et potentiellement les réactiver ou créer un nouveau devis si nécessaire.
+### 3.4 Quotes list (Orders menu)
 
-## 4. Guide du développeur et du webmaster (Architecture technique et carte du code)
+Ouvrez **Orders**, **Quotes**. C’est l’écran de gestion principal.
 
-### 4.1 Aperçu de l'architecture
+Colonnes : **ID**, **Reference**, **Customer**, **Status**, **Total**, **Valid until**, **Assigned**, **Created**. Actions de ligne : éditer et dupliquer. Vous ne pouvez pas ajouter un devis vide depuis la barre d’outils de la liste ; créez depuis l’aperçu du module, depuis un modèle, ou par duplication. Erreur si vous essayez : **Create quotes from module configuration or duplicate an existing quote.**
 
-Le module Quote Enterprise suit une architecture MVC (Modèle-Vue-Contrôleur) PrestaShop robuste, tirant fortement parti d'`ObjectModel` pour la persistance des données. Il s'intègre de manière transparente au système de hooks de PrestaShop pour l'affichage en front-office et les actions en back-office. Le module comprend des contrôleurs d'administration dédiés pour la gestion des devis et des journaux d'audit, des contrôleurs frontaux pour l'interaction client (demande, liste, vue, API) et un ensemble complet de classes d'aide pour la logique métier, la génération de PDF, la gestion des e-mails, et plus encore. Une API REST est également fournie pour l'intégration de systèmes externes.
+Actions groupées :
 
-### 4.2 Contrôleurs (`controllers/`)
+| Action | What it does |
+|---|---|
+| **Assign to employee** | Définit l’employé assigné sur les devis sélectionnés. |
+| **Extend validity** | Repousse la date de validité pour la sélection. |
+| **Send expiry reminder** | Envoie des e-mails de rappel aux clients sélectionnés (dialogue de confirmation). |
+| **Export CSV** | Télécharge un CSV pour la sélection. |
+| **Export XML** | Télécharge un XML pour la sélection. |
 
-#### Contrôleurs Front-Office
+Filtrez par statut et recherchez comme sur une liste PrestaShop standard. Ouvrez une ligne pour éditer.
 
--   `controllers/front/api.php`
-    *   Nom de la classe : `QuoteenterpriseApiModuleFrontController` (étend `ModuleFrontController`)
-    *   Responsabilité : Gère les requêtes API depuis le front-office, probablement pour des intégrations spécifiques côté client ou le chargement de contenu dynamique.
--   `controllers/front/cron.php`
-    *   Nom de la classe : `QuoteenterpriseCronModuleFrontController` (étend `ModuleFrontController`)
-    *   Responsabilité : Sert de point d'accès pour la tâche cron, déclenchant des tâches d'arrière-plan telles que la vérification des expirations de devis et l'envoi d'e-mails de résumé.
--   `controllers/front/index.php`
-    *   Nom de la classe : `QuoteenterpriseIndexModuleFrontController` (étend `ModuleFrontController`)
-    *   Responsabilité : Probablement un contrôleur de secours ou de base, ou gère une route par défaut pour la section front-office du module.
--   `controllers/front/list.php`
-    *   Nom de la classe : `QuoteenterpriseListModuleFrontController` (étend `ModuleFrontController`)
-    *   Responsabilité : Affiche une liste de devis pour le client connecté dans son espace compte.
--   `controllers/front/pdf.php`
-    *   Nom de la classe : `QuoteenterprisePdfModuleFrontController` (étend `ModuleFrontController`)
-    *   Responsabilité : Génère et sert des versions PDF des devis pour que les clients puissent les télécharger.
--   `controllers/front/quoteList.php`
-    *   Nom de la classe : `QuoteenterpriseQuoteListModuleFrontController` (étend `ModuleFrontController`)
-    *   Responsabilité : Similaire à `list.php`, potentiellement une vue alternative ou spécifique pour les listes de devis, éventuellement pour le chargement AJAX.
--   `controllers/front/request.php`
-    *   Nom de la classe : `QuoteenterpriseRequestModuleFrontController` (étend `ModuleFrontController`)
-    *   Responsabilité : Gère l'affichage et la soumission du formulaire de demande de devis depuis les pages produits, le panier ou le bouton flottant. Traite les données du formulaire et crée de nouvelles entrées de devis.
--   `controllers/front/view.php`
-    *   Nom de la classe : `QuoteenterpriseViewModuleFrontController` (étend `ModuleFrontController`)
-    *   Responsabilité : Affiche la vue détaillée d'un seul devis pour le client, montrant les articles, les prix, le statut et les messages.
+### 3.5 Quote editor — how to manage a request
 
-#### Contrôleurs d'administration Back-Office
+Ouvrez un devis depuis la liste. La légende affiche la référence et le statut, par exemple `Q-2026-00001 — Pending review`.
 
--   `controllers/admin/AdminQuoteEnterpriseAuditLog.php`
-    *   Nom de la classe : `AdminQuoteEnterpriseAuditLogController` (étend `ModuleAdminController`)
-    *   Nom de l'onglet : Quote Enterprise > Journal d'audit
-    *   Entité gérée : `quote_audit_log` (probablement un `ObjectModel` personnalisé pour les entrées d'audit)
-    *   Responsabilité : Fournit une vue en grille aux administrateurs pour examiner toutes les actions et modifications historiques liées aux devis.
--   `controllers/admin/AdminQuoteEnterpriseQuotes.php`
-    *   Nom de la classe : `AdminQuoteEnterpriseQuotesController` (étend `ModuleAdminController`)
-    *   Nom de l'onglet : Quote Enterprise > Devis
-    *   Entité gérée : `quote` (probablement un `ObjectModel` personnalisé pour les devis)
-    *   Responsabilité : L'interface principale pour la gestion des devis, y compris la liste, la visualisation, la modification, la conversion en commande et l'envoi de communications.
--   `controllers/admin/index.php`
-    *   Nom de la classe : `QuoteenterpriseAdminIndexModuleFrontController` (étend `ModuleAdminController`)
-    *   Responsabilité : Probablement un contrôleur d'administration de remplacement ou de base, redirigeant potentiellement vers la liste principale des devis ou le tableau de bord.
+**Parcours type du personnel pour une nouvelle demande client**
 
-### 4.3 Classes et modèles principaux (`classes/`)
+1. Filtrez ou ouvrez les devis en **Pending review**.
+2. Consultez **Messages from customer** (texte de la demande, motifs de modification ou de refus ultérieurs). Lecture seule.
+3. Ajoutez ou ajustez **Line items** (produits du catalogue et services personnalisés).
+4. Définissez **Global discount %** / **Global discount amount**, **Shipping label** et les montants de livraison.
+5. Rédigez **General message to customer** et éventuellement **Internal note**.
+6. Définissez **Validity period** et **Validity unit**, vérifiez la date de validité actuelle.
+7. Définissez **Status** si nécessaire, puis **Save** (**Quote saved.**) ou **Save & send** (**Quote sent to customer by e-mail.**).
 
--   `classes/index.php` : Fichier vide, pratique courante pour empêcher la liste des répertoires.
--   `classes/QuoteAdmin.php` : Contient la logique pour les tâches spécifiques à l'administration, potentiellement liées à la configuration du module ou aux utilitaires d'administration généraux.
--   `classes/QuoteAdminAjax.php` : Gère les requêtes AJAX provenant du back-office, telles que la recherche dynamique de produits à ajouter à un devis.
--   `classes/QuoteAdminQuoteForm.php` : Gère la logique complexe du formulaire pour l'édition et la création de devis dans le back-office.
--   `classes/QuoteApi.php` : Classe principale pour l'API REST du module, gérant l'authentification, le routage et la sérialisation des données.
--   `classes/QuoteApiDocumentation.php` : Fournit des méthodes pour générer ou afficher la documentation des points de terminaison de l'API du module.
--   `classes/QuoteBulkActions.php` : Implémente la logique pour effectuer des actions sur plusieurs devis sélectionnés dans la liste d'administration (par exemple, changement de statut en masse).
--   `classes/QuoteConverter.php` : Gère la logique cruciale de conversion d'un devis accepté en une commande PrestaShop standard.
--   `classes/QuoteDashboard.php` : Fournit des données et de la logique pour la vue du tableau de bord du module dans le back-office (si présente), résumant l'activité des devis.
--   `classes/QuoteDuplicator.php` : Logique pour dupliquer des devis existants.
--   `classes/QuoteenterpriseModuleFrontController.php` : Classe de base pour les contrôleurs front-office, fournissant des méthodes et des propriétés communes.
--   `classes/QuoteExpiry.php` : Gère la logique de vérification de la validité des devis, de marquage des devis comme expirés et d'envoi des notifications associées.
--   `classes/QuoteExporter.php` : Gère l'exportation des données de devis (par exemple, CSV, Excel).
--   `classes/QuoteFeeProduct.php` : Probablement un `ObjectModel` ou un helper pour gérer des produits "frais" spéciaux qui peuvent être ajoutés aux devis (par exemple, pour les services, les frais personnalisés).
--   `classes/QuoteListHelper.php` : Fournit des méthodes utilitaires pour afficher et filtrer les listes de devis en front et back office.
--   `classes/QuoteMailer.php` : Classe centralisée pour l'envoi de diverses notifications par e-mail liées aux devis.
--   `classes/QuoteNotifyDigest.php` : Logique pour compiler et envoyer des résumés quotidiens ou périodiques de l'activité des devis aux administrateurs.
--   `classes/QuotePdf.php` : Gère la génération de factures proforma PDF pour les devis.
--   `classes/QuoteProductHelper.php` : Méthodes utilitaires pour interagir avec les produits PrestaShop dans le contexte d'un devis.
--   `classes/QuoteQtyHelper.php` : Aide à la gestion et à la validation des quantités dans les devis.
--   `classes/QuoteQuotesManager.php` : Logique métier principale pour la gestion des devis, y compris la création, les mises à jour et les changements de statut.
--   `classes/QuoteReference.php` : Gère la génération et l'unicité des numéros de référence de devis.
--   `classes/QuoteRequestHelper.php` : Aide au traitement et à la validation des demandes de devis soumises par les clients.
--   `classes/QuoteSchema.php` : Définit le schéma de la base de données pour les tables personnalisées utilisées par le module (par exemple, `ps_quote`, `ps_quote_product`, `ps_quote_audit_log`).
--   `classes/QuoteSettingDescTrait.php` : Un trait PHP probablement utilisé pour fournir des descriptions ou des métadonnées communes pour les paramètres du module.
--   `classes/QuoteTaxHelper.php` : Gère les calculs de taxes spécifiques aux devis.
--   `classes/QuoteThemeCompat.php` : Contient la logique pour assurer la compatibilité avec divers thèmes PrestaShop, potentiellement en détectant les fonctionnalités du thème ou en fournissant des surcharges.
--   `classes/QuoteTimeline.php` : Gère et affiche la chronologie des événements pour un devis spécifique (similaire à l'historique des commandes).
--   `classes/QuoteValidityHelper.php` : Méthodes utilitaires pour calculer et valider les dates d'expiration des devis.
--   `classes/QuoteVisibility.php` : Contrôle la visibilité des éléments liés aux devis sur le front office (par exemple, qui peut demander un devis, où les boutons apparaissent).
+**Verrouillage.** Les devis acceptés ou convertis se verrouillent. Devis expirés : **This quote has expired. Click Unlock to extend validity and send an updated offer.** Convertis : **This quote is locked because it was converted to an order.** Acceptés : **This quote is locked because the customer accepted it. Click Unlock to make changes.** Déverrouillage : **Quote unlocked for editing.** Reverrouillage : **Quote locked again.**
 
-### 4.4 Actifs JavaScript (`views/js/`)
+| Field | What it does (from field descriptions) |
+|---|---|
+| **Status** | Étape actuelle du parcours commercial. Draft : interne uniquement. Pending review : demandé par le client, en attente de votre tarification. Sent : envoyé par e-mail au client. Accepted : le client a accepté. Converted : devenu une commande. Seuls Sent et Negotiation peuvent être acceptés par le client. Modifiez le statut manuellement si nécessaire. |
+| **Validity period** | Durée pendant laquelle le client peut accepter, comptée à partir de l’enregistrement / l’envoi. Exemples : 15 avec Minutes, 1 avec Hours, 30 avec Days. L’enregistrement recalcule l’expiration à partir de maintenant. Le client ne peut plus accepter après expiration. Des périodes courtes peuvent expirer avant que le cron quotidien n’envoie les rappels. |
+| **Validity unit** | Minutes, heures ou jours avec le nombre de validité. |
+| **Payment hint** | Courte note sur le paiement attendu, p. ex. « 30 days net transfer ». Affichée sur la vue client et le PDF. N’impose pas de module de paiement. |
+| **Global discount %** | Remise supplémentaire 0–100 sur toutes les lignes produits avant livraison. Au checkout, elle peut s’appliquer comme règle panier. |
+| **Global discount amount (tax excl.)** | Remise fixe sur le sous-total produits. Le pourcentage est appliqué en premier lorsque les deux sont définis. |
+| **Shipping label** | Nom sur le PDF, p. ex. « Express delivery ». |
+| **Shipping (tax excl.)** / **Shipping (tax incl.)** | Frais de livraison. Le TTC se calcule automatiquement à partir du HT lorsqu’une règle de taxe est définie dans les paramètres du module. Inclus dans le total et transmis au checkout comme livraison fixe. |
+| **Messages from customer** | Tout ce que le client a écrit (demande, demande de modification, refus). Lecture seule. Répondez dans les champs ci-dessous. |
+| **General message to customer** | Message permanent toujours visible pour le client (périmètre, délai, conditions). Affiché sur la vue devis, le PDF et les e-mails. |
+| **Internal note** | Note privée d’équipe. Jamais montrée au client. |
+| **Line items** | Lignes produits et lignes de service personnalisées. Ajoutez un produit catalogue (choisissez la déclinaison si besoin). Ajoutez une ligne personnalisée : description, qté, prix unitaire HT, taxe %. Les lignes personnalisées apparaissent sur le PDF et, au checkout, passent dans le produit de frais. Messages : **Product line added.**, **Custom line added.**, **Line removed.**, **Select a product to add.**, **Please select a product combination.**, **Enter a service line description.** |
+| **Comment for this send** | Note ponctuelle pour ce **Save & send** uniquement. Explique ce qui a changé. Effacée après l’envoi. Apparaît dans la chronologie, l’historique PDF optionnel, et l’e-mail de cet envoi. |
+| **Version history** | Instantanés des versions précédentes. |
+| **Save as template** | Saisissez un nom de modèle et enregistrez. Créez ensuite de nouveaux devis depuis ce modèle pour un autre client. Messages : **Please enter a template name.**, **Template "…" saved.** |
+| **Quote timeline** | Chronologie des événements personnel et client sur ce devis. |
 
--   `lib/emailTemplatesManager/js/emailTemplatesManager.js` : Logique front-end pour l'éditeur de modèles d'e-mail dans le back-office.
--   `lib/searchTool/views/js/autocomplete.js` : Fournit la fonctionnalité d'autocomplétion pour la recherche de produits ou de clients dans l'éditeur de devis du back-office.
--   `views/js/admin-audience-picker.js` : Gère la logique de sélection des groupes de clients ou des clients spécifiques pour la visibilité ou le ciblage des devis dans l'administration.
--   `views/js/adminQuoteApi.js` : JavaScript pour l'écran de configuration de l'API d'administration, gérant potentiellement la génération de clés ou l'affichage de la documentation de l'API.
--   `views/js/adminQuoteDashboard.js` : Scripts pour les éléments interactifs ou la visualisation des données sur le tableau de bord d'administration.
--   `views/js/adminQuoteDetail.js` : Gère les interactions dynamiques dans la vue détaillée du devis dans le back-office (par exemple, ajout de produits, application de remises, changements de statut).
--   `views/js/adminQuoteEditor.js` : JavaScript principal pour le formulaire de création/édition de devis du back-office, y compris la sélection de produits, les mises à jour de quantité et les ajustements de prix.
--   `views/js/adminQuoteSelector.js` : Utilisé pour sélectionner des devis, éventuellement dans une modale ou un contexte lié.
--   `views/js/adminQuotesList.js` : Scripts pour la liste des devis d'administration, y compris le filtrage, le tri et les actions groupées.
--   `views/js/front.js` : JavaScript général du front-office pour le module, gérant les clics sur les boutons, les pop-ups modales pour les demandes de devis, les soumissions de formulaires et les mises à jour dynamiques.
+Dupliquez depuis la liste ou l’éditeur : **Unable to duplicate quote.** en cas d’échec. Après duplication, vous éditez la copie.
 
-### 4.5 Feuilles de style CSS (`views/css/`)
+### 3.6 Audit log
 
--   `lib/emailTemplatesManager/css/emailTemplatesManager.css` : Style pour l'éditeur de modèles d'e-mail dans le back-office.
--   `lib/searchTool/views/css/autocomplete.css` : Styles pour les résultats de recherche d'autocomplétion (par exemple, recherche de produits).
--   `views/css/admin-audience-picker.css` : Style pour l'interface de sélection de client/public dans l'administration.
--   `views/css/admin_quoteenterprise.css` : Feuille de style principale pour les interfaces du back-office du module (liste des devis, détail, journal d'audit).
--   `views/css/front-hummingbird.css` : Ajustements de style spécifiques au front-office pour le thème par défaut "Hummingbird" de PrestaShop.
--   `views/css/front.css` : Style général du front-office pour les boutons de devis, les formulaires et les vues du compte client. Les développeurs peuvent surcharger des classes comme `.quoteenterprise-button`, `.quoteenterprise-form`, `.quoteenterprise-list` dans leur thème.
+Onglet du module : activité récente (demandes, envois, acceptation/refus, négociations). Utilisez **View** pour le contexte complet. Ouvrez **Orders**, **Audit log** pour les filtres, l’export et l’historique complet.
 
-### 4.6 Structure des templates Smarty (`views/templates/`)
+Objectif : journal en ajout uniquement pour la conformité et le diagnostic. Les entrées ne peuvent pas être modifiées ni supprimées. Chaque ligne stocke le nom et l’ID de l’acteur (employé ou client) au moment de l’action. Badges d’acteur : Employee, Customer, System.
 
-#### Templates de hook (`views/templates/hook/`)
+### 3.7 Settings — Theme & display
 
--   `hook/adminOrderQuote.tpl` : Rend un bloc lié au devis dans la page de détail de commande standard de PrestaShop dans l'administration.
--   `hook/cartQuoteButton.tpl` : Affiche le bouton ou le lien "Demander un devis" sur la page du panier.
--   `hook/customerAccount-hummingbird.tpl` : Rend le lien de la liste des devis dans l'espace compte du client pour le thème Hummingbird.
--   `hook/customerAccount.tpl` : Rend le lien de la liste des devis dans l'espace compte du client pour les thèmes classiques.
--   `hook/productListQuote.tpl` : Affiche un bouton ou une option de devis sur les pages de liste de produits (catégorie, résultats de recherche).
--   `hook/quoteFloatButton.tpl` : Rend le bouton de devis flottant persistant sur le front office.
--   `hook/quoteListModal.tpl` : Template pour une fenêtre modale affichant une liste de devis.
--   `hook/quoteRequestButton.tpl` : Affiche le bouton "Demander un devis" sur les pages de produits individuelles.
--   `hook/quoteRequestModal.tpl` : Template pour la fenêtre modale qui ouvre le formulaire de demande de devis.
+Ouvrez **Settings**. Cliquez sur **Save** en bas après les modifications.
 
-#### Templates d'administration (`views/templates/admin/`)
+![Theme and display](https://mypresta.eu/docs/images/docs/quoteenterprise-settings-theme.webp)
 
--   `admin/api.tpl` : Rend l'interface de configuration de l'API et de gestion des clés.
--   `admin/audience-picker.tpl` : Template pour l'outil de sélection de client/groupe dans l'administration.
--   `admin/audit.tpl` : Affiche le tableau du journal d'audit dans le back-office.
--   `admin/dashboard.tpl` : Rend l'aperçu du tableau de bord du module dans le back-office.
--   `admin/notifications.tpl` : Affiche les notifications d'administration liées aux devis.
--   `admin/quoteDetail.tpl` : Le template complet pour visualiser et modifier un seul devis dans le back-office.
--   `admin/quotes.tpl` : Rend le tableau principal de la liste des devis dans le back-office.
--   `admin/quotesOverview.tpl` : Une section de résumé ou d'aperçu pour les devis, éventuellement sur le tableau de bord.
--   `admin/scopeSelector.tpl` : Template pour la sélection de la portée (par exemple, boutique, langue) dans l'administration.
--   `admin/visibilityConfigurator.tpl` : Template pour la configuration des règles de visibilité des devis.
--   `admin/_api_documentation_modal.tpl` : Rend une fenêtre modale avec la documentation de l'API pour les développeurs.
--   `admin/_bulk_options.tpl` : Template pour les listes déroulantes d'actions groupées dans les listes d'administration.
+| Field | At the start | What it does |
+|---|---|---|
+| **Front theme template** | **Auto-detect (recommended)** | Choisit le jeu de templates et de CSS utilisé pour My quotes, l’aperçu du devis et le lien du compte client. Laissez Auto-detect sauf si votre fork de thème est mal détecté — forcez alors Classic ou Hummingbird. |
+| **Quantity display format** | **Integer (e.g. 1, 2)** | Affichage des quantités de lignes en front-office, back-office, PDF et e-mails. Ou **Fixed decimals (e.g. 1.000, 2.500)**. Les champs de formulaire utilisent le même format pour les valeurs par défaut. |
+| **Quantity decimal places** | 3 | Chiffres après la virgule lorsque le format est en décimales fixes. En général 3 pour le B2B ou 2 pour le retail. Ignoré en mode entier. |
 
-#### Templates Front-office (`views/templates/front/`)
+### 3.8 Settings — General
 
--   `front/list.tpl` : Affiche la liste des devis du client dans son compte.
--   `front/request.tpl` : Le template principal pour le formulaire de demande de devis du client.
--   `front/view.tpl` : Affiche la vue détaillée d'un seul devis pour le client.
--   `front/_requestComplianceFields.tpl` : Template partiel pour les champs supplémentaires liés à la conformité dans le formulaire de demande de devis.
--   `front/_requestLinesTable.tpl` : Template partiel pour l'affichage des lignes de produits dans un formulaire de demande de devis.
+![General](https://mypresta.eu/docs/images/docs/quoteenterprise-settings-general.webp)
 
-#### Templates PDF (`views/templates/pdf/`)
+| Field | At the start | What it does |
+|---|---|---|
+| **Module enabled** | **Yes** | Interrupteur principal de toute la fonctionnalité devis-vers-commande. Yes : les clients demandent des devis et le personnel gère les offres. No : masquer tous les boutons de devis et les liens du compte client sans désinstaller. Lorsqu’il est désactivé, aucune nouvelle demande et aucun bouton sur le panier, les fiches ou les pages catégorie. Les devis existants restent dans le back-office. |
+| **Product page quote button** | **Yes** | Affiche **Request a quote** sur chaque fiche produit. Pour les boutiques B2B où les acheteurs demandent un prix sur un SKU unique. Le client doit être connecté (ou le flux invité autorisé) et dans un groupe autorisé. Le mode Instant ouvre le formulaire pour ce produit. Le mode List ajoute la quantité et la déclinaison à la liste de devis flottante. |
+| **Cart quote button** | **Yes** | Affiche **Request a quote** sur le panier. Activez lorsque les clients demandent une offre pour plusieurs produits à la fois. Respecte le total panier minimum ci-dessous. Le contenu actuel du panier devient la base d’une nouvelle demande de devis après confirmation. |
+| **Category / list quote button** | **Yes** | **Request quote** compact sur les pages de liste (catégorie, recherche, nouveautés). Mêmes règles d’éligibilité. Le mode Instant ouvre le flux de devis produit. Le mode List ajoute le produit (déclinaison par défaut, qté 1) à la liste flottante. |
+| **Product quote mode** | **Instant — open form for this product** | Instant : ouvrir le formulaire pour le produit courant. List : ajouter à un panier de devis ; le bouton flottant ouvre un formulaire avec tous les produits. Les demandes depuis le panier restent indépendantes. Le bouton flottant n’apparaît qu’en mode List lorsque la liste n’est pas vide. |
+| **Floating quote button position** | **Bottom right** | Ou **Bottom left**. Uniquement lorsque le mode de devis produit est List. Le badge affiche le nombre de produits ; ouvre le formulaire de demande multi-produits. |
+| **Allow guests** | **No** | Indique si les visiteurs sans compte peuvent démarrer une demande. Laissez désactivé pour un B2B strict. Activez si les invités doivent voir le bouton — ils doivent tout de même se connecter ou s’inscrire avant l’enregistrement de la demande. Ne crée pas de devis anonymes. |
 
--   `pdf/quote.tpl` : Template utilisé pour générer le contenu de la facture proforma PDF.
+### 3.9 Settings — Quote button visibility
 
-### 4.7 Schéma de la base de données et carte des hooks
+![Visibility](https://mypresta.eu/docs/images/docs/quoteenterprise-settings-visibility.webp)
 
-#### Tables de la base de données
+| Field | At the start | What it does |
+|---|---|---|
+| Customer groups | all groups | Restreint qui peut voir les boutons de devis. Tous les groupes, ou seulement les groupes sélectionnés (p. ex. Wholesale). Les clients hors des groupes sélectionnés ne verront pas les boutons même si le module est activé. |
+| **Enable catalog visibility rules** | **No** | Active ou désactive les règles de boutons de devis basées sur le catalogue. Activez pour limiter les devis à des produits, catégories, marques ou fournisseurs précis. Lorsqu’elles sont désactivées, tout produit peut être demandé (les règles de groupes s’appliquent toujours). Lorsqu’elles sont activées, la liste blanche / noire et les filtres ci-dessous sont appliqués. |
+| **Catalog rule mode** | **Whitelist — only matching products** | Whitelist : boutons uniquement sur les produits correspondants. Blacklist : masquer les boutons sur les produits correspondants. Un produit correspond s’il est dans la liste produits ou appartient à une catégorie, fabricant ou fournisseur sélectionné. |
+| Catalog pickers | empty | Catégories (arbre), produits (recherche), fabricants et fournisseurs. Laissez vide pour n’appliquer que les filtres auxiliaires. Les règles se combinent en OU — une correspondance suffit. |
+| **Minimum product price** | 0 | Masquer les boutons de devis sous ce prix TTC vitrine. 0 désactive. Appliqué lorsque les règles catalogue sont activées. |
+| **Exclude virtual products** | **No** | Empêche de demander un devis pour les produits téléchargeables / virtuels lorsque les règles catalogue sont activées. |
+| **Exclude out-of-stock products** | **No** | Masque les boutons lorsque le produit ne peut pas être commandé en rupture (respecte le comportement PrestaShop hors stock). |
+| **Mixed cart (eligible + excluded items)** | **Hide cart quote button** | Lorsque le panier mélange produits cotables et non cotables : Show = bouton visible, seules les lignes éligibles importées ; Hide = bouton masqué jusqu’à ce que le panier ne contienne que des articles cotables. Tous éligibles → toujours afficher. Tous exclus → toujours masquer. |
 
-Le module crée des tables personnalisées, généralement préfixées par `ps_` (ou votre préfixe personnalisé). Les tables clés incluent :
+### 3.10 Settings — Product quote request form
 
--   `ps_quote` : Stocke les détails principaux du devis (ID client, statut, total, validité, référence, etc.).
--   `ps_quote_product` : Stocke les produits individuels et leurs quantités/prix associés à chaque devis.
--   `ps_quote_audit_log` : Enregistre toutes les modifications et actions effectuées sur les devis à des fins d'audit.
--   `ps_quote_api_key` : Stocke les clés API pour les intégrations externes.
--   `ps_configuration` : Les paramètres du module y sont stockés avec des clés comme `QUOTEENTERPRISE_ENABLE`, `QUOTEENTERPRISE_MIN_VALUE`, etc.
+| Field | At the start | What it does |
+|---|---|---|
+| **Require privacy policy acceptance** | **Yes** | Case de confidentialité obligatoire sur la modale de demande de devis produit (RGPD). Les clients doivent accepter avant d’envoyer. |
+| **Privacy policy CMS page** | none | Page CMS liée depuis la case. Si vide, le texte de la case n’a pas de lien. |
+| **Enable reCAPTCHA** | **No** | Protège le formulaire de demande de devis produit avec Google reCAPTCHA v2. Lorsqu’il est activé, les clés site et secrète ci-dessous sont obligatoires. |
+| **reCAPTCHA site key** | empty | Clé site publique depuis l’admin Google reCAPTCHA (case à cocher v2). |
+| **reCAPTCHA secret key** | empty | Clé secrète. Stockée dans la configuration de la boutique. |
+| **Minimum cart total** | 0 | Valeur minimale du panier avant d’afficher le bouton de devis panier. Devise par défaut de la boutique. 0 = pas de minimum. N’affecte que le bouton panier, pas les demandes mono-produit. Les petits paniers n’afficheront pas le bouton. |
 
-#### Tableau des hooks enregistrés
+### 3.11 Settings — Offers & references
 
-| Nom du hook | Moment d'exécution | Objectif technique |
-| --- | --- | --- |
-| `displayHeader` | Dans la section `<head>` de chaque page. | Injection d'actifs CSS/JS, de balises meta ou d'initialisation globale du module. |
-| `displayRightColumn` | Dans la colonne de droite de votre boutique (si activée par le thème). | Affichage du bouton de devis flottant ou d'un bloc de demande de devis statique. |
-| `displayLeftColumn` | Dans la colonne de gauche de votre boutique (si activée par le thème). | Affichage du bouton de devis flottant ou d'un bloc de demande de devis statique. |
-| `displayFooter` | Dans la section du pied de page de chaque page. | Affichage du bouton de devis flottant ou d'un bloc de demande de devis statique. |
-| `displayProductButtons` | Sur la page produit, près du bouton "Ajouter au panier". | Affichage du bouton "Demander un devis" sur les pages produits. |
-| `displayShoppingCartFooter` | Dans le récapitulatif du panier, sous la liste des produits. | Affichage du bouton "Demander un devis" pour convertir le panier en devis. |
-| `displayCustomerAccount` | Sur la page "Mon compte" du client. | Ajout d'un lien vers la liste des devis du client. |
-| `actionValidateOrder` | Après qu'une commande a été validée avec succès. | Potentiellement utilisé pour lier un devis à la commande résultante ou mettre à jour le statut du devis. |
-| `actionAdminControllerSetMedia` | Lorsqu'un contrôleur d'administration charge ses actifs. | Injection d'actifs CSS/JS spécifiques au module pour les pages du back-office. |
-| `displayAdminOrder` | Sur la page de détail de commande de l'administration PrestaShop. | Affichage d'un bloc avec des informations sur le devis si la commande provient d'un devis. |
-| `actionObjectProductUpdateAfter` | Après la mise à jour d'un produit. | Potentiellement pour mettre à jour les prix des devis si les prix des produits changent (fonctionnalité avancée). |
-| `actionObjectProductDeleteAfter` | Après la suppression d'un produit. | Pour gérer les produits supprimés des devis. |
-| `actionObjectCustomerDeleteAfter` | Après la suppression d'un client. | Pour gérer les devis associés à un client supprimé. |
-| `displayBackOfficeHeader` | Dans le `<head>` de chaque page du back-office. | Injection générale d'actifs du back-office ou configuration globale du module d'administration. |
-| `displayBackOfficeTop` | En haut de la zone de contenu du back-office. | Affichage d'alertes spécifiques au module ou de widgets de tableau de bord. |
+| Field | At the start | What it does |
+|---|---|---|
+| **Default validity** | 30 | Durée par défaut pendant laquelle un devis reste valide après création. Nombre plus unité : minutes pour les offres flash, heures pour les décisions le jour même, jours pour le B2B standard. Définit valid_until sur les nouveaux devis depuis la boutique, le back-office et les duplicatas. Surchargez par devis dans l’éditeur. |
+| **Default validity unit** | **Days** | Minutes, heures ou jours avec le nombre ci-dessus. Les e-mails de rappel et le statut Expired automatique s’appuient toujours sur le cron pour les rappels. |
+| **Expiry reminder (days before)** | 3 | E-mail de rappel avant expiration. Envoyé uniquement par la tâche cron quotidienne. Chaque devis éligible reçoit au plus un rappel avec un lien pour consulter et accepter. Sans cron, pas de rappels. |
+| Cron URL | generated token | Rappels d’expiration et mises à jour de statut automatisés. Ajoutez l’URL au crontab une fois par jour (exemple 08:00). Régénérez le jeton s’il a été exposé. L’expiration est aussi appliquée à l’ouverture du devis ; les e-mails de rappel nécessitent toujours le cron. |
+| **Reference prefix** | Q | Préfixe des numéros de devis. Le module ajoute l’année et la séquence, p. ex. Q-2026-00042. Aide le personnel et les clients à reconnaître les documents dans les e-mails et le PDF. |
+| **Notify staff on new request** | **Yes** | E-mail au personnel de la boutique lorsqu’un client envoie une demande. Vérifiez que Preferences > Contact e-mail est correct. Modèle : qe-request-staff dans l’onglet Emails. |
 
-## 5. Support officiel et mises à jour
+Avis jaune à l’écran : le cron est requis pour l’automatisation de la validité ; l’expiration s’applique aussi à l’ouverture ; les rappels utilisent l’URL cron.
 
-Pour les dernières mises à jour du module, les corrections de bugs et le support officiel, veuillez vous connecter à votre compte client sur [MyPresta.eu](https://mypresta.eu/my-account/orders/). Notre équipe de support est disponible pour vous aider avec tout problème ou question que vous pourriez avoir concernant le module Quote Enterprise.
+### 3.12 Settings — Checkout
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Shipping / service tax rule** | shop default tax rule | Règle de TVA pour la livraison et les lignes de service personnalisées lorsque vous saisissez des montants hors taxe. Choisissez un groupe de règles de taxe dans Catalog → Products. Une fois sélectionné, l’enregistrement d’un devis recalcule la livraison TTC à partir du HT. |
+| **Fee product (custom lines)** | created on install | Produit virtuel masqué qui porte les lignes de service personnalisées jusqu’au checkout. Créé automatiquement — ne changez que si vous devez pointer les lignes personnalisées vers un autre produit. Au checkout, les totaux de service deviennent une ligne panier avec le prix de devis verrouillé. |
+
+### 3.13 PDF
+
+Ouvrez l’onglet **PDF**. Légende : **PDF documents**. Lorsque le PDF est désactivé, les boutons de téléchargement sont masqués et les URL PDF renvoient introuvable.
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Enable PDF** | **Yes** | Interrupteur principal pour la génération PDF et les liens de téléchargement. Désactivez si vous ne souhaitez pas de proformas PDF. Lorsqu’il est désactivé, les boutons PDF sont masqués en back-office, boutique et détail de commande ; les URL PDF directes renvoient introuvable. Les modèles d’e-mail reçoivent toujours un placeholder d’URL PDF vide. |
+| **Use shop logo on PDF** | **Yes** | Utilise le logo de la boutique depuis Preferences > Themes. No : utiliser uniquement un logo personnalisé téléversé ci-dessous (s’il y en a un). Le logo apparaît en haut des documents PDF / proforma. |
+| **Add negotiation history to PDF** | **No** | Ajoute un court journal de communication (demandes de modification, renvois, acceptation, refus). Tableau compact avant les conditions. Vide s’il n’y a pas d’activité de négociation. |
+| **Custom PDF logo** | empty | PNG ou JPG facultatif pour les PDF de devis uniquement. Remplace le logo boutique lorsqu’il est présent. |
+| **PDF terms & conditions** | empty | Conditions légales ou commerciales en bas de chaque PDF. |
+| **Authorized signature** | empty | Nom ou ligne du signataire, p. ex. « John Smith, Sales Director ». Laissez vide pour omettre. |
+
+### 3.14 Emails
+
+Ouvrez l’onglet **Emails**. E-mails transactionnels du cycle de vie du devis. Modifiez l’objet et le corps par langue. Utilisez les placeholders de la barre latérale de l’éditeur (nom client, référence devis, lien, totaux). Clés intégrées : qe-request-staff, qe-quote-sent, qe-quote-accepted, qe-quote-rejected, qe-quote-negotiation, qe-quote-reminder, qe-staff-digest. Clients et personnel les reçoivent lorsqu’un devis est demandé, envoyé, accepté, ou sur le point d’expirer. Testez après modification.
+
+### 3.15 API
+
+Ouvrez l’onglet **API**. Connectez CRM, ERP ou automatisation. Saisissez un libellé de clé et **Generate new API key**. Copiez la clé. **Revoke** la désactive (confirmation). Vide : **No API keys yet.** **API documentation** décrit les actions : list, get, pending, stats, update_status. Appelez l’URL API du module avec la clé.
+
+### 3.16 Notifications
+
+Ouvrez **Notifications** (**Staff digest notifications**). Résumé périodique lorsque des devis nécessitent une action, sans un e-mail par événement.
+
+Ce qui compte comme en attente : **Pending review** (nouvelle demande) ou **Negotiation** (le client a demandé des modifications). Sent, accepted, expired et converted ne sont pas inclus. Le cron s’exécute selon votre planning. Lorsque le digest est activé, qu’au moins un devis est en attente, et que l’intervalle est écoulé, un message part vers chaque canal configuré. Le personnel voit un résumé avec références, statut, nom client et liens back-office (jusqu’à 20 devis listés).
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Enable digest** | **No** | Interrupteur principal. Activez après avoir configuré au moins un canal. Le cron doit être planifié — les digests ne sont pas envoyés par les visites de page. Lorsqu’il est désactivé, le cron gère toujours les rappels d’expiration et les mises à jour de statut, mais pas de digest. |
+| **Interval (hours)** | 24 | Délai minimum entre digests (1–168). Exécutez le cron au moins aussi souvent que cette valeur. Après un digest réussi, le suivant attend que ce nombre d’heures soit passé. |
+| **E-mail recipients** | empty | Séparés par virgule ou point-virgule. Vide utilise l’e-mail boutique de Preferences > Contact. Modèle qe-staff-digest. |
+| **Slack webhook URL** | empty | URL de webhook entrant. Laissez vide pour ignorer Slack. |
+| **Teams webhook URL** | empty | URL de webhook connecteur. Laissez vide pour ignorer Teams. |
+
+**Save** enregistre les paramètres. **Send test digest now** envoie un test lorsque des devis sont en attente. Même URL cron que Settings.
+
+### 3.17 Updates
+
+Ouvrez **Updates**. **Check Now** recherche une nouvelle version. **Automatic Notifications** activé ou désactivé. **Save** enregistre les paramètres de mise à jour.
+
+### 3.18 Quote block on an order
+
+Sur une commande créée depuis un devis, le back-office affiche **Source quote** avec un lien vers le devis et éventuellement **View quote PDF**.
+
+## 4. Front office
+
+Les clients voient les outils de devis lorsque le module est activé et que leur groupe est autorisé.
+
+**Product page.** **Request a quote** ouvre le formulaire (instant) ou ajoute à la liste de devis (mode list). La case de confidentialité et reCAPTCHA s’appliquent lorsqu’ils sont activés.
+
+**Product list.** **Request quote** — mêmes règles.
+
+**Cart.** **Request a quote** — respecte le total panier minimum et les règles de panier mixte. Le panier confirmé devient un devis en attente.
+
+**List mode.** Le bouton flottant avec un compteur ouvre le formulaire de demande multi-produits.
+
+**Customer account.** Lien vers **My quotes** : historique, statut, valid until, **View**, PDF si activé, **Checkout** après acceptation, **Request re-opening** lorsqu’expiré/verrouillé. Vide : **You have no quotes yet. Request a quote from a product page or your cart to get started.** Après envoi : **Your quote request has been submitted. Our team will prepare an offer shortly.**
+
+**Quote view.** Accepter, refuser, demander des modifications, télécharger le PDF, checkout une fois accepté. Expiré verrouillé : **Locked — validity expired**.
+
+Les visiteurs invités peuvent voir les boutons si **Allow guests** est **Yes**, mais la demande n’est enregistrée que pour un client connecté.
+
+Il n’y a pas de capture d’écran boutique dans ce pack car la boutique de test n’était pas accessible lorsque les écrans ont été finalisés.
+
+## 5. Common problems
+
+**Pas de bouton de devis sur le produit ou le panier.** Vérifiez **Module enabled**, l’interrupteur de bouton correspondant, le groupe client, et la visibilité catalogue. Pour le panier, vérifiez **Minimum cart total** et **Mixed cart**.
+
+**Un invité ne peut pas terminer une demande.** L’envoi exige toujours un compte.
+
+**Le devis est verrouillé / impossible d’éditer.** Déverrouillez s’il est accepté ou expiré (prolongez la validité). Les devis convertis restent verrouillés sur la commande.
+
+**Le client ne peut pas accepter.** Le statut doit être Sent ou Negotiation, et valid until doit être dans le futur.
+
+**Les e-mails de rappel n’arrivent jamais.** Planifiez l’URL cron et gardez **Expiry reminder** au-dessus de zéro. Ouvrir un devis peut l’expirer sans cron ; les rappels nécessitent toujours le cron.
+
+**Boutons PDF manquants.** Activez **Enable PDF**.
+
+**reCAPTCHA bloque le formulaire.** Désactivez-le, ou saisissez les deux clés.
+
+**Le digest personnel n’arrive jamais.** Activez le digest, configurez un canal, exécutez le cron au moins aussi souvent que l’intervalle.
+
+**Désinstallé et le menu a disparu.** Réinstallez. La désinstallation supprime les tables de devis. Le produit de frais peut rester dans le catalogue.
+
+## 6. Developer guide
+
+### 6.1 Overview
+
+Nom technique `quoteenterprise`, version 1.7.6, classe `quoteenterprise` extends `Module`. Nom d’affichage via `$this->l('Quote Enterprise')`. Auteur MyPresta.eu. Onglet `checkout`. URL produit dans `$this->mypresta_link`.
+
+Flux : demande → ligne `quote` → édition/envoi par le personnel → acceptation/négociation client → checkout → commande. Les textes de champs pour les marchands se trouvent dans `QuoteSettingDescTrait` et les méthodes `desc*` de l’éditeur de devis.
+
+### 6.2 Files
+
+- `quoteenterprise.php` — installation, hooks, entrée de configuration, URL cron.
+- `classes/QuoteAdmin.php` — onglets de configuration et formulaires de paramètres.
+- `classes/QuoteAdminQuoteForm.php` — éditeur de devis.
+- `classes/QuoteQuotesManager.php` — aperçu, enregistrement/envoi/lignes/modèles.
+- `classes/QuoteDashboard.php`, `QuoteVisibility.php`, `QuoteListHelper.php`, `QuoteRequestHelper.php`, `QuoteMailer.php`, `QuotePdf.php`, `QuoteApi.php`, `QuoteNotifyDigest.php`, `QuoteExpiry.php`, `QuoteConverter.php`, `QuoteFeeProduct.php`, `QuoteSettingDescTrait.php`.
+- `controllers/admin/AdminQuoteEnterpriseQuotes.php`, `AdminQuoteEnterpriseAuditLog.php`.
+- `controllers/front/` — `list`, `view`, `request`, `quoteList`, `pdf`, `cron`, `api`.
+- `models/` — `quote`, `quotedetail`, `quoteauditlog`, `quoterevision`, `quoteapikey`.
+- `views/templates/`, `lib/updateChecker.php`, `lib/emailTemplatesManager/`, `lib/searchTool/`.
+
+### 6.3 Controllers
+
+Admin sous **Orders** (`AdminParentOrders`). Contrôleurs front dans `$this->controllers`. Le cron attend `QE_CRON_TOKEN`. L’API attend une clé active et un nom d’action.
+
+### 6.4 Hooks
+
+Enregistrés : `displayHeader`, `displayShoppingCart`, `displayCustomerAccount`, `displayProductAdditionalInfo`, `displayProductActions`, `displayFooterProduct`, `displayFooter`, `actionProductPriceCalculation`, `actionValidateOrder`, `actionAdminControllerSetMedia`, `displayProductListFunctionalButtons`, `displayProductListReviews`, `displayProductPriceBlock`, `displayAdminOrderMain`, `displayAdminOrderSide`, `displayAdminOrder`, `actionCartGetPackageShippingCost`. Aucun hook personnalisé exposé.
+
+### 6.5 Overrides
+
+Ce module ne livre pas d’overrides de classes ou de contrôleurs.
+
+### 6.6 Database
+
+| Table | Contents |
+|---|---|
+| `quote` | En-tête du devis. |
+| `quote_detail` | Lignes. |
+| `quote_revision` | Instantanés de version. |
+| `quote_audit_log` | Activité en ajout uniquement. |
+| `quote_api_key` | Clés API. |
+| `qe_cart_quote` | Lien panier–devis. |
+
+La désinstallation supprime ces tables. `QuoteSchema::ensure` et `inconsistency()` réparent les éléments manquants à l’ouverture de la configuration.
+
+### 6.7 Keys and translations
+
+Clés de configuration `QE_*`. Valeurs par défaut dans `installDefaults()`. Nouvelle langue : `translations/{iso}.php`. Aide des champs marchand : `QuoteSettingDescTrait` et méthodes `desc*` de l’éditeur. Chaînes via `$this->l()` et `{l s=... mod='quoteenterprise'}`.
+
+### 6.8 Extending
+
+Surchargez les templates front sous `modules/quoteenterprise/` dans le thème. Classic et Hummingbird sont pris en charge. Une mise en page PDF différente implique de modifier le template PDF ou le code du module.
+
+## 7. Support
+
+Page du module : [Quote Enterprise](https://mypresta.eu/modules/ordering-process/quote-enterprise.html).
+
+Pour écrire à propos de ce module, connectez-vous à votre compte client sur [mypresta.eu](https://mypresta.eu/), ouvrez [Contact](https://mypresta.eu/contact.html) et choisissez le sujet **Support for paid modules**. Le formulaire indique que la connexion est requise. Après connexion, sélectionnez ce module dans votre historique d’achats.

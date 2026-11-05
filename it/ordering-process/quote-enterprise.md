@@ -1,8 +1,8 @@
 ---
-title: "Quote Enterprise - Manuale Commerciante e Guida alla Configurazione"
-description: "Manuale utente completo, guida alla configurazione schermata per schermata e riferimento per sviluppatori per il modulo PrestaShop Quote Enterprise di MyPresta.eu."
+title: "Quote Enterprise - manuale per il rivenditore"
 sidebar:
-  label: "Quote Enterprise - Manuale Commerciante e Guida alla Configurazione"
+  label: "Quote Enterprise - manuale per il rivenditore"
+description: "Come configurare Quote Enterprise, gestire l'intero processo da preventivo a ordine e risolvere i problemi comuni."
 ---
 
 > ⚠️ **Notice:** This is the documentazione ufficiale per il modulo PrestaShop.
@@ -12,378 +12,353 @@ sidebar:
 > ---
 
 
-# Quote Enterprise
-
-## 1. Requisiti e Compatibilità
-
-- **Versioni PrestaShop supportate**: PrestaShop 1.7.x, 8.x, 9.x
-- **Compatibilità PHP**: PHP 7.1 - 8.5
-- **Requisiti di hosting**: Sono richieste le estensioni PHP standard (cURL, JSON, OpenSSL). Assicurati che il tuo server soddisfi i requisiti minimi di PrestaShop.
-
-## 2. Guida completa alla configurazione (Ogni impostazione raggruppata per schermata)
-
-### 2.1 Pagina di configurazione del modulo (Back Office > Moduli > Configura > Quote Enterprise)
-
-Questa è la schermata di configurazione principale dove definisci il comportamento e l'aspetto principali del modulo Quote Enterprise.
-
-#### Scheda Impostazioni generali
-
--   **Abilita Quote Enterprise:**
-
-    -   **Cosa fa questa impostazione:** Questo è l'interruttore principale per l'intero modulo.
-    -   **Effetto della modifica di questa impostazione:**
-        -   *Quando abilitato:* Il sistema di quotazione diventa attivo sul tuo negozio e i clienti possono iniziare a richiedere preventivi.
-        -   *Quando disabilitato:* Tutte le funzionalità di quotazione sono nascoste dal front office e non è possibile richiedere nuovi preventivi. I preventivi esistenti nel back office rimangono accessibili per la gestione.
-    -   **Valore consigliato:** SÌ
-    -   **Scenario / esempio del commerciante:** Abilita questa opzione quando sei pronto a offrire servizi di quotazione. Disabilitala temporaneamente durante la manutenzione o se decidi di smettere di offrire preventivi.
--   **Consenti richieste di preventivo dal carrello:**
-
-    -   **Cosa fa questa impostazione:** Determina se i clienti possono convertire l'intero carrello in una richiesta di preventivo.
-    -   **Effetto della modifica di questa impostazione:**
-        -   *Quando abilitato:* Un pulsante o un link "Richiedi un preventivo" apparirà nel riepilogo del carrello, consentendo ai clienti di inviare tutti gli articoli nel carrello per un preventivo.
-        -   *Quando disabilitato:* I clienti possono richiedere preventivi solo dalle singole pagine prodotto o tramite il pulsante fluttuante (se abilitato), non direttamente dal carrello.
-    -   **Valore consigliato:** SÌ (per la maggior parte degli scenari B2B e di ordini all'ingrosso)
-    -   **Scenario / esempio del commerciante:** Se ti occupi principalmente di ordini di grandi dimensioni, con più articoli, dove i prezzi sono spesso negoziati, abilita questa opzione. Se i tuoi preventivi sono solitamente per prodotti singoli e personalizzati, potresti disabilitarla.
--   **Consenti richieste di preventivo dalla pagina prodotto:**
-
-    -   **Cosa fa questa impostazione:** Controlla se un pulsante "Richiedi un preventivo" appare sulle singole pagine prodotto.
-    -   **Effetto della modifica di questa impostazione:**
-        -   *Quando abilitato:* I clienti possono aggiungere un prodotto specifico a una richiesta di preventivo direttamente dalla sua pagina, invece di aggiungerlo al carrello.
-        -   *Quando disabilitato:* L'opzione di richiesta preventivo viene rimossa dalle pagine prodotto.
-    -   **Valore consigliato:** SÌ
-    -   **Scenario / esempio del commerciante:** Essenziale per prodotti personalizzati, articoli di alto valore o quando si desidera offrire un'alternativa all'acquisto diretto per qualsiasi prodotto.
--   **Visualizza pulsante preventivo fluttuante:**
-
-    -   **Cosa fa questa impostazione:** Aggiunge un pulsante persistente e fluttuante al front office del tuo negozio, consentendo ai clienti di avviare una richiesta di preventivo da quasi ogni pagina.
-    -   **Effetto della modifica di questa impostazione:**
-        -   *Quando abilitato:* Apparirà un piccolo pulsante cliccabile (spesso in un angolo dello schermo), che aprirà il modulo di richiesta preventivo o un elenco di preventivi esistenti.
-        -   *Quando disabilitato:* Il pulsante fluttuante non sarà visibile.
-    -   **Valore consigliato:** SÌ (per alta visibilità e facilità di accesso)
-    -   **Scenario / esempio del commerciante:** Usa questa opzione per rendere l'opzione di quotazione altamente visibile in tutto il tuo negozio, incoraggiando più richieste.
--   **Valore minimo dell'ordine per la richiesta di preventivo:**
-
-    -   **Cosa fa questa impostazione:** Imposta un valore totale minimo (nella tua valuta predefinita) che una richiesta di preventivo deve raggiungere per essere inviata.
-    -   **Effetto della modifica di questa impostazione:**
-        -   *Quando impostato su un valore (es. 100):* I clienti non possono inviare una richiesta di preventivo se il valore totale degli articoli nella loro richiesta è inferiore a questo importo. Verrà visualizzato un messaggio di errore.
-        -   *Quando impostato su 0 o lasciato vuoto:* Non viene applicato alcun valore minimo.
-    -   **Valore consigliato:** 0 (o un valore che filtra le richieste banali)
-    -   **Scenario / esempio del commerciante:** Se desideri elaborare preventivi solo per ordini significativi, imposta un valore minimo (es. $500) per ridurre il carico amministrativo per le piccole richieste.
--   **Validità predefinita del preventivo (Giorni):**
-
-    -   **Cosa fa questa impostazione:** Definisce per quanti giorni un preventivo appena creato sarà valido, per impostazione predefinita.
-    -   **Effetto della modifica di questa impostazione:**
-        -   *Quando impostato su un numero (es. 30):* Tutti i nuovi preventivi creati dal tuo team avranno automaticamente una data di scadenza di 30 giorni dalla loro creazione.
-        -   *Quando impostato su 0 o lasciato vuoto:* I preventivi non avranno un periodo di validità predefinito e il tuo team dovrà impostarne uno manualmente o gestirli senza scadenza.
-    -   **Valore consigliato:** 30 (o un periodo tipico per il tuo settore)
-    -   **Scenario / esempio del commerciante:** Impostare una validità di 30 giorni incoraggia i clienti ad agire entro un lasso di tempo ragionevole e ti protegge dalle fluttuazioni dei prezzi.
-
-#### Scheda Modelli email
-
-Questa sezione ti consente di personalizzare le notifiche email inviate dal modulo.
-
--   **Gestore modelli email:**
-    -   **Cosa fa questa impostazione:** Fornisce un'interfaccia visiva per modificare il contenuto di vari modelli email relativi ai preventivi (es. nuova richiesta di preventivo, preventivo aggiornato, preventivo accettato).
-    -   **Effetto della modifica di questa impostazione:**
-        -   *Quando modifichi un modello:* L'email corrispondente inviata ai clienti o al tuo team rifletterà le tue modifiche, inclusi testo, branding e layout.
-    -   **Valore consigliato:** Personalizza per adattarlo alla voce del tuo brand e fornire istruzioni chiare.
-    -   **Scenario / esempio del commerciante:** Modifica l'email "Nuova richiesta di preventivo" per includere istruzioni specifiche per il tuo team di vendita o aggiungi un saluto personalizzato per i clienti.
-
-#### Scheda Impostazioni avanzate
-
--   **Abilita REST API:**
-
-    -   **Cosa fa questa impostazione:** Attiva un'interfaccia programmatica (API) per il modulo, consentendo a sistemi esterni o applicazioni personalizzate di interagire con i tuoi preventivi.
-    -   **Effetto della modifica di questa impostazione:**
-        -   *Quando abilitato:* Il modulo espone endpoint che possono essere utilizzati dagli sviluppatori per creare, leggere, aggiornare ed eliminare preventivi in modo programmatico.
-        -   *Quando disabilitato:* L'API è inattiva e non può essere accessata.
-    -   **Valore consigliato:** NO (a meno che tu non abbia esigenze di integrazione specifiche)
-    -   **Scenario / esempio del commerciante:** Se ti integri con un CRM, ERP o un'app mobile personalizzata, l'abilitazione dell'API consente a questi sistemi di creare o aggiornare automaticamente i preventivi in PrestaShop. Richiede esperienza da sviluppatore.
--   **Gestione chiavi API:**
-
-    -   **Cosa fa questa impostazione:** Ti consente di generare e gestire chiavi API, necessarie per autenticare le richieste all'API REST del modulo.
-    -   **Effetto della modifica di questa impostazione:**
-        -   *Quando crei una chiave:* Ottieni un identificatore univoco che le applicazioni esterne devono utilizzare per accedere all'API.
-        -   *Quando revochi una chiave:* Qualsiasi applicazione che utilizza quella chiave perderà l'accesso all'API.
-    -   **Valore consigliato:** Genera chiavi solo quando necessario per integrazioni specifiche.
-    -   **Scenario / esempio del commerciante:** Crea una nuova chiave API per il tuo sistema CRM per inviare nuovi lead come richieste di preventivo in PrestaShop.
--   **URL Cron Job per scadenza e riepilogo:**
-
-    -   **Cosa fa questa impostazione:** Fornisce un URL che, quando acceduto, attiva attività in background come il controllo delle scadenze dei preventivi e l'invio di riepiloghi giornalieri al tuo team.
-    -   **Effetto della modifica di questa impostazione:**
-        -   *Quando configurato sul tuo server:* Il modulo eseguirà automaticamente queste attività a intervalli regolari (es. giornalmente), assicurando che i preventivi siano contrassegnati come scaduti e che il tuo team riceva riepiloghi tempestivi.
-        -   *Quando non configurato:* I controlli di scadenza e le email di riepilogo non saranno automatizzati.
-    -   **Valore consigliato:** Configura questo URL come un cron job giornaliero sul tuo server di hosting.
-    -   **Scenario / esempio del commerciante:** Imposta un cron job per eseguire questo URL una volta al giorno per assicurarti che i clienti siano avvisati dei preventivi in scadenza e che il tuo team di vendita riceva un riepilogo giornaliero delle nuove richieste.
-
-### 2.2 Schermate di amministrazione dedicate e viste del controller
-
-#### 2.2.1 Gestione preventivi (Back Office > Quote Enterprise > Preventivi)
-
-Questo è l'hub centrale per il tuo team di vendita per gestire tutte le richieste di preventivo.
-
--   **Nome schermata e posizione menu:** **Quote Enterprise > Preventivi**
--   **Azioni e impostazioni disponibili:**
-    -   **Tabella elenco preventivi:** Visualizza tutti i preventivi inviati con informazioni chiave come nome cliente, stato, valore totale e data di creazione.
-    -   **Filtro e ricerca:** Strumenti per trovare preventivi specifici per cliente, stato, intervallo di date, ecc.
-    -   **Visualizza/Modifica preventivo:** Clicca su qualsiasi preventivo per aprire una vista dettagliata dove puoi:
-        -   **Regola prodotti e quantità:** Modifica gli articoli, le quantità e i prezzi all'interno del preventivo.
-        -   **Aggiungi/Rimuovi prodotti:** Cerca e aggiungi nuovi prodotti al preventivo o rimuovi quelli esistenti.
-        -   **Applica sconti:** Offri sconti specifici sul totale del preventivo o sui singoli articoli.
-        -   **Imposta validità:** Definisci la data di scadenza del preventivo.
-        -   **Aggiungi note/messaggi:** Comunica con il cliente direttamente tramite l'interfaccia del preventivo.
-        -   **Cambia stato:** Aggiorna lo stato del preventivo (es. In sospeso, Inviato, Accettato, Rifiutato, Scaduto).
-        -   **Genera PDF:** Crea una fattura proforma PDF professionale per il cliente.
-        -   **Converti in ordine:** Con un solo clic, converti un preventivo accettato in un ordine PrestaShop standard, pronto per il checkout.
-        -   **Invia email:** Invia dettagli del preventivo aggiornati o messaggi al cliente.
-    -   **Azioni di massa:** Seleziona più preventivi per eseguire azioni come cambiare stato, eliminare o esportare.
--   **Effetto delle modifiche:**
-    -   La modifica di un preventivo aggiorna i suoi dettagli nel database e può attivare notifiche email al cliente.
-    -   La conversione in ordine crea un nuovo ordine nel sistema di gestione ordini standard di PrestaShop, precompilato con gli articoli e i prezzi quotati.
-    -   La modifica dello stato aggiorna la vista del cliente nel suo account e può attivare modelli email specifici.
--   **Flusso di lavoro consigliato per la gestione quotidiana del negozio:**
-    1.  Controlla regolarmente l'elenco "Preventivi" per nuove richieste "In sospeso".
-    2.  Apri ogni nuova richiesta, rivedi gli articoli, regola prezzi/quantità se necessario e aggiungi eventuali note interne.
-    3.  Imposta un periodo di validità e genera una proforma PDF.
-    4.  Cambia lo stato in "Inviato" e invia il preventivo al cliente via email.
-    5.  Dai seguito ai preventivi "Inviati". Se accettati, converti in ordine. Se rifiutati o scaduti, aggiorna lo stato di conseguenza.
-
-#### 2.2.2 Registro di controllo (Back Office > Quote Enterprise > Registro di controllo)
-
-Questa schermata fornisce una cronologia dettagliata di tutte le azioni eseguite sui preventivi.
-
--   **Nome schermata e posizione menu:** **Quote Enterprise > Registro di controllo**
--   **Azioni e impostazioni disponibili:**
-    -   **Tabella elenco log:** Visualizza un elenco cronologico degli eventi relativi ai preventivi, inclusi chi ha eseguito l'azione, quale azione è stata intrapresa (es. "Preventivo creato", "Prezzo modificato", "Stato aggiornato") e quando è avvenuta.
-    -   **Filtro:** Filtra il log per data, utente o tipo di azione per trovare eventi specifici.
--   **Effetto delle modifiche:** Questo è un log di sola lettura; non puoi apportare modifiche qui. Serve come registro storico.
--   **Flusso di lavoro consigliato per la gestione quotidiana del negozio:**
-    -   Usa il registro di controllo per tracciare le modifiche, risolvere problemi o rivedere l'attività del team sui preventivi. È inestimabile per la responsabilità e per comprendere il ciclo di vita di ogni preventivo.
-
-### 2.3 Tabella di riferimento rapido della configurazione
-
-| Schermata / Vista | Impostazione / Opzione | Predefinito / Consigliato | Scopo e impatto |
-| --- | --- | --- | --- |
-| **Configurazione modulo** | Abilita Quote Enterprise | SÌ | Interruttore principale per la funzionalità del modulo. |
-| | Consenti richieste di preventivo dal carrello | SÌ | Aggiunge il pulsante preventivo alla pagina del carrello. |
-| | Consenti richieste di preventivo dalla pagina prodotto | SÌ | Aggiunge il pulsante preventivo alle pagine prodotto. |
-| | Visualizza pulsante preventivo fluttuante | SÌ | Mostra un pulsante preventivo persistente nel front office. |
-| | Valore minimo dell'ordine per la richiesta di preventivo | 0 | Imposta un valore minimo per l'invio dei preventivi. |
-| | Validità predefinita del preventivo (Giorni) | 30 | Imposta la scadenza predefinita per i nuovi preventivi. |
-| | Gestore modelli email | Personalizza | Modifica il contenuto delle email per vari eventi di preventivo. |
-| | Abilita REST API | NO | Attiva l'API per integrazioni esterne (solo sviluppatori). |
-| | Gestione chiavi API | N/A | Gestisci le chiavi API per un accesso sicuro all'API (solo sviluppatori). |
-| | URL Cron Job per scadenza e riepilogo | Configura | Automatizza i controlli di scadenza dei preventivi e i riepiloghi del team. |
-| **Gestione preventivi** | Elenco preventivi | N/A | Visualizza, filtra e gestisci tutti i preventivi. |
-| | Visualizza/Modifica preventivo | N/A | Regola articoli, prezzi, stato, genera PDF, converti in ordine. |
-| | Azioni di massa | N/A | Applica azioni a più preventivi selezionati. |
-| **Registro di controllo** | Elenco log | N/A | Rivedi le azioni storiche su tutti i preventivi. |
-
-## 3. Risoluzione dei problemi del commerciante e domande frequenti (FAQ)
-
-**D: I miei pulsanti "Richiedi un preventivo" non vengono visualizzati nel front office.**
-R:
-
-1.  **Controlla lo stato del modulo:** Assicurati che "Abilita Quote Enterprise" sia impostato su SÌ nella configurazione del modulo.
-2.  **Controlla le impostazioni specifiche:** Verifica che "Consenti richieste di preventivo dal carrello" e "Consenti richieste di preventivo dalla pagina prodotto" siano abilitate secondo necessità.
-3.  **Svuota la cache:** Vai su **Parametri avanzati > Prestazioni** e svuota la cache di PrestaShop (cache Smarty, cache del filesystem). A volte, le modifiche non appaiono finché la cache non viene aggiornata.
-4.  **Compatibilità del tema:** Se stai utilizzando un tema personalizzato, potrebbe esserci un problema di compatibilità. Contatta il supporto MyPresta.eu con i dettagli del tuo tema.
-
-**D: I clienti non ricevono le email di notifica del preventivo.**
-R:
-
-1.  **Controlla i modelli email:** Nella configurazione del modulo, vai alla scheda "Modelli email" e assicurati che i modelli siano configurati e salvati correttamente.
-2.  **Impostazioni email di PrestaShop:** Verifica le tue impostazioni email generali di PrestaShop (SMTP, PHP mail) in **Parametri avanzati > E-mail**. Invia un'email di prova da lì per confermare che il sistema di posta del tuo negozio funzioni.
-3.  **Cartelle spam:** Consiglia ai clienti di controllare le loro cartelle spam o posta indesiderata.
-4.  **Cron Job (per riepiloghi/promemoria):** Se si tratta di promemoria di scadenza o riepiloghi giornalieri, assicurati che l'URL del cron job sia configurato correttamente sul tuo server per essere eseguito regolarmente.
-
-**D: Posso personalizzare l'aspetto del modulo di richiesta preventivo o dei pulsanti?**
-R: Sì, il modulo utilizza la templating standard di PrestaShop. Per modifiche di stile di base (colori, font), puoi spesso sovrascrivere il CSS del modulo nel file CSS personalizzato del tuo tema. Per modifiche di layout più complesse, dovresti sovrascrivere i file TPL del modulo nel tuo tema. Questo di solito richiede uno sviluppatore web.
-
-**D: Come converto un preventivo accettato in un ordine regolare?**
-R: Nel Back Office di PrestaShop, vai su **Quote Enterprise > Preventivi**. Apri il preventivo specifico che desideri convertire. All'interno della vista dettagliata del preventivo, ci sarà un pulsante (es. "Converti in ordine" o "Crea ordine"). Cliccando su questo verrà generato un nuovo ordine nell'elenco ordini standard di PrestaShop, precompilato con gli articoli e i prezzi quotati.
-
-**D: Cosa succede se un preventivo scade?**
-R: Se il cron job è configurato, il modulo contrassegnerà automaticamente i preventivi scaduti come "Scaduti". I clienti non potranno più accettare o convertire un preventivo scaduto in un ordine. Il tuo team di vendita può comunque visualizzare i preventivi scaduti e potenzialmente riattivarli o crearne uno nuovo se necessario.
-
-## 4. Guida per sviluppatori e webmaster (Architettura tecnica e mappa del codice)
-
-### 4.1 Panoramica dell'architettura
-
-Il modulo Quote Enterprise segue una robusta architettura MVC (Model-View-Controller) di PrestaShop, sfruttando pesantemente `ObjectModel` per la persistenza dei dati. Si integra perfettamente con il sistema di hook di PrestaShop per la visualizzazione nel front-office e le azioni nel back-office. Il modulo include controller admin dedicati per la gestione dei preventivi e dei registri di controllo, controller front per l'interazione con i clienti (richiesta, elenco, visualizzazione, API) e un set completo di classi helper per la logica di business, la generazione di PDF, la gestione delle email e altro ancora. Viene fornita anche un'API REST per l'integrazione di sistemi esterni.
-
-### 4.2 Controller (`controllers/`)
-
-#### Controller Front-Office
-
--   `controllers/front/api.php`
-    -   Nome classe: `QuoteenterpriseApiModuleFrontController` (estende `ModuleFrontController`)
-    -   Responsabilità: Gestisce le richieste API dal front-office, probabilmente per integrazioni specifiche rivolte al cliente o caricamento dinamico di contenuti.
--   `controllers/front/cron.php`
-    -   Nome classe: `QuoteenterpriseCronModuleFrontController` (estende `ModuleFrontController`)
-    -   Responsabilità: Serve come endpoint per il cron job, attivando attività in background come il controllo delle scadenze dei preventivi e l'invio di email di riepilogo.
--   `controllers/front/index.php`
-    -   Nome classe: `QuoteenterpriseIndexModuleFrontController` (estende `ModuleFrontController`)
-    -   Responsabilità: Probabilmente un controller di fallback o di base, o gestisce una rotta predefinita per la sezione front-office del modulo.
--   `controllers/front/list.php`
-    -   Nome classe: `QuoteenterpriseListModuleFrontController` (estende `ModuleFrontController`)
-    -   Responsabilità: Visualizza un elenco di preventivi per il cliente loggato nella sua area account.
--   `controllers/front/pdf.php`
-    -   Nome classe: `QuoteenterprisePdfModuleFrontController` (estende `ModuleFrontController`)
-    -   Responsabilità: Genera e serve versioni PDF dei preventivi per il download da parte dei clienti.
--   `controllers/front/quoteList.php`
-    -   Nome classe: `QuoteenterpriseQuoteListModuleFrontController` (estende `ModuleFrontController`)
-    -   Responsabilità: Simile a `list.php`, potenzialmente una vista alternativa o specifica per gli elenchi di preventivi, possibilmente per il caricamento AJAX.
--   `controllers/front/request.php`
-    -   Nome classe: `QuoteenterpriseRequestModuleFrontController` (estende `ModuleFrontController`)
-    -   Responsabilità: Gestisce la visualizzazione e l'invio del modulo di richiesta preventivo dalle pagine prodotto, dal carrello o dal pulsante fluttuante. Elabora i dati del modulo e crea nuove voci di preventivo.
--   `controllers/front/view.php`
-    -   Nome classe: `QuoteenterpriseViewModuleFrontController` (estende `ModuleFrontController`)
-    -   Responsabilità: Visualizza la vista dettagliata di un singolo preventivo per il cliente, mostrando articoli, prezzi, stato e messaggi.
-
-#### Controller Admin Back-Office
-
--   `controllers/admin/AdminQuoteEnterpriseAuditLog.php`
-    -   Nome classe: `AdminQuoteEnterpriseAuditLogController` (estende `ModuleAdminController`)
-    -   Nome scheda: Quote Enterprise > Registro di controllo
-    -   Entità gestita: `quote_audit_log` (probabilmente un `ObjectModel` personalizzato per le voci di controllo)
-    -   Responsabilità: Fornisce una vista a griglia per gli amministratori per rivedere tutte le azioni e le modifiche storiche relative ai preventivi.
--   `controllers/admin/AdminQuoteEnterpriseQuotes.php`
-    -   Nome classe: `AdminQuoteEnterpriseQuotesController` (estende `ModuleAdminController`)
-    -   Nome scheda: Quote Enterprise > Preventivi
-    -   Entità gestita: `quote` (probabilmente un `ObjectModel` personalizzato per i preventivi)
-    -   Responsabilità: L'interfaccia principale per la gestione dei preventivi, inclusi elenco, visualizzazione, modifica, conversione in ordine e invio di comunicazioni.
--   `controllers/admin/index.php`
-    -   Nome classe: `QuoteenterpriseAdminIndexModuleFrontController` (estende `ModuleAdminController`)
-    -   Responsabilità: Probabilmente un segnaposto o un controller admin di base, potenzialmente reindirizzando all'elenco principale dei preventivi o alla dashboard.
-
-### 4.3 Classi e modelli principali (`classes/`)
-
--   `classes/index.php`: File vuoto, pratica comune per prevenire l'elenco delle directory.
--   `classes/QuoteAdmin.php`: Contiene la logica per le attività specifiche dell'amministratore, potenzialmente correlate alla configurazione del modulo o alle utilità generali dell'amministratore.
--   `classes/QuoteAdminAjax.php`: Gestisce le richieste AJAX provenienti dal back-office, come la ricerca dinamica di prodotti da aggiungere a un preventivo.
--   `classes/QuoteAdminQuoteForm.php`: Gestisce la complessa logica del modulo per la modifica e la creazione di preventivi nel back-office.
--   `classes/QuoteApi.php`: Classe principale per l'API REST del modulo, che gestisce l'autenticazione, il routing e la serializzazione dei dati.
--   `classes/QuoteApiDocumentation.php`: Fornisce metodi per generare o visualizzare la documentazione per gli endpoint API del modulo.
--   `classes/QuoteBulkActions.php`: Implementa la logica per l'esecuzione di azioni su più preventivi selezionati nell'elenco admin (es. cambio di stato di massa).
--   `classes/QuoteConverter.php`: Gestisce la logica cruciale di conversione di un preventivo accettato in un ordine PrestaShop standard.
--   `classes/QuoteDashboard.php`: Fornisce dati e logica per la vista dashboard del modulo nel back-office (se presente), riassumendo l'attività dei preventivi.
--   `classes/QuoteDuplicator.php`: Logica per la duplicazione di preventivi esistenti.
--   `classes/QuoteenterpriseModuleFrontController.php`: Classe base per i controller front-office, che fornisce metodi e proprietà comuni.
--   `classes/QuoteExpiry.php`: Gestisce la logica per il controllo della validità dei preventivi, la marcatura dei preventivi come scaduti e l'invio delle notifiche correlate.
--   `classes/QuoteExporter.php`: Gestisce l'esportazione dei dati dei preventivi (es. CSV, Excel).
--   `classes/QuoteFeeProduct.php`: Probabilmente un `ObjectModel` o un helper per la gestione di speciali prodotti "a pagamento" che possono essere aggiunti ai preventivi (es. per servizi, costi personalizzati).
--   `classes/QuoteListHelper.php`: Fornisce metodi di utilità per la visualizzazione e il filtraggio degli elenchi di preventivi sia nel front che nel back office.
--   `classes/QuoteMailer.php`: Classe centralizzata per l'invio di varie notifiche email relative ai preventivi.
--   `classes/QuoteNotifyDigest.php`: Logica per la compilazione e l'invio di riepiloghi giornalieri o periodici dell'attività dei preventivi agli amministratori.
--   `classes/QuotePdf.php`: Gestisce la generazione di fatture proforma PDF per i preventivi.
--   `classes/QuoteProductHelper.php`: Metodi di utilità per interagire con i prodotti PrestaShop nel contesto di un preventivo.
--   `classes/QuoteQtyHelper.php`: Aiuta con la gestione e la convalida delle quantità all'interno dei preventivi.
--   `classes/QuoteQuotesManager.php`: Logica di business principale per la gestione dei preventivi, inclusa la creazione, gli aggiornamenti e le modifiche di stato.
--   `classes/QuoteReference.php`: Gestisce la generazione e l'unicità dei numeri di riferimento dei preventivi.
--   `classes/QuoteRequestHelper.php`: Aiuta con l'elaborazione e la convalida delle richieste di preventivo inviate dai clienti.
--   `classes/QuoteSchema.php`: Definisce lo schema del database per le tabelle personalizzate utilizzate dal modulo (es. `ps_quote`, `ps_quote_product`, `ps_quote_audit_log`).
--   `classes/QuoteSettingDescTrait.php`: Un trait PHP probabilmente utilizzato per fornire descrizioni o metadati comuni per le impostazioni del modulo.
--   `classes/QuoteTaxHelper.php`: Gestisce i calcoli fiscali specifici per i preventivi.
--   `classes/QuoteThemeCompat.php`: Contiene la logica per garantire la compatibilità con vari temi PrestaShop, potenzialmente rilevando le funzionalità del tema o fornendo override.
--   `classes/QuoteTimeline.php`: Gestisce e visualizza la cronologia degli eventi per un preventivo specifico (simile alla cronologia degli ordini).
--   `classes/QuoteValidityHelper.php`: Metodi di utilità per il calcolo e la convalida delle date di scadenza dei preventivi.
--   `classes/QuoteVisibility.php`: Controlla la visibilità degli elementi relativi ai preventivi nel front office (es. chi può richiedere un preventivo, dove appaiono i pulsanti).
-
-### 4.4 Risorse JavaScript (`views/js/`)
-
--   `lib/emailTemplatesManager/js/emailTemplatesManager.js`: Logica front-end per l'editor di modelli email nel back-office.
--   `lib/searchTool/views/js/autocomplete.js`: Fornisce la funzionalità di completamento automatico per la ricerca di prodotti o clienti nell'editor di preventivi del back-office.
--   `views/js/admin-audience-picker.js`: Gestisce la logica per la selezione di gruppi di clienti o clienti specifici per la visibilità o il targeting dei preventivi nell'amministrazione.
--   `views/js/adminQuoteApi.js`: JavaScript per la schermata di configurazione dell'API admin, potenzialmente gestendo la generazione di chiavi o la visualizzazione della documentazione API.
--   `views/js/adminQuoteDashboard.js`: Script per elementi interattivi o visualizzazione dei dati nella dashboard admin.
--   `views/js/adminQuoteDetail.js`: Gestisce le interazioni dinamiche all'interno della vista dettagliata del preventivo nel back-office (es. aggiunta di prodotti, applicazione di sconti, modifiche di stato).
--   `views/js/adminQuoteEditor.js`: JavaScript principale per il modulo di creazione/modifica preventivi del back-office, inclusa la selezione dei prodotti, gli aggiornamenti delle quantità e le regolazioni dei prezzi.
--   `views/js/adminQuoteSelector.js`: Utilizzato per la selezione dei preventivi, possibilmente in una modale o in un contesto collegato.
--   `views/js/adminQuotesList.js`: Script per l'elenco dei preventivi admin, inclusi filtro, ordinamento e azioni di massa.
--   `views/js/front.js`: JavaScript generale del front-office per il modulo, che gestisce i clic sui pulsanti, i pop-up modali per le richieste di preventivo, l'invio di moduli e gli aggiornamenti dinamici.
-
-### 4.5 Fogli di stile CSS (`views/css/`)
-
--   `lib/emailTemplatesManager/css/emailTemplatesManager.css`: Stile per l'editor di modelli email nel back-office.
--   `lib/searchTool/views/css/autocomplete.css`: Stili per i risultati della ricerca con completamento automatico (es. ricerca prodotti).
--   `views/css/admin-audience-picker.css`: Stile per l'interfaccia di selezione cliente/pubblico nell'amministrazione.
--   `views/css/admin_quoteenterprise.css`: Foglio di stile principale per le interfacce del back-office del modulo (elenco preventivi, dettagli, registro di controllo).
--   `views/css/front-hummingbird.css`: Regolazioni di stile specifiche del front-office per il tema predefinito "Hummingbird" di PrestaShop.
--   `views/css/front.css`: Stile generale del front-office per pulsanti di preventivo, moduli e viste dell'account cliente. Gli sviluppatori possono sovrascrivere classi come `.quoteenterprise-button`, `.quoteenterprise-form`, `.quoteenterprise-list` nel loro tema.
-
-### 4.6 Struttura dei template Smarty (`views/templates/`)
-
-#### Template hook (`views/templates/hook/`)
-
--   `hook/adminOrderQuote.tpl`: Renderizza un blocco relativo al preventivo all'interno della pagina di dettaglio dell'ordine standard di PrestaShop nell'amministrazione.
--   `hook/cartQuoteButton.tpl`: Visualizza il pulsante o il link "Richiedi un preventivo" nella pagina del carrello.
--   `hook/customerAccount-hummingbird.tpl`: Renderizza il link all'elenco dei preventivi nell'area account del cliente per il tema Hummingbird.
--   `hook/customerAccount.tpl`: Renderizza il link all'elenco dei preventivi nell'area account del cliente per i temi classici.
--   `hook/productListQuote.tpl`: Visualizza un pulsante o un'opzione di preventivo nelle pagine di elenco prodotti (categoria, risultati di ricerca).
--   `hook/quoteFloatButton.tpl`: Renderizza il pulsante di preventivo fluttuante persistente nel front office.
--   `hook/quoteListModal.tpl`: Template per una finestra modale che visualizza un elenco di preventivi.
--   `hook/quoteRequestButton.tpl`: Visualizza il pulsante "Richiedi un preventivo" sulle singole pagine prodotto.
--   `hook/quoteRequestModal.tpl`: Template per la finestra modale che apre il modulo di richiesta preventivo.
-
-#### Template admin (`views/templates/admin/`)
-
--   `admin/api.tpl`: Renderizza l'interfaccia di configurazione API e gestione chiavi.
--   `admin/audience-picker.tpl`: Template per lo strumento di selezione cliente/gruppo nell'amministrazione.
--   `admin/audit.tpl`: Visualizza la tabella del registro di controllo nel back-office.
--   `admin/dashboard.tpl`: Renderizza la panoramica della dashboard del modulo nel back-office.
--   `admin/notifications.tpl`: Visualizza le notifiche admin relative ai preventivi.
--   `admin/quoteDetail.tpl`: Il template completo per la visualizzazione e la modifica di un singolo preventivo nel back-office.
--   `admin/quotes.tpl`: Renderizza la tabella principale dell'elenco dei preventivi nel back-office.
--   `admin/quotesOverview.tpl`: Una sezione di riepilogo o panoramica per i preventivi, possibilmente sulla dashboard.
--   `admin/scopeSelector.tpl`: Template per la selezione dell'ambito (es. negozio, lingua) nell'amministrazione.
--   `admin/visibilityConfigurator.tpl`: Template per la configurazione delle regole di visibilità dei preventivi.
--   `admin/_api_documentation_modal.tpl`: Renderizza una finestra modale con la documentazione API per gli sviluppatori.
--   `admin/_bulk_options.tpl`: Template per i menu a discesa delle azioni di massa negli elenchi admin.
-
-#### Template front-office (`views/templates/front/`)
-
--   `front/list.tpl`: Visualizza l'elenco dei preventivi del cliente nel suo account.
--   `front/request.tpl`: Il template principale per il modulo di richiesta preventivo del cliente.
--   `front/view.tpl`: Visualizza la vista dettagliata di un singolo preventivo per il cliente.
--   `front/_requestComplianceFields.tpl`: Template parziale per campi aggiuntivi relativi alla conformità nel modulo di richiesta preventivo.
--   `front/_requestLinesTable.tpl`: Template parziale per la visualizzazione delle righe di prodotto all'interno di un modulo di richiesta preventivo.
-
-#### Template PDF (`views/templates/pdf/`)
-
--   `pdf/quote.tpl`: Template utilizzato per generare il contenuto della fattura proforma PDF.
-
-### 4.7 Schema del database e mappa degli hook
-
-#### Tabelle del database
-
-Il modulo crea tabelle personalizzate, tipicamente prefissate con `ps_` (o il tuo prefisso personalizzato). Le tabelle chiave includono:
-
--   `ps_quote`: Memorizza i dettagli principali del preventivo (ID cliente, stato, totale, validità, riferimento, ecc.).
--   `ps_quote_product`: Memorizza i singoli prodotti e le loro quantità/prezzi associati a ciascun preventivo.
--   `ps_quote_audit_log`: Registra tutte le modifiche e le azioni eseguite sui preventivi a scopo di controllo.
--   `ps_quote_api_key`: Memorizza le chiavi API per le integrazioni esterne.
--   `ps_configuration`: Le impostazioni del modulo sono memorizzate qui con chiavi come `QUOTEENTERPRISE_ENABLE`, `QUOTEENTERPRISE_MIN_VALUE`, ecc.
-
-#### Tabella degli hook registrati
-
-| Nome Hook | Tempo di esecuzione | Scopo tecnico |
-| --- | --- | --- |
-| `displayHeader` | Nella sezione `<head>` di ogni pagina. | Iniezione di risorse CSS/JS, meta tag o inizializzazione globale del modulo. |
-| `displayRightColumn` | Nella colonna destra del tuo negozio (se abilitata dal tema). | Visualizzazione del pulsante di preventivo fluttuante o di un blocco di richiesta preventivo statico. |
-| `displayLeftColumn` | Nella colonna sinistra del tuo negozio (se abilitata dal tema). | Visualizzazione del pulsante di preventivo fluttuante o di un blocco di richiesta preventivo statico. |
-| `displayFooter` | Nella sezione del piè di pagina di ogni pagina. | Visualizzazione del pulsante di preventivo fluttuante o di un blocco di richiesta preventivo statico. |
-| `displayProductButtons` | Nella pagina del prodotto, vicino al pulsante "Aggiungi al carrello". | Visualizzazione del pulsante "Richiedi un preventivo" nelle pagine prodotto. |
-| `displayShoppingCartFooter` | Nel riepilogo del carrello, sotto l'elenco dei prodotti. | Visualizzazione del pulsante "Richiedi un preventivo" per convertire il carrello in preventivo. |
-| `displayCustomerAccount` | Nella pagina "Il mio account" del cliente. | Aggiunta di un link all'elenco dei preventivi del cliente. |
-| `actionValidateOrder` | Dopo che un ordine è stato convalidato con successo. | Potenzialmente utilizzato per collegare un preventivo all'ordine risultante o aggiornare lo stato del preventivo. |
-| `actionAdminControllerSetMedia` | Quando un controller admin carica le sue risorse. | Iniezione di CSS/JS specifici del modulo per le pagine del back-office. |
-| `displayAdminOrder` | Nella pagina di dettaglio dell'ordine admin di PrestaShop. | Visualizzazione di un blocco con informazioni sul preventivo se l'ordine è originato da un preventivo. |
-| `actionObjectProductUpdateAfter` | Dopo l'aggiornamento di un prodotto. | Potenzialmente per aggiornare i prezzi dei preventivi se i prezzi dei prodotti cambiano (funzionalità avanzata). |
-| `actionObjectProductDeleteAfter` | Dopo l'eliminazione di un prodotto. | Per gestire i prodotti rimossi dai preventivi. |
-| `actionObjectCustomerDeleteAfter` | Dopo l'eliminazione di un cliente. | Per gestire i preventivi associati a un cliente eliminato. |
-| `displayBackOfficeHeader` | Nella `<head>` di ogni pagina del back-office. | Iniezione generale di risorse del back-office o configurazione globale del modulo admin. |
-| `displayBackOfficeTop` | Nella parte superiore dell'area del contenuto del back-office. | Visualizzazione di avvisi specifici del modulo o widget della dashboard. |
-
-## 5. Supporto ufficiale e aggiornamenti
-
-Per gli ultimi aggiornamenti del modulo, correzioni di bug e supporto ufficiale, accedi al tuo account cliente su [MyPresta.eu](https://mypresta.eu/my-account/orders/). Il nostro team di supporto è disponibile per assisterti con qualsiasi problema o domanda tu possa avere riguardo al modulo Quote Enterprise.
+## 1. Requisiti
+
+Il modulo funziona su PrestaShop 1.7, 8 e 9 e su PHP da 7.1 a 8.5.
+
+Il server richiede cURL e JSON. Non richiede un altro modulo.
+
+Crei Lei stesso le chiavi Google reCAPTCHA solo se attiva reCAPTCHA. I webhook Slack o Teams sono opzionali e servono solo ai digest per lo staff. Le e-mail di promemoria e i digest richiedono un job cron sul server all'URL cron del modulo.
+
+## 2. Installazione
+
+1. Carichi il modulo in **Modules**, **Module Manager** e lo attivi.
+2. Dopo l'installazione, **Orders** ha due voci: **Quotes** e **Audit log**.
+3. Il modulo non svuota la cache durante l'installazione.
+4. L'installazione crea le tabelle dei preventivi e un prodotto virtuale nascosto per le righe di servizio personalizzate. Scrive anche le impostazioni predefinite descritte di seguito.
+
+La disinstallazione rimuove le voci di menu, le tabelle del modulo e le chiavi di configurazione. Il prodotto fee nascosto nel catalogo non viene eliminato dalla disinstallazione.
+
+## 3. Configurazione e lavoro nel back office
+
+Apra **Modules**, **Module Manager**, **Quote Enterprise**, **Configure**. Il modulo si apre su **Dashboard**. La barra superiore ha: **Dashboard**, **Quotes**, **Audit log**, **Settings**, **PDF**, **Emails**, **API**, **Notifications**, **Updates**.
+
+Le schermate di questo manuale provengono da un back office in inglese.
+
+Il lavoro quotidiano sui preventivi si trova anche in **Orders**, **Quotes** (elenco completo ed editor) e **Orders**, **Audit log**.
+
+### 3.1 Processo completo del preventivo
+
+Usi questo flusso come mappa. Le sezioni seguenti spiegano ogni schermata.
+
+1. Un cliente richiede un preventivo dalla pagina prodotto, da un elenco prodotti, dal carrello o da un elenco preventivo multiprodotto. Gli ospiti possono vedere i pulsanti se consentito, ma il salvataggio della richiesta richiede sempre un account cliente.
+2. La richiesta diventa un preventivo in **Pending review** (richiesta del cliente) oppure lo staff crea una **Draft** dal back office.
+3. Lo staff apre il preventivo in **Orders**, **Quotes**, imposta prezzi, sconti, spedizione e messaggi, poi **Save** oppure **Save & send**.
+4. **Save & send** invia l'e-mail al cliente e porta il preventivo a **Sent** (oppure mantiene il flusso di negoziazione in caso di reinvio).
+5. Il cliente apre **My quotes**, visualizza l'offerta, può scaricare il PDF, accettare, rifiutare o chiedere modifiche (**Negotiation**).
+6. Dopo **Accepted**, il cliente può procedere al checkout. Il checkout costruisce un carrello dal preventivo e può diventare un ordine (**Converted**). Il preventivo si blocca.
+7. Dopo **valid until**, i preventivi inviati o in negoziazione diventano **Expired** quando vengono aperti o quando viene eseguito il cron. Le e-mail di promemoria richiedono il cron.
+
+Stati che vedrà: **Draft**, **Pending review**, **Sent**, **Negotiation**, **Accepted**, **Converted**, **Expired**, **Rejected**, **Cancelled**.
+
+Solo **Sent** e **Negotiation** possono essere accettati dal cliente. Cambi lo stato manualmente nell'editor quando serve.
+
+### 3.2 Dashboard
+
+La dashboard mostra la pipeline dei preventivi. Apra **Analytics parameters** per impostare il periodo KPI e gli intervalli dei grafici, poi faccia clic su **Save analytics parameters**. Conferma: **Tracking parameters updated.**
+
+![Dashboard](https://mypresta.eu/docs/images/docs/quoteenterprise-dashboard.webp)
+
+![Dashboard tables](https://mypresta.eu/docs/images/docs/quoteenterprise-dashboard-b.webp)
+
+| Campo | All'inizio | Cosa fa |
+|---|---|---|
+| **KPI period** | **Last 90 days** | Finestra temporale per le card KPI, la tabella funnel, i migliori clienti e lo staff. Scelga 30, 90, 180 o 365 giorni e salvi. Conta preventivi creati, inviati, accettati, convertiti e rifiutati in quel periodo. |
+| **Weekly chart range** | 12 | Numero di settimane sul grafico funnel settimanale (4–52). La scheda Weekly mostra creati, inviati, accettati e convertiti per settimana ISO. |
+| **Monthly chart range** | 12 | Numero di mesi sul grafico funnel mensile (3–24). |
+| **Yearly chart range** | 5 | Numero di anni sul grafico funnel annuale (2–10). |
+| **Default chart tab** | **Monthly** | Quale scheda grafico si apre per prima: Weekly, Monthly o Yearly. Può comunque cambiare scheda senza salvare. |
+| **Expiring soon window** | 7 | Quanti giorni in avanti contrassegnare i preventivi come in scadenza. In genere 7 o 14. Solo preventivi sent e negotiation con una data valid_until in questa finestra vengono elencati. |
+
+Card KPI: valore della pipeline aperta, pending review, in scadenza, valore convertito, tasso di conversione, win rate. Sotto: creati, inviati, accettati, convertiti, rifiutati, giorni medi alla conversione, valore medio del preventivo. I grafici mostrano il funnel nel tempo. Tabelle: funnel del periodo, aging della pipeline aperta, in scadenza, attività recente, migliori clienti e staff. Pipeline aperta significa preventivi sent, negotiation o accepted.
+
+### 3.3 Scheda Quotes nella configurazione del modulo
+
+Questa scheda è una panoramica breve. Filtri completi, azioni di massa ed editor sono in **Orders**, **Quotes**.
+
+![Quotes overview](https://mypresta.eu/docs/images/docs/quoteenterprise-quotes.webp)
+
+Scopo di questa schermata: un elenco rapido dei preventivi recenti dalla configurazione del modulo. Faccia clic su **View** per aprire l'editor completo del preventivo. Usi **Manage all quotes** per filtri, esportazione e operazioni di massa. Effetto: mantiene leggere le impostazioni del modulo mentre il lavoro completo sui preventivi avviene nella schermata dedicata del back office.
+
+**Create quote:** selezioni un cliente (ricerca), facoltativamente digiti una **Internal note**, faccia clic su **Create draft quote**. Viene reindirizzato all'editor completo. Cliente vuoto mostra **Please select a customer.**
+
+**Quote templates** (quando esistono modelli): scelga un modello e un cliente, poi **Create from template**.
+
+Colonne **Recent quotes**: Reference, Customer, Status, Total. Vuoto: **No quotes yet.** Collegamenti: **Manage all quotes**, **CSV**, **XML**, **Open full quotes list**.
+
+### 3.4 Elenco Quotes (menu Orders)
+
+Apra **Orders**, **Quotes**. Questa è la schermata principale di gestione.
+
+Colonne: **ID**, **Reference**, **Customer**, **Status**, **Total**, **Valid until**, **Assigned**, **Created**. Azioni di riga: modifica e duplica. Non può aggiungere un preventivo vuoto dalla barra dell'elenco; crei dalla panoramica del modulo, da un modello o duplicando. Errore se ci prova: **Create quotes from module configuration or duplicate an existing quote.**
+
+Azioni di massa:
+
+| Azione | Cosa fa |
+|---|---|
+| **Assign to employee** | Imposta l'impiegato assegnato sui preventivi selezionati. |
+| **Extend validity** | Sposta in avanti la validità per la selezione. |
+| **Send expiry reminder** | Invia e-mail di promemoria ai clienti selezionati (finestra di conferma). |
+| **Export CSV** | Scarica CSV per la selezione. |
+| **Export XML** | Scarica XML per la selezione. |
+
+Filtri per stato e ricerca come in un elenco PrestaShop standard. Apra una riga per modificare.
+
+### 3.5 Editor preventivo — come gestire una richiesta
+
+Apra un preventivo dall'elenco. La legenda mostra il riferimento e lo stato, ad esempio `Q-2026-00001 — Pending review`.
+
+**Percorso tipico dello staff per una nuova richiesta del cliente**
+
+1. Filtri o apra i preventivi in **Pending review**.
+2. Controlli **Messages from customer** (testo della richiesta, poi motivi di modifica o rifiuto). Solo lettura.
+3. Aggiunga o regoli **Line items** (prodotti di catalogo e servizi personalizzati).
+4. Imposti **Global discount %** / **Global discount amount**, **Shipping label** e gli importi di spedizione.
+5. Scriva **General message to customer** e facoltativamente **Internal note**.
+6. Imposti **Validity period** e **Validity unit**, controlli la validità attuale.
+7. Imposti **Status** se necessario, poi **Save** (**Quote saved.**) oppure **Save & send** (**Quote sent to customer by e-mail.**).
+
+**Blocco.** I preventivi accepted o converted si bloccano. I preventivi scaduti mostrano: **This quote has expired. Click Unlock to extend validity and send an updated offer.** Convertiti: **This quote is locked because it was converted to an order.** Accettati: **This quote is locked because the customer accepted it. Click Unlock to make changes.** Sblocco: **Quote unlocked for editing.** Blocco di nuovo: **Quote locked again.**
+
+| Campo | Cosa fa (dalle descrizioni dei campi) |
+|---|---|
+| **Status** | Fase attuale nel flusso di vendita. Draft: solo interno. Pending review: richiesta del cliente, in attesa del Suo prezzo. Sent: inviato via e-mail al cliente. Accepted: il cliente ha accettato. Converted: è diventato un ordine. Solo Sent e Negotiation possono essere accettati dal cliente. Cambi lo stato manualmente quando serve. |
+| **Validity period** | Per quanto tempo il cliente ha per accettare, contato dal salvataggio/invio. Esempi: 15 con Minutes, 1 con Hours, 30 con Days. Il salvataggio ricalcola la scadenza da ora. Il cliente non può accettare dopo la scadenza. Periodi brevi possono scadere prima che il cron giornaliero invii i promemoria. |
+| **Validity unit** | Minuti, ore o giorni con il numero di validità. |
+| **Payment hint** | Nota breve sul pagamento previsto, ad es. "30 days net transfer". Mostrata nella vista cliente e nel PDF. Non obbliga un modulo di pagamento. |
+| **Global discount %** | Sconto extra 0–100 su tutte le righe prodotto prima della spedizione. Al checkout può applicarsi come regola carrello. |
+| **Global discount amount (tax excl.)** | Sconto fisso sul subtotale prodotti. La percentuale si applica per prima quando entrambi sono impostati. |
+| **Shipping label** | Nome sul PDF, ad es. "Express delivery". |
+| **Shipping (tax excl.)** / **Shipping (tax incl.)** | Costo di consegna. Tax incl. si calcola automaticamente da excl. quando una regola fiscale è impostata nelle impostazioni del modulo. Incluso nel totale e passato al checkout come spedizione fissa. |
+| **Messages from customer** | Tutto ciò che il cliente ha scritto (richiesta, richiesta di modifica, rifiuto). Solo lettura. Risponda nei campi sotto. |
+| **General message to customer** | Messaggio permanente sempre visibile al cliente (ambito, tempi, condizioni). Mostrato nella vista preventivo, PDF ed e-mail. |
+| **Internal note** | Nota privata del team. Mai mostrata al cliente. |
+| **Line items** | Righe prodotto e righe di servizio personalizzate. Aggiunga un prodotto di catalogo (scelga la combinazione quando richiesta). Aggiunga una riga personalizzata: descrizione, qty, prezzo unitario tax excl., tax %. Le righe personalizzate compaiono sul PDF e al checkout vanno nel prodotto fee. Messaggi: **Product line added.**, **Custom line added.**, **Line removed.**, **Select a product to add.**, **Please select a product combination.**, **Enter a service line description.** |
+| **Comment for this send** | Nota una tantum solo per questo **Save & send**. Spiega cosa è cambiato. Cancellata dopo l'invio. Compare nella timeline, nella cronologia PDF opzionale e nell'e-mail di quell'invio. |
+| **Version history** | Istantanee delle versioni precedenti. |
+| **Save as template** | Inserisca un nome modello e salvi. In seguito crei nuovi preventivi da quel modello per un altro cliente. Messaggi: **Please enter a template name.**, **Template "…" saved.** |
+| **Quote timeline** | Cronologia degli eventi di staff e cliente su questo preventivo. |
+
+Duplicazione dall'elenco o dall'editor: **Unable to duplicate quote.** in caso di errore. Dopo la duplicazione modifichi la copia.
+
+### 3.6 Audit log
+
+Scheda del modulo: attività recente (richieste, invii, accettazione/rifiuto, negoziazioni). Usi **View** per il contesto completo. Apra **Orders**, **Audit log** per filtri, esportazione e cronologia completa.
+
+Scopo: traccia append-only per conformità e risoluzione problemi. Le voci non possono essere modificate né eliminate. Ogni riga memorizza nome e ID dell'attore (impiegato o cliente) al momento dell'azione. Badge attore: Employee, Customer, System.
+
+### 3.7 Settings — Theme & display
+
+Apra **Settings**. Faccia clic su **Save** in basso dopo le modifiche.
+
+![Theme and display](https://mypresta.eu/docs/images/docs/quoteenterprise-settings-theme.webp)
+
+| Campo | All'inizio | Cosa fa |
+|---|---|---|
+| **Front theme template** | **Auto-detect (recommended)** | Seleziona quale set di template e CSS è usato per My quotes, anteprima preventivo e collegamento account cliente. Lasci su Auto-detect salvo che il fork del tema non sia rilevato male — allora forzi Classic o Hummingbird. |
+| **Quantity display format** | **Integer (e.g. 1, 2)** | Come le quantità di riga appaiono nel front office, back office, PDF ed e-mail. Oppure **Fixed decimals (e.g. 1.000, 2.500)**. Gli input del modulo usano lo stesso formato per i valori predefiniti. |
+| **Quantity decimal places** | 3 | Cifre dopo la virgola quando il formato è fixed decimals. In genere 3 per B2B o 2 per retail. Ignorato in modalità integer. |
+
+### 3.8 Settings — General
+
+![General](https://mypresta.eu/docs/images/docs/quoteenterprise-settings-general.webp)
+
+| Campo | All'inizio | Cosa fa |
+|---|---|---|
+| **Module enabled** | **Yes** | Interruttore principale per l'intera funzione quote-to-order. Yes: i clienti richiedono preventivi e lo staff gestisce le offerte. No: nasconde tutti i pulsanti preventivo e i collegamenti account cliente senza disinstallare. Quando disabilitato, nessuna nuova richiesta e nessun pulsante su carrello, prodotto o categorie. I preventivi esistenti restano nel back office. |
+| **Product page quote button** | **Yes** | Mostra **Request a quote** su ogni pagina prodotto. Per negozi B2B in cui gli acquirenti chiedono un prezzo su un singolo SKU. Il cliente deve essere connesso (o flusso ospite consentito) e in un gruppo consentito. La modalità Instant apre il modulo per quel prodotto. La modalità List aggiunge quantità e combinazione all'elenco preventivo flottante. |
+| **Cart quote button** | **Yes** | Mostra **Request a quote** sul carrello. Attivi quando i clienti richiedono offerte per più prodotti insieme. Rispetta il totale minimo carrello sotto. Il contenuto attuale del carrello diventa la base di una nuova richiesta preventivo dopo la conferma. |
+| **Category / list quote button** | **Yes** | **Request quote** compatto sulle pagine elenco (categoria, ricerca, novità). Stesse regole di idoneità. Instant apre il flusso preventivo prodotto. List aggiunge il prodotto (combinazione predefinita, qty 1) all'elenco flottante. |
+| **Product quote mode** | **Instant — open form for this product** | Instant: apre il modulo per il prodotto corrente. List: aggiunge a un cestino preventivo; il pulsante flottante apre un modulo con tutti i prodotti. Le richieste dal carrello restano indipendenti. Il pulsante flottante appare solo in modalità List quando l'elenco non è vuoto. |
+| **Floating quote button position** | **Bottom right** | Oppure **Bottom left**. Solo quando product quote mode è List. Il badge mostra il conteggio prodotti; apre il modulo di richiesta multiprodotto. |
+| **Allow guests** | **No** | Se i visitatori senza account possono avviare una richiesta. Lasci disattivato per B2B rigoroso. Attivi se gli ospiti devono vedere il pulsante — viene comunque chiesto di accedere o registrarsi prima che la richiesta sia salvata. Non crea preventivi anonimi. |
+
+### 3.9 Settings — Quote button visibility
+
+![Visibility](https://mypresta.eu/docs/images/docs/quoteenterprise-settings-visibility.webp)
+
+| Campo | All'inizio | Cosa fa |
+|---|---|---|
+| Customer groups | all groups | Limita chi può vedere i pulsanti preventivo. Tutti i gruppi, o solo gruppi selezionati (ad es. Wholesale). I clienti fuori dai gruppi selezionati non vedranno i pulsanti anche con il modulo abilitato. |
+| **Enable catalog visibility rules** | **No** | Attiva o disattiva le regole di pulsante preventivo basate sul catalogo. Attivi per limitare i preventivi a prodotti, categorie, marche o fornitori specifici. Quando disabilitato, ogni prodotto può essere quotato (le regole di gruppo restano). Quando abilitato, vengono applicati whitelist/blacklist e i filtri sotto. |
+| **Catalog rule mode** | **Whitelist — only matching products** | Whitelist: pulsanti solo sui prodotti corrispondenti. Blacklist: nasconde i pulsanti sui prodotti corrispondenti. Un prodotto corrisponde se è nell'elenco prodotti o appartiene a una categoria, produttore o fornitore selezionato. |
+| Catalog pickers | empty | Categorie (albero), prodotti (ricerca), produttori e fornitori. Lasci vuoti per applicare solo i filtri ausiliari. Le regole si combinano con OR — una corrispondenza basta. |
+| **Minimum product price** | 0 | Nasconde i pulsanti preventivo sotto questo prezzo storefront tasse incluse. 0 disabilita. Applicato quando le regole catalogo sono abilitate. |
+| **Exclude virtual products** | **No** | Impedisce di quotare prodotti scaricabili / virtuali quando le regole catalogo sono abilitate. |
+| **Exclude out-of-stock products** | **No** | Nasconde i pulsanti quando il prodotto non può essere ordinato fuori stock (rispetta il comportamento PrestaShop fuori stock). |
+| **Mixed cart (eligible + excluded items)** | **Hide cart quote button** | Quando il carrello mescola prodotti quotabili e non quotabili: Show = pulsante visibile, solo le righe idonee importate; Hide = pulsante nascosto finché il carrello non è solo quotabile. Tutti idonei → mostra sempre. Tutti esclusi → nasconde sempre. |
+
+### 3.10 Settings — Product quote request form
+
+| Campo | All'inizio | Cosa fa |
+|---|---|---|
+| **Require privacy policy acceptance** | **Yes** | Casella privacy obbligatoria sulla modale di richiesta preventivo prodotto (GDPR). I clienti devono accettare prima dell'invio. |
+| **Privacy policy CMS page** | none | Pagina CMS collegata dalla casella. Se vuota, il testo della casella non ha collegamento. |
+| **Enable reCAPTCHA** | **No** | Protegge il modulo di richiesta preventivo prodotto con Google reCAPTCHA v2. Quando abilitato, le chiavi site e secret sotto sono obbligatorie. |
+| **reCAPTCHA site key** | empty | Chiave site pubblica dall'admin Google reCAPTCHA (v2 checkbox). |
+| **reCAPTCHA secret key** | empty | Chiave secret. Memorizzata nella configurazione del negozio. |
+| **Minimum cart total** | 0 | Valore minimo del carrello prima che il pulsante preventivo carrello sia mostrato. Valuta predefinita del negozio. 0 = nessun minimo. Influisce solo sul pulsante carrello, non sulle richieste prodotto singolo. Carrelli piccoli non mostreranno il pulsante. |
+
+### 3.11 Settings — Offers & references
+
+| Campo | All'inizio | Cosa fa |
+|---|---|---|
+| **Default validity** | 30 | Durata predefinita di validità di un preventivo dopo la creazione. Numero più unità: minuti per offerte flash, ore per decisioni in giornata, giorni per B2B standard. Imposta valid_until sui nuovi preventivi da storefront, back office e duplicati. Sovrascrivibile per preventivo nell'editor. |
+| **Default validity unit** | **Days** | Minuti, ore o giorni con il numero sopra. Le e-mail di promemoria e lo stato Expired automatico si basano comunque sul cron per i promemoria. |
+| **Expiry reminder (days before)** | 3 | E-mail di promemoria prima della scadenza. Inviata solo dal job cron giornaliero. Ogni preventivo idoneo riceve al massimo un promemoria con collegamento per visualizzare e accettare. Senza cron, nessun promemoria. |
+| Cron URL | generated token | Promemoria di scadenza automatici e aggiornamenti di stato. Aggiunga l'URL al crontab una volta al giorno (esempio 08:00). Rigeneri il token se esposto. La scadenza è applicata anche quando qualcuno apre il preventivo; le e-mail di promemoria richiedono comunque il cron. |
+| **Reference prefix** | Q | Prefisso per i numeri preventivo. Il modulo aggiunge anno e sequenza, ad es. Q-2026-00042. Aiuta staff e clienti a riconoscere i documenti in e-mail e PDF. |
+| **Notify staff on new request** | **Yes** | E-mail allo staff del negozio quando un cliente invia una richiesta. Verifichi che Preferences > Contact e-mail sia corretta. Template: qe-request-staff nella scheda Emails. |
+
+Avviso giallo a schermo: il cron è richiesto per l'automazione della validità; la scadenza si applica anche all'apertura; i promemoria usano l'URL cron.
+
+### 3.12 Settings — Checkout
+
+| Campo | All'inizio | Cosa fa |
+|---|---|---|
+| **Shipping / service tax rule** | shop default tax rule | Regola IVA per spedizione e righe di servizio personalizzate quando inserisce importi tax-exclusive. Scelga un gruppo regole fiscali da Catalog → Products. Quando selezionato, salvando un preventivo si ricalcola la spedizione tax-incl da tax-excl. |
+| **Fee product (custom lines)** | created on install | Prodotto virtuale nascosto che porta le righe di servizio personalizzate nel checkout. Creato automaticamente — lo cambi solo se deve puntare le righe personalizzate a un prodotto diverso. Al checkout, i totali servizio diventano una riga carrello con il prezzo preventivo bloccato. |
+
+### 3.13 PDF
+
+Apra la scheda **PDF**. Legenda: **PDF documents**. Quando il PDF è disabilitato, i pulsanti di download sono nascosti e gli URL PDF restituiscono not found.
+
+| Campo | All'inizio | Cosa fa |
+|---|---|---|
+| **Enable PDF** | **Yes** | Interruttore principale per generazione PDF e collegamenti di download. Disabiliti se non vuole proforma PDF. Quando off, i pulsanti PDF sono nascosti in back office, storefront e dettaglio ordine; gli URL PDF diretti restituiscono not found. I template e-mail ricevono comunque un placeholder URL PDF vuoto. |
+| **Use shop logo on PDF** | **Yes** | Usa il logo del negozio da Preferences > Themes. No: usa solo un logo personalizzato caricato sotto (se presente). Il logo appare in alto sui documenti PDF / proforma. |
+| **Add negotiation history to PDF** | **No** | Aggiunge un breve log di comunicazione (richieste di modifica, reinvii, accettazione, rifiuto). Tabella compatta prima delle condizioni. Vuota quando non c'è attività di negoziazione. |
+| **Custom PDF logo** | empty | PNG o JPG opzionale solo per i PDF preventivo. Sovrascrive il logo del negozio quando presente. |
+| **PDF terms & conditions** | empty | Condizioni legali o commerciali in fondo a ogni PDF. |
+| **Authorized signature** | empty | Nome o riga firmatario, ad es. "John Smith, Sales Director". Lasci vuoto per omettere. |
+
+### 3.14 Emails
+
+Apra la scheda **Emails**. E-mail transazionali per il ciclo di vita del preventivo. Modifichi oggetto e corpo per lingua. Usi i placeholder dalla barra laterale dell'editor (nome cliente, riferimento preventivo, collegamento, totali). Chiavi integrate: qe-request-staff, qe-quote-sent, qe-quote-accepted, qe-quote-rejected, qe-quote-negotiation, qe-quote-reminder, qe-staff-digest. Clienti e staff le ricevono quando un preventivo è richiesto, inviato, accettato o in scadenza. Esegua un test dopo le modifiche.
+
+### 3.15 API
+
+Apra la scheda **API**. Colleghi CRM, ERP o automazione. Inserisca un'etichetta chiave e **Generate new API key**. Copi la chiave. **Revoke** la disabilita (conferma). Vuoto: **No API keys yet.** **API documentation** descrive le azioni: list, get, pending, stats, update_status. Chiami l'URL API del modulo con la chiave.
+
+### 3.16 Notifications
+
+Apra **Notifications** (**Staff digest notifications**). Riepilogo periodico quando i preventivi richiedono azione, senza un'e-mail per evento.
+
+Cosa conta come in attesa: **Pending review** (nuova richiesta) o **Negotiation** (il cliente ha chiesto modifiche). Sent, accepted, expired e converted non sono inclusi. Il cron gira secondo la Sua pianificazione. Quando il digest è abilitato, almeno un preventivo è in attesa e l'intervallo è trascorso, un messaggio va a ogni canale configurato. Lo staff vede un riepilogo con riferimenti, stato, nome cliente e collegamenti back office (fino a 20 preventivi elencati).
+
+| Campo | All'inizio | Cosa fa |
+|---|---|---|
+| **Enable digest** | **No** | Interruttore principale. Abiliti dopo aver impostato almeno un canale. Il cron deve essere pianificato — i digest non sono inviati dalle visite di pagina. Quando off, il cron gestisce comunque promemoria di scadenza e aggiornamenti di stato, ma nessun digest. |
+| **Interval (hours)** | 24 | Tempo minimo tra i digest (1–168). Esegua il cron almeno con questa frequenza. Dopo un digest riuscito, il successivo attende che passino queste ore. |
+| **E-mail recipients** | empty | Separati da virgola o punto e virgola. Vuoto usa l'e-mail del negozio da Preferences > Contact. Template qe-staff-digest. |
+| **Slack webhook URL** | empty | URL webhook in ingresso. Lasci vuoto per saltare Slack. |
+| **Teams webhook URL** | empty | URL webhook connector. Lasci vuoto per saltare Teams. |
+
+**Save** memorizza le impostazioni. **Send test digest now** invia un test quando ci sono preventivi in attesa. Stesso URL cron di Settings.
+
+### 3.17 Updates
+
+Apra **Updates**. **Check Now** verifica se c'è una nuova versione. **Automatic Notifications** abilitato o disabilitato. **Save** memorizza le impostazioni di aggiornamento.
+
+### 3.18 Blocco preventivo su un ordine
+
+Su un ordine creato da un preventivo, il back office mostra **Source quote** con un collegamento al preventivo e facoltativamente **View quote PDF**.
+
+## 4. Front office
+
+I clienti vedono gli strumenti preventivo quando il modulo è abilitato e il loro gruppo è consentito.
+
+**Product page.** **Request a quote** apre il modulo (instant) o aggiunge all'elenco preventivo (list mode). Casella privacy e reCAPTCHA si applicano quando abilitati.
+
+**Product list.** **Request quote** — stesse regole.
+
+**Cart.** **Request a quote** — rispetta il totale minimo carrello e le regole mixed-cart. Il carrello confermato diventa un preventivo pending.
+
+**List mode.** Pulsante flottante con conteggio apre il modulo di richiesta multiprodotto.
+
+**Customer account.** Collegamento a **My quotes**: cronologia, stato, valid until, **View**, PDF quando abilitato, **Checkout** dopo l'accettazione, **Request re-opening** quando scaduto/bloccato. Vuoto: **You have no quotes yet. Request a quote from a product page or your cart to get started.** Dopo l'invio: **Your quote request has been submitted. Our team will prepare an offer shortly.**
+
+**Quote view.** Accetta, rifiuta, richiedi modifiche, scarica PDF, checkout quando accettato. Scaduto bloccato: **Locked — validity expired**.
+
+I visitatori ospiti possono vedere i pulsanti se **Allow guests** è **Yes**, ma la richiesta viene salvata solo per un cliente connesso.
+
+Non c'è uno screenshot storefront in questo pacchetto perché il negozio di test non era raggiungibile quando le schermate sono state completate.
+
+## 5. Problemi comuni
+
+**Nessun pulsante preventivo su prodotto o carrello.** Controlli **Module enabled**, l'interruttore del pulsante corrispondente, il gruppo cliente e la visibilità catalogo. Per il carrello, controlli **Minimum cart total** e **Mixed cart**.
+
+**L'ospite non può completare una richiesta.** L'invio richiede sempre un account.
+
+**Il preventivo è bloccato / non si può modificare.** Sblocchi se accepted o expired (estenda la validità). I preventivi converted restano bloccati all'ordine.
+
+**Il cliente non può accettare.** Lo stato deve essere Sent o Negotiation e valid until deve essere nel futuro.
+
+**Le e-mail di promemoria non arrivano mai.** Pianifichi l'URL cron e tenga **Expiry reminder** sopra zero. Aprire un preventivo può farlo scadere senza cron; i promemoria richiedono comunque il cron.
+
+**Pulsanti PDF mancanti.** Attivi **Enable PDF**.
+
+**reCAPTCHA blocca il modulo.** Lo disattivi, oppure inserisca entrambe le chiavi.
+
+**Il digest staff non arriva mai.** Abiliti il digest, imposti un canale, esegua il cron almeno con la frequenza dell'intervallo.
+
+**Disinstallato e il menu è sparito.** Reinstalli. La disinstallazione elimina le tabelle preventivo. Il prodotto fee può restare nel catalogo.
+
+## 6. Guida per sviluppatori
+
+### 6.1 Panoramica
+
+Nome tecnico `quoteenterprise`, versione 1.7.6, classe `quoteenterprise` extends `Module`. Nome visualizzato tramite `$this->l('Quote Enterprise')`. Autore MyPresta.eu. Tab `checkout`. URL prodotto in `$this->mypresta_link`.
+
+Flusso: richiesta → riga `quote` → modifica/invio staff → accettazione/negoziazione cliente → checkout → ordine. I testi campo per i rivenditori sono in `QuoteSettingDescTrait` e nei metodi `desc*` dell'editor preventivo.
+
+### 6.2 File
+
+- `quoteenterprise.php` — install, hooks, entry di configurazione, URL cron.
+- `classes/QuoteAdmin.php` — schede di configurazione e moduli impostazioni.
+- `classes/QuoteAdminQuoteForm.php` — editor preventivo.
+- `classes/QuoteQuotesManager.php` — panoramica, save/send/lines/templates.
+- `classes/QuoteDashboard.php`, `QuoteVisibility.php`, `QuoteListHelper.php`, `QuoteRequestHelper.php`, `QuoteMailer.php`, `QuotePdf.php`, `QuoteApi.php`, `QuoteNotifyDigest.php`, `QuoteExpiry.php`, `QuoteConverter.php`, `QuoteFeeProduct.php`, `QuoteSettingDescTrait.php`.
+- `controllers/admin/AdminQuoteEnterpriseQuotes.php`, `AdminQuoteEnterpriseAuditLog.php`.
+- `controllers/front/` — `list`, `view`, `request`, `quoteList`, `pdf`, `cron`, `api`.
+- `models/` — `quote`, `quotedetail`, `quoteauditlog`, `quoterevision`, `quoteapikey`.
+- `views/templates/`, `lib/updateChecker.php`, `lib/emailTemplatesManager/`, `lib/searchTool/`.
+
+### 6.3 Controller
+
+Admin sotto **Orders** (`AdminParentOrders`). Controller front in `$this->controllers`. Il cron richiede `QE_CRON_TOKEN`. L'API richiede una chiave attiva e un nome azione.
+
+### 6.4 Hook
+
+Registrati: `displayHeader`, `displayShoppingCart`, `displayCustomerAccount`, `displayProductAdditionalInfo`, `displayProductActions`, `displayFooterProduct`, `displayFooter`, `actionProductPriceCalculation`, `actionValidateOrder`, `actionAdminControllerSetMedia`, `displayProductListFunctionalButtons`, `displayProductListReviews`, `displayProductPriceBlock`, `displayAdminOrderMain`, `displayAdminOrderSide`, `displayAdminOrder`, `actionCartGetPackageShippingCost`. Nessun hook personalizzato esposto.
+
+### 6.5 Override
+
+Questo modulo non fornisce override di classi o controller.
+
+### 6.6 Database
+
+| Tabella | Contenuto |
+|---|---|
+| `quote` | Intestazione preventivo. |
+| `quote_detail` | Righe. |
+| `quote_revision` | Istantanee di versione. |
+| `quote_audit_log` | Attività append-only. |
+| `quote_api_key` | Chiavi API. |
+| `qe_cart_quote` | Collegamento carrello–preventivo. |
+
+La disinstallazione elimina queste tabelle. `QuoteSchema::ensure` e `inconsistency()` riparano pezzi mancanti quando si apre la configurazione.
+
+### 6.7 Chiavi e traduzioni
+
+Chiavi di configurazione `QE_*`. Valori predefiniti in `installDefaults()`. Nuova lingua: `translations/{iso}.php`. Aiuto campi rivenditore: `QuoteSettingDescTrait` e metodi `desc*` dell'editor. Stringhe tramite `$this->l()` e `{l s=... mod='quoteenterprise'}`.
+
+### 6.8 Estensione
+
+Sovrascriva i template front sotto `modules/quoteenterprise/` nel tema. Classic e Hummingbird sono supportati. Un layout PDF diverso richiede di modificare il template PDF o il codice del modulo.
+
+## 7. Supporto
+
+Pagina del modulo: [Quote Enterprise](https://mypresta.eu/modules/ordering-process/quote-enterprise.html).
+
+Per scrivere di questo modulo, acceda al Suo account cliente su [mypresta.eu](https://mypresta.eu/), apra [Contact](https://mypresta.eu/contact.html) e scelga l'oggetto **Support for paid modules**. Il modulo indica che il login è obbligatorio. Dopo l'accesso, scelga questo modulo dalla cronologia degli acquisti.

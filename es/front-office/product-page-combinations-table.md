@@ -1,8 +1,8 @@
 ---
-title: "Tabla de combinaciones de la página de producto - Manual de Comerciante y Guía de Configuración"
-description: "Manual de usuario completo, guía de configuración pantalla por pantalla y referencia para desarrolladores del módulo de PrestaShop 'Tabla de combinaciones de la página de producto' de MyPresta.eu."
+title: "Combinations Tab Pro - documentación y manual de usuario"
+description: "Configure la matriz de combinaciones, los ajustes diarios de la ficha de producto y solucione problemas habituales del escaparate si ya dispone de Combinations Tab Pro."
 sidebar:
-  label: "Tabla de combinaciones de la página de producto - Manual de Comerciante y Guía de Configuración"
+  label: "Combinations Tab Pro - documentación y manual de usuario"
 ---
 
 > ⚠️ **Notice:** This is the documentación oficial del módulo de PrestaShop.
@@ -12,568 +12,436 @@ sidebar:
 > ---
 
 
-# Tabla de combinaciones de la página de producto
-
-## 1. Requisitos y compatibilidad
-
-- **Versiones de PrestaShop compatibles**: PrestaShop 1.4.x, 1.5.x, 1.6.x, 1.7.x, 8.x, 9.x
-- **Compatibilidad con PHP**: PHP 5.6 - 8.5
-- **Requisitos de alojamiento**: Extensiones PHP estándar (cURL, JSON, OpenSSL).
-
-## 2. Recorrido completo por la configuración (Cada ajuste agrupado por pantalla)
-
-### 2.1 Página de configuración del módulo (Back Office > Módulos > Configurar)
-
-Esta es la pantalla de configuración principal donde controla cómo aparece y se comporta la tabla de combinaciones en sus páginas de producto.
-
-#### Configuración general
-
--   **Activar función de filtros**
-
-    -   **Qué hace esta configuración:** Habilita o deshabilita un sistema de filtrado encima de la tabla de combinaciones, permitiendo a los clientes reducir rápidamente las opciones basándose en valores de atributos específicos (por ejemplo, "Mostrar solo camisetas rojas").
-    -   **Efecto de cambiar esta configuración:**
-        -   *Cuando está habilitado:* Aparecerá una barra de filtros encima de la tabla, facilitando a los clientes encontrar combinaciones específicas en listas grandes.
-        -   *Cuando está deshabilitado:* No se mostrará ninguna barra de filtros, y todas las combinaciones se mostrarán sin opciones de filtrado.
-    -   **Valor recomendado:** SÍ (si tiene muchas combinaciones por producto, o si los clientes a menudo buscan atributos específicos).
-    -   **Escenario / ejemplo de comerciante:** Una tienda de ropa con docenas de tallas y colores para una sola camiseta. Los filtros ayudan a los clientes a encontrar rápidamente camisetas "Grandes Azules".
--   **Resaltar mejor precio**
-
-    -   **Qué hace esta configuración:** Enfatiza visualmente la combinación con el precio más bajo en la tabla, atrayendo la atención del cliente a la opción más asequible.
-    -   **Efecto de cambiar esta configuración:**
-        -   *Cuando está habilitado:* La fila correspondiente a la combinación más barata se resaltará (por ejemplo, con un color de fondo diferente).
-        -   *Cuando está deshabilitado:* No habrá un resaltado especial para el precio más bajo.
-    -   **Valor recomendado:** SÍ (puede fomentar las compras al destacar el valor).
-    -   **Escenario / ejemplo de comerciante:** Un producto con varios paquetes o configuraciones donde una combinación ofrece una oferta significativamente mejor.
--   **Mostrar columna de ahorro**
-
-    -   **Qué hace esta configuración:** Añade una columna extra a la tabla que muestra la cantidad o el porcentaje que un cliente ahorra al comprar una combinación específica, especialmente útil con descuentos por cantidad o precios especiales.
-    -   **Efecto de cambiar esta configuración:**
-        -   *Cuando está habilitado:* Aparecerá una columna "Ahorro", mostrando el descuento para cada combinación si corresponde.
-        -   *Cuando está deshabilitado:* Esta columna no se mostrará.
-    -   **Valor recomendado:** SÍ (si ofrece descuentos con frecuencia o tiene precios basados en la cantidad).
-    -   **Escenario / ejemplo de comerciante:** Vender un producto con un precio base, pero ciertas combinaciones (por ejemplo, una combinación de "paquete") tienen un precio reducido, y desea mostrar el ahorro.
--   **Consejo de umbral de descuento por cantidad**
-
-    -   **Qué hace esta configuración:** Muestra una pequeña información o mensaje que indica la cantidad requerida para desbloquear un descuento específico, animando a los clientes a comprar más.
-    -   **Efecto de cambiar esta configuración:**
-        -   *Cuando está habilitado:* Cuando un cliente pasa el ratón por encima o interactúa con una entrada de cantidad, puede aparecer un consejo que diga "¡Compre 5 para un 10% de descuento!".
-        -   *Cuando está deshabilitado:* No se mostrarán tales consejos.
-    -   **Valor recomendado:** SÍ (si utiliza la función de descuentos por cantidad de PrestaShop).
-    -   **Escenario / ejemplo de comerciante:** Una tienda que vende material de oficina donde comprar 10 bolígrafos obtiene un 5% de descuento, y este consejo se lo recuerda al cliente.
--   **Diseño de tarjeta móvil**
-
-    -   **Qué hace esta configuración:** Determina cómo se muestra la tabla de combinaciones en dispositivos móviles. En lugar de una tabla ancha, puede cambiar a un diseño de "tarjeta" más fácil de usar.
-    -   **Efecto de cambiar esta configuración:**
-        -   *Cuando está habilitado:* En smartphones, cada combinación se presentará como una tarjeta separada, apilada verticalmente, lo que facilita la lectura y la interacción.
-        -   *Cuando está deshabilitado:* El módulo intentará mostrar la tabla completa, lo que podría requerir desplazamiento horizontal en el móvil, lo que podría dificultar la usabilidad.
-    -   **Valor recomendado:** SÍ (crucial para la capacidad de respuesta móvil y una buena experiencia de usuario).
-    -   **Escenario / ejemplo de comerciante:** Un cliente que navega por su tienda en su teléfono. El diseño de tarjeta garantiza que pueda ver y seleccionar combinaciones fácilmente sin hacer zoom ni desplazarse excesivamente.
--   **Orden de las columnas**
-
-    -   **Qué hace esta configuración:** Le permite personalizar la secuencia de columnas (por ejemplo, Imagen, Referencia, Precio, Cantidad) en la tabla de combinaciones.
-    -   **Efecto de cambiar esta configuración:**
-        -   *Cuando se cambia:* Las columnas se reorganizarán en la tabla del front-office según el orden especificado.
-    -   **Valor recomendado:** Organice las columnas en un orden intuitivo que tenga sentido para sus productos (por ejemplo, Imagen, Atributos, Precio, Cantidad, Añadir al carrito).
-    -   **Escenario / ejemplo de comerciante:** Para una tienda de moda, es posible que desee "Imagen" primero, luego "Color", luego "Talla", luego "Precio". Para la electrónica, "Referencia" podría ser más importante.
--   **Hacer clic y cambiar combinación**
-
-    -   **Qué hace esta configuración:** Controla si al hacer clic en una fila de combinación en la tabla se actualiza automáticamente la imagen principal del producto, el precio y otros detalles de la página del producto para reflejar esa combinación específica.
-    -   **Efecto de cambiar esta configuración:**
-        -   *Cuando está habilitado:* Al hacer clic en una fila, la visualización principal del producto se actualizará dinámicamente, dando al cliente una confirmación visual de su selección.
-        -   *Cuando está deshabilitado:* La visualización principal del producto no cambiará al hacer clic en una fila; solo la entrada de cantidad y el botón Añadir al carrito de esa fila estarán activos.
-    -   **Valor recomendado:** SÍ (mejora la experiencia del usuario al proporcionar retroalimentación visual).
-    -   **Escenario / ejemplo de comerciante:** Un cliente hace clic en una combinación "Roja, Grande", y la imagen principal del producto cambia inmediatamente a la versión roja del producto.
-
-#### Configuración de imagen
-
--   **Mostrar imagen**
-
-    -   **Qué hace esta configuración:** Determina si se debe mostrar una imagen en miniatura para cada combinación en la tabla.
-    -   **Efecto de cambiar esta configuración:**
-        -   *Cuando está habilitado:* Aparecerá una columna de imagen, mostrando la imagen específica asociada a cada combinación (si está disponible).
-        -   *Cuando está deshabilitado:* No se mostrará ninguna columna de imagen.
-    -   **Valor recomendado:** SÍ (los elementos visuales son potentes para la selección de productos).
-    -   **Escenario / ejemplo de comerciante:** Una tienda de ropa donde cada variación de color tiene una imagen distinta.
--   **Mostrar columna de imagen si hay al menos una combinación con imagen**
-
-    -   **Qué hace esta configuración:** Controla la visibilidad de la columna de imagen en función de si alguna combinación tiene realmente una imagen específica asignada.
-    -   **Efecto de cambiar esta configuración:**
-        -   *Cuando está habilitado:* Si al menos una combinación tiene una imagen, la columna de imagen aparecerá para todas las combinaciones (mostrando la imagen predeterminada del producto para aquellas sin imágenes de combinación específicas).
-        -   *Cuando está deshabilitado:* La columna de imagen solo aparecerá si *todas* las combinaciones tienen imágenes específicas, o podría no aparecer en absoluto si también usa "Usar imagen de producto predeterminada" con cuidado.
-    -   **Valor recomendado:** SÍ (evita una columna de imagen vacía si solo unas pocas combinaciones tienen imágenes).
-    -   **Escenario / ejemplo de comerciante:** Tiene 20 combinaciones, pero solo 5 tienen imágenes únicas. Esto asegura que la columna de imagen siga apareciendo, utilizando la imagen principal del producto para las otras 15.
--   **Usar imagen de producto predeterminada**
-
-    -   **Qué hace esta configuración:** Si una combinación específica no tiene su propia imagen, esta configuración determina si se debe usar la imagen principal del producto como alternativa.
-    -   **Efecto de cambiar esta configuración:**
-        -   *Cuando está habilitado:* Las combinaciones sin imágenes específicas mostrarán la imagen principal del producto.
-        -   *Cuando está deshabilitado:* Las combinaciones sin imágenes específicas mostrarán un marcador de posición o ninguna imagen.
-    -   **Valor recomendado:** SÍ (asegura que todas las combinaciones tengan una representación visual).
-    -   **Escenario / ejemplo de comerciante:** Un producto con muchas variaciones de tamaño pero solo una imagen por color. Esto asegura que todos los tamaños de un color específico muestren la imagen de color correcta.
--   **Habilitar zoom Fancybox**
-
-    -   **Qué hace esta configuración:** Permite a los clientes hacer clic en las imágenes de combinación de la tabla para ver una versión más grande y ampliada en una ventana emergente (Fancybox).
-    -   **Efecto de cambiar esta configuración:**
-        -   *Cuando está habilitado:* Al hacer clic en una imagen de combinación, se abrirá en una ventana emergente de Fancybox.
-        -   *Cuando está deshabilitado:* Las imágenes no serán clicables para hacer zoom.
-    -   **Valor recomendado:** SÍ (mejora la experiencia de visualización de imágenes).
-    -   **Escenario / ejemplo de comerciante:** Un cliente quiere ver la textura o el detalle de una variación de color específica más de cerca.
--   **Tipo de imagen a mostrar**
-
-    -   **Qué hace esta configuración:** Selecciona el tamaño/tipo de imagen (por ejemplo, `small_default`, `medium_default`) que se mostrará como miniaturas en la tabla de combinaciones.
-    -   **Efecto de cambiar esta configuración:**
-        -   *Cuando se cambia:* El tamaño de las imágenes en la tabla se actualizará al tipo de imagen seleccionado.
-    -   **Valor recomendado:** `small_default` o `medium_default` (elija uno que se ajuste bien a su diseño de tabla sin ser demasiado grande o demasiado pequeño).
-    -   **Escenario / ejemplo de comerciante:** Desea que las imágenes de la tabla sean ligeramente más grandes que el pequeño `small_default` pero no tan grandes como `large_default`.
--   **Tipo de imagen utilizada para ampliar la miniatura**
-
-    -   **Qué hace esta configuración:** Selecciona el tamaño/tipo de imagen que se utilizará cuando se active la función de zoom Fancybox.
-    -   **Efecto de cambiar esta configuración:**
-        -   *Cuando se cambia:* La imagen mostrada en la ventana emergente de Fancybox será del tamaño seleccionado.
-    -   **Valor recomendado:** `large_default` o `thickbox_default` (elija el tipo de imagen más grande y de mayor calidad para hacer zoom).
-    -   **Escenario / ejemplo de comerciante:** Un cliente hace zoom en una imagen y espera ver una versión de alta resolución.
-
-#### Configuración de visualización de atributos
-
--   **Método de visualización de atributos**
-
-    -   **Qué hace esta configuración:** Controla cómo se muestran los nombres de los atributos (por ejemplo, "Talla", "Color") en el encabezado de la tabla.
-    -   **Efecto de cambiar esta configuración:**
-        -   *Opciones (por ejemplo, "Nombre completo", "Nombre corto", "ID"):* Cambia cómo aparecen los encabezados de los atributos.
-    -   **Valor recomendado:** "Nombre completo" (más descriptivo para los clientes).
-    -   **Escenario / ejemplo de comerciante:** Desea que "Talla" aparezca como "Talla" y no como "S" o "ID: 1".
--   **Asociaciones de atributos con la tienda (multitienda)**
-
-    -   **Qué hace esta configuración:** En un entorno multitienda, esto le permite especificar qué grupos de atributos son relevantes para qué tiendas, evitando que aparezcan atributos irrelevantes.
-    -   **Efecto de cambiar esta configuración:**
-        -   *Cuando está configurado:* Solo los atributos asociados con el contexto de la tienda actual se mostrarán en la tabla.
-    -   **Valor recomendado:** Configure con cuidado si tiene una multitienda con diferentes catálogos de productos.
-    -   **Escenario / ejemplo de comerciante:** La Tienda A vende ropa (Talla, Color), la Tienda B vende electrónica (Almacenamiento, RAM). Esto evita que "Almacenamiento" aparezca en la tabla de combinaciones de la Tienda A.
--   **Incluir etiqueta al nombre del atributo**
-
-    -   **Qué hace esta configuración:** Añade el nombre del grupo de atributos como prefijo al valor del atributo (por ejemplo, "Talla: S", "Color: Rojo").
-    -   **Efecto de cambiar esta configuración:**
-        -   *Cuando está habilitado:* Los valores de los atributos serán más descriptivos.
-        -   *Cuando está deshabilitado:* Solo se mostrará el valor del atributo (por ejemplo, "S", "Rojo").
-    -   **Valor recomendado:** SÍ (mejora la claridad, especialmente si los valores de los atributos no son autoexplicativos).
-    -   **Escenario / ejemplo de comerciante:** Un producto tiene un valor de atributo "Estándar". ¿Es una talla estándar, un color estándar o un acabado estándar? "Acabado: Estándar" lo aclara.
--   **Atributo de color**
-
-    -   **Qué hace esta configuración:** Le permite especificar qué grupo de atributos representa el "color" en su tienda. Esto es importante para que el módulo muestre correctamente las muestras de color o la lógica específica del color.
-    -   **Efecto de cambiar esta configuración:**
-        -   *Cuando está seleccionado:* El módulo tratará los valores de este grupo de atributos como colores, mostrándolos potencialmente como muestras de color en lugar de texto.
-    -   **Valor recomendado:** Seleccione su grupo de atributos "Color" principal.
-    -   **Escenario / ejemplo de comerciante:** Tiene un grupo de atributos llamado "Color" con valores como "Rojo", "Azul", "Verde". Seleccionar este grupo asegura que se muestren como muestras de color reales.
-
-#### Opciones de visualización
-
--   **Ocultar encabezado de tabla**
-
-    -   **Qué hace esta configuración:** Elimina la fila de encabezado de la tabla de combinaciones (por ejemplo, "Imagen | Talla | Color | Precio | Cantidad").
-    -   **Efecto de cambiar esta configuración:**
-        -   *Cuando está habilitado:* La tabla comenzará directamente con las filas de combinación, sin títulos de columna.
-        -   *Cuando está deshabilitado:* La fila de encabezado estará visible.
-    -   **Valor recomendado:** NO (los encabezados suelen ser importantes para la claridad, a menos que su tabla sea muy simple y autoexplicativa).
-    -   **Escenario / ejemplo de comerciante:** Para un producto muy simple con un solo atributo (por ejemplo, "Tamaño del paquete"), podría ocultar el encabezado si el contenido de la columna es obvio.
--   **Ocultar combinaciones agotadas**
-
-    -   **Qué hace esta configuración:** Evita que las combinaciones que actualmente están agotadas se muestren en la tabla.
-    -   **Efecto de cambiar esta configuración:**
-        -   *Cuando está habilitado:* Solo las combinaciones en stock serán visibles, reduciendo el desorden y evitando la frustración del cliente.
-        -   *Cuando está deshabilitado:* Las combinaciones agotadas seguirán mostrándose, a menudo con una etiqueta de "Agotado" o el botón "Añadir al carrito" deshabilitado.
-    -   **Valor recomendado:** SÍ (generalmente mejor para la experiencia del usuario, a menos que desee mostrar todas las opciones para pedidos anticipados o notificaciones de reposición).
-    -   **Escenario / ejemplo de comerciante:** Un modelo de zapato popular ha agotado la talla 10. Ocultarlo evita que los clientes intenten seleccionarlo.
--   **Ocultar combinaciones con precio = 0**
-
-    -   **Qué hace esta configuración:** Excluye las combinaciones que tienen un precio de cero de la tabla.
-    -   **Efecto de cambiar esta configuración:**
-        -   *Cuando está habilitado:* Las combinaciones con precio cero no aparecerán.
-        -   *Cuando está deshabilitado:* Las combinaciones con precio cero se listarán.
-    -   **Valor recomendado:** SÍ (a menos que ofrezca intencionalmente combinaciones gratuitas, lo cual es raro).
-    -   **Escenario / ejemplo de comerciante:** A veces, debido a una mala configuración, una combinación puede terminar con un precio cero. Ocultarlas evita confusiones.
--   **Mostrar solo combinaciones con imágenes**
-
-    -   **Qué hace esta configuración:** Filtra la tabla para mostrar solo las combinaciones que tienen una imagen específica asignada.
-    -   **Efecto de cambiar esta configuración:**
-        -   *Cuando está habilitado:* Solo se listarán las combinaciones con imágenes únicas.
-        -   *Cuando está deshabilitado:* Se mostrarán todas las combinaciones, independientemente de si tienen una imagen específica.
-    -   **Valor recomendado:** NO (suele ser mejor mostrar todas las combinaciones, utilizando imágenes predeterminadas si es necesario, a menos que la diferenciación visual sea primordial).
-    -   **Escenario / ejemplo de comerciante:** Si solo desea mostrar combinaciones que tienen diferencias visuales distintas y no ha subido imágenes para todas ellas.
--   **Mostrar precio**
-
-    -   **Qué hace esta configuración:** Controla si el precio de cada combinación se muestra en la tabla.
-    -   **Efecto de cambiar esta configuración:**
-        -   *Cuando está habilitado:* Una columna "Precio" será visible.
-        -   *Cuando está deshabilitado:* La columna de precio estará oculta.
-    -   **Valor recomendado:** SÍ (el precio es un factor crítico para los clientes).
-    -   **Escenario / ejemplo de comerciante:** Un cliente quiere comparar precios entre diferentes tamaños o materiales de un producto.
--   **Mostrar precio unitario**
-
-    -   **Qué hace esta configuración:** Muestra el precio unitario (por ejemplo, precio por kg, por litro) para cada combinación, si corresponde.
-    -   **Efecto de cambiar esta configuración:**
-        -   *Cuando está habilitado:* Aparecerá una columna adicional de "Precio unitario".
-        -   *Cuando está deshabilitado:* Esta columna no se mostrará.
-    -   **Valor recomendado:** SÍ (si sus productos se venden por peso/volumen y el precio unitario es relevante).
-    -   **Escenario / ejemplo de comerciante:** Vender granos de café en diferentes tamaños de bolsa, y los clientes quieren comparar el precio por 100g.
--   **Mostrar precio solo para clientes registrados**
-
-    -   **Qué hace esta configuración:** Oculta los precios de las combinaciones a los visitantes que no han iniciado sesión en sus cuentas de cliente.
-    -   **Efecto de cambiar esta configuración:**
-        -   *Cuando está habilitado:* Los invitados no verán los precios; es posible que vean un mensaje que les pida que inicien sesión.
-        -   *Cuando está deshabilitado:* Los precios son visibles para todos.
-    -   **Valor recomendado:** NO (a menos que tenga una tienda B2B o estrategias de precios específicas que requieran inicio de sesión).
-    -   **Escenario / ejemplo de comerciante:** Una tienda mayorista donde los precios se negocian o son específicos para cuentas comerciales registradas.
--   **Mostrar etiqueta de impuestos**
-
-    -   **Qué hace esta configuración:** Muestra una etiqueta que indica si los precios mostrados incluyen o excluyen impuestos (por ejemplo, "Impuestos incl.", "Impuestos excl.").
-    -   **Efecto de cambiar esta configuración:**
-        -   *Cuando está habilitado:* El estado de los impuestos se indicará claramente junto a los precios.
-        -   *Cuando está deshabilitado:* No se mostrará ninguna etiqueta de impuestos.
-    -   **Valor recomendado:** SÍ (mejora la transparencia y cumple con los requisitos legales en muchas regiones).
-    -   **Escenario / ejemplo de comerciante:** Los clientes en Europa esperan ver precios "Impuestos incl.", mientras que los clientes B2B pueden preferir "Impuestos excl.".
-
-#### Otras claves de configuración (Avanzadas/Internas)
-
-Estos ajustes suelen ser gestionados internamente por el módulo o son ajustados con menos frecuencia por los comerciantes.
-
--   `mypresta_updates`, `update_`, `updatev_`: Claves internas para actualizaciones del módulo y seguimiento de versiones.
--   `ctp_position`: Controla la posición del hook donde se muestra la tabla.
--   `ctp_lasttab`: Relacionado con la visualización de la tabla en una pestaña de producto.
--   `ctp_reference`, `ctp_ean`, `ctp_mpn`: Controlan la visualización de las columnas Referencia, EAN13/JAN y MPN.
--   `ctp_cname`: Controla la visualización del nombre de la combinación.
--   `ctp_atc`, `ctp_atcq`: Controlan el botón "Añadir al carrito" y la entrada de cantidad.
--   `ctp_ajax`: Determina si se usa AJAX para añadir al carrito.
--   `ctp_sort`: Opciones de ordenación para las combinaciones dentro de la tabla.
--   `ctp_quantity`, `ctp_quantity_sum`: Visualización de la cantidad en stock y la suma de cantidades.
--   `ctp_availability`, `ctp_availability_d`: Visualización del estado de disponibilidad y la fecha.
--   `ctp_imagetype`, `ctp_imagetype_zoom`, `ctp_grid_imagetype`, `ctp_grid_defimg`: Configuración del tipo de imagen (cubierto anteriormente).
--   `ctp_attributes_method`: Método de visualización de atributos (cubierto anteriormente).
--   `ctp_prices_tax`: Configuración de visualización de impuestos (cubierto anteriormente).
--   `ctp_color_method`: Cómo se muestran los atributos de color (por ejemplo, muestras).
--   `ctp_hide_default`, `ctp_hide_r`: Ocultar combinación predeterminada, ocultar combinaciones con precio cero (cubierto anteriormente).
--   `ctp_where`, `ctp_tabtype`: Ubicación de la tabla (hook, tipo de pestaña).
--   `ctp_quantity_pm`: Botones de más/menos para la entrada de cantidad.
--   `ctp_view_mode`: Modo de vista general de la tabla (tabla, cuadrícula, etc.).
--   `ctp_grid_row_attr`, `ctp_grid_col_attr`: Configuración para el diseño de cuadrícula (qué atributos forman filas/columnas).
-
-### 2.2 Pantallas de administración dedicadas y vistas de controlador
-
-#### AdminCombinationstabSearchController (Back Office > Módulos > Tabla de combinaciones de la página de producto > Buscar)
-
-Este controlador proporciona una interfaz dedicada dentro del back office de PrestaShop, probablemente para gestionar o buscar combinaciones, potencialmente en varios productos, o para una configuración avanzada relacionada con la visualización de combinaciones.
-
--   **Nombre de la pantalla y ubicación del menú:** Normalmente encontrará un nuevo elemento de menú en **Módulos > Tabla de combinaciones de la página de producto** (o similar, según la versión de PrestaShop) etiquetado como "Buscar" o "Búsqueda de combinaciones".
--   **Acciones y configuraciones disponibles:** Esta pantalla probablemente presenta una cuadrícula o vista de gestión de combinaciones de productos. Podría permitirle:
-    -   Buscar combinaciones específicas por atributos, referencia, EAN o nombre de producto.
-    -   Ver detalles de combinaciones, como stock, precio y producto asociado.
-    -   Potencialmente realizar acciones masivas como actualizar el stock o el precio de múltiples combinaciones (aunque esto a menudo se maneja en la página de producto principal de PrestaShop).
-    -   Esta pantalla es principalmente para *gestionar* y *ver* datos de combinaciones de forma estructurada, separada de la página de edición del producto principal.
--   **Efecto de los cambios:** Cualquier cambio realizado aquí (si la edición está habilitada) actualizaría directamente los datos de la combinación en su base de datos de PrestaShop, afectando los precios, el stock y la disponibilidad en el front office.
--   **Flujo de trabajo recomendado para la gestión diaria de la tienda:** Utilice esta pantalla para auditar rápidamente los datos de las combinaciones, encontrar combinaciones específicas o verificar los niveles de stock sin navegar a las páginas de productos individuales. Es una herramienta potente para tiendas con un gran catálogo de productos y combinaciones.
-
-#### index.php (combinationstab/controllers/admin/index.php)
-
-Este archivo suele servir como marcador de posición o como redireccionador para el controlador de administración principal del módulo. Podría simplemente cargar el `AdminCombinationstabSearchController` o presentar una página de aterrizaje básica para la sección de administración del módulo. Por lo general, no tiene configuraciones directas, pero actúa como un punto de entrada.
-
-### 2.3 Tabla de referencia rápida de configuración
-
-| Pantalla / Vista | Configuración / Opción | Predeterminado / Recomendado | Propósito e Impacto |
-| --- | --- | --- | --- |
-| **Configuración del módulo** | Activar función de filtros | SÍ | Habilita filtros de atributos para la tabla de combinaciones. |
-| | Resaltar mejor precio | SÍ | Resalta visualmente la combinación de menor precio. |
-| | Mostrar columna de ahorro | SÍ | Muestra la cantidad/porcentaje de descuento en una columna dedicada. |
-| | Consejo de umbral de descuento por cantidad | SÍ | Muestra consejos para descuentos basados en la cantidad. |
-| | Diseño de tarjeta móvil | SÍ | Optimiza la visualización de la tabla para dispositivos móviles. |
-| | Orden de las columnas | Personalizable | Define la secuencia de columnas en la tabla. |
-| | Hacer clic y cambiar combinación | SÍ | Actualiza la imagen/detalles principales del producto al hacer clic en la fila. |
-| | Mostrar imagen | SÍ | Muestra imágenes de combinación en la tabla. |
-| | Mostrar columna de imagen si hay al menos una combinación con imagen | SÍ | Asegura que la columna de imagen aparezca si alguna combinación tiene una imagen. |
-| | Usar imagen de producto predeterminada | SÍ | Vuelve a la imagen principal del producto si la combinación no tiene una imagen específica. |
-| | Habilitar zoom Fancybox | SÍ | Permite el zoom de las imágenes de combinación. |
-| | Tipo de imagen a mostrar | `medium_default` | Establece el tamaño de la miniatura en la tabla. |
-| | Tipo de imagen utilizada para ampliar la miniatura | `large_default` | Establece el tamaño de la imagen de zoom. |
-| | Método de visualización de atributos | Nombre completo | Cómo se etiquetan los encabezados de los atributos (por ejemplo, "Talla"). |
-| | Asociaciones de atributos con la tienda (multitienda) | Configurar según sea necesario | Filtra atributos por tienda en multitienda. |
-| | Incluir etiqueta al nombre del atributo | SÍ | Añade el nombre del grupo de atributos al valor (por ejemplo, "Talla: S"). |
-| | Atributo de color | Seleccione su atributo de Color | Identifica el atributo de color para una visualización especial. |
-| | Ocultar encabezado de tabla | NO | Mantiene los títulos de las columnas visibles para mayor claridad. |
-| | Ocultar combinaciones agotadas | SÍ | Elimina las combinaciones no disponibles de la tabla. |
-| | Ocultar combinaciones con precio = 0 | SÍ | Elimina las combinaciones con precio cero. |
-| | Mostrar solo combinaciones con imágenes | NO | Muestra todas las combinaciones, utilizando imágenes predeterminadas si es necesario. |
-| | Mostrar precio | SÍ | Muestra el precio de cada combinación. |
-| | Mostrar precio unitario | SÍ (si aplica) | Muestra el precio por unidad (por ejemplo, por kg). |
-| | Mostrar precio solo para clientes registrados | NO | Hace que los precios sean visibles para todos los visitantes. |
-| | Mostrar etiqueta de impuestos | SÍ | Indica si los precios incluyen/excluyen impuestos. |
-| **AdminCombinationstabSearchController** | Vista de cuadrícula / gestión | N/A | Buscar, ver y potencialmente gestionar combinaciones en todos los productos. |
-
-## 3. Resolución de problemas del comerciante y preguntas frecuentes (FAQ)
-
-**P1: La tabla de combinaciones no aparece en la página de mi producto.**
-R1:
-
--   **Verificar la posición del módulo:** Vaya a **Diseño > Posiciones** (o **Módulos > Posiciones** en versiones anteriores de PrestaShop) en su Back Office. Busque el módulo "Tabla de combinaciones de la página de producto". Asegúrese de que esté enganchado a un hook de visualización relevante como `displayProductFooter`, `displayProductExtraContent` o `displayProductTabContent`. Si no lo está, haga clic en "Trasplantar un módulo" y añádalo al hook deseado.
--   **Configuración del módulo:** Vuelva a verificar la página de configuración del módulo para asegurarse de que esté habilitado y no esté oculto por otras configuraciones (por ejemplo, "Ocultar combinaciones con precio = 0" podría ocultar todas si todas son cero).
--   **El producto tiene combinaciones:** Asegúrese de que el producto que está viendo realmente tenga combinaciones definidas en la configuración de su producto.
--   **Borrar caché:** Vaya a **Parámetros avanzados > Rendimiento** y haga clic en "Borrar caché". A veces, el contenido antiguo en caché impide la visualización de nuevos módulos.
-
-**P2: Las imágenes de mis combinaciones no aparecen o tienen el tamaño incorrecto.**
-R2:
-
--   **Configuración de imagen:** Revise las configuraciones "Tipo de imagen a mostrar" y "Tipo de imagen utilizada para ampliar la miniatura" en la configuración del módulo. Asegúrese de haber seleccionado tipos de imagen apropiados que existan en su tema de PrestaShop.
--   **Imágenes de combinación subidas:** Verifique que realmente haya subido imágenes específicas para sus combinaciones de productos en la pestaña "Combinaciones" del producto en el Back Office. Si no, el módulo recurrirá a la imagen principal del producto (si "Usar imagen de producto predeterminada" está habilitado).
--   **Regenerar miniaturas:** Si cambió los tipos de imagen o subió nuevas imágenes, vaya a **Diseño > Configuración de imágenes** (o **Preferencias > Imágenes**) y haga clic en "Regenerar miniaturas" para los tipos de imagen relevantes (por ejemplo, `medium_default`, `large_default`).
-
-**P3: La tabla se ve extraña o desalineada en mi tema personalizado.**
-R3:
-
--   **Conflictos de CSS:** Los temas personalizados a veces tienen estilos CSS conflictivos. Este módulo intenta ser compatible, pero podrían ser necesarios pequeños ajustes.
--   **Contactar con soporte:** Si se siente cómodo con CSS, puede inspeccionar los elementos utilizando las herramientas de desarrollo de su navegador e intentar anular los estilos conflictivos. De lo contrario, póngase en contacto con el soporte de MyPresta.eu con los detalles de su tema y una captura de pantalla; a menudo pueden proporcionar una solución rápida.
--   **Actualizaciones del módulo:** Asegúrese de que está ejecutando la última versión del módulo, ya que las mejoras de compatibilidad a menudo se incluyen en las actualizaciones.
-
-**P4: Los precios no se muestran correctamente o están ocultos.**
-R4:
-
--   **Configuración de visualización de precios:** Verifique "Mostrar precio" y "Mostrar precio solo para clientes registrados" en la configuración del módulo. Si esta última está habilitada, asegúrese de haber iniciado sesión como cliente para ver los precios.
--   **Precios del núcleo de PrestaShop:** Verifique que los precios de sus combinaciones estén configurados correctamente en la pestaña "Combinaciones" del producto.
--   **Configuración de impuestos:** Verifique "Mostrar etiqueta de impuestos" y su configuración general de impuestos de PrestaShop (**Internacional > Impuestos**) para asegurarse de que los precios se calculen y muestren como se espera (impuestos incl./excl.).
-
-**P5: ¿Cómo cambio el orden de los atributos en la tabla?**
-R5:
-
--   La configuración "Orden de las columnas" del módulo le permite reorganizar las columnas. Para el orden de los atributos en sí (por ejemplo, "Talla" antes de "Color"), esto se gestiona normalmente en el núcleo de PrestaShop: **Catálogo > Atributos y características > Atributos** y **Grupos de atributos**. El orden que establezca allí suele influir en cómo aparecen en la tabla del módulo.
-
-## 4. Guía para desarrolladores y webmasters (Arquitectura técnica y mapa de código)
-
-Esta sección es estrictamente para desarrolladores, webmasters de tiendas y agencias técnicas que mantienen o extienden la tienda.
-
-### 4.1 Resumen de la arquitectura
-
-El módulo "Tabla de combinaciones de la página de producto" (`combinationstab`) sigue una arquitectura de módulo estándar de PrestaShop, aprovechando en gran medida los hooks para la visualización en el front-office y los controladores de administración personalizados para la configuración avanzada y la gestión de datos. Se integra profundamente con los datos principales de productos y combinaciones de PrestaShop, renderizando dinámicamente tablas o cuadrículas HTML utilizando plantillas Smarty. Se utiliza AJAX para funciones como "Añadir al carrito" y el cambio de combinaciones para una experiencia de usuario fluida. El módulo no introduce clases `ObjectModel` personalizadas, sino que trabaja directamente con los objetos `Product` y `Combination` existentes.
-
-### 4.2 Controladores (`controllers/`)
-
-#### Controladores de Front-Office
-
-Estos controladores manejan solicitudes AJAX específicas o funcionalidades dedicadas del front-office.
-
--   `controllers/front/BackInStock.php`
-    -   **Nombre de la clase y clase padre:** `CombinationstabBackInStockModuleFrontController` extiende `ModuleFrontController`.
-    -   **Responsabilidad:** Probablemente maneja solicitudes AJAX relacionadas con notificaciones de "reposición de stock" para combinaciones específicas. Esto podría implicar el envío de un formulario para registrarse para recibir notificaciones cuando una combinación agotada esté disponible.
--   `controllers/front/CsvImport.php`
-    -   **Nombre de la clase y clase padre:** `CombinationstabCsvImportModuleFrontController` extiende `ModuleFrontController`.
-    -   **Responsabilidad:** Sugiere funcionalidad para importar datos de combinación a través de CSV desde el front-office, posiblemente para grupos de usuarios específicos o escenarios B2B. Esto implicaría analizar archivos CSV y actualizar las combinaciones de productos.
--   `controllers/front/Export.php`
-    -   **Nombre de la clase y clase padre:** `CombinationstabExportModuleFrontController` extiende `ModuleFrontController`.
-    -   **Responsabilidad:** Proporciona funcionalidad para exportar datos de combinación, potencialmente para productos específicos o conjuntos filtrados, probablemente en formato CSV o similar. Útil para B2B o análisis de datos.
--   `controllers/front/index.php`
-    -   **Nombre de la clase y clase padre:** `CombinationstabIndexModuleFrontController` extiende `ModuleFrontController`.
-    -   **Responsabilidad:** A menudo un marcador de posición o un despachador predeterminado. Podría manejar solicitudes AJAX generales relacionadas con la tabla de combinaciones que no encajan en controladores más específicos, o simplemente redirigir.
--   `controllers/front/PriceCalculator.php`
-    -   **Nombre de la clase y clase padre:** `CombinationstabPriceCalculatorModuleFrontController` extiende `ModuleFrontController`.
-    -   **Responsabilidad:** Maneja solicitudes AJAX para calcular y devolver dinámicamente los precios de las combinaciones, especialmente relevante para descuentos por cantidad o reglas de precios complejas, asegurando actualizaciones de precios en tiempo real sin recargas de página.
--   `controllers/front/Reorder.php`
-    -   **Nombre de la clase y clase padre:** `CombinationstabReorderModuleFrontController` extiende `ModuleFrontController`.
-    -   **Responsabilidad:** Probablemente facilita la reordenación de combinaciones compradas anteriormente, potencialmente desde la página de la cuenta de un cliente o una lista dedicada de "reordenación".
--   `controllers/front/Wishlist.php`
-    -   **Nombre de la clase y clase padre:** `CombinationstabWishlistModuleFrontController` extiende `ModuleFrontController`.
-    -   **Responsabilidad:** Gestiona las interacciones AJAX con una función de lista de deseos integrada en la tabla de combinaciones, permitiendo a los clientes añadir combinaciones específicas a su lista de deseos.
-
-#### Controladores de administración de Back-Office
-
-Estos controladores proporcionan la interfaz administrativa para el módulo.
-
--   `controllers/admin/AdminCombinationstabSearchController.php`
-    -   **Nombre de la pestaña y entidad gestionada:** "Búsqueda de combinaciones" (o similar, accesible a través del menú del módulo). Gestiona las combinaciones de `Product`.
-    -   **Responsabilidad:** Implementa una interfaz de búsqueda y gestión para las combinaciones de productos. Este controlador probablemente utiliza un `HelperList` o `HelperForm` para mostrar una cuadrícula filtrable y ordenable de combinaciones, permitiendo a los administradores encontrar y potencialmente editar rápidamente los datos de las combinaciones (por ejemplo, stock, precio, referencia) sin navegar a las páginas de productos individuales. También podría manejar acciones masivas.
--   `controllers/admin/index.php`
-    -   **Nombre de la pestaña y entidad gestionada:** N/A (punto de entrada).
-    -   **Responsabilidad:** Un patrón común para los directorios de controladores de administración. Este archivo suele servir como punto de entrada predeterminado o como redireccionador al `AdminCombinationstabSearchController` principal. Por lo general, no contiene lógica directa, pero asegura que el elemento del menú de administración apunte a un controlador válido.
-
-### 4.3 Clases y modelos principales (`classes/`)
-
-El dossier del módulo indica que no hay clases personalizadas en el directorio `classes/`. Esto sugiere que el módulo extiende principalmente las funcionalidades y objetos principales existentes de PrestaShop (`Product`, `Combination`, `Attribute`, `AttributeGroup`) en lugar de introducir nuevos modelos de datos. Toda la lógica de negocio probablemente está encapsulada dentro del archivo principal `combinationstab.php` y sus controladores.
-
-### 4.4 Activos JavaScript (`views/js/`)
-
-El módulo utiliza una variedad de archivos JavaScript para proporcionar funcionalidad dinámica en el front-office y el back-office.
-
--   `combinationstab/js/admin.js`
-    -   **Alcance:** Back-office.
-    -   **Detalles:** Maneja la lógica JavaScript para las páginas de administración del módulo, incluidas las interacciones de formularios, las llamadas AJAX para las actualizaciones de configuración y, potencialmente, los elementos dinámicos dentro de la interfaz `AdminCombinationstabSearchController`.
--   `combinationstab/js/atc.js`
-    -   **Alcance:** Front-office.
-    -   **Detalles:** Gestiona la funcionalidad "Añadir al carrito" para la tabla de combinaciones. Vincula eventos de clic a los botones "Añadir al carrito", maneja las entradas de cantidad y envía solicitudes AJAX al controlador del carrito de PrestaShop para añadir las combinaciones seleccionadas (potencialmente varias a la vez) sin recargar la página.
--   `combinationstab/js/combinationstab-switch.js`
-    -   **Alcance:** Front-office.
-    -   **Detalles:** Implementa la función "Hacer clic y cambiar combinación". Escucha los clics en las filas de combinación de la tabla y actualiza dinámicamente la imagen principal del producto, el precio y otros detalles del producto en la página para reflejar la combinación seleccionada.
--   `combinationstab/js/combinationstab.js`
-    -   **Alcance:** Front-office.
-    -   **Detalles:** El archivo JavaScript principal del front-office para la tabla de combinaciones. Inicializa la tabla, maneja las interacciones generales, potencialmente gestiona la visualización del stock, la disponibilidad y las actualizaciones de precios basadas en la entrada o selección del usuario.
--   `combinationstab/js/ctp-extras.js`
-    -   **Alcance:** Front-office.
-    -   **Detalles:** Contiene funcionalidades JavaScript adicionales, no centrales, para la tabla de combinaciones, como la visualización de información sobre herramientas, pequeñas mejoras de la interfaz de usuario o interacciones específicas no cubiertas por los scripts principales.
--   `combinationstab/js/ctp-filters.js`
-    -   **Alcance:** Front-office.
-    -   **Detalles:** Implementa la lógica de filtrado para la tabla de combinaciones. Escucha los cambios en los menús desplegables o campos de entrada de filtros, oculta/muestra dinámicamente las filas de la tabla basándose en los valores de los atributos seleccionados y actualiza las combinaciones visibles.
--   `combinationstab/js/ctp-mobile.js`
-    -   **Alcance:** Front-office.
-    -   **Detalles:** Maneja el comportamiento responsivo de la tabla de combinaciones, implementando específicamente la función "Diseño de tarjeta móvil". Detecta el tamaño de la pantalla y transforma la tabla en un diseño basado en tarjetas para una mejor usabilidad móvil.
--   `combinationstab/js/ctp-wishlist-toast.js`
-    -   **Alcance:** Front-office.
-    -   **Detalles:** Proporciona retroalimentación visual (por ejemplo, una notificación toast) cuando se añade una combinación a una lista de deseos, mejorando la experiencia del usuario.
--   `combinationstab/lib/searchTool/views/js/autocomplete.js`
-    -   **Alcance:** Back-office (probablemente).
-    -   **Detalles:** Proporciona funcionalidad de autocompletado, probablemente para campos de búsqueda de productos o combinaciones dentro de las interfaces de administración del módulo (por ejemplo, `AdminCombinationstabSearchController`).
--   `combinationstab/views/js/wishlist.js`
-    -   **Alcance:** Front-office.
-    -   **Detalles:** JavaScript dedicado para la integración de la lista de deseos, que maneja las llamadas AJAX para añadir/eliminar elementos de la lista de deseos directamente desde la tabla de combinaciones.
-
-### 4.5 Hojas de estilo CSS (`views/css/`)
-
-El módulo incluye varios archivos CSS tanto para el estilo del front-office como para la administración del back-office.
-
--   `combinationstab/css/admin.css`
-    -   **Alcance:** Estilo del formulario de administración del Back-office.
-    -   **Detalles:** Estiliza la página de configuración del módulo y cualquier interfaz de administración personalizada (como `AdminCombinationstabSearchController`), asegurando una apariencia consistente dentro del back office de PrestaShop.
--   `combinationstab/css/combinationstab.css`
-    -   **Alcance:** Estilo del cliente del Front-office.
-    -   **Detalles:** Contiene el estilo principal para la tabla de combinaciones, incluido el diseño de la tabla, el relleno de las celdas, la alineación del texto y la capacidad de respuesta básica.
--   `combinationstab/css.css`
-    -   **Alcance:** Estilo del cliente del Front-office.
-    -   **Detalles:** Potencialmente una hoja de estilo más antigua o complementaria para el front-office, o anulaciones específicas.
--   `combinationstab/lib/searchTool/views/css/autocomplete.css`
-    -   **Alcance:** Back-office (probablemente).
-    -   **Detalles:** Estilos para los campos de búsqueda de autocompletado utilizados en el panel de administración.
--   `combinationstab/views/css/ctp-admin.css`
-    -   **Alcance:** Estilo del formulario de administración del Back-office.
-    -   **Detalles:** Estilo de administración adicional o específico, potencialmente para nuevas funciones o anulaciones de `admin.css`.
--   `combinationstab/views/css/wishlist.css`
-    -   **Alcance:** Estilo del cliente del Front-office.
-    -   **Detalles:** Estilos para el botón de la lista de deseos y cualquier elemento asociado dentro de la tabla de combinaciones.
-
-### 4.6 Estructura de la plantilla Smarty (`views/templates/`)
-
-El módulo utiliza plantillas Smarty para renderizar todas sus vistas de front-office y back-office.
-
-#### Plantillas de hook (`views/templates/hook/`)
-
-Estas plantillas están diseñadas para ser renderizadas cuando se ejecutan hooks específicos de PrestaShop.
-
--   `views/templates/hook/columns/cells.tpl`
-    -   **Hook:** Probablemente renderizado dentro de la plantilla principal de la tabla de combinaciones.
-    -   **Salida:** Define la estructura y el contenido de las celdas de datos individuales dentro de las filas de la tabla (por ejemplo, mostrando valores de atributos, precio, entrada de cantidad).
--   `views/templates/hook/columns/headers.tpl`
-    -   **Hook:** Probablemente renderizado dentro de la plantilla principal de la tabla de combinaciones.
-    -   **Salida:** Define las celdas de encabezado para la tabla de combinaciones, mostrando títulos de columna como "Imagen", "Talla", "Precio".
--   `views/templates/hook/columns/_wishlist_btn.tpl`
-    -   **Hook:** Integrado en las filas de combinación.
-    -   **Salida:** Renderiza el botón o icono "Añadir a la lista de deseos" para cada combinación en la tabla.
--   `views/templates/hook/customer_account.tpl`
-    -   **Hook:** `displayCustomerAccount`
-    -   **Salida:** Añade un enlace o bloque a la página de la cuenta del cliente, potencialmente para acceder a listas de reordenación, datos exportados o gestión de la lista de deseos.
--   `views/templates/hook/grid/_axis_label.tpl`
-    -   **Hook:** Utilizado internamente cuando `ctp_view_mode` se establece en un diseño de cuadrícula.
-    -   **Salida:** Renderiza etiquetas para los ejes (filas/columnas) de una visualización de combinación de estilo cuadrícula.
--   `views/templates/hook/grid/_cell.tpl`
-    -   **Hook:** Utilizado internamente cuando `ctp_view_mode` se establece en un diseño de cuadrícula.
-    -   **Salida:** Renderiza celdas individuales dentro de una visualización de combinación de estilo cuadrícula, que contiene detalles de la combinación.
--   `views/templates/hook/productfooter.tpl`
-    -   **Hook:** `displayProductFooter`
-    -   **Salida:** La plantilla principal para renderizar la tabla de combinaciones cuando se coloca debajo del contenido principal del producto. Esta es a menudo la ubicación predeterminada o más común.
--   `views/templates/hook/productfooter_grid.tpl`
-    -   **Hook:** `displayProductFooter` (condicional al modo de vista).
-    -   **Salida:** Una plantilla alternativa para `displayProductFooter` específicamente para renderizar las combinaciones en un diseño de cuadrícula en lugar de una tabla tradicional.
--   `views/templates/hook/quickViewScripts.tpl`
-    -   **Hook:** Potencialmente `displayHeader` o `actionFrontControllerSetMedia` (para modales de vista rápida).
-    -   **Salida:** Incluye el JavaScript necesario o inicializa la funcionalidad del módulo específicamente para los modales de vista rápida del producto, asegurando que la tabla de combinaciones funcione dentro de estas ventanas emergentes.
--   `views/templates/hook/tab.tpl`
-    -   **Hook:** `displayProductTabContent` (o similar para pestañas de producto).
-    -   **Salida:** Renderiza la tabla de combinaciones dentro de una pestaña de producto dedicada en la página del producto.
--   `views/templates/hook/volume_discounts.tpl`
-    -   **Hook:** Integrado en las filas de combinación o como una información sobre herramientas.
-    -   **Salida:** Muestra información sobre descuentos por cantidad para combinaciones específicas.
--   `views/templates/hook/_filters.tpl`
-    -   **Hook:** Renderizado encima de la tabla de combinaciones.
-    -   **Salida:** Renderiza la interfaz de filtrado de atributos para la tabla de combinaciones.
--   `views/templates/hook/_toolbar.tpl`
-    -   **Hook:** Renderizado encima de la tabla de combinaciones.
-    -   **Salida:** Renderiza una barra de herramientas, que potencialmente contiene filtros, búsqueda u otros elementos interactivos para la tabla de combinaciones.
-
-#### Plantillas de administración (`views/templates/admin/`)
-
-Estas plantillas se utilizan para las pantallas de configuración y gestión del back-office del módulo.
-
--   `views/templates/admin/b2b.tpl`
-    -   **Salida:** Plantilla para configuraciones o funciones específicas de B2B dentro del panel de administración.
--   `views/templates/admin/b2b_groups.tpl`
-    -   **Salida:** Plantilla para gestionar grupos de clientes B2B o sus configuraciones específicas de precios/visibilidad.
--   `views/templates/admin/column_editor.tpl`
-    -   **Salida:** Proporciona una interfaz para que los administradores personalicen el orden y la visibilidad de las columnas en la tabla de combinaciones del front-office.
--   `views/templates/admin/getCombinations.tpl`
-    -   **Salida:** Utilizado por `AdminCombinationstabSearchController` para mostrar una lista o cuadrícula de combinaciones.
--   `views/templates/admin/getProducts.tpl`
-    -   **Salida:** Utilizado por `AdminCombinationstabSearchController` u otras herramientas de administración para mostrar una lista de productos.
--   `views/templates/admin/grid_block_editor.tpl`
-    -   **Salida:** Interfaz para configurar la visualización de combinaciones de estilo cuadrícula, definiendo potencialmente qué atributos forman filas y columnas.
--   `views/templates/admin/menu.tpl`
-    -   **Salida:** Renderiza los elementos del submenú del módulo dentro del back office de PrestaShop.
--   `views/templates/admin/overrides_entity.tpl`
-    -   **Salida:** Plantilla para gestionar anulaciones específicas de entidades (por ejemplo, configuraciones específicas de productos para la tabla).
--   `views/templates/admin/overrides_fields.tpl`
-    -   **Salida:** Plantilla para gestionar anulaciones específicas de campos.
--   `views/templates/admin/overrides_list.tpl`
-    -   **Salida:** Plantilla para listar y gestionar varias anulaciones configuradas para el módulo.
--   `views/templates/admin/presets.tpl`
-    -   **Salida:** Interfaz para guardar y cargar preajustes de configuración para la tabla de combinaciones.
--   `views/templates/admin/selectedProducts.tpl`
-    -   **Salida:** Muestra una lista de productos que han sido seleccionados para configuraciones o anulaciones específicas del módulo.
--   `views/templates/admin/subtabs.tpl`
-    -   **Salida:** Renderiza las pestañas de subnavegación dentro de la interfaz de configuración del módulo.
--   `views/templates/admin/tabs.tpl`
-    -   **Salida:** Renderiza las pestañas de navegación principales para la configuración del módulo.
--   `views/templates/admin/tabstype.tpl`
-    -   **Salida:** Opciones de configuración relacionadas con cómo se muestra la tabla de combinaciones dentro de las pestañas del producto.
-
-#### Plantillas de Front-office (`views/templates/front/`)
-
--   `views/templates/front/wishlist.tpl`
-    -   **Salida:** Renderiza la interfaz de la lista de deseos del front-office, potencialmente una página dedicada o un modal, mostrando los elementos añadidos a la lista de deseos a través de la tabla de combinaciones.
-
-#### Otras plantillas
-
--   `combinationstab/lib/searchTool/views/scripts.tpl`
-    -   **Salida:** Incluye fragmentos de JavaScript o inicializa scripts para la funcionalidad de la herramienta de búsqueda.
-
-### 4.7 Esquema de la base de datos y mapa de hooks
-
-#### Tablas de la base de datos
-
-El dossier del módulo indica que no hay archivos SQL personalizados. Esto implica que el módulo utiliza principalmente la tabla `ps_configuration` de PrestaShop para almacenar su configuración y se basa en tablas principales existentes como `ps_product_attribute`, `ps_product_attribute_combination`, `ps_product_attribute_shop`, `ps_stock_available`, etc., para los datos de combinación.
-
--   **`ps_configuration`**: Almacena todas las configuraciones del módulo (por ejemplo, `CTP_POSITION`, `CTP_IMAGE`, `CTP_PRICE_LOGGED`, `CTP_MOBILE_CARD_LAYOUT`).
-
-#### Tabla de Hooks registrados
-
-El módulo se registra en varios hooks de PrestaShop para inyectar su contenido y funcionalidad.
-
-| Nombre del Hook | Momento de ejecución | Propósito técnico |
-| --- | --- | --- |
-| `ActionAdminControllerSetMedia` | Cuando se inicializa un controlador de administración y se establecen los medios (JS/CSS). | Inyecta JS/CSS específicos del módulo en el Back Office. |
-| `displayRightColumn` | Renderiza contenido en la columna derecha del front office. | Muestra la tabla de combinaciones en la columna derecha (menos común para tablas). |
-| `displayProductFooter` | Renderiza contenido debajo de la información principal del producto en la página del producto. | Hook principal para mostrar la tabla de combinaciones debajo del producto. |
-| `displayHeader` | Renderiza contenido en la sección `<head>` del front office. | Inyecta JS/CSS específicos del módulo, metaetiquetas u otros elementos de la cabecera para la funcionalidad del front office. |
-| `displayProductExtraContent` | Renderiza bloques de contenido adicionales en la página del producto. | Proporciona flexibilidad para colocar la tabla de combinaciones en un bloque de contenido personalizado. |
-| `displayRightColumnProduct` | Renderiza contenido en la columna derecha específicamente en la página del producto. | Similar a `displayRightColumn` pero dirigido a páginas de producto. |
-| `displayCustomerAccount` | Renderiza contenido en la página de la cuenta del cliente. | Añade enlaces o información relacionada con reordenación, listas de deseos o exportaciones. |
-| `actionUpdateQuantity` | Después de que se actualiza la cantidad (stock) de un producto. | Potencialmente activa actualizaciones en la visualización de la tabla de combinaciones (por ejemplo, estado "agotado"). |
-| `displayProductListFunctionalButtons` | Renderiza botones en listados de productos (por ejemplo, páginas de categoría). | Podría añadir botones de vista rápida o comparación relacionados con las combinaciones. |
-| `displayExtraLeft` | Renderiza contenido en una columna izquierda extra (si el tema lo admite). | Otra opción de ubicación para la tabla de combinaciones. |
-| `CombinationsTable` | **Hook personalizado** | Un hook personalizado definido por el propio módulo, que permite que otros módulos o temas se integren o anulen su salida de tabla. |
-| `displayLeftColumnProduct` | Renderiza contenido en la columna izquierda específicamente en la página del producto. | Similar a `displayRightColumnProduct` pero para la columna izquierda. |
-| `displayProductTabContent` | Renderiza contenido dentro de una pestaña de producto. | Muestra la tabla de combinaciones en una pestaña de producto dedicada. |
-| `displayCombinationsTable` | **Hook personalizado** | Otro hook personalizado, probablemente para la renderización principal de la tabla de combinaciones, que ofrece una alternativa a `displayProductFooter`. |
-| `displayProductActions` | Renderiza contenido cerca del botón "Añadir al carrito" en la página del producto. | Podría usarse para un selector de combinación compacto o botones de adición rápida. |
-
-## 5. Soporte oficial y actualizaciones
-
-Para las últimas actualizaciones del módulo, soporte técnico y cualquier pregunta relacionada con el módulo "Tabla de combinaciones de la página de producto", consulte su cuenta de cliente en [MyPresta.eu](https://mypresta.eu/my-account/orders/). Nuestro equipo de soporte está listo para ayudarle.
+Las capturas de este manual proceden de un back office en inglés. Utilice los mismos nombres de pestañas y campos que aparecen abajo aunque el idioma del empleado sea otro.
+
+## 1. Requisitos
+
+Combinations Tab Pro muestra una lista de combinaciones o una matriz 2D en la ficha de producto para que los clientes puedan filtrar, ordenar, indicar cantidades y añadir variantes al carrito.
+
+- PrestaShop: 1.7, 8 y 9
+- PHP: una versión compatible con su tienda PrestaShop
+- Extensiones PHP que usa el módulo: JSON
+- Otros módulos: ninguno obligatorio. Opcionalmente, **Product combination features** desbloquea las columnas de descripción de combinación y características de combinación cuando ese módulo está instalado en la tienda
+- Fuera de la tienda: nada. Las comprobaciones de actualización contactan con MyPresta cuando las notificaciones están activadas
+- Catálogos grandes: muchas combinaciones por producto ralentizan la página si deja todas las columnas y los extras de lista y de rejilla activos; use filtros, paginación o un preset adecuado a su catálogo
+
+## 2. Instalación
+
+1. Suba el ZIP del módulo en **Modules** → **Module Manager**, luego instale y active **Combinations Tab Pro**.
+2. Abra la configuración desde la lista de módulos con **Configure**. No hay una entrada de menú separada en el back office para el uso diario; todos los ajustes están en esa página de configuración.
+3. La instalación no vacía por sí sola la caché de PrestaShop. Vacíe la caché Smarty / del tema en **Advanced Parameters** → **Performance** si la tabla no aparece tras instalar.
+
+**Tras desinstalar:** el módulo se elimina del Module Manager. Se eliminan las tablas de base de datos de lista de deseos, alertas de reposición y perfiles de override por entidad. Los valores de configuración permanecen en la base de datos de la tienda, de modo que una reinstalación posterior puede recuperar los interruptores anteriores hasta que los cambie de nuevo. Los overrides de plantillas del módulo en el tema (si añadió alguno) no se eliminan al desinstalar.
+
+## 3. Configuración y trabajo en el back office
+
+Abra **Modules** → **Module Manager** → **Combinations Tab Pro** → **Configure**. La página usa pestañas superiores: **Overview**, **Display**, **Cart**, **B2B**, **Visibility**, **Exclusions**, **Integrations**, **Overrides**, **Updates**. La búsqueda de productos en **Visibility**, **Exclusions** y **Overrides** se ejecuta en segundo plano (AJAX); no hay un menú Orders separado para este módulo.
+
+### 3.1 Proceso completo
+
+1. El comerciante configura la ubicación, el modo de vista, columnas o celdas de rejilla, reglas de carrito, herramientas B2B opcionales, visibilidad, exclusiones, integraciones y overrides.
+2. El cliente abre un producto que tiene combinaciones y que cumple las reglas de visibilidad.
+3. El escaparate muestra una lista (una fila por combinación) o una rejilla 2D (matriz cuando el producto tiene dos grupos de atributos y el modo de vista lo permite), en el pie del producto o bajo una pestaña **Product variants**.
+4. El cliente puede usar filtros de atributos, ordenar cabeceras de lista, indicar cantidades y añadir una o varias líneas al carrito (incluido el añadido masivo).
+5. Herramientas opcionales: corazón de lista de deseos, aviso de reposición, pegado de cantidades CSV, hoja de exportación, rellenar último pedido.
+6. El checkout continúa como un pedido PrestaShop normal. El módulo no usa estados de tipo presupuesto; el éxito es una tabla visible, cantidades rellenadas y un carrito con las combinaciones seleccionadas.
+
+### 3.2 Overview & presets
+
+![Overview and presets — English back office](https://mypresta.eu/docs/images/docs/combinationstab-overview.webp)
+
+**Overview & presets** es la pestaña de inicio. Las configuraciones listas activan o desactivan muchos interruptores a la vez. Use **Preview** para ver los valores previstos y luego **Apply**. Confirmación: *Preset applied. Review Display & Columns and Cart & prices if you want to fine-tune.* Después abra **Display** y **Cart** para ajustar los detalles.
+
+Presets principales por nombre:
+
+| Preset | Tag | What it prepares |
+|---|---|---|
+| **Fashion** | B2C | Fotos, filtros, muestras de color, lista de deseos, tarjetas móviles para ropa con muchas tallas y colores |
+| **B2B Wholesale** | B2B | Matriz orientada a SKU, añadido masivo al carrito, importación CSV, exportación, descuentos por volumen |
+| **Minimal** | Simple | Solo nombre de combinación, precio y añadir al carrito |
+| **Replace buy block** | UX | Oculta el bloque de compra predeterminado de PrestaShop para que los clientes pidan desde la tabla |
+| **2D size × color** | Grid | Fuerza la rejilla 2D con contenido rico en celdas cuando los productos tienen Color + Size |
+| **Detailed list** | List | Lista completa con imágenes, SKU, EAN, stock, ordenación, paginación |
+| **Electronics** | B2C | Referencia, EAN, precio unitario, fechas de disponibilidad para electrodomésticos y gadgets |
+| **Beauty & cosmetics** | B2C | Caja de color + texto, fotos, lista de deseos y reposición para tonos y kits |
+| **Catalog only** | Display | Combinaciones sin pedido; los precios pueden permanecer para clientes conectados |
+| **Logged-in pricing** | B2B | Precios y añadir al carrito solo para clientes conectados |
+| **Mobile first** | UX | Lista con tarjetas móviles, cantidad +/- , añadido masivo fijo |
+| **Restock & alerts** | Conversion | Filas agotadas con fechas y alertas de reposición |
+| **Luxury / lookbook** | B2C | Fotos grandes, zoom, stock exacto oculto, resaltado de ahorro |
+| **Food & packaging** | Retail | Precio unitario, peso, cantidad mínima, descuentos por volumen |
+| **Quick order sheet** | B2B | Rejilla + añadido masivo + CSV/exportación/reordenar sin imágenes |
+
+### 3.3 Display — Placement
+
+![Display settings — English back office](https://mypresta.eu/docs/images/docs/combinationstab-display.webp)
+
+Subpestaña **Placement**. Ubicación a nivel de página y marco alrededor de la tabla (lista y rejilla 2D). Al guardar se muestra *Display settings saved.*
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Position on the product page** | Product footer (below product content) | Elige dónde ven los clientes la tabla de combinaciones. Use **Product footer** debajo del producto, o **Product tabs section** para una pestaña como **Product variants**. Elija el lugar que encaje con su tema: una elección incorrecta puede ocultar la tabla o colocarla demasiado abajo. |
+| **Tab style (legacy themes)** | Classic tabs (PS 1.5 style) | Solo importa si usa la posición Product tabs en temas antiguos. Deje el valor predeterminado salvo que su tema aún use pestañas estilo PrestaShop 1.5. Cambia cómo se inyecta el título de la pestaña; los temas modernos 1.7/8/9 suelen ignorarlo. Opciones: Classic tabs (PS 1.5 style) o Accordion bars (PS 1.6 style). |
+| **Custom HTML above the table** | Empty | Contenido libre (nota de envío, enlace a guía de tallas, etc.) encima de la matriz. Opcional por idioma. Visible encima de la lista y de la rejilla 2D. |
+| **Hide default PrestaShop buy block** | No | Oculta los desplegables clásicos de atributos y el añadir al carrito en la ficha. Ponga **Yes** cuando la tabla deba ser la única forma de comprar. Página más limpia; asegúrese de que la tabla permite añadir al carrito. |
+| **Hide default buy block only when table has combinations** | No | Mantiene el bloque de compra normal en productos simples; lo oculta cuando se muestra la matriz. **Yes** suele ser lo más seguro para que los productos simples sigan funcionando. |
+| **Also hide default buy block based on product restrictions** | No | Emparejamiento avanzado con reglas de Visibility. Deje **No** salvo que use listas complejas de mostrar/ocultar productos. Puede ocultar el bloque nativo en productos seleccionados incluso sin la tabla. |
+
+### 3.4 Display — View mode
+
+| Field | At the start | What it does |
+|---|---|---|
+| **View mode** | List (classic table — one row per combination) | Elige tabla lista o matriz 2D. **List** = siempre filas; **2D grid** = forzar matriz cuando sea posible; **Auto** = matriz con 2 grupos de atributos, lista en caso contrario. Tiendas fashion/B2B con Color+Size encajan con Grid/Auto; productos con un atributo permanecen en lista. |
+| **Click combination to open that variant** | Off | Al hacer clic en una fila/celda se abre la URL del producto de esa combinación. Ponga **Yes** si quiere navegar variantes desde la tabla. Útil con fotos; desactívelo si los clics solo deben cambiar la cantidad. |
+
+### 3.5 Display — Filters
+
+Estas reglas se aplican tanto a la tabla lista como a la rejilla 2D.
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Attribute filters above the table / grid** | Off | Muestra chips clicables (por ejemplo Red, XL) para filtrar filas/columnas. Ponga **Yes** en productos con muchas combinaciones. Los clientes acotan la lista y la matriz sin desplazarse sin fin. |
+| **Hide out-of-stock combinations** | Off | Quita las combinaciones agotadas de la lista y de la rejilla 2D. Ponga **Yes** para vender solo variantes disponibles. Tabla/matriz más corta; los clientes no ven tallas faltantes. |
+| **Hide combinations with price = 0** | Off | Oculta variantes gratis/a precio cero de la lista y la rejilla. Ponga **Yes** si cero significa «no a la venta». Las matrices pueden parecer incompletas si algunas celdas son 0 a propósito. |
+| **Show only combinations that have a picture** | Off | Oculta combinaciones sin imagen en lista y rejilla. Ponga **Yes** para lookbooks; **No** si cada SKU debe ser pedible. Los catálogos incompletos se ven mejor, pero algunas variantes desaparecen. |
+| **Multistore: disabled attribute values** | Hide the whole combination | Cuando un valor de atributo está desactivado para la tienda actual. Solo multitienda: ocultar combinación, mostrar como «-» o ignorar. Se aplica antes de construir lista y rejilla; tiendas de una sola sede pueden dejar el valor predeterminado. |
+
+### 3.6 Display — Stock format
+
+Cómo se muestran las cantidades de stock en lista y rejilla cuando el stock está visible. La visibilidad de columna/celda está en List columns o Grid cells.
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Show negative stock as zero** | Off | Muestra 0 en lugar de números negativos. Ponga **Yes** si el stock puede bajar de cero. Números de stock más claros en lista y rejilla. |
+| **Hide exact stock above a threshold** | Off | Muestra por ejemplo «20+» en lugar del número real. Ponga **Yes** y el umbral. Oculta grandes cifras de almacén a la competencia en lista y rejilla. |
+| **Stock threshold (show as X+)** | Empty | Cuando ocultar stock exacto es **Yes**, las cantidades por encima se muestran como «N+». Ejemplo: 20 hace que el stock 45 aparezca como «20+». |
+
+### 3.7 Display — Grid axes, images, cells
+
+Una rejilla 2D es una matriz estilo talla×color. Funciona cuando el producto tiene exactamente dos grupos de atributos y View mode es **Grid** o **Auto**. Un emparejamiento de ejes incorrecto (el mismo grupo dos veces) rompe la rejilla y vuelve a la lista.
+
+**Grid axes**
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Grid rows = attribute group** | -- automatic -- | Qué atributo pasa a ser el lado izquierdo de la matriz (por ejemplo Color). Elija un grupo o deje Automatic (primer grupo de atributos por posición). Un par incorrecto rompe la rejilla y vuelve a la lista. |
+| **Grid columns = attribute group** | -- automatic -- | Qué atributo pasa a ser la parte superior de la matriz (por ejemplo Size). Elija un grupo distinto al de filas, o Automatic. Cada celda es una combinación donde el cliente escribe la cantidad. |
+
+**Grid images** (solo rejilla 2D)
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Show image in cells** | Off | Miniatura dentro de cada celda de la matriz. Ponga **Yes** para matrices fashion color×talla. Celdas más densas; usa la imagen de la combinación o la portada de respaldo de abajo. |
+| **Use product cover when combination has no image** | Yes | Muestra la foto principal del producto como respaldo en las celdas. Ponga **Yes** para no mostrar nunca una imagen en blanco en la matriz. Solo afecta a la rejilla 2D, no a la lista. |
+| **Grid thumbnail image type** | Empty (shop image types) | Tamaño de imagen PrestaShop usado en las celdas. Elija un tipo pequeño (por ejemplo cart / small_default). Solo rejilla 2D; la lista usa List images → Thumbnail type. |
+
+**Grid cells** — arrastre **Cell block order** (arriba→abajo) y luego Save. Solo aparecen los bloques activados. Wishlist/BIS siguen necesitando **Integrations**; añadir al carrito necesita el interruptor maestro en **Cart**.
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Cell block order** | Default block order | Orden de los bloques dentro de cada celda de la matriz. Arrastre y luego Save. Solo aparecen los bloques activados abajo. Imagen on/off y tamaño en Grid images. |
+| **Grid: show reference (SKU)** | Off | SKU bajo el contenido de la celda. Ponga **Yes** en B2B para que los compradores identifiquen SKU sin abrir el producto. |
+| **Grid: show price** | Off | Precio en la celda (las reglas de impuestos/descuentos siguen Cart). Ponga **Yes** en casi todas las tiendas para comparar variantes por precio en la matriz. |
+| **Grid: show unit price** | Off | Precio unitario en la celda. Ponga **Yes** si usa precios unitarios. Línea compacta bajo el precio principal. |
+| **Grid: show stock quantity** | Off | Número de stock disponible en la celda. Ponga **Yes** para transparencia; revela inventario por talla/color. |
+| **Grid: show availability** | Off | Etiqueta In stock / Out of stock en la celda. Ponga **Yes** cuando se ocultan los números de stock. Estado claro sin la cantidad exacta. |
+| **Grid: show minimal quantity** | Off | Cantidad mínima de pedido en la celda. Ponga **Yes** para packs B2B; reduce cantidades incorrectas en el carrito. |
+| **Grid: show savings badge** | Off | % ahorrado frente a la combinación más cara. Ponga **Yes** para conversión; destaca tallas/colores más baratos. |
+| **Grid: quantity input** | Off | Campo de cantidad en cada celda (funciona con Bulk Add to cart). Ponga **Yes** para pedidos en matriz y que los clientes rellenen cantidades por talla. |
+| **Grid: Add to cart button (when bulk ATC is off)** | Off | Botón de añadir por celda cuando Bulk add to cart está desactivado. Ponga **Yes** para añadidos de un clic sin bulk. Se ignora mientras bulk ATC esté activo. |
+| **Grid: wishlist heart** | Off | Botón corazón en la celda. Active primero Wishlist en Integrations. Los clientes guardan talla/color desde la matriz. |
+| **Grid: back-in-stock alert** | Off | Botón de aviso en celdas agotadas. Active primero Back in stock en Integrations. Captura demanda de tallas faltantes. |
+
+### 3.8 Display — List layout, images, columns
+
+Estos ajustes afectan solo a la lista clásica (una fila por combinación), no a las celdas de la rejilla 2D.
+
+**List layout & sorting**
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Column order (list only)** | Default column order | Define el orden de izquierda a derecha de las columnas en la vista lista. Arrastre elementos y luego Save. Los clientes ven las columnas en este orden (solo aparecen las activadas). |
+| **Mobile card layout (list)** | Yes | En móviles, convierte filas anchas de tabla en tarjetas apiladas. Ponga **Yes** para mejor UX móvil. Cada combinación parece una tarjeta pequeña; el escritorio sigue siendo tabla normal. |
+| **Hide table header (list)** | Off | Quita la fila superior con nombres de columna. Suele dejarse **No**. Aspecto más limpio pero más difícil de entender las columnas. |
+| **Paginate long tables (list)** | Off | Divide muchas combinaciones en páginas. Ponga **Yes** si un producto tiene docenas de variantes. Sensación de página más rápida; configure Rows per page abajo. |
+| **Rows per page** | 10 when pagination is used without a custom value | Cuántas combinaciones por página con paginación activa. Ejemplo: 10 o 20. Número menor = páginas más cortas, más clics. |
+| **Allow sorting by column headers** | Yes | Cabeceras clicables para ordenar la lista. Ponga **Yes** en listas largas. Los clientes ordenan por precio, referencia, etc. (solo vista lista). |
+| **Default sort by price** | Off | La ordenación inicial usa el precio. Opcional. Más barato/caro primero según la dirección. |
+| **Default sort by attribute** | Off | Ordenación inicial por un grupo de atributos elegido. Configure el ID de atributo y la dirección abajo. Ejemplo: tallas S→XL. |
+| **Attribute sort uses** | Attribute value position | Ordenar por posición de atributo (orden del catálogo) o por nombre A→Z. La posición suele ser mejor para tallas. Cambia el orden de filas por defecto cuando la ordenación por atributo está activa. |
+| **Attribute group ID to sort by** | Empty | ID numérico del grupo de atributos usado para la ordenación por defecto. En Catalog → Attributes, abra el grupo y lea el ID en la URL. ID incorrecto = orden inesperado. |
+| **Sort direction** | Ascending | Orden por defecto ascendente o descendente. Ascending para S→XL; Descending para precio alto→bajo al ordenar por precio. Controla las primeras filas que ven los clientes. |
+
+**List images**
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Show image column** | Yes | Añade una miniatura por cada combinación. Ponga **Yes** cuando las variantes tengan fotos distintas para reconocerlas antes. |
+| **Show image column only if at least one combination has a photo** | Off | Oculta la columna de imagen vacía cuando ninguna combinación tiene foto. Ponga **Yes** para evitar una columna vacía inútil. La tabla permanece limpia en productos sin imágenes de combinación. |
+| **Use product cover when combination has no image** | Off | Muestra la foto principal del producto como respaldo en la lista. Ponga **Yes** para no mostrar nunca una celda de imagen en blanco. Solo afecta a la vista lista, no a la rejilla 2D. |
+| **Click image to zoom** | Off | Abre una imagen más grande en lightbox. Ponga **Yes** para productos visuales; configure el tamaño de zoom abajo. Los clientes inspeccionan detalles sin salir de la página. |
+| **Thumbnail image type** | Empty (shop image types) | Tamaño de imagen PrestaShop en la columna de lista. Elija un tipo pequeño (por ejemplo cart / small_default). Solo lista; la rejilla usa Grid images → Thumbnail type. |
+| **Zoom image type** | Empty (shop image types) | Tamaño de imagen abierto en el lightbox cuando el zoom está activo. Elija un tipo grande (por ejemplo large_default). Vista previa de zoom más nítida en lista. |
+
+**List columns** — visibilidad para la lista clásica. La descripción / características de combinación necesitan el módulo opcional Combination features; en caso contrario esos controles permanecen bloqueados con un enlace a la tienda.
+
+| Field | At the start | What it does |
+|---|---|---|
+| **How attributes are shown** | All attributes in one column | Una columna combinada «Combination name» frente a columnas separadas por atributo (Color, Size…). Las columnas separadas se escanean y ordenan mejor. El diseño de la vista lista cambia de inmediato. |
+| **Include attribute label in the name** | Off | Muestra «Color: Red, Size: L» en lugar de «Red, L». Ponga **Yes** para claridad; solo aplica al método de una sola columna. Nombres más largos pero más claros. |
+| **Color attribute display** | Text only | Cómo se ven los valores de color (muestra, texto o ambos). Caja de color para moda; Text si los colores tienen nombres especiales. Solo afecta a atributos de tipo «color». |
+| **Show combination / attribute columns** | Yes | Interruptor maestro de las columnas de nombre de atributo. Casi siempre **Yes**. **No** oculta cómo difieren las variantes: solo para diseños muy especiales. |
+| **Show combination description** | Off (locked without Combination features) | Muestra la descripción personalizada asignada a la combinación por Combination features. Ponga **Yes** cuando las variantes tengan texto propio. Columna de lista extra; las celdas vacías muestran «-». |
+| **Show combination features** | Off (locked without Combination features) | Muestra los valores de característica asignados a la combinación por Combination features. Ponga **Yes** cuando las variantes tengan su propia ficha. Columna de lista extra con nombre de característica + valores. |
+| **Show reference (SKU)** | Yes | Muestra la referencia de la combinación. Ponga **Yes** en B2B / mayorista para pedir más rápido por SKU. |
+| **Show EAN** | No | Muestra el código de barras EAN-13. Ponga **Yes** si el personal/clientes escanean códigos. Columna extra; desactívela en moda B2C si no se usa. |
+| **Show MPN** | No | Columna de número de pieza del fabricante. Ponga **Yes** cuando rellene MPN en el catálogo. Las celdas vacías muestran «-» si el MPN está en blanco. |
+| **Show weight** | Off | Peso del producto + impacto de la combinación. Ponga **Yes** en bienes sensibles al envío para estimar portes. |
+| **Show stock quantity** | Yes | Stock disponible por combinación. Ponga **Yes** para transparencia; combínelo con Stock format para «10+». Genera confianza; revela inventario. |
+| **Show total product stock in header** | No | Añade la suma de stock junto a la cabecera Quantity. Resumen opcional rápido de la disponibilidad total. |
+| **Show availability text** | Yes | «In stock» / «Out of stock» (o las etiquetas de su tienda). Ponga **Yes** para claridad y que el cliente vea el estado sin leer el número. |
+| **Show availability date when out of stock** | Yes | Imprime la fecha de disponibilidad de la combinación bajo el estado agotado. Ponga **Yes** si rellena fechas de disponibilidad. Fija expectativas de reposición. |
+| **Show minimal quantity** | Off | Muestra la cantidad mínima de pedido de la combinación. Ponga **Yes** para packs B2B; reduce errores al añadir al carrito. |
+| **Show price** | Yes | Columna de precio por combinación (solo lista). Ponga **Yes** en casi todas las tiendas. Los clientes comparan variantes por precio. La rejilla usa Grid cells → show price. |
+| **Show unit price** | Off | Columna de precio unitario (solo lista). Ponga **Yes** si usa precios unitarios. Valores vacíos/raros si la unidad no está definida en el producto. |
+| **Show savings column** | No | Cuánto más barata es una combinación frente a la más cara (solo lista). Ponga **Yes** para psicología de upsell. Columna extra con % e importe ahorrado. La rejilla usa Grid cells → savings badge. |
+| **Show volume (quantity) discounts column** | Off | Lista tramos de descuento por cantidad por combinación (solo lista). Ponga **Yes** para mayorista. Tabla más ancha; ideal para B2B. |
+| **Hide volume discount rows that do not apply** | Off | Limpia listas de descuento vacías en la columna de lista. Ponga **Yes** para reducir ruido y dejar solo tramos significativos. |
+
+### 3.9 Cart — Prices
+
+![Cart settings — English back office](https://mypresta.eu/docs/images/docs/combinationstab-cart.webp)
+
+Subpestaña **Prices**. Reglas globales de visualización de precios para lista y rejilla 2D. Al guardar se muestra *Cart & price settings saved.*
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Show prices only to logged-in customers** | No | Los invitados ven un aviso de inicio de sesión en lugar de precios. Ponga **Yes** para precios B2B ocultos. Los invitados deben iniciar sesión para ver importes en lista y rejilla. |
+| **Tax display** | Tax included | Impuestos incluidos, excluidos o seguir el ajuste del grupo de clientes. Ajuste a la política de precios de su tienda. Una elección incorrecta confunde a compradores B2B frente a B2C. |
+| **Show “tax incl./excl.” label next to price** | Off | Texto pequeño tras el precio. Ponga **Yes** para claridad legal en la UE. Celdas un poco más cargadas. |
+| **Show discount % badge on reduced prices** | Off | Muestra -X% cuando existe una reducción de precio específica. Ponga **Yes** para destacar ofertas. Llama la atención sobre combinaciones rebajadas en lista y rejilla. |
+| **Highlight the cheapest combination** | Yes | Marca la fila/celda de precio más bajo. Ponga **Yes** para guiar compras impulsivas. Resaltado verde del mejor precio en lista y rejilla. |
+
+### 3.10 Cart — Add to cart
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Show add to cart controls** | Yes | Campo de cantidad y/o botón por combinación. Ponga **Yes** para vender desde la tabla. **No** = matriz solo de visualización. |
+| **Add to cart only for logged-in customers** | Off | Los invitados no pueden añadir desde la tabla. Ponga **Yes** para B2B. Los invitados ven un mensaje en lugar de botones. |
+| **Show quantity input** | Yes | Casilla de cantidad editable. **Yes** siempre recomendado. **No** oculta la cantidad (más difícil comprar varias unidades). |
+| **Qty box also in the table header (fill all rows)** | Off | Una cantidad en cabecera se copia a todas las filas. Comodidad opcional. Acelera el relleno masivo; úselo con cuidado. |
+| **Plus / minus buttons** | No | Pulsadores +/- junto a la cantidad. Ponga **Yes** para dispositivos táctiles. Cambios de cantidad más fáciles. |
+| **Block qty higher than stock** | Off | Impide pedir más de lo disponible (cuando no se permiten pedidos sin stock). Ponga **Yes** para evitar sobreventa. El botón + se detiene en el stock. |
+| **AJAX add to cart** | Yes | Añade sin recargar toda la página. Ponga **Yes** en temas modernos. UX más fluida; desactívelo solo si hay conflicto con el tema. |
+| **Bulk add to cart (one button for many rows)** | Off | El cliente rellena varios campos de cantidad y un **Add to cart** envía todos. Ponga **Yes** para B2B/moda. Los botones por fila pueden ocultarse; aparece una barra fija en móvil. |
+| **Show live total price of selected quantities** | Off | Calcula la suma de las líneas seleccionadas (respeta descuentos por cantidad cuando es posible). Ponga **Yes** con añadido masivo. Los clientes ven el valor del carrito antes de pulsar Add. |
+| **Tip: how many units until next quantity discount** | Yes | Bajo la barra masiva, indica al cliente «add X more to unlock the next discount». Ponga **Yes** si usa descuentos por cantidad. Fomenta carritos mayores. |
+| **Use Font Awesome cart icon** | Off | Icono FA en lugar del icono Material. Ponga **Yes** solo si su tema carga Font Awesome. Sin FA = icono roto. |
+
+### 3.11 B2B Tools and Groups
+
+![B2B tools — English back office](https://mypresta.eu/docs/images/docs/combinationstab-b2b.webp)
+
+**Tools** — ayudas mayoristas. Los interruptores globales son valores por defecto; use **Groups** para permitir o denegar por grupo de clientes PrestaShop. Al guardar se muestra *B2B settings saved.*
+
+| Field | At the start | What it does |
+|---|---|---|
+| **CSV quantity import on product page** | No | Los compradores pegan líneas como SKU;5 (o EAN;qty) para rellenar cantidades. Ponga **Yes** para mayorista; luego permítalo por grupo si hace falta. Gran ahorro de tiempo en recompras. |
+| **Export order sheet (CSV / XLSX / PDF)** | No | Descarga las combinaciones con las cantidades tecleadas. Ponga **Yes** para compradores que envían hojas a contabilidad. Los botones aparecen junto al añadido masivo. |
+| **Fill last order button** | No | Restaura cantidades del último añadido masivo / exportación de este producto. Ponga **Yes** para pedidos mayoristas repetidos. Un clic rellena la matriz. |
+
+**Groups** — para cada grupo de clientes configure **Show table**, **Add to cart**, **CSV import**, **Export**, **Reorder** (Yes/No). Valores por defecto sin regla propia: show table Yes, add to cart Yes, CSV/export/reorder siguen los interruptores globales de Tools (off tras la instalación). Si **Show table** es No para el grupo del visitante, la matriz no aparece. Si **Add to cart** es No, el visitante no puede añadir desde la tabla aunque los interruptores globales de Cart estén activos.
+
+### 3.12 Visibility
+
+![Visibility — English back office](https://mypresta.eu/docs/images/docs/combinationstab-visibility.webp)
+
+Controle en qué productos los clientes ven la tabla de combinaciones. Busque productos con el selector en pantalla (búsqueda AJAX). Confirmación: *Successfully updated*.
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Visibility rule** | Show on all products | Decide si la tabla aparece en todos los productos, solo en seleccionados o en todas partes excepto los seleccionados. Elija una regla y luego marque categorías / añada productos en el selector de abajo. «All products» es lo más simple; use Include/Exclude cuando solo parte del catálogo necesite la matriz. |
+| **Selected categories & products** | None | La lista de categorías y productos usada por la regla anterior. Marque categorías y/o busque productos y pulse Add. Solo se usa cuando la regla es Include o Exclude; se ignora con «all products». |
+| **Hide table when product has too few attribute groups** | Off | Oculta la tabla en productos con pocos grupos de atributos (por ejemplo solo Color, sin Size). Ponga **Yes** y el número abajo. Ejemplo: umbral 1 oculta productos con 1 o menos grupos de atributos: útil si solo quiere la matriz para productos Color+Size. |
+| **Hide when attribute groups ≤** | Empty | Umbral del interruptor anterior. Introduzca 1 para ocultar productos de un solo atributo; 0 prácticamente nunca oculta por esta regla. Se compara con el número de grupos de atributos del producto. |
+
+### 3.13 Exclusions
+
+Oculte de forma permanente combinaciones elegidas de la tabla (todos los productos). Busque un producto, elija combinaciones con **Select** y luego **Save**. Confirmación: *Settings saved*. Esas variantes siguen en PrestaShop pero nunca aparecen en la matriz: útil para tallas obsoletas o SKU internos. La búsqueda de producto y combinación usa la misma búsqueda AJAX de productos que Visibility.
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Search for product** | Empty | Encuentre el producto cuyas combinaciones desea excluir. |
+| **Combination** | None selected | Marque las combinaciones a ocultar de la matriz del escaparate y luego Save. |
+
+### 3.14 Integrations
+
+![Integrations — English back office](https://mypresta.eu/docs/images/docs/combinationstab-integrations.webp)
+
+Al guardar se muestra *Integrations saved.* El formulario indica Advanced Stock Management cuando se detecta; sin ASM, deje el interruptor de almacén en Off.
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Combination wishlist** | No | El botón corazón guarda una variante en una lista de deseos ligera (cuenta o cookie). Ponga **Yes** si los clientes marcan tallas. El enlace aparece en My Account; no es una suite completa de lista de deseos. |
+| **Back-in-stock email alerts** | No | Las filas agotadas obtienen un botón de aviso; cuando vuelve el stock, el módulo envía un correo al cliente. Ponga **Yes** y asegúrese de que su tienda puede enviar correos. Recupera demanda de tallas faltantes. |
+| **Warehouse stock column** | No | Lista cantidades por almacén cuando Advanced Stock está activo. Ponga **Yes** solo con ASM. Sin ASM la columna queda vacía: déjela Off. |
+
+### 3.15 Overrides
+
+![Overrides — English back office](https://mypresta.eu/docs/images/docs/combinationstab-overrides.webp)
+
+Los perfiles se cascaden **Product → deepest Category → Manufacturer → Global**. Solo los campos sobrescritos cambian la capa inferior. Filtre la lista con **All / Products / Categories / Manufacturers**. Cree con **Product override**, **Category override** o **Manufacturer override**.
+
+En la pantalla de edición: busque y seleccione una entidad, active solo los campos que desea sobrescribir, deje sin marcar los que deben heredar. Use **Copy all from global** para sembrar valores y luego **Save override**. Éxito: *Override profile saved.* Al eliminar se pregunta *Delete this override profile?* Éxito: *Override profile deleted.*
+
+Motivos típicos para usar overrides: una marca siempre necesita modo rejilla; una categoría oculta precios a invitados; un producto necesita columnas SKU extra sin cambiar toda la tienda.
+
+### 3.16 Updates
+
+**Check now** pregunta a MyPresta si existe una versión más reciente. Mensajes: *New version available!* o *Module is up to date!*
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Check updates** | — | Ejecuta una comprobación inmediata y muestra si existe una versión nueva. |
+| **Updates notifications** | Select / as previously saved | Active esta opción si desea comprobar automáticamente en MyPresta.eu las actualizaciones del módulo. Esta opción mostrará notificaciones sobre nuevas versiones de este addon. |
+| **Module page** | Link on screen | Enlace directo a la página oficial del addon donde puede leer los cambios del módulo (changelog). Use Support (capítulo 7) para solicitudes de ayuda. |
+
+## 4. Front office
+
+- **Placement:** pie del producto bajo el contenido, o una pestaña **Product variants** en el área de pestañas del producto, según Display → Placement.
+- **List vs 2D grid:** la lista es una fila por combinación. La rejilla es una matriz cuando el producto tiene exactamente dos grupos de atributos y View mode es Grid o Auto; en caso contrario el escaparate vuelve a la lista.
+- **Filters:** chips de atributos encima de la tabla/rejilla cuando están activados.
+- **Sorting / pagination / mobile cards:** solo lista, cuando esas opciones de Display están activas.
+- **Add to cart:** controles por fila y/o **Add to cart** masivo con total en vivo opcional y tip «units until next discount».
+- **Toolbar:** cuando está activada — **Fill last order**, **Export** (CSV / XLSX / PDF), área de texto **Import quantities** con líneas como `REF001;5`, luego **Apply**.
+- **Wishlist:** corazón en filas/celdas cuando Integrations + interruptores de columna/celda lo permiten. Los clientes conectados obtienen **My combination wishlist** en la página de cuenta.
+- **Back in stock:** control de aviso en líneas agotadas; correo cuando vuelve el stock (el correo de la tienda debe funcionar).
+- **Guest prices:** con «prices only for logged-in», los invitados ven un aviso de inicio de sesión en lugar de importes; con «ATC only for logged-in», los invitados no pueden añadir desde la tabla.
+
+No se requiere aquí una captura separada del escaparate; el diseño del tema decide el marco exacto alrededor del bloque del módulo.
+
+## 5. Problemas habituales
+
+### 5.1 La tabla no es visible en la ficha de producto
+
+Compruebe que el módulo está activado, que el producto tiene combinaciones, que la regla **Visibility** incluye el producto, que el grupo de clientes tiene **Show table** en Yes y que la posición encaja con su tema (pie frente a pestañas). Vacíe la caché. Confirme que Exclusions no ha ocultado todas las combinaciones.
+
+### 5.2 Posición incorrecta o pestaña vacía
+
+Cambie **Position on the product page**. En temas modernos, ignore Tab style. Si usa pestañas, abra el producto y busque **Product variants**.
+
+### 5.3 Esperaba rejilla 2D pero ve una lista
+
+La rejilla necesita exactamente dos grupos de atributos y View mode Grid o Auto. Un atributo, o tres o más, fuerza la lista. El mismo grupo de atributos en ambos ejes también vuelve a la lista: configure grupos distintos de filas y columnas.
+
+### 5.4 El bloque de compra predeterminado falta o sigue visible
+
+Revise **Hide default PrestaShop buy block** y **Hide default buy block only when table has combinations**. Si el bloque nativo está oculto pero la tabla no tiene añadir al carrito, los clientes no pueden comprar: active Cart → **Show add to cart controls**.
+
+### 5.5 El añadido masivo no hace nada o recarga mal
+
+Active **AJAX add to cart** en temas modernos. Confirme que **Bulk add to cart** es Yes y que las cantidades están rellenadas. La regla de grupo **Add to cart** debe ser Yes para ese grupo de clientes.
+
+### 5.6 Las reglas de grupo bloquean el añadir al carrito u ocultan la tabla
+
+En **B2B** → **Groups**, ponga **Show table** y **Add to cart** en Yes para el grupo del visitante (Guest, Customer o su grupo mayorista).
+
+### 5.7 Precios ocultos para invitados
+
+Esperado cuando **Show prices only to logged-in customers** es Yes. Póngalo en Off para precios públicos, o pida a los invitados que inicien sesión.
+
+### 5.8 Falta la lista de deseos o la reposición
+
+Actívelas en **Integrations** y luego active los interruptores de columna de lista o celda de rejilla correspondientes. Para BIS, confirme que PrestaShop puede enviar correo y que el stock se actualiza al reponer.
+
+### 5.9 Columnas de descripción / características de combinación bloqueadas
+
+Instale y active el módulo opcional **Product combination features**. Hasta entonces esas columnas permanecen bloqueadas en Display y Overrides.
+
+### 5.10 Faltan CSV / exportación / rellenar último pedido
+
+Active las herramientas en **B2B** → **Tools** y ponga Yes para ese grupo de clientes en **Groups**.
+
+## 6. Guía para desarrolladores
+
+### 6.1 Resumen
+
+- Nombre técnico: `combinationstab`
+- Versión: 3.0.5
+- Nombre mostrado: Combinations Tab Pro
+- Autor: mypresta.eu
+- Pestaña del módulo: `smart_shopping`
+- Clase principal: `Combinationstab`
+- UI BO: `CtpAdminBo` (`lib/CtpAdminBo.php`)
+- Resolución de ajustes: `CtpSettingsResolver` (Product → Category → Manufacturer → Global)
+- Opcional: `CtpCombfeat` — el archivo puede estar ausente; `class_exists('CtpCombfeat')` controla descripción/características de combinación. Sin la clase, esas opciones permanecen bloqueadas.
+
+Flujo: Configuration / ajustes de entidad → los hooks FO renderizan plantillas de lista o rejilla → los controladores front gestionan ayudas AJAX de carrito, lista de deseos, BIS, CSV, exportación, reordenar, calculadora de precios.
+
+### 6.2 Archivos importantes
+
+| Path | Role |
+|---|---|
+| `combinationstab.php` | Clase del módulo, install/uninstall, hooks, formularios de visibility/exclusions |
+| `lib/CtpAdminBo.php` | Pestañas de la página Configure y campos HelperForm |
+| `lib/CtpColumnRegistry.php` | Columnas de lista, presets, JSON de orden |
+| `lib/CtpGridRegistry.php` | Bloques de celdas de rejilla y JSON de orden |
+| `lib/CtpGrid2d.php` | Construcción de matriz 2D / `shouldUseGrid` |
+| `lib/CtpCombinationsData.php` | Filas de combinación para FO |
+| `lib/CtpGroupRules.php` | Por grupo show/atc/csv/export/reorder |
+| `lib/CtpWishlist.php` / `CtpBackInStock.php` / `CtpExport.php` / `CtpReorder.php` | Ayudantes de funciones |
+| `lib/CtpSettingsResolver.php` | Tabla de override y cascada |
+| `views/templates/admin/tabs.tpl` | Marco de pestañas BO |
+| `views/templates/hook/productfooter.tpl` / `productfooter_grid.tpl` | Lista / rejilla FO |
+| `views/templates/hook/_toolbar.tpl` | Barra bulk / export / CSV |
+| `controllers/front/*.php` | Endpoints front |
+| `controllers/admin/AdminCombinationstabSearchController.php` | Búsqueda AJAX de productos para selectores BO |
+
+### 6.3 Controladores
+
+**Admin:** `AdminCombinationstabSearchController` — búsqueda AJAX de producto/combinación usada por Visibility, Exclusions, Overrides. No es una página de menú para comerciantes.
+
+**Front:**
+
+| Controller | Purpose |
+|---|---|
+| `Wishlist` | Alternar / listar lista de deseos (JSON + página de cuenta) |
+| `BackInStock` | Suscribirse a alertas OOS (JSON) |
+| `CsvImport` | Aplicar cantidades SKU/EAN pegadas (JSON) |
+| `Export` | Descargar hoja CSV/XLSX/PDF |
+| `Reorder` | Guardar / restaurar últimas cantidades (JSON) |
+| `PriceCalculator` | Total seleccionado en vivo / tip de volumen (cuerpo JSON, sin curl) |
+
+### 6.4 Hooks (registrados en la instalación)
+
+`displayHeader`, `displayProductFooter`, `displayFooterProduct`, `displayProductTab`, `displayProductExtraContent`, `displayProductTabContent`, `CombinationsTable`, `ActionAdminControllerSetMedia`, `displayCustomerAccount`, `actionUpdateQuantity`.
+
+Sin `enable()` / `disable()` personalizados más allá de los valores predeterminados de PrestaShop. Uninstall elimina las tablas de funciones y luego `parent::uninstall()`.
+
+### 6.5 Overrides
+
+El módulo no incluye overrides de clase/controlador bajo `override/`. Los overrides de plantillas `.tpl` del módulo en el tema son opcionales y del lado del comerciante.
+
+### 6.6 Base de datos
+
+Uninstall elimina estas tablas; las claves de Configuration se conservan.
+
+| Table | Content |
+|---|---|
+| `ctp_wishlist` | `id_ctp_wishlist`, customer/guest, product, combination, shop, `date_add` |
+| `ctp_backinstock` | Suscripciones por correo, product/combination, shop, lang, `notified`, dates |
+| `ctp_entity_settings` | `entity_type`, `id_entity`, JSON `settings`, `date_upd` |
+
+### 6.7 Claves de configuración y valores por defecto (instalación)
+
+Valores por defecto seleccionados escritos en la instalación: `ctp_position` = `productFooter`, `ctp_where` = `1`, `ctp_view_mode` = `list`, `ctp_image`/`ctp_price`/`ctp_reference`/`ctp_cname`/`ctp_atc`/`ctp_atcq`/`ctp_ajax`/`ctp_sort`/`ctp_quantity`/`ctp_availability`/`ctp_availability_d` = `1`, `ctp_ean`/`ctp_mpn` = `0`, `ctp_wishlist`/`ctp_bis`/`ctp_export`/`ctp_csv_import`/`ctp_reorder` = `0`, `ctp_group_rules` = `{}`, `ctp_column_order` = JSON de `CtpColumnRegistry::defaultKeys()`, más claves relacionadas de impuestos/ocultar/rejilla como en `install()`. El orden de columnas/celdas también usa JSON (`ctp_column_order`, `ctp_grid_cell_order`). Traducciones: `translations/{iso}.php`. Los textos `desc` de campos viven principalmente en `CtpAdminBo`.
+
+### 6.8 Extensión
+
+Anule las plantillas FO desde el tema bajo `modules/combinationstab/...` sin editar el paquete del módulo. El tema debe seguir llamando a los hooks de producto registrados para la salida. La integración opcional Combination features requiere `lib/CtpCombfeat.php` presente y `CtpCombfeat::isAvailable()` true.
+
+## 7. Soporte
+
+Página del producto: https://mypresta.eu/modules/front-office-features/product-page-combinations-table.html
+
+Para obtener ayuda: inicie sesión en su cuenta de cliente en mypresta.eu, abra Contact y elija **Support for paid modules**. El formulario requiere inicio de sesión para módulos de pago; tras iniciar sesión, elija este módulo en su historial de compras.

@@ -1,8 +1,8 @@
 ---
-title: "Bouton de retour UE – Formulaire de rétractation en ligne - Manuel du marchand et guide de configuration"
-description: "Manuel utilisateur complet, guide de configuration écran par écran et référence développeur pour le module PrestaShop 'Bouton de retour UE – Formulaire de rétractation en ligne' par MyPresta.eu."
+title: "Return Button Pro - documentation et manuel utilisateur"
+description: "Configurez le formulaire de rétractation UE, gérez les dossiers dans le back-office et résolvez les problèmes courants si vous utilisez déjà Return Button Pro."
 sidebar:
-  label: "Bouton de retour UE – Formulaire de rétractation en ligne - Manuel du marchand et guide de configuration"
+  label: "Return Button Pro - documentation et manuel utilisateur"
 ---
 
 > ⚠️ **Notice:** This is the documentation officielle du module PrestaShop.
@@ -12,513 +12,411 @@ sidebar:
 > ---
 
 
-# Bouton de retour UE – Formulaire de rétractation en ligne
-
-## 1. Exigences et compatibilité
-
-- **Versions PrestaShop prises en charge :** PrestaShop 1.6.x, 1.7.x, 8.x, 9.x
-- **Compatibilité PHP :** PHP 5.6 - 8.5
-- **Exigences d'hébergement :** Les extensions PHP standard (cURL, JSON, OpenSSL) sont requises, qui sont généralement disponibles sur la plupart des environnements d'hébergement modernes.
-
-## 2. Guide de configuration complet (Chaque paramètre regroupé par écran)
-
-### 2.1 Page de configuration du module (Back Office > Modules > Configurer)
-
-C'est l'écran de configuration principal où vous contrôlez le comportement général et l'apparence du bouton de retour et du formulaire.
-
-#### Onglet Paramètres généraux
-
-- **Activer le module :**
-
-  - **Ce que fait ce paramètre :** C'est l'interrupteur principal pour l'ensemble du module.
-  - **Effet de la modification de ce paramètre :**
-    - *Lorsqu'il est activé :* Le bouton de retour et le formulaire de rétractation en ligne deviennent actifs et visibles pour les clients selon vos autres paramètres.
-    - *Lorsqu'il est désactivé :* Le module est complètement désactivé. Le bouton n'apparaîtra pas et les formulaires ne seront pas accessibles.
-  - **Valeur recommandée :** OUI
-  - **Scénario / exemple de marchand :** Vous ne le désactiveriez que si vous souhaitez temporairement arrêter d'offrir des retours en ligne, peut-être pendant une maintenance ou un changement de politique.
-- **Afficher le bouton de retour dans :**
-
-  - **Ce que fait ce paramètre :** Détermine où le bouton principal « Retour » ou « Rétractation » apparaîtra sur le front-office de votre boutique. Vous pouvez sélectionner plusieurs emplacements.
-  - **Effet de la modification de ce paramètre :**
-    - *Lorsqu'il est sélectionné (par exemple, En-tête) :* Un bouton apparaîtra à l'emplacement choisi, fournissant un lien direct vers le formulaire de retour.
-    - *Lorsqu'il est désélectionné :* Le bouton n'apparaîtra pas à cet emplacement spécifique.
-  - **Valeur recommandée :** En-tête et/ou Pied de page pour un accès facile, et Page produit pour informer les clients à l'avance.
-  - **Scénario / exemple de marchand :** Si vous souhaitez que les clients trouvent facilement l'option de retour depuis n'importe quelle page, activez « En-tête » et « Pied de page ». Si vous souhaitez mettre l'accent sur votre politique de retour sur les pages produits, activez « Page produit ».
-- **Texte du bouton :**
-
-  - **Ce que fait ce paramètre :** Vous permet de personnaliser le texte affiché sur le bouton de retour.
-  - **Effet de la modification de ce paramètre :** Le texte sur le bouton changera pour la valeur que vous avez spécifiée.
-  - **Valeur recommandée :** « Demande de retour », « Formulaire de rétractation en ligne » ou « Démarrer un retour ».
-  - **Scénario / exemple de marchand :** Vous pourriez le changer de « Retour » à « Formulaire de rétractation » pour l'aligner sur la terminologie légale spécifique de votre région.
-- **Statut de commande minimum pour la rétractation :**
-
-  - **Ce que fait ce paramètre :** Définit le statut de commande le plus ancien à partir duquel un client peut initier une demande de retour pour une commande. Les commandes avec un statut inférieur à celui-ci ne seront pas éligibles.
-  - **Effet de la modification de ce paramètre :**
-    - *Lorsqu'il est défini sur « Paiement accepté » :* Les clients ne peuvent demander un retour qu'une fois leur paiement traité avec succès.
-    - *Lorsqu'il est défini sur « Expédié » :* Les clients ne peuvent demander un retour qu'après que leur commande a été marquée comme expédiée.
-  - **Valeur recommandée :** « Paiement accepté » ou « Expédié », selon votre politique.
-  - **Scénario / exemple de marchand :** Si vous n'acceptez les retours que pour les articles qui ont effectivement été payés et traités, définissez-le sur « Paiement accepté ». Si vous n'acceptez les retours que pour les articles qui ont déjà quitté votre entrepôt, définissez-le sur « Expédié ».
-- **Nombre maximal de jours pour la rétractation :**
-
-  - **Ce que fait ce paramètre :** Définit le nombre maximal de jours après qu'une commande a été passée (ou expédiée, selon votre politique) pendant lesquels un client peut soumettre une demande de retour.
-  - **Effet de la modification de ce paramètre :**
-    - *Lorsqu'il est défini sur 14 :* Les clients ont 14 jours à compter de la date de commande pour demander un retour. Après 14 jours, l'option ne sera plus disponible pour cette commande.
-    - *Lorsqu'il est défini sur 30 :* Les clients ont 30 jours.
-  - **Valeur recommandée :** 14 (pour la conformité standard de l'UE) ou 30 (si vous offrez une période de retour prolongée).
-  - **Scénario / exemple de marchand :** Pour se conformer au droit de rétractation standard de 14 jours de l'UE, définissez-le sur 14. Si vous offrez une politique plus généreuse, vous pouvez l'étendre à 30 jours ou plus.
-- **Autoriser les rétractations des invités :**
-
-  - **Ce que fait ce paramètre :** Détermine si les clients qui ont passé commande en tant qu'invités (sans créer de compte) peuvent utiliser le formulaire de rétractation en ligne.
-  - **Effet de la modification de ce paramètre :**
-    - *Lorsqu'il est activé :* Les clients invités peuvent accéder au formulaire en fournissant leur référence de commande et leur adresse e-mail.
-    - *Lorsqu'il est désactivé :* Seuls les clients enregistrés et connectés peuvent initier un retour.
-  - **Valeur recommandée :** OUI (pour un maximum de commodité pour le client et de conformité avec l'UE).
-  - **Scénario / exemple de marchand :** L'activation de cette option garantit que tous les clients, quelle que soit leur méthode de paiement, peuvent facilement initier un retour, ce qui est crucial pour la conformité et la satisfaction du client.
-- **Autoriser les pièces jointes :**
-
-  - **Ce que fait ce paramètre :** Permet aux clients de télécharger des fichiers (par exemple, des photos de produits endommagés, une preuve d'achat) lors de la soumission de leur demande de retour.
-  - **Effet de la modification de ce paramètre :**
-    - *Lorsqu'il est activé :* Un champ de téléchargement apparaîtra sur le formulaire.
-    - *Lorsqu'il est désactivé :* Les clients ne peuvent pas télécharger de fichiers.
-  - **Valeur recommandée :** OUI (surtout pour les produits où une preuve visuelle pourrait être nécessaire pour les dommages ou les défauts).
-  - **Scénario / exemple de marchand :** Si vous vendez des articles fragiles, autoriser les pièces jointes aide les clients à fournir rapidement des preuves de dommages, accélérant ainsi le processus de résolution.
-- **Taille maximale des pièces jointes (Mo) :**
-
-  - **Ce que fait ce paramètre :** Définit la taille maximale de chaque fichier que le client peut télécharger.
-  - **Effet de la modification de ce paramètre :** Les fichiers plus grands que cette limite seront rejetés par le formulaire.
-  - **Valeur recommandée :** 2-5 Mo.
-  - **Scénario / exemple de marchand :** Définir une limite raisonnable empêche les clients de télécharger des fichiers excessivement volumineux qui pourraient ralentir votre serveur ou votre système de messagerie.
-- **Extensions de pièces jointes autorisées (séparées par des virgules) :**
-
-  - **Ce que fait ce paramètre :** Spécifie les types de fichiers (par exemple, jpg, png, pdf) que les clients sont autorisés à télécharger.
-  - **Effet de la modification de ce paramètre :** Seuls les fichiers avec ces extensions seront acceptés.
-  - **Valeur recommandée :** jpg, jpeg, png, gif, pdf.
-  - **Scénario / exemple de marchand :** Limiter aux formats d'image et de document courants garantit que vous recevez des fichiers utilisables et empêche les téléchargements malveillants.
-- **Exiger un message de statut :**
-
-  - **Ce que fait ce paramètre :** Lorsque vous modifiez le statut d'une demande de retour dans le back-office, ce paramètre détermine si vous êtes tenu d'ajouter un message au client.
-  - **Effet de la modification de ce paramètre :**
-    - *Lorsqu'il est activé :* Un champ de saisie pour un message sera obligatoire lors de la mise à jour d'un statut de retour.
-    - *Lorsqu'il est désactivé :* Vous pouvez modifier les statuts sans ajouter de message.
-  - **Valeur recommandée :** OUI (pour une communication claire et des pistes d'audit).
-  - **Scénario / exemple de marchand :** L'activation de cette option garantit que votre équipe fournit toujours une raison ou une mise à jour au client lors du changement de statut, améliorant la transparence.
-
-#### Onglet États de commande
-
-Cet onglet vous permet de définir les différents statuts des demandes de retour et la manière dont ils interagissent avec vos statuts de commande PrestaShop existants.
-
-- **Nouveau statut de rétractation :**
-
-  - **Ce que fait ce paramètre :** Sélectionne le statut de commande PrestaShop qui sera attribué à une nouvelle demande de retour lorsqu'elle est soumise pour la première fois par un client.
-  - **Effet de la modification de ce paramètre :** Toutes les nouvelles demandes de retour seront automatiquement marquées avec ce statut dans votre back-office.
-  - **Valeur recommandée :** Créez un nouveau statut de commande personnalisé comme « Retour demandé » ou « Rétractation en attente » pour une identification claire.
-  - **Scénario / exemple de marchand :** En créant un statut spécifique « Retour demandé », votre équipe de service client peut facilement filtrer et identifier les nouvelles demandes de retour qui nécessitent leur attention.
-- **Statut de rétractation accepté :**
-
-  - **Ce que fait ce paramètre :** Sélectionne le statut de commande PrestaShop qui sera attribué lorsque vous, en tant que marchand, acceptez la demande de retour d'un client.
-  - **Effet de la modification de ce paramètre :** Lorsque vous marquez un retour comme « Accepté » dans le module, son statut passera à ce statut de commande sélectionné.
-  - **Valeur recommandée :** Créez un nouveau statut de commande personnalisé comme « Retour accepté » ou « Rétractation approuvée ».
-  - **Scénario / exemple de marchand :** Une fois que vous avez examiné une demande et l'avez approuvée, changer son statut en « Retour accepté » peut déclencher l'envoi d'un e-mail au client avec des instructions supplémentaires.
-- **Statut de rétractation refusé :**
-
-  - **Ce que fait ce paramètre :** Sélectionne le statut de commande PrestaShop qui sera attribué lorsque vous refusez la demande de retour d'un client.
-  - **Effet de la modification de ce paramètre :** Lorsque vous marquez un retour comme « Refusé » dans le module, son statut passera à ce statut de commande sélectionné.
-  - **Valeur recommandée :** Créez un nouveau statut de commande personnalisé comme « Retour refusé » ou « Rétractation rejetée ».
-  - **Scénario / exemple de marchand :** Si une demande de retour ne respecte pas votre politique (par exemple, hors délai de retour), vous changeriez son statut en « Retour refusé » et enverriez idéalement un message expliquant pourquoi.
-- **Statut de rétractation clôturé :**
-
-  - **Ce que fait ce paramètre :** Sélectionne le statut de commande PrestaShop qui sera attribué lorsqu'une demande de retour est terminée ou résolue (par exemple, remboursement émis, remplacement envoyé).
-  - **Effet de la modification de ce paramètre :** Lorsque vous marquez un retour comme « Clôturé » dans le module, son statut passera à ce statut de commande sélectionné.
-  - **Valeur recommandée :** Créez un nouveau statut de commande personnalisé comme « Retour terminé » ou « Rétractation clôturée ».
-  - **Scénario / exemple de marchand :** Une fois qu'un remboursement a été traité, marquer le retour comme « Retour terminé » fournit une piste d'audit claire et le supprime de votre file d'attente de retours actifs.
-- **États de commande à exclure de la rétractation :**
-
-  - **Ce que fait ce paramètre :** Vous permet de sélectionner des statuts de commande PrestaShop spécifiques pour lesquels les clients *ne peuvent pas* initier une demande de retour, même s'ils remplissent d'autres critères.
-  - **Effet de la modification de ce paramètre :** Les commandes avec l'un des statuts sélectionnés n'afficheront pas l'option de retour au client.
-  - **Valeur recommandée :** « Annulé », « Remboursé » ou tout autre statut qui signifie qu'une commande n'est plus éligible à une nouvelle demande de retour.
-  - **Scénario / exemple de marchand :** Si une commande a déjà été « Remboursée », vous ne voudriez pas qu'un client puisse soumettre une autre demande de retour pour celle-ci.
-
-### 2.2 Écrans d'administration dédiés et vues de contrôleur
-
-#### Demandes de rétractation (Back Office > Commandes > Demandes de rétractation)
-
-C'est le centre de gestion de toutes les demandes de retour et de rétractation soumises par vos clients.
-
-- **Nom de l'écran et emplacement du menu :** Vous pouvez trouver cet écran en naviguant vers **Commandes > Demandes de rétractation** dans le menu de votre back-office PrestaShop.
-- **Actions et paramètres disponibles :**
-  - **Tableau de liste :** Affiche une liste complète de toutes les demandes de retour, y compris :
-    - **ID :** Identifiant unique de la demande.
-    - **Nom du client :** Le client qui a soumis la demande.
-    - **Référence de commande :** La commande PrestaShop associée.
-    - **Date :** Date de soumission de la demande.
-    - **Statut :** Le statut actuel de la demande (par exemple, « Retour demandé », « Retour accepté »).
-    - **Actions :** Boutons pour « Afficher » les détails de la demande, modifier son statut ou effectuer d'autres tâches de gestion.
-  - **Filtrage et recherche :** Vous pouvez filtrer la liste par statut, client, référence de commande et plage de dates pour trouver rapidement des demandes spécifiques.
-  - **Actions en masse :** Vous permet de sélectionner plusieurs demandes et d'effectuer des actions comme changer leur statut simultanément.
-  - **Afficher les détails :** Cliquer sur « Afficher » pour une demande spécifique ouvre une page détaillée où vous pouvez :
-    - Voir toutes les informations fournies par le client (raison, commentaires, fichiers joints).
-    - Examiner les produits inclus dans la demande de retour.
-    - Afficher un historique des changements de statut et des notes internes.
-    - Ajouter des notes privées pour la communication interne de l'équipe.
-    - Changer le statut de la demande (par exemple, de « Retour demandé » à « Retour accepté »).
-    - Envoyer des messages au client (si « Exiger un message de statut » est activé).
-    - Télécharger les pièces jointes.
-    - Imprimer le formulaire de rétractation.
-- **Effet des modifications :**
-  - **Changement de statut :** Met à jour le statut de la demande de retour, ce qui peut déclencher des notifications par e-mail au client et mettre à jour l'affichage dans son compte client.
-  - **Ajout de notes :** Enregistre la communication interne ou les décisions liées à la demande, visible uniquement par les utilisateurs du back-office.
-  - **Envoi de messages :** Communique directement avec le client concernant sa demande de retour.
-- **Flux de travail recommandé pour la gestion quotidienne de la boutique :**
-  1. Vérifiez régulièrement la liste « Demandes de rétractation » pour les nouvelles demandes (statut « Retour demandé »).
-  2. Examinez chaque nouvelle demande, en vérifiant les détails de la commande, les commentaires du client et les pièces jointes.
-  3. Décidez d'accepter ou de refuser la demande en fonction de la politique de retour de votre boutique.
-  4. Changez le statut en conséquence (par exemple, en « Retour accepté » ou « Retour refusé »). Si « Exiger un message de statut » est activé, fournissez un message clair au client.
-  5. Suivez les étapes suivantes (par exemple, émettre un remboursement, organiser l'expédition de retour) et mettez à jour le statut en « Retour terminé » une fois résolu.
-  6. Utilisez les notes internes pour la communication d'équipe ou pour enregistrer les actions spécifiques entreprises.
-
-### 2.3 Tableau de référence rapide de la configuration
-
-| Écran / Vue | Paramètre / Option | Valeur par défaut / Recommandée | Objectif et impact |
-| --- | --- | --- | --- |
-| **Page de configuration du module** | Activer le module | OUI | Active/désactive l'ensemble du module. |
-|  | Afficher le bouton de retour dans | En-tête, Pied de page, Page produit | Contrôle où le bouton de retour apparaît sur le front-office. |
-|  | Texte du bouton | « Demande de retour » | Personnalise le texte sur le bouton de retour. |
-|  | Statut de commande minimum pour la rétractation | « Paiement accepté » | Définit le statut de commande le plus ancien pour l'éligibilité au retour. |
-|  | Nombre maximal de jours pour la rétractation | 14 | Définit la fenêtre de retour en jours à partir de la date de commande. |
-|  | Autoriser les rétractations des invités | OUI | Permet aux clients non enregistrés d'utiliser le formulaire. |
-|  | Autoriser les pièces jointes | OUI | Active/désactive le téléchargement de fichiers sur le formulaire. |
-|  | Taille maximale des pièces jointes (Mo) | 2-5 Mo | Définit la taille maximale des fichiers téléchargés. |
-|  | Extensions de pièces jointes autorisées | jpg, jpeg, png, gif, pdf | Spécifie les types de fichiers autorisés pour les téléchargements. |
-|  | Exiger un message de statut | OUI | Rend un message obligatoire lors du changement de statut de retour. |
-| **Onglet États de commande** | Nouveau statut de rétractation | « Retour demandé » (personnalisé) | Statut pour les demandes nouvellement soumises. |
-|  | Statut de rétractation accepté | « Retour accepté » (personnalisé) | Statut lorsque le marchand approuve une demande. |
-|  | Statut de rétractation refusé | « Retour refusé » (personnalisé) | Statut lorsque le marchand rejette une demande. |
-|  | Statut de rétractation clôturé | « Retour terminé » (personnalisé) | Statut lorsqu'une demande est entièrement résolue. |
-|  | États de commande à exclure de la rétractation | « Annulé », « Remboursé » | Empêche les retours pour les commandes avec ces statuts. |
-| **Demandes de rétractation (Admin)** | Afficher/Modifier la demande | N/A | Gérer les demandes de retour individuelles, changer le statut, ajouter des notes. |
-|  | Filtrer/Rechercher | N/A | Localiser des demandes spécifiques par divers critères. |
-|  | Actions en masse | N/A | Effectuer des actions sur plusieurs demandes sélectionnées. |
-
-## 3. Dépannage pour les marchands et questions fréquemment posées (FAQ)
-
-**Q1 : Le bouton de retour n'apparaît pas sur ma boutique. Que dois-je faire ?**
-R1 :
-
-- **Vérifier le statut du module :** Allez dans **Modules > Gestionnaire de modules**, trouvez « Bouton de retour UE – Formulaire de rétractation en ligne » et assurez-vous qu'il est « Activé ».
-- **Vérifier les emplacements d'affichage :** Dans la configuration du module, sous l'onglet « Paramètres généraux », vérifiez que vous avez sélectionné au moins un emplacement « Afficher le bouton de retour dans » (par exemple, En-tête, Pied de page).
-- **Vider le cache :** Allez dans **Paramètres avancés > Performances** et cliquez sur « Vider le cache » (ou « Vider le cache Smarty » dans les versions antérieures). Parfois, un ancien contenu mis en cache empêche l'apparition de nouveaux éléments de module.
-- **Compatibilité du thème :** Bien que le module soit conçu pour une large compatibilité, les thèmes personnalisés peuvent nécessiter des ajustements mineurs. Si le bouton n'apparaît toujours pas, contactez le support MyPresta.eu avec les détails de votre thème.
-
-**Q2 : Des clients signalent qu'ils ne peuvent pas soumettre de retour pour une commande spécifique, même si elle est dans la période de retour.**
-R2 :
-
-- **Vérifier le statut de commande minimum :** Dans la configuration du module, sous « Paramètres généraux », examinez « Statut de commande minimum pour la rétractation ». Assurez-vous que la commande du client a atteint ce statut. Par exemple, s'il est défini sur « Expédié » et que la commande est toujours « Paiement accepté », ils ne verront pas l'option.
-- **Vérifier les états de commande exclus :** Dans la configuration du module, sous l'onglet « États de commande », vérifiez « États de commande à exclure de la rétractation ». Si la commande du client a l'un de ces statuts (par exemple, « Annulé », « Remboursé »), il ne pourra pas initier un nouveau retour.
-- **Nombre maximal de jours pour la rétractation :** Vérifiez à nouveau le paramètre « Nombre maximal de jours pour la rétractation ». La fenêtre de retour pourrait avoir expiré pour cette commande spécifique.
-
-**Q3 : J'ai modifié un paramètre, mais il n'est pas reflété sur le front-office.**
-R3 :
-
-- **Vider le cache :** C'est la raison la plus courante. Videz toujours votre cache PrestaShop après avoir effectué des modifications de configuration dans n'importe quel module. Naviguez vers **Paramètres avancés > Performances** et cliquez sur « Vider le cache ». Si vous utilisez un module de mise en cache tiers ou un CDN, videz également leurs caches.
-- **Cache du navigateur :** Demandez à vos clients (ou à vous-même) de vider leur cache de navigateur ou essayez d'afficher la page dans une fenêtre incognito/privée pour exclure les problèmes de mise en cache côté navigateur.
-
-**Q4 : Comment traduire le texte du module dans d'autres langues ?**
-R4 :
-
-- Allez dans **International > Traductions** dans votre back-office PrestaShop.
-- Sélectionnez « Traductions des modules installés ».
-- Choisissez votre thème, la langue que vous souhaitez traduire, puis sélectionnez « Bouton de retour UE – Formulaire de rétractation en ligne » dans la liste des modules.
-- Vous verrez alors une liste de toutes les chaînes traduisibles dans le module, y compris le texte du bouton, les étiquettes de formulaire et les messages. Saisissez vos traductions et enregistrez.
-
-**Q5 : Je souhaite personnaliser l'apparence du formulaire de retour pour qu'il corresponde à mon thème.**
-R5 :
-
-- Le module comprend des fichiers CSS (`front-classic.css`, `front-hummingbird.css`, `front.css`) conçus pour les thèmes PrestaShop courants.
-- Pour un style avancé, vous aurez besoin d'un développeur web. Il pourra inspecter la structure HTML du module et remplacer ses règles CSS dans le fichier `custom.css` de votre thème ou en créant une nouvelle feuille de style qui se charge après le CSS du module. Évitez de modifier directement les fichiers CSS du module, car vos modifications seraient perdues lors des mises à jour.
-
-## 4. Guide du développeur et du webmaster (Architecture technique et carte du code)
-
-### 4.1 Vue d'ensemble de l'architecture
-
-Le module « Bouton de retour UE – Formulaire de rétractation en ligne » (`rbpro`) suit l'architecture MVC (Modèle-Vue-Contrôleur) standard de PrestaShop. Il utilise `ModuleFrontController` pour les interactions côté client et `AdminController` pour la gestion du back-office. La logique métier principale est encapsulée dans des classes de service et ObjectModel dédiées, garantissant l'intégrité des données et la séparation des préoccupations. Le module s'intègre au système de hooks de PrestaShop pour l'injection de contenu dynamique et utilise Smarty pour le templating. Il comprend également des couches de compatibilité pour différentes versions de PrestaShop et une classe de sécurité pour la validation des entrées.
-
-### 4.2 Contrôleurs (`controllers/`)
-
-#### Contrôleurs Front-Office
-
-Ces contrôleurs gèrent les interactions client liées au formulaire de retour et au suivi du statut.
-
-- `rbpro/controllers/front/confirm.php`
-
-  - **Nom de la classe :** `RbpConfirmModuleFrontController` (étend `RbpModuleFrontController`)
-  - **Responsabilité :** Affiche l'étape de confirmation finale du formulaire de rétractation. Traite les données du formulaire soumis, crée l'entrée `RbpWithdrawal` et redirige vers la page de succès ou d'erreur. Gère la validation des données avant l'enregistrement.
-- `rbpro/controllers/front/form.php`
-
-  - **Nom de la classe :** `RbpFormModuleFrontController` (étend `RbpModuleFrontController`)
-  - **Responsabilité :** Rend le formulaire principal de rétractation en ligne. Gère l'affichage initial des commandes/produits éligibles, traite les sélections de l'utilisateur et prépare les données pour l'étape de confirmation. Gère l'accès des invités via la référence de commande et l'e-mail.
-- `rbpro/controllers/front/print.php`
-
-  - **Nom de la classe :** `RbpPrintModuleFrontController` (étend `RbpModuleFrontController`)
-  - **Responsabilité :** Fournit une version imprimable du formulaire de rétractation ou des détails de la demande. Généralement utilisé par les clients pour l'inclure avec leur colis retourné.
-- `rbpro/controllers/front/RbpModuleFrontController.php`
-
-  - **Nom de la classe :** `RbpModuleFrontController` (étend `ModuleFrontController`)
-  - **Responsabilité :** C'est une classe de base pour tous les contrôleurs front-office du module `rbpro`. Elle fournit des fonctionnalités communes comme la configuration des fils d'Ariane, la gestion des actifs spécifiques au module et potentiellement des vérifications de sécurité partagées ou l'initialisation des données.
-- `rbpro/controllers/front/status.php`
-
-  - **Nom de la classe :** `RbpStatusModuleFrontController` (étend `RbpModuleFrontController`)
-  - **Responsabilité :** Affiche le statut actuel et l'historique d'une demande de retour spécifique au client. Accessible via un lien de suivi unique ou depuis le compte du client.
-- `rbpro/controllers/front/track.php`
-
-  - **Nom de la classe :** `RbpTrackModuleFrontController` (étend `RbpModuleFrontController`)
-  - **Responsabilité :** Fournit une interface simple permettant aux clients (en particulier les invités) de saisir une référence de commande et un e-mail pour suivre le statut de leur demande de rétractation.
-
-#### Contrôleurs d'administration Back-Office
-
-- `rbpro/controllers/admin/AdminRbpWithdrawalController.php`
-  - **Nom de la classe :** `AdminRbpWithdrawalController` (étend `ModuleAdminController`)
-  - **Nom de l'onglet :** « Demandes de rétractation » (sous « Commandes »)
-  - **Entité gérée :** `RbpWithdrawal`
-  - **Responsabilité :** Gère la liste, la visualisation, l'édition et les mises à jour de statut de toutes les demandes de rétractation des clients dans le back-office de PrestaShop. Implémente `renderList()` pour le tableau d'aperçu et `renderForm()` pour la vue détaillée d'une seule demande. Gère les actions comme le changement de statut, l'ajout de notes et la gestion des pièces jointes.
-
-### 4.3 Classes et modèles principaux (`classes/`)
-
-- `rbpro/classes/index.php`
-
-  - **Responsabilité :** Fichier `index.php` vide standard pour empêcher l'affichage du répertoire.
-- `rbpro/classes/RbpCompatibility.php`
-
-  - **Responsabilité :** Fournit des méthodes statiques pour gérer les problèmes de compatibilité entre les différentes versions de PrestaShop (par exemple, logique spécifique à `_PS_VERSION_`, remplacements de fonctions obsolètes). Garantit que le module fonctionne correctement de PS 1.6 à 9.x.
-- `rbpro/classes/RbpSecurity.php`
-
-  - **Responsabilité :** Contient des méthodes statiques pour les tâches liées à la sécurité, telles que la validation des entrées, la désinfection et potentiellement la génération/vérification de jetons CSRF pour les formulaires spécifiques au module.
-- `rbpro/classes/RbpStatsService.php`
-
-  - **Responsabilité :** Une classe de service responsable de la collecte et potentiellement du traitement des statistiques liées aux demandes de rétractation (par exemple, nombre de demandes, temps de traitement moyen).
-- `rbpro/classes/RbpWithdrawal.php`
-
-  - **Étend :** `ObjectModel`
-  - **Table de base de données :** `rbp_withdrawal`
-  - **Champs `$definition` :** Définit la structure d'une demande de rétractation, y compris des champs comme `id_customer`, `id_order`, `id_order_state`, `reference`, `email`, `date_add`, `date_upd`, `status`, `reason`, `message`, etc.
-  - **Méthodes publiques clés :** Méthodes pour les opérations CRUD sur les demandes de rétractation, la récupération des produits associés, l'historique et les notes.
-- `rbpro/classes/RbpWithdrawalAttachment.php`
-
-  - **Étend :** `ObjectModel`
-  - **Table de base de données :** `rbp_withdrawal_attachment`
-  - **Champs `$definition` :** Définit la structure des pièces jointes liées à une demande de rétractation, y compris `id_rbp_withdrawal`, `filename`, `original_filename`, `mime_type`, `date_add`.
-  - **Méthodes publiques clés :** Méthodes pour la gestion des fichiers joints (téléchargement, récupération, suppression).
-- `rbpro/classes/RbpWithdrawalHistory.php`
-
-  - **Étend :** `ObjectModel`
-  - **Table de base de données :** `rbp_withdrawal_history`
-  - **Champs `$definition` :** Définit l'historique des changements de statut pour une demande de rétractation, y compris `id_rbp_withdrawal`, `id_order_state`, `id_employee`, `message`, `date_add`.
-  - **Méthodes publiques clés :** Méthodes pour l'enregistrement et la récupération des changements de statut et des messages associés.
-- `rbpro/classes/RbpWithdrawalNote.php`
-
-  - **Étend :** `ObjectModel`
-  - **Table de base de données :** `rbp_withdrawal_note`
-  - **Champs `$definition` :** Définit les notes internes ajoutées par les employés à une demande de rétractation, y compris `id_rbp_withdrawal`, `id_employee`, `note`, `date_add`.
-  - **Méthodes publiques clés :** Méthodes pour l'ajout et la récupération des notes internes.
-- `rbpro/classes/RbpWithdrawalProduct.php`
-
-  - **Étend :** `ObjectModel`
-  - **Table de base de données :** `rbp_withdrawal_product`
-  - **Champs `$definition` :** Définit les produits spécifiques inclus dans une demande de rétractation, en les liant à `id_rbp_withdrawal`, `id_order_detail`, `id_product`, `id_product_attribute`, `quantity`, `reason`.
-  - **Méthodes publiques clés :** Méthodes pour la gestion de la liste des produits dans une demande de retour.
-- `rbpro/classes/RbpWithdrawalService.php`
-
-  - **Responsabilité :** Une classe de couche de service qui orchestre la logique métier complexe impliquant plusieurs ObjectModels liés à `RbpWithdrawal`. Des exemples incluent la création d'une nouvelle demande de rétractation (qui implique `RbpWithdrawal`, `RbpWithdrawalProduct`, `RbpWithdrawalHistory`), la mise à jour de son statut, l'envoi de notifications par e-mail et la gestion des pièces jointes.
-
-### 4.4 Actifs JavaScript (`views/js/`)
-
-- `rbpro/lib/searchTool/views/js/autocomplete.js`
-
-  - **Portée :** Back-office (probablement pour la recherche de commandes/clients dans les formulaires d'administration).
-  - **Détails :** Implémente la fonctionnalité d'autocomplétion pour les champs de saisie, généralement pour la recherche de clients ou de commandes lors de la création/modification manuelle de demandes de rétractation dans le back-office. Se lie aux événements `keyup` et effectue des appels AJAX pour récupérer des suggestions.
-- `rbpro/views/js/admin-order-state-picker.js`
-
-  - **Portée :** Back-office (configuration du module et `AdminRbpWithdrawalController`).
-  - **Détails :** Améliore les listes déroulantes de sélection d'état de commande dans la configuration du module et potentiellement dans la vue détaillée de la rétractation. Peut ajouter des repères visuels ou des capacités de filtrage.
-- `rbpro/views/js/front.js`
 
-  - **Portée :** Front-office (formulaires de rétractation et pages de statut).
-  - **Détails :** Gère les interactions côté client sur le formulaire de rétractation, telles que :
-    - Sélection dynamique des produits en fonction de la commande.
-    - Validation des champs du formulaire avant soumission.
-    - Appels AJAX pour la soumission du formulaire ou le chargement des données.
-    - Affichage des messages ou gestion des téléchargements de fichiers.
-- `rbpro/views/js/order-history.js`
+Les captures d’écran de ce manuel montrent le back-office en anglais. Utilisez les mêmes noms de menus et libellés que ceux indiqués ici.
 
-  - **Portée :** Front-office (compte client > historique des commandes).
-  - **Détails :** Intègre le bouton ou le lien « Demander un retour » dans la page d'historique des commandes du client. Peut utiliser AJAX pour vérifier l'éligibilité de la commande ou afficher/masquer dynamiquement le bouton.
+## 1. Prérequis
 
-### 4.5 Feuilles de style CSS (`views/css/`)
+Return Button Pro fonctionne sur PrestaShop 1.6, 1.7, 8 et 9. Utilisez le paquet adapté à votre boutique : le build dédié PrestaShop 1.6 pour les boutiques 1.6, et le build PrestaShop 1.7–9 pour les versions plus récentes. Lorsque les deux paquets sont disponibles dans l’historique de commandes MyPresta.eu, téléchargez le ZIP qui correspond.
 
-- `rbpro/lib/searchTool/views/css/autocomplete.css`
+- PrestaShop : 1.6.x, 1.7.x, 8.x et 9.x
+- PHP : les versions déjà utilisées par votre PrestaShop, y compris les piles anciennes avec PrestaShop 1.6 (PHP 5.6 et PHP 7.x) et les versions exigées par PrestaShop 1.7–9 (PHP 7.1+ / PHP 8.x selon l’hébergement et la boutique). Le module est aussi maintenu pour les environnements PHP 7.x et le PHP actuel de la boutique.
+- Extensions PHP utilisées par le module : JSON, curl (vérifications de mise à jour), fileinfo (contrôles MIME des pièces jointes), hash (jetons et sécurité invité)
+- Autres modules : non requis. Si le module gratuit Return Button est installé et activé, désactivez-le avant de configurer ou d’utiliser Return Button Pro. Les deux ne peuvent pas fonctionner en même temps.
+- Comptes externes : aucun. Les vérifications optionnelles de mise à jour MyPresta.eu utilisent Internet depuis l’onglet **Updates**.
 
-  - **Portée :** Back-office.
-  - **Détails :** Styles pour les listes déroulantes d'autocomplétion et les champs de saisie de recherche utilisés dans le panneau d'administration.
-- `rbpro/views/css/admin-config.css`
+## 2. Installation
 
-  - **Portée :** Back-office (page de configuration du module).
-  - **Détails :** Styles pour le formulaire de configuration principal du module, y compris les onglets, les champs de saisie et la mise en page générale.
-- `rbpro/views/css/admin-dashboard.css`
+1. Téléversez le ZIP du module dans **Modules** → **Module Manager**, puis installez et activez **Return Button Pro**.
+2. Après l’installation, un élément **Withdrawals** apparaît sous **Customers**. Ouvrez la configuration via **Module Manager** → **Return Button Pro** → **Configure** (onglets : **Dashboard**, **Settings**, **Updates**).
+3. L’installation ne vide pas le cache PrestaShop. Videz le cache vous-même après des changements de thème ou de hooks si la boutique front paraît encore incorrecte.
 
-  - **Portée :** Back-office (potentiellement pour un tableau de bord de module ou une vue de statistiques).
-  - **Détails :** Styles pour tous les éléments de tableau de bord personnalisés ou les affichages statistiques au sein de l'interface d'administration du module.
-- `rbpro/views/css/admin-order-state-picker.css`
+Désinstallation : l’entrée de menu **Withdrawals** est retirée et les valeurs de configuration sont supprimées. Les tables de rétractation et les dossiers restent dans la base de données comme preuve légale. Une réinstallation n’efface pas ces enregistrements ; le module peut les réutiliser lorsque les tables existent déjà. Les pièces jointes du personnel téléversées dans le dossier du module ne sont pas supprimées à la désinstallation.
 
-  - **Portée :** Back-office.
-  - **Détails :** Styles spécifiques pour les éléments de sélection d'état de commande améliorés dans l'administration.
-- `rbpro/views/css/admin-searchtool.css`
+Si vous migrez depuis le module gratuit Return Button, Pro peut copier les réglages compatibles et migrer des tables Pro vides à partir des données du module gratuit lorsque Pro n’a encore aucune ligne. Désactivez d’abord le module gratuit.
 
-  - **Portée :** Back-office.
-  - **Détails :** Styles généraux pour les outils de recherche et les composants de filtrage au sein de l'interface d'administration.
-- `rbpro/views/css/admin-withdrawal-view.css`
+## 3. Configuration et travail en back-office
 
-  - **Portée :** Back-office (vue détaillée de `AdminRbpWithdrawalController`).
-  - **Détails :** Styles pour la vue détaillée d'une seule demande de rétractation, y compris les sections pour les informations client, les produits, l'historique et les notes.
-- `rbpro/views/css/front-classic.css`
+### 3.1 Processus complet de rétractation
 
-  - **Portée :** Front-office (pour la compatibilité avec le thème Classic).
-  - **Détails :** Ajustements de style spécifiques pour le formulaire de rétractation et les boutons afin de s'intégrer parfaitement au thème Classic de PrestaShop.
-- `rbpro/views/css/front-hummingbird.css`
+Flux de bout en bout, du front-office au traitement par le personnel :
 
-  - **Portée :** Front-office (pour la compatibilité avec le thème Hummingbird).
-  - **Détails :** Ajustements de style spécifiques pour le formulaire de rétractation et les boutons afin de s'intégrer parfaitement au thème Hummingbird de PrestaShop.
-- `rbpro/views/css/front.css`
+1. Le client trouve l’entrée de rétractation : bouton du pied de page, lien Mon compte, bouton sur le détail de commande, ou l’URL du formulaire lorsque l’accès invité est activé.
+2. **Étape 1 – commande :** les clients connectés voient leurs commandes avec des indications d’éligibilité (jours restants, motifs d’indisponibilité). Les invités saisissent la référence de commande et l’e-mail. Le client sélectionne une commande éligible, choisit **Full order** ou **Partial** (avec quantités sur les lignes autorisées), ajoute éventuellement un message et un IBAN, puis continue.
+3. **Étape 2 – confirmation :** le client examine le résumé de la déclaration. Lorsque **Require legal confirmation checkbox** est activé, il doit cocher le texte juridique, puis envoyer.
+4. Le module enregistre le dossier, le passe en **Registered** et envoie la confirmation client (support durable) plus une notification boutique (et **Notification email** si défini). La page de succès affiche la référence de rétractation.
+5. Le personnel ouvre **Customers** → **Withdrawals** (ou le panneau latéral de la commande), ouvre **View**, définit le statut (**In progress**, **Refunded**, **Rejected**, etc.) et saisit un message client lorsque c’est requis.
+6. Le client suit le statut via **Track withdrawal status**, la page de statut et **Print / save PDF**. Les messages du personnel issus des changements de statut apparaissent dans l’historique de rétractation du client.
 
-  - **Portée :** Front-office (style général).
-  - **Détails :** CSS de base pour le formulaire de rétractation, les boutons et les pages de statut du front-office, fournissant un style de base qui peut être remplacé par des feuilles de style spécifiques au thème.
+Statuts utilisés par le module :
 
-### 4.6 Structure des templates Smarty (`views/templates/`)
+| Champ | Au départ | Rôle |
+|---|---|---|
+| **Pending** | État bref lorsque la déclaration est d’abord enregistrée | Dossier ouvert avant la fin de la confirmation légale du client, ou lorsque le personnel fixe ce statut plus tard. Compte pour le blocage des doublons avec les autres statuts ouverts. |
+| **Registered** | Après confirmation du client à l’étape 2 | Déclaration enregistrée ; tentatives d’e-mails de confirmation. Statut par défaut après envoi. |
+| **In progress** | Action du personnel | La boutique traite le dossier (retours, contrôles, préparation du remboursement). Bloque toujours une seconde demande active si le blocage des doublons est actif. |
+| **Refunded** | Action du personnel | Dossier clos avec remboursement. Visible sur la page de statut client. |
+| **Rejected** | Action du personnel | Dossier clos sans remboursement. Utilisez un message client clair lorsque le réglage l’exige. |
 
-#### Templates de hook (`views/templates/hook/`)
+Portée sur le formulaire : **Full order** ou **Partial**. Type : **Contract withdrawal** (payé) ou **Contract cancellation (unpaid order)** lorsque la commande n’a jamais été payée.
 
-Ces templates sont rendus lorsque le module est accroché à des points d'affichage spécifiques.
+### 3.2 Dashboard
 
-- `rbpro/views/templates/hook/account-link-classic.tpl`
+Ouvrez **Modules** → **Module Manager** → **Return Button Pro** → **Configure** → **Dashboard**.
 
-  - **Hook :** `displayCustomerAccount` (ou similaire)
-  - **Sorties :** Un lien dans la section « Mon compte » du client pour le thème Classic, menant au formulaire de rétractation ou à la page de suivi.
-- `rbpro/views/templates/hook/account-link-hummingbird.tpl`
+![Dashboard](https://mypresta.eu/docs/images/docs/rbpro-dashboard.webp)
 
-  - **Hook :** `displayCustomerAccount` (ou similaire)
-  - **Sorties :** Un lien dans la section « Mon compte » du client pour le thème Hummingbird.
-- `rbpro/views/templates/hook/button-classic.tpl`
+Filtrez avec **From** / **To** et **Apply**, ou réinitialisez avec **Last 30 days**. Le panneau affiche les totaux de tous les temps, le backlog en attente, le profil de thème détecté, le hook de pied actif, des KPI (rétractations sur la période, taux vs commandes, part de confirmation e-mail, jours moyens de la commande à la rétractation, part partielle/totale, annulations, part remboursée des dossiers clos, taux de rejet), un graphique des soumissions quotidiennes, la répartition des statuts, les produits les plus rétractés et les dossiers en attente les plus anciens avec **Open**.
 
-  - **Hook :** `displayHeader`, `displayFooter`, `displayLeftColumn`, `displayRightColumn`, `displayProductButtons` (ou similaire)
-  - **Sorties :** Le bouton principal « Retour » ou « Rétractation », stylisé pour le thème Classic.
-- `rbpro/views/templates/hook/button-hummingbird.tpl`
+Utilisez **Manage all withdrawals** pour la liste sous Customers, ou **Export CSV** pour télécharger les dossiers de la boutique actuelle.
 
-  - **Hook :** `displayHeader`, `displayFooter`, `displayLeftColumn`, `displayRightColumn`, `displayProductButtons` (ou similaire)
-  - **Sorties :** Le bouton principal « Retour » ou « Rétractation », stylisé pour le thème Hummingbird.
-- `rbpro/views/templates/hook/button.tpl`
+### 3.3 Settings
 
-  - **Hook :** `displayHeader`, `displayFooter`, `displayLeftColumn`, `displayRightColumn`, `displayProductButtons` (ou similaire)
-  - **Sorties :** Un bouton générique « Retour » ou « Rétractation », utilisé comme solution de repli ou base pour les boutons spécifiques au thème.
-- `rbpro/views/templates/hook/order-detail-classic.tpl`
+Ouvrez l’onglet **Settings** et cliquez sur **Save** après les modifications.
 
-  - **Hook :** `displayOrderDetail` (ou similaire)
-  - **Sorties :** Une option ou un bouton sur la page de détails de commande individuelle du client pour le thème Classic, lui permettant d'initier un retour pour cette commande spécifique.
-- `rbpro/views/templates/hook/order-detail-hummingbird.tpl`
+![Settings](https://mypresta.eu/docs/images/docs/rbpro-settings.webp)
 
-  - **Hook :** `displayOrderDetail` (ou similaire)
-  - **Sorties :** Une option ou un bouton sur la page de détails de commande individuelle du client pour le thème Hummingbird.
-- `rbpro/views/templates/hook/order-detail.tpl`
+#### Intégration du thème
 
-  - **Hook :** `displayOrderDetail` (ou similaire)
-  - **Sorties :** Une option ou un bouton générique sur la page de détails de commande individuelle du client.
-- `rbpro/views/templates/hook/order-withdrawal-notice.tpl`
+Adaptez le module à Classic, Hummingbird ou un thème personnalisé. Ajustez ces options si boutons ou formulaires semblent sans style après une mise à jour de thème.
 
-  - **Hook :** `displayAdminOrder` (ou similaire)
-  - **Sorties :** Une notification ou un résumé des demandes de rétractation liées à une commande spécifique, affiché dans la vue d'administration des commandes de PrestaShop.
+| Champ | Au départ | Rôle |
+|---|---|---|
+| **Storefront theme profile** | Auto-detect | Choisit quels templates et CSS front-office le module charge (Classic vs Hummingbird). Style correct du bouton, mise en page du formulaire et apparence du lien Mon compte. Laissez Auto-detect sauf si le bouton est incorrect après un changement de thème ; forcez alors Classic-type ou Hummingbird-type selon votre thème actif. Après modification, videz le cache PrestaShop et actualisez le front. |
+| **Footer button hook** | Auto (by theme profile) | Définit où le bouton de rétractation est injecté dans le pied de page. Auto suit le profil de thème (Hummingbird → displayFooterBefore, Classic → displayFooter). Si le bouton manque ou est mal aligné, essayez displayFooterBefore ou displayFooter manuellement, enregistrez, videz le cache et vérifiez le pied de la boutique. Pour un placement manuel, placez le hook personnalisé dans un template de thème et sélectionnez displayRbproButton ici ; gardez **Footer button** activé pour que le bouton n’apparaisse que dans ce template. |
 
-#### Templates d'administration (`views/templates/admin/`)
+#### Général et accès
 
-Ces templates sont utilisés pour l'interface back-office du module.
+| Champ | Au départ | Rôle |
+|---|---|---|
+| **Module enabled** | Yes | Interrupteur principal de tout le module. Lorsqu’il est désactivé, boutons de rétractation, formulaire, accès invité et suivi sont masqués sur le front ; les dossiers existants en back-office restent. Utilisez-le pour la maintenance ou une revue juridique sans désinstaller. |
+| **Public status tracking page** | Yes | Active une page publique où les clients consultent le statut de rétractation avec référence + e-mail (sans connexion). Réduit les tickets « où en est mon retour ? ». Activez si vous voulez un lien **Track withdrawal status** à côté du bouton du pied ; communiquez la référence de l’e-mail de confirmation. Désactivez si vous gérez le statut uniquement par e-mail de compte ou téléphone. |
+| **Guest access (order ref + email)** | Yes | Permet aux clients non connectés d’ouvrir le formulaire en saisissant référence de commande et e-mail à l’étape 1. Recommandé pour les ventes à distance B2C en UE. Désactivez si seuls les clients connectés peuvent se rétracter. Les sessions invité utilisent un cookie signé. |
+| **Block duplicate active requests** | Yes | Empêche une seconde rétractation ouverte pour la même commande tant qu’une est déjà Pending, Registered ou In progress. Évite les doublons et les remboursements conflictuels. Gardez activé en production. Désactivez uniquement pour les tests ou des processus inhabituels de réclamation partielle. |
+| **Require legal confirmation checkbox (step 2)** | Yes | Oblige le client à cocher une case à formulation juridique avant l’envoi. Trace de consentement explicite alignée sur les règles de rétractation UE. Modifiez le texte de la case par langue sous Texts & SEO. Si désactivé, l’envoi est quand même journalisé sans case obligatoire. |
+| **Require message to customer when changing status** | Yes | Le personnel doit saisir un message au client avant de mettre à jour un statut de rétractation. Le message est stocké dans la piste d’audit et affiché sur la page de statut client. Désactivez uniquement si vous avez besoin de changements de statut rapides sans écrire à chaque fois. |
+| **Show deadline countdown to customer** | Yes | Affiche combien de jours restent dans le délai légal de rétractation (liste de commandes et formulaire). Nécessite un mapping correct **Order state = delivered** et le délai de rétractation. Si les dates semblent incorrectes, vérifiez l’historique de commande et l’état livré. |
+| **Optional IBAN field** | No | Ajoute un champ IBAN optionnel sur le formulaire pour les remboursements. Activez uniquement si vous remboursez par virement et que votre politique de confidentialité le couvre. Laissez désactivé si vous remboursez uniquement sur le moyen de paiement d’origine. |
+| **Notification email** | Empty | Adresse supplémentaire qui reçoit les notifications de nouvelles rétractations (en plus du contact boutique). Exemple : returns@yourshop.com. Laissez vide pour n’utiliser que le flux mail par défaut de PrestaShop sans ce destinataire. |
 
-- `rbpro/lib/searchTool/views/scripts.tpl`
+#### Règles de rétractation
 
-  - **Sorties :** Inclusions JavaScript et CSS pour la bibliothèque d'outils de recherche, généralement incluses dans les formulaires d'administration qui utilisent l'autocomplétion.
-- `rbpro/views/templates/admin/configure.tpl`
+| Champ | Au départ | Rôle |
+|---|---|---|
+| **Withdrawal period (days from delivery)** | 14 | Jours calendaires dont disposent les clients pour se rétracter après que la commande est considérée livrée. Par défaut 14 pour les contrats à distance UE. Ne changez que si la loi ou vos CGV exigent une autre valeur. Le compte à rebours démarre à la date de livraison dérivée de l’historique de commande et de **Order state = delivered**. |
+| **Order state = delivered** | Auto | État de commande qui marque les biens comme livrés (début du délai de rétractation). Choisissez l’état que vous définissez lorsque le colis est livré (par exemple Delivered, ou Shipped si c’est votre état final). Auto utilise une valeur sensée de votre boutique ; remplacez-la si les délais utilisent la mauvaise date. |
+| **Allowed order statuses** | All order statuses | Contrôle quand les clients peuvent soumettre une rétractation selon l’état actuel de la commande. Choisissez **All order statuses** pour ignorer le filtre, ou **Only selected statuses** et déplacez des états de la colonne gauche vers **Allowed for withdrawal**. Les commandes hors liste apparaissent comme indisponibles dans la liste de commandes du compte. |
+| **Excluded products** | Empty | Produits spécifiques non rétractables (biens scellés, sur mesure, etc.). Recherchez par nom ou conservez les ID ; les lignes exclues affichent le message d’exclusion sur le formulaire. |
+| **Excluded product variants** | Empty | Variantes spécifiques exclues de la rétractation. Recherchez le produit, puis sélectionnez la variante. |
+| **Excluded categories** | Empty | Tous les produits de ces catégories sont non rétractables. |
+| **Excluded manufacturers** | Empty | Les produits de ces fabricants ne peuvent pas être rétractés. |
+| **Excluded suppliers** | Empty | Les produits liés à ces fournisseurs ne peuvent pas être rétractés. |
+| **Excluded customer groups** | Empty | Les clients de ces groupes ne peuvent pas utiliser la rétractation du tout (pas d’accès au formulaire, boutons masqués). |
 
-  - **Sorties :** Le formulaire de configuration principal du module, rendu par `getContent()` dans `index.php`. Contient tous les paramètres décrits dans la section 4.1.
-- `rbpro/views/templates/admin/dashboard.tpl`
+#### Pied de page et apparence
 
-  - **Sorties :** Un tableau de bord ou une vue récapitulative pour le module, affichant potentiellement des statistiques ou des demandes de rétractation récentes.
-- `rbpro/views/templates/admin/order-state-picker.tpl`
+| Champ | Au départ | Rôle |
+|---|---|---|
+| **Footer button** | Yes | Affiche l’appel à l’action principal de rétractation dans le pied de la boutique (hook configuré ci-dessus). Désactivez si vous ne voulez que les liens Mon compte et détail de commande. Nécessite **Module enabled** et un hook de pied correct. |
+| **Footer theme** | Light footer (dark text) | Schéma de couleurs pour le texte et les liens du pied (pas le fond du bouton). Choisissez Light sur des pieds clairs, Dark sur des pieds noirs/sombres pour que **Track withdrawal status** reste lisible. Videz le cache après modification. |
+| **Footer alignment** | Center | Alignement horizontal du bloc bouton du pied : Left, Center ou Right. N’affecte que la sortie du hook de pied. |
+| **Button color** | #2563eb | Couleur de fond des boutons de rétractation (pied, détail de commande, etc.). Choisissez une couleur hex avec assez de contraste sur texte blanc. Ne change pas la couleur primaire du thème globalement. |
+| **Custom CSS** | Empty | CSS supplémentaire sur les pages où apparaissent les boutons du module. Pour marges, polices ou masquage d’éléments sans éditer les fichiers du thème. Testez d’abord en staging. |
+| **Link in customer account** | Yes | Ajoute une entrée de rétractation dans My Account. Recommandé activé. Désactivez uniquement si vous vous fiez seulement aux liens du pied ou de la commande. |
+| **Link on order detail** | Yes | Affiche l’action de rétractation sur la page de détail de commande lorsque la commande est éligible. Les commandes bloquées affichent un motif court à la place du bouton. |
 
-  - **Sorties :** Un template personnalisé pour la sélection des états de commande, utilisé dans la configuration du module ou la vue d'administration des rétractations.
-- `rbpro/views/templates/admin/order-withdrawal-notice.tpl`
+#### Texts & SEO
 
-  - **Sorties :** Un petit widget ou une notification affiché dans la page de détails de commande de PrestaShop dans le back-office, indiquant s'il y a une demande de rétractation active pour cette commande.
-- `rbpro/views/templates/admin/updates.tpl`
+Remplissez chaque langue active de la boutique.
 
-  - **Sorties :** Un template pour afficher les notifications de mise à jour du module ou les journaux de modifications dans l'interface d'administration.
-- `rbpro/views/templates/admin/view.tpl`
+| Champ | Au départ | Rôle |
+|---|---|---|
+| **Noindex on form page** | Yes | Ajoute robots noindex,nofollow sur l’URL du formulaire de rétractation pour garder les pages juridiques/formulaire hors résultats de recherche. Désactivez uniquement si vous voulez indexer le formulaire volontairement. |
+| **Button label** | Withdraw from contract | Texte de tous les boutons et liens de rétractation. Un libellé court fonctionne mieux dans le pied. Phrase principale orientée client du module. |
+| **Exclusion message** | This product is excluded from the statutory right of withdrawal. | Affiché à côté des produits exclus sur le formulaire. Expliquez pourquoi l’article ne peut pas être sélectionné ; mentionnez vos CGV si besoin. |
+| **SEO title** | Withdraw from contract | Titre HTML de la page du formulaire de rétractation (onglet du navigateur). Gardez sous environ 60 caractères par langue. |
+| **SEO description** | Online withdrawal form for distance contracts. | Meta description du formulaire. Généralement inutilisée pour le ranking lorsque noindex est actif. Laissez vide pour omettre. |
+| **Legal confirmation checkbox text** | I confirm that I am submitting a withdrawal statement and understand the legal consequences. | Libellé à côté de la case obligatoire à l’étape 2. Utilisez une formulation claire et adaptée au pays. Requis lorsque **Require legal confirmation checkbox** est activé. |
 
-  - **Sorties :** Le template de vue détaillée pour une seule demande de rétractation, rendu par `AdminRbpWithdrawalController::renderForm()`. Affiche tous les détails de la demande, les produits, l'historique, les notes et les options de changement de statut.
+### 3.4 Updates
 
-#### Templates Front-office (`views/templates/front/`)
+Ouvrez l’onglet **Updates**.
 
-Ce sont des templates de page autonomes pour le processus de rétractation côté client.
+| Champ | Au départ | Rôle |
+|---|---|---|
+| **Manual Check** | — | Vérifie sur MyPresta.eu s’il existe une version plus récente du module. Vous voyez **New version available!** ou **Module is up to date!**. Nécessite curl et HTTPS sortant. |
+| **Automatic Notifications** | Enabled (module default for update prefs) | Lorsqu’activé, le back-office peut afficher un avis qu’une nouvelle version existe. Enregistrez avec **Save**. |
+| **Product Page** | Link on form | Ouvre la page produit officielle pour les informations de version. Utilisez Support (§7) pour l’aide aux modules payants après connexion. |
 
-- `rbpro/views/templates/front/confirm_step.tpl`
+Si le module gratuit Return Button est encore activé, les réglages et actions de mise à jour sont bloqués jusqu’à sa désactivation.
 
-  - **Sorties :** L'étape de confirmation du formulaire de rétractation, résumant les sélections du client avant la soumission finale.
-- `rbpro/views/templates/front/error.tpl`
+### 3.5 Liste des rétractations
 
-  - **Sorties :** Une page d'erreur générique affichée si quelque chose ne va pas pendant le processus de rétractation (par exemple, commande invalide, problème technique).
-- `rbpro/views/templates/front/form.tpl`
+Allez dans **Customers** → **Withdrawals**.
 
-  - **Sorties :** Le formulaire principal de demande de rétractation en ligne, permettant aux clients de sélectionner des commandes, des produits et de fournir des détails.
-- `rbpro/views/templates/front/print.tpl`
+![Withdrawals list](https://mypresta.eu/docs/images/docs/rbpro-withdrawals.webp)
 
-  - **Sorties :** Une version imprimable de la demande de rétractation, généralement une mise en page simplifiée sans navigation.
-- `rbpro/views/templates/front/status.tpl`
+Le tri par défaut est la soumission la plus récente en premier. Colonnes :
 
-  - **Sorties :** La page affichant le statut actuel et l'historique d'une demande de rétractation spécifique.
-- `rbpro/views/templates/front/success.tpl`
+| Champ | Au départ | Rôle |
+|---|---|---|
+| **ID** | Auto | Id interne du dossier. |
+| **Submitted** | From form | Date et heure de soumission par le client. |
+| **Order** | From order | Référence de commande PrestaShop. |
+| **First name** / **Last name** / **Email** | From customer | Identité de contact du dossier. |
+| **Scope** | Full order or Partial | Si la commande entière ou des lignes sélectionnées ont été rétractées. |
+| **Type** | Contract withdrawal or cancellation | Rétractation payée vs annulation de commande non payée. |
+| **Status** | Registered after confirm | Statut actuel du dossier (Pending, Registered, In progress, Refunded, Rejected). |
+| **Email** | Yes/No | Si l’e-mail de confirmation a été enregistré comme envoyé. |
 
-  - **Sorties :** Une page de message de succès affichée après qu'une demande de rétractation a été soumise avec succès.
-- `rbpro/views/templates/front/track.tpl`
+Utilisez la recherche et le tri sur la liste. Ouvrez un dossier avec **View**. Il n’y a pas d’action **Add new** : les demandes ne sont créées que par les clients sur le front. Si quelqu’un tente de créer un dossier en back-office, l’avertissement explique que les rétractations ne peuvent pas être créées manuellement et la liste est réaffichée.
 
-  - **Sorties :** Le formulaire où les clients peuvent saisir leur référence de commande et leur e-mail pour suivre une demande de rétractation.
+Exportez le CSV depuis **Dashboard** (**Export CSV**) lorsque vous avez besoin d’un tableur des dossiers de la boutique.
 
-### 4.7 Schéma de base de données et carte des hooks
+### 3.6 Vue du dossier de rétractation
 
-#### Tables de base de données
+Ouvrez une ligne avec **View**.
 
-Le module crée et gère plusieurs tables personnalisées :
+L’en-tête affiche référence, ID, date de soumission, statut, type, portée, indicateur et heure d’e-mail envoyé, échéance, IP, user-agent, nom et e-mail du client, et un lien vers la commande PrestaShop. Le bloc produits liste chaque ligne rétractée avec quantité et prix unitaire. L’IBAN et le message client apparaissent lorsque le client les a fournis.
 
-- `ps_rbp_withdrawal` : Stocke les détails principaux de la demande de rétractation (client, commande, statut, raison, etc.).
-- `ps_rbp_withdrawal_attachment` : Stocke les détails des fichiers téléchargés par les clients pour une demande de rétractation.
-- `ps_rbp_withdrawal_history` : Enregistre tous les changements de statut et les messages associés pour chaque demande de rétractation.
-- `ps_rbp_withdrawal_note` : Stocke les notes internes ajoutées par les employés à une demande de rétractation.
-- `ps_rbp_withdrawal_product` : Lie des produits spécifiques d'une commande à une demande de rétractation, y compris la quantité et la raison.
+**Update status**
 
-Les enregistrements de configuration sont stockés dans `ps_configuration` avec des clés généralement préfixées par `RBP_` (par exemple, `RBP_ALLOW_GUEST_WITHDRAWAL`, `RBP_MIN_ORDER_STATUS`).
+1. Choisissez **New status**.
+2. Rédigez **Message to customer** (requis lorsque ce réglage est actif ; optionnel sinon). Le texte d’aide explique que le message apparaît dans l’historique de rétractation du front.
+3. Cliquez sur **Update status**.
 
-#### Tableau des hooks enregistrés
+Succès : **Status updated.** Autres messages : **Please enter a message for the customer when changing the status.**, **Status is already set to this value.**, **Invalid status.**, **Could not update status.**
 
-| Nom du hook | Moment d'exécution | Objectif technique |
-| --- | --- | --- |
-| `displayHeader` | Dans la section `<head>` de chaque page. | Injecter CSS/JS, afficher le bouton de retour (si configuré). |
-| `displayFooter` | Dans le pied de page de chaque page. | Afficher le bouton de retour (si configuré). |
-| `displayLeftColumn` | Dans la colonne de gauche des pages. | Afficher le bouton de retour (si configuré). |
-| `displayRightColumn` | Dans la colonne de droite des pages. | Afficher le bouton de retour (si configuré). |
-| `displayProductButtons` | Sur la page produit, près du bouton d'ajout au panier. | Afficher le bouton de retour (si configuré). |
-| `displayCustomerAccount` | Sur la page « Mon compte » du client. | Ajouter un lien vers le formulaire de rétractation/suivi. |
-| `displayOrderDetail` | Sur la page de détails de commande individuelle du client. | Ajouter une option pour demander un retour pour cette commande. |
-| `displayAdminOrder` | Dans le back-office de PrestaShop, sur la page de détails de commande. | Afficher une notification ou un résumé des demandes de rétractation associées. |
-| `actionValidateOrder` | Après qu'une commande a été validée avec succès. | Potentiellement enregistrer les détails de la commande pour de futures vérifications d'éligibilité à la rétractation. |
-| `actionOrderStatusUpdate` | Après qu'un statut de commande a été modifié. | Vérifier si le statut de la commande affecte l'éligibilité à la rétractation ou déclencher des notifications. |
-| `actionFrontControllerSetMedia` | Avant qu'un contrôleur frontal ne rende son contenu. | Charger les actifs CSS et JavaScript spécifiques au front-office. |
-| `actionAdminControllerSetMedia` | Avant qu'un contrôleur d'administration ne rende son contenu. | Charger les actifs CSS et JavaScript spécifiques au back-office. |
-| `actionModuleInstall` | Lors de l'installation du module. | Créer des tables de base de données, définir les valeurs de configuration par défaut. |
-| `actionModuleUninstall` | Lors de la désinstallation du module. | Supprimer les tables de base de données, nettoyer les valeurs de configuration. |
+**Resend confirmation email** renvoie la confirmation client, met à jour l’indicateur d’envoi en cas de succès et journalise l’événement. Succès : **Confirmation email sent.** Échec : **Could not send email.**
 
-## 5. Support officiel et mises à jour
+**Internal notes** sont réservées au personnel. Saisissez du texte et cliquez sur **Add note**. Les notes apparaissent sous **Internal notes** et dans la piste d’audit ; elles ne remplacent pas le message de statut destiné au client.
 
-Pour les mises à jour officielles, le support technique et toute question concernant le module « Bouton de retour UE – Formulaire de rétractation en ligne », veuillez vous référer à votre compte client sur [MyPresta.eu](https://mypresta.eu/). Notre équipe de support et nos développeurs sont disponibles pour vous aider avec tout problème ou question.
+**Attachments** acceptent les téléversements du personnel (PDF et images courantes, max. 10 Mo). Téléchargez en cliquant sur le nom du fichier. Messages : **Attachment uploaded.**, **Invalid file or size over 10 MB.**, **File type not allowed.**, **Upload failed.**
+
+**Audit trail** liste date, événement, employé et détails (transitions de statut et messages). Événements typiques : le client a soumis la déclaration, le client a confirmé la déclaration légale, statut mis à jour, e-mail de confirmation envoyé, document ajouté, note interne ajoutée.
+
+Utilisez **Back to list** pour revenir à **Withdrawals**.
+
+### 3.7 Panneau latéral de commande en back-office
+
+Sous PrestaShop 1.7.7 et plus récent, ouvrez une commande en back-office. Lorsque cette commande a des dossiers de rétractation, un bloc latéral **Withdrawal requests** liste chaque référence, badge de statut, date et **View** (ouvre le dossier). Sur les builds 1.7 plus anciens sans hook latéral de commande, utilisez **Customers** → **Withdrawals** et filtrez par référence de commande.
+
+Les dossiers en attente peuvent aussi déclencher un avertissement back-office avec le nombre de demandes en attente de revue et un lien vers la liste.
+
+## 4. Front-office
+
+Aucune capture front-office n’est incluse ici ; branchez le thème et vérifiez la boutique en direct après avoir enregistré Settings et vidé le cache.
+
+### 4.1 Pied de page
+
+Avec **Footer button** activé et le bon hook, les pages affichent le bouton de rétractation (libellé de **Button label**) stylé avec **Button color**, plus **Track withdrawal status** lorsque le suivi public est actif. **Footer alignment** et **Footer theme** contrôlent la mise en page et le contraste du texte. Si le thème n’appelle jamais le hook de pied sélectionné, changez le hook ou placez le hook personnalisé dans un template et sélectionnez cette option sous **Footer button hook**.
+
+### 4.2 Compte client
+
+Avec **Link in customer account** activé, My Account affiche l’entrée de rétractation (et le lien de suivi lorsque le template de compte l’inclut). Les groupes clients exclus ne voient aucun point d’entrée.
+
+### 4.3 Détail de commande
+
+Avec **Link on order detail** activé, les commandes éligibles affichent le bouton de rétractation prérempli pour cette commande. Les dossiers existants de la commande sont listés avec le statut. Les commandes non éligibles affichent un motif court à la place du bouton, par exemple délai expiré, statut non autorisé, demande active en double, ou aucun produit éligible.
+
+### 4.4 Accès invité
+
+Lorsque **Guest access** est activé, un visiteur ouvre le formulaire, saisit référence de commande et e-mail, puis continue comme un client connecté pour cette commande. Lorsque l’accès invité est désactivé, les invités voient qu’ils doivent se connecter (ou que vous devez activer l’accès invité dans Settings). Les jetons de sécurité invalides et trop de tentatives affichent des messages clairs d’attente / nouvel essai.
+
+### 4.5 Suivi du statut
+
+**Track withdrawal status** demande la référence de rétractation (format du type RBP-…) et l’e-mail, puis affiche le statut, la date de soumission, la portée, l’état de l’e-mail de confirmation et des liens vers les détails et l’impression. Mauvaise paire : **No withdrawal found for these details.**
+
+### 4.6 Page de statut et impression
+
+Après envoi, **Withdrawal submitted** affiche la référence, une checklist (déclaration enregistrée, e-mail de confirmation, la boutique traitera), puis **View withdrawal details**, **Track status** et **Print / save PDF**. La page de statut liste produits, quantités, prix, totaux et **Withdrawal history** y compris les messages du personnel issus des mises à jour de statut. L’impression ouvre une page de preuve imprimable avec un jeton sécurisé du flux de confirmation.
+
+## 5. Problèmes
+
+### 5.1 Return Button gratuit encore activé
+
+**Symptôme :** la configuration est bloquée ; alerte indiquant que l’autre module de retour est activé ; l’enregistrement peut indiquer que les changements n’ont pas été sauvegardés tant que ce module n’est pas désactivé.
+
+**Que faire :** **Modules** → **Module Manager** → trouvez le module gratuit Return Button → **Disable**. Puis rouvrez Return Button Pro.
+
+### 5.2 Bouton du pied manquant
+
+**Symptôme :** pas de bouton de rétractation dans le pied.
+
+**Que faire :** confirmez que **Module enabled** et **Footer button** sont activés. Sous **Settings**, définissez **Footer button hook** sur Auto ou essayez les autres positions de pied une par une. Videz le cache et rechargez en dur la boutique. Pour les thèmes personnalisés, placez le hook personnalisé du module dans le template et sélectionnez cette option sous **Footer button hook**. Ouvrez **Dashboard** : il affiche le profil de thème détecté et le nom du hook de pied actif pour comparaison avec le thème.
+
+### 5.3 « Return not available — the withdrawal period has ended. »
+
+**Symptôme :** le détail de commande ou le formulaire bloque la rétractation avec ce message.
+
+**Que faire :** vérifiez **Withdrawal period** et **Order state = delivered**. Corrigez l’historique de commande si la livraison n’a jamais été enregistrée. Prolongez le délai uniquement si vos CGV le permettent.
+
+### 5.4 « An active withdrawal request already exists for this order. »
+
+**Symptôme :** le client ne peut pas ouvrir un second dossier.
+
+**Que faire :** terminez ou clôturez le dossier existant (**Refunded** / **Rejected**), ou désactivez temporairement **Block duplicate active requests** uniquement si votre processus autorise vraiment plusieurs réclamations ouvertes.
+
+### 5.5 « This order status does not allow withdrawal. »
+
+**Symptôme :** la commande est hors du filtre de statuts autorisés.
+
+**Que faire :** sous **Settings**, définissez **Allowed order statuses** sur **All order statuses**, ou ajoutez l’état actuel de la commande à **Allowed for withdrawal**.
+
+### 5.6 « No products in this order are eligible for withdrawal. » / message d’exclusion sur les lignes
+
+**Symptôme :** chaque ligne exclue, ou lignes partielles sélectionnées invalides.
+
+**Que faire :** examinez les produits, variantes, catégories, fabricants et fournisseurs exclus. Ajustez **Exclusion message** pour que les clients comprennent pourquoi.
+
+### 5.7 « Withdrawal is not available for your customer account. »
+
+**Symptôme :** formulaire ou boutons masqués pour un client connecté.
+
+**Que faire :** retirez le groupe du client de **Excluded customer groups**, ou déplacez le client vers un groupe autorisé.
+
+### 5.8 « Please enter a message for the customer when changing the status. »
+
+**Symptôme :** la mise à jour de statut échoue dans la vue du dossier.
+
+**Que faire :** renseignez **Message to customer**, ou désactivez **Require message to customer when changing status** si votre processus autorise des messages vides.
+
+### 5.9 E-mail de confirmation non envoyé
+
+**Symptôme :** le dossier indique e-mail non envoyé ; le client n’a pas de confirmation durable.
+
+**Que faire :** corrigez les réglages mail PrestaShop, vérifiez les spams, utilisez **Resend confirmation email**. Définissez **Notification email** pour les copies au personnel. Confirmez que l’e-mail de contact de la boutique fonctionne.
+
+### 5.10 L’invité ne trouve pas la commande
+
+**Symptôme :** **No order found for the given details.** ou attente de limitation de débit.
+
+**Que faire :** faites correspondre exactement la référence de commande et l’e-mail de commande. Attendez en cas de trop nombreuses tentatives. Confirmez que **Guest access** est activé.
+
+### 5.11 La vérification des mises à jour échoue ou reste silencieuse
+
+**Symptôme :** la vérification manuelle ne signale pas de version.
+
+**Que faire :** assurez-vous que curl fonctionne et que le serveur peut joindre MyPresta.eu. Désactivez le module gratuit si Pro est bloqué. Réessayez **Manual Check** sur l’onglet **Updates**.
+
+## 6. Pour les développeurs
+
+### 6.1 Aperçu
+
+- Nom technique : `rbpro`
+- Version : paquet actuel 1.7–9 (ex. 1.4.6) ; PrestaShop 1.6 en paquet séparé (ex. 1.4.5) avec `ps_versions_compliancy` min `1.6.0.0`
+- Nom affiché : Return Button Pro
+- Auteur : MyPresta.eu
+- Tab : `front_office_features`
+- Classe principale : `Rbpro`
+- `ps_versions_compliancy` du paquet 1.7–9 : min `1.7.0.0` ; du paquet 1.6 : min `1.6.0.0`
+- Couche service : `RbpWithdrawalService` ; sécurité : `RbpSecurity` ; thème/hooks : `RbpCompatibility` ; analytics : `RbpStatsService`
+- Flux : clés de configuration → hooks / contrôleurs front → tables `rbp_withdrawal*` → admin `AdminRbpWithdrawal` → statut/suivi/impression client
+
+### 6.2 Fichiers importants
+
+| Chemin | Rôle |
+|---|---|
+| `rbpro.php` | Bootstrap du module, install/uninstall, onglets configure, hooks, defaults |
+| `classes/RbpWithdrawal.php` | Modèle objet du dossier et statuts |
+| `classes/RbpWithdrawalService.php` | Éligibilité, délais, create/confirm, e-mails, mises à jour de statut |
+| `classes/RbpSecurity.php` | CSRF, grant invité, rate limit, sanitization IBAN |
+| `classes/RbpCompatibility.php` | Profil de thème, résolution du hook de pied, URL admin, hooks requis |
+| `controllers/admin/AdminRbpWithdrawalController.php` | Liste et vue du dossier |
+| `controllers/front/form.php` | Formulaire en deux étapes |
+| `controllers/front/confirm.php` | Page de succès |
+| `controllers/front/track.php` | Suivi public |
+| `controllers/front/status.php` | Détails du dossier pour le client |
+| `controllers/front/print.php` | Preuve imprimable |
+| `sql/install.sql` | Crée les tables `rbp_*` |
+| `sql/uninstall.sql` | Commentaire seulement — tables conservées |
+| `lib/updateChecker.php` | UI de mise à jour MyPresta (`rbproUpdate`) |
+| `views/templates/admin/*` | Dashboard, coque configure, vue dossier, avis latéral commande |
+| `views/templates/front/*` | Formulaire, confirm, track, status, print, error |
+| `views/templates/hook/*` | Boutons pied/compte/commande (classic / hummingbird) |
+| `mails/*` | Templates `rbf_withdrawal_customer` / `rbf_withdrawal_admin` |
+| `translations/*.php` | Traductions du pack |
+
+### 6.3 Contrôleurs
+
+| Contrôleur | Parent / entrée | Notes |
+|---|---|---|
+| Configure (`getContent`) | Module Manager | Onglets `rbp_tab` : `dashboard`, `settings`, `updates` |
+| `AdminRbpWithdrawal` | Customers → Withdrawals | `add`/`edit` false ; chemin de création en lecture seule ; export CSV ; téléchargement de pièces jointes |
+| Front `form` | Module link | Étapes 1–2 ; recherche invité ; cookie brouillon |
+| Front `confirm` | Module link | Succès après envoi |
+| Front `track` | Module link | Référence + e-mail |
+| Front `status` | Module link | Chronologie + produits |
+| Front `print` | Module link | Jeton HMAC sur la référence |
+
+Les permissions suivent l’onglet admin. Les contrôleurs front exigent le module activé pour le formulaire ; le suivi respecte `RBP_ENABLE_STATUS_TRACK`.
+
+### 6.4 Hooks
+
+Enregistrés : `displayHeader`, `actionFrontControllerSetMedia`, `displayCustomerAccount`, `displayOrderDetail`, `actionPresentOrder`, `displayFooter`, `displayFooterBefore`, `displayFooterAfter`, `displayRbproButton` ; sur PS ≥ 1.7.7 aussi `displayBackOfficeHeader`, `displayAdminOrderSide`.
+
+Exécutés par le module : `actionRbpWithdrawalCreated`, `actionRbpWithdrawalConfirmed` (et hooks liés au statut depuis le service lorsqu’ils sont définis).
+
+La sortie du pied ne s’exécute que pour le nom de hook résolu par `RbpCompatibility::getFooterHookName()`.
+
+### 6.5 Overrides
+
+Aucun override de classe ou de contrôleur. L’intégration du thème utilise uniquement les hooks et des templates sélectionnables.
+
+### 6.6 Base de données
+
+| Table | Contenu |
+|---|---|
+| `PREFIX_rbp_withdrawal` | En-tête du dossier : boutique, commande, client, référence, portée, type, statut, IBAN, message, IP, UA, langue, flags e-mail, échéance, dates |
+| `PREFIX_rbp_withdrawal_product` | Lignes sélectionnées et quantités |
+| `PREFIX_rbp_withdrawal_note` | Notes internes du personnel |
+| `PREFIX_rbp_withdrawal_attachment` | Métadonnées des téléversements du personnel |
+| `PREFIX_rbp_withdrawal_history` | Événements d’audit |
+
+La désinstallation **ne** supprime **pas** ces tables. `ensureDatabase()` crée les tables manquantes et peut migrer depuis `rbf_*` lorsque les tables Pro sont vides et que les tables gratuites ont des lignes.
+
+### 6.7 Clés de configuration et traductions
+
+Defaults de `Rbpro::CONFIG` :
+
+| Clé | Default |
+|---|---|
+| `RBP_ENABLED` | 1 |
+| `RBP_GUEST_ENABLED` | 1 |
+| `RBP_IBAN_ENABLED` | 0 |
+| `RBP_WITHDRAWAL_DAYS` | 14 |
+| `RBP_DELIVERED_STATUS` | 0 (Auto) |
+| `RBP_EXCLUDED_PRODUCTS` / `_COMBINATIONS` / `_CATEGORIES` / `_MANUFACTURERS` / `_SUPPLIERS` / `_CUSTOMER_GROUPS` | empty |
+| `RBP_ALLOWED_ORDER_STATES` | empty |
+| `RBP_ALLOWED_ORDER_STATES_RESTRICT` | 0 |
+| `RBP_FOOTER_ENABLED` | 1 |
+| `RBP_FOOTER_THEME` | light |
+| `RBP_FOOTER_POSITION` | center |
+| `RBP_BUTTON_COLOR` | `#2563eb` |
+| `RBP_CUSTOM_CSS` | empty |
+| `RBP_SHOW_ACCOUNT` / `RBP_SHOW_ORDER` | 1 |
+| `RBP_SEO_NOINDEX` | 1 |
+| `RBP_ADMIN_EMAIL` | empty |
+| `RBP_BLOCK_DUPLICATE` | 1 |
+| `RBP_SHOW_DEADLINE` | 1 |
+| `RBP_REQUIRE_CHECKBOX` | 1 |
+| `RBP_REQUIRE_STATUS_MESSAGE` | 1 |
+| `RBP_THEME_TYPE` | auto |
+| `RBP_FOOTER_HOOK` | auto |
+| `RBP_ENABLE_STATUS_TRACK` | 1 |
+
+Multilingue (pas dans le tableau `CONFIG`, installés par defaults) : `RBP_BUTTON_TEXT`, `RBP_EXCLUSION_MSG`, `RBP_SEO_TITLE`, `RBP_SEO_DESC`, `RBP_LEGAL_CHECKBOX`. Runtime : `RBP_ADMIN_FOLDER`. Les préférences de mise à jour utilisent les clés du vérificateur MyPresta. La migration du module gratuit mappe `RBF_*` → `RBP_*` lorsque les clés Pro sont vides.
+
+Traductions : `translations/{iso}.php`. Les chaînes `desc` des champs vivent dans `renderConfigurationForm()` via `$this->l()`.
+
+Statuts : `pending`, `confirmed` (libellé Registered), `processing`, `refunded`, `rejected`.
+
+### 6.8 Extension
+
+Surchargez les TPL/CSS de hooks dans le thème pour `modules/rbpro/...` sans modifier le module. Placez `{hook h='displayRbproButton'}` pour un placement personnalisé du bouton. Écoutez `actionRbpWithdrawalCreated` / `actionRbpWithdrawalConfirmed`. Ne comptez pas sur des overrides — il n’y en a aucun à enchaîner.
+
+## 7. Support
+
+Page produit : https://mypresta.eu/modules/front-office-features/eu-return-button-online-withdrawal-form.html
+
+Aide pour ce module payant : connectez-vous à votre compte client sur mypresta.eu, ouvrez Contact et choisissez **Support for paid modules**. Le formulaire exige une connexion pour les modules payants ; après connexion, sélectionnez Return Button Pro dans votre historique d’achats.

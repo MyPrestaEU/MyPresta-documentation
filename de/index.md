@@ -27,14 +27,19 @@ Benötigen Sie Hilfe bei der Konfiguration Ihres Shops? Wählen Sie unten ein Th
 
 | Modulkategorie | Was Sie konfigurieren können | Dokumentations-Hub |
 | :--- | :--- | :--- |
+| **KI & Automatisierung** | KI-Inhaltserstellung, ChatGPT, Gemini, Claude, DeepSeek, automatische Produktbeschreibungen und SEO-Automatisierung. | [KI & Automatisierung durchsuchen](./ai-artificial-intelligence/) |
+| **Back-Office & Admin-Tools** | Dienstprogramme zur Auftragsverwaltung, Bulk-Katalog-Tools und Module zur Shop-Wartung. | [Back-Office durchsuchen](./back-office-tools/) |
+| **Marketing & Werbung** | Werbeaktionen, Exit-Intent-Modale, Benachrichtigungen und Tools zur Kundenbindung. | [Marketing durchsuchen](./advertising-marketing/) |
 | **Front-Office-Module** | UX-Verbesserungen, Produktseiten-Widgets, Banner, Popups und Frontend-Erweiterungen. | [Front-Office durchsuchen](./front-office/) |
 | **Bestellung & Checkout** | Optimierungen des Kaufprozesses, benutzerdefinierte Checkout-Felder, Zuschlags- und Lieferregeln. | [Bestellung durchsuchen](./ordering-process/) |
 | **Zahlungsgateways** | Benutzerdefinierte Zahlungsgebühren, Zahlungsbeschränkungen, Zuschlagsoptionen und Nachnahme-Funktionen. | [Zahlung durchsuchen](./payment/) |
 | **SEO & Suchsichtbarkeit** | Meta-Tags, kanonische URLs, Schema-Markup und Suchmaschinenoptimierungen. | [SEO durchsuchen](./seo/) |
-| **Marketing & Werbung** | Werbeaktionen, Exit-Intent-Modale, Benachrichtigungen und Tools zur Kundenbindung. | [Marketing durchsuchen](./advertising-marketing/) |
-| **Back-Office & Admin-Tools** | Dienstprogramme zur Auftragsverwaltung, Bulk-Katalog-Tools und Module zur Shop-Wartung. | [Back-Office durchsuchen](./back-office-tools/) |
 | **Slider & Diashows** | Responsive Bildkarussells, Videobanner und Werbe-Medien-Slider. | [Slider durchsuchen](./sliders-slideshows/) |
 | **Soziale Netzwerke** | Social-Media-Feeds, Facebook-Integrationen, Sharing-Widgets und Community-Tools. | [Soziale Netzwerke durchsuchen](./social-networks/) |
+
+
+
+
 
 
 :::tip[Modul nicht gefunden?]

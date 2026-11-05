@@ -1,8 +1,8 @@
 ---
-title: "Tableau des déclinaisons sur la page produit - Manuel du Marchand & Guide de Configuration"
-description: "Manuel utilisateur complet, guide de configuration écran par écran et référence développeur pour le module PrestaShop 'Tableau des déclinaisons sur la page produit' par MyPresta.eu."
+title: "Combinations Tab Pro - documentation et manuel utilisateur"
+description: "Configurez la matrice de déclinaisons, les réglages quotidiens de la fiche produit et résolvez les problèmes courants de vitrine si vous possédez déjà Combinations Tab Pro."
 sidebar:
-  label: "Tableau des déclinaisons sur la page produit - Manuel du Marchand & Guide de Configuration"
+  label: "Combinations Tab Pro - documentation et manuel utilisateur"
 ---
 
 > ⚠️ **Notice:** This is the documentation officielle du module PrestaShop.
@@ -12,568 +12,436 @@ sidebar:
 > ---
 
 
-# Tableau des déclinaisons sur la page produit
-
-## 1. Exigences et compatibilité
-
-- **Versions PrestaShop prises en charge** : PrestaShop 1.4.x, 1.5.x, 1.6.x, 1.7.x, 8.x, 9.x
-- **Compatibilité PHP** : PHP 5.6 - 8.5
-- **Exigences d'hébergement** : Extensions PHP standard (cURL, JSON, OpenSSL).
-
-## 2. Guide de configuration complet (Chaque paramètre regroupé par écran)
-
-### 2.1 Page de configuration du module (Back Office > Modules > Configurer)
-
-Ceci est l'écran de configuration principal où vous contrôlez l'apparence et le comportement du tableau des déclinaisons sur vos pages produit.
-
-#### Paramètres généraux
-
--   **Activer la fonction de filtres**
-
-    -   **Ce que fait ce paramètre :** Active ou désactive un système de filtrage au-dessus du tableau des déclinaisons, permettant aux clients d'affiner rapidement les options en fonction de valeurs d'attributs spécifiques (par exemple, "Afficher uniquement les chemises rouges").
-    -   **Effet de la modification de ce paramètre :**
-        -   *Lorsqu'activé :* Une barre de filtres apparaîtra au-dessus du tableau, facilitant la recherche de déclinaisons spécifiques dans de grandes listes pour les clients.
-        -   *Lorsqu'désactivé :* Aucune barre de filtres ne sera affichée, et toutes les déclinaisons seront affichées sans options de filtrage.
-    -   **Valeur recommandée :** OUI (si vous avez de nombreuses déclinaisons par produit, ou si les clients recherchent souvent des attributs spécifiques).
-    -   **Scénario / exemple de marchand :** Un magasin de vêtements avec des dizaines de tailles et de couleurs pour un seul t-shirt. Les filtres aident les clients à trouver rapidement les t-shirts "Bleu Large".
--   **Mettre en évidence le meilleur prix**
-
-    -   **Ce que fait ce paramètre :** Met visuellement en évidence la déclinaison avec le prix le plus bas dans le tableau, attirant l'attention du client sur l'option la plus abordable.
-    -   **Effet de la modification de ce paramètre :**
-        -   *Lorsqu'activé :* La ligne correspondant à la déclinaison la moins chère sera mise en évidence (par exemple, avec une couleur de fond différente).
-        -   *Lorsqu'désactivé :* Aucune mise en évidence spéciale pour le prix le plus bas.
-    -   **Valeur recommandée :** OUI (peut encourager les achats en mettant en évidence la valeur).
-    -   **Scénario / exemple de marchand :** Un produit avec diverses offres groupées ou configurations où une déclinaison offre une bien meilleure affaire.
--   **Afficher la colonne des économies**
-
-    -   **Ce que fait ce paramètre :** Ajoute une colonne supplémentaire au tableau qui affiche le montant ou le pourcentage qu'un client économise lors de l'achat d'une déclinaison spécifique, particulièrement utile avec les réductions de quantité ou les prix spéciaux.
-    -   **Effet de la modification de ce paramètre :**
-        -   *Lorsqu'activé :* Une colonne "Économies" apparaîtra, affichant la réduction pour chaque déclinaison si applicable.
-        -   *Lorsqu'désactivé :* Cette colonne ne sera pas affichée.
-    -   **Valeur recommandée :** OUI (si vous offrez fréquemment des réductions ou avez une tarification basée sur la quantité).
-    -   **Scénario / exemple de marchand :** Vendre un produit avec un prix de base, mais certaines déclinaisons (par exemple, une déclinaison "bundle") ont un prix réduit, et vous voulez montrer l'économie.
--   **Astuce de seuil de réduction de quantité**
-
-    -   **Ce que fait ce paramètre :** Affiche une petite info-bulle ou un message indiquant la quantité requise pour débloquer une réduction spécifique, encourageant les clients à acheter plus.
-    -   **Effet de la modification de ce paramètre :**
-        -   *Lorsqu'activé :* Lorsqu'un client survole ou interagit avec une saisie de quantité, une astuce peut apparaître indiquant "Achetez 5 pour 10% de réduction !".
-        -   *Lorsqu'désactivé :* Aucune astuce de ce type ne sera affichée.
-    -   **Valeur recommandée :** OUI (si vous utilisez la fonction de réductions de quantité de PrestaShop).
-    -   **Scénario / exemple de marchand :** Un magasin vendant des fournitures de bureau où l'achat de 10 stylos donne droit à une réduction de 5%, et cette astuce le rappelle au client.
--   **Mise en page mobile en carte**
-
-    -   **Ce que fait ce paramètre :** Détermine la manière dont le tableau des déclinaisons est affiché sur les appareils mobiles. Au lieu d'un tableau large, il peut passer à une mise en page "carte" plus conviviale.
-    -   **Effet de la modification de ce paramètre :**
-        -   *Lorsqu'activé :* Sur les smartphones, chaque déclinaison sera présentée comme une carte séparée, empilée verticalement, ce qui facilite la lecture et l'interaction.
-        -   *Lorsqu'désactivé :* Le module tentera d'afficher le tableau complet, ce qui pourrait nécessiter un défilement horizontal sur mobile, entravant potentiellement l'utilisabilité.
-    -   **Valeur recommandée :** OUI (crucial pour la réactivité mobile et une bonne expérience utilisateur).
-    -   **Scénario / exemple de marchand :** Un client naviguant sur votre boutique depuis son téléphone. La mise en page en carte garantit qu'il peut facilement voir et sélectionner les déclinaisons sans zoomer ou faire défiler excessivement.
--   **Ordre des colonnes**
-
-    -   **Ce que fait ce paramètre :** Vous permet de personnaliser la séquence des colonnes (par exemple, Image, Référence, Prix, Quantité) dans le tableau des déclinaisons.
-    -   **Effet de la modification de ce paramètre :**
-        -   *Lorsqu'modifié :* Les colonnes se réorganiseront dans le tableau du front-office selon l'ordre que vous avez spécifié.
-    -   **Valeur recommandée :** Organisez les colonnes dans un ordre intuitif qui a du sens pour vos produits (par exemple, Image, Attributs, Prix, Quantité, Ajouter au panier).
-    -   **Scénario / exemple de marchand :** Pour un magasin de mode, vous pourriez vouloir "Image" en premier, puis "Couleur", puis "Taille", puis "Prix". Pour l'électronique, "Référence" pourrait être plus important.
--   **Cliquer et changer de déclinaison**
-
-    -   **Ce que fait ce paramètre :** Contrôle si le fait de cliquer sur une ligne de déclinaison dans le tableau met automatiquement à jour l'image principale du produit, le prix et d'autres détails sur la page produit pour refléter cette déclinaison spécifique.
-    -   **Effet de la modification de ce paramètre :**
-        -   *Lorsqu'activé :* Cliquer sur une ligne mettra à jour dynamiquement l'affichage principal du produit, donnant au client une confirmation visuelle de sa sélection.
-        -   *Lorsqu'désactivé :* L'affichage principal du produit ne changera pas lorsqu'une ligne est cliquée ; seule la saisie de la quantité et le bouton "Ajouter au panier" pour cette ligne sont actifs.
-    -   **Valeur recommandée :** OUI (améliore l'expérience utilisateur en fournissant un retour visuel).
-    -   **Scénario / exemple de marchand :** Un client clique sur une déclinaison "Rouge, Grande", et l'image principale du produit passe immédiatement à la version rouge du produit.
-
-#### Paramètres d'image
-
--   **Afficher l'image**
-
-    -   **Ce que fait ce paramètre :** Détermine si une image miniature pour chaque déclinaison doit être affichée dans le tableau.
-    -   **Effet de la modification de ce paramètre :**
-        -   *Lorsqu'activé :* Une colonne d'image apparaîtra, affichant l'image spécifique associée à chaque déclinaison (si disponible).
-        -   *Lorsqu'désactivé :* Aucune colonne d'image ne sera affichée.
-    -   **Valeur recommandée :** OUI (les visuels sont puissants pour la sélection de produits).
-    -   **Scénario / exemple de marchand :** Un magasin de vêtements où chaque variation de couleur a une image distincte.
--   **Afficher la colonne d'image s'il y a au moins une déclinaison avec image**
-
-    -   **Ce que fait ce paramètre :** Contrôle la visibilité de la colonne d'image en fonction de la présence d'une image spécifique attribuée à une déclinaison.
-    -   **Effet de la modification de ce paramètre :**
-        -   *Lorsqu'activé :* Si au moins une déclinaison a une image, la colonne d'image apparaîtra pour toutes les déclinaisons (affichant l'image par défaut du produit pour celles sans images de déclinaison spécifiques).
-        -   *Lorsqu'désactivé :* La colonne d'image n'apparaîtra que si *toutes* les déclinaisons ont des images spécifiques, ou elle pourrait ne pas apparaître du tout si vous utilisez également "Utiliser l'image par défaut du produit" avec prudence.
-    -   **Valeur recommandée :** OUI (évite une colonne d'image vide si seules quelques déclinaisons ont des images).
-    -   **Scénario / exemple de marchand :** Vous avez 20 déclinaisons, mais seulement 5 ont des images uniques. Cela garantit que la colonne d'image apparaît toujours, en utilisant l'image principale du produit pour les 15 autres.
--   **Utiliser l'image par défaut du produit**
-
-    -   **Ce que fait ce paramètre :** Si une déclinaison spécifique n'a pas sa propre image, ce paramètre détermine si l'image principale du produit doit être utilisée comme solution de repli.
-    -   **Effet de la modification de ce paramètre :**
-        -   *Lorsqu'activé :* Les déclinaisons sans images spécifiques afficheront l'image principale du produit.
-        -   *Lorsqu'désactivé :* Les déclinaisons sans images spécifiques afficheront un espace réservé ou aucune image.
-    -   **Valeur recommandée :** OUI (garantit que toutes les déclinaisons ont une représentation visuelle).
-    -   **Scénario / exemple de marchand :** Un produit avec de nombreuses variations de taille mais une seule image par couleur. Cela garantit que toutes les tailles d'une couleur spécifique affichent l'image de couleur correcte.
--   **Activer le zoom Fancybox**
-
-    -   **Ce que fait ce paramètre :** Permet aux clients de cliquer sur les images de déclinaison dans le tableau pour afficher une version plus grande et zoomée dans une fenêtre contextuelle (Fancybox).
-    -   **Effet de la modification de ce paramètre :**
-        -   *Lorsqu'activé :* Cliquer sur une image de déclinaison l'ouvrira dans une fenêtre contextuelle Fancybox.
-        -   *Lorsqu'désactivé :* Les images ne seront pas cliquables pour le zoom.
-    -   **Valeur recommandée :** OUI (améliore l'expérience de visualisation des images).
-    -   **Scénario / exemple de marchand :** Un client souhaite voir plus en détail la texture ou le détail d'une variation de couleur spécifique.
--   **Type d'image à afficher**
-
-    -   **Ce que fait ce paramètre :** Sélectionne la taille/le type d'image (par exemple, `small_default`, `medium_default`) à afficher en tant que miniatures dans le tableau des déclinaisons.
-    -   **Effet de la modification de ce paramètre :**
-        -   *Lorsqu'modifié :* La taille des images dans le tableau sera mise à jour au type d'image sélectionné.
-    -   **Valeur recommandée :** `small_default` ou `medium_default` (choisissez-en un qui s'intègre bien dans la mise en page de votre tableau sans être trop grand ou trop petit).
-    -   **Scénario / exemple de marchand :** Vous voulez que les images du tableau soient légèrement plus grandes que le minuscule `small_default` mais pas aussi grandes que `large_default`.
--   **Type d'image utilisé pour agrandir la miniature**
-
-    -   **Ce que fait ce paramètre :** Sélectionne la taille/le type d'image à utiliser lorsque la fonction de zoom Fancybox est activée.
-    -   **Effet de la modification de ce paramètre :**
-        -   *Lorsqu'modifié :* L'image affichée dans la fenêtre contextuelle Fancybox sera de la taille sélectionnée.
-    -   **Valeur recommandée :** `large_default` ou `thickbox_default` (choisissez le type d'image le plus grand et de la plus haute qualité pour le zoom).
-    -   **Scénario / exemple de marchand :** Un client zoome sur une image et s'attend à voir une version haute résolution.
-
-#### Paramètres d'affichage des attributs
-
--   **Méthode d'affichage des attributs**
-
-    -   **Ce que fait ce paramètre :** Contrôle la manière dont les noms d'attributs (par exemple, "Taille", "Couleur") sont affichés dans l'en-tête du tableau.
-    -   **Effet de la modification de ce paramètre :**
-        -   *Options (par exemple, "Nom complet", "Nom court", "ID") :* Modifie l'apparence des en-têtes d'attributs.
-    -   **Valeur recommandée :** "Nom complet" (le plus descriptif pour les clients).
-    -   **Scénario / exemple de marchand :** Vous voulez que "Taille" apparaisse comme "Taille" et non "T" ou "ID: 1".
--   **Associations d'attributs avec la boutique (multiboutique)**
-
-    -   **Ce que fait ce paramètre :** Dans un environnement multiboutique, cela vous permet de spécifier quels groupes d'attributs sont pertinents pour quelles boutiques, empêchant ainsi l'apparition d'attributs non pertinents.
-    -   **Effet de la modification de ce paramètre :**
-        -   *Lorsqu'configuré :* Seuls les attributs associés au contexte de la boutique actuelle seront affichés dans le tableau.
-    -   **Valeur recommandée :** Configurez attentivement si vous gérez une multiboutique avec différents catalogues de produits.
-    -   **Scénario / exemple de marchand :** La boutique A vend des vêtements (Taille, Couleur), la boutique B vend de l'électronique (Stockage, RAM). Cela empêche "Stockage" d'apparaître dans le tableau des déclinaisons de la boutique A.
--   **Inclure l'étiquette au nom de l'attribut**
-
-    -   **Ce que fait ce paramètre :** Ajoute le nom du groupe d'attributs comme préfixe à la valeur de l'attribut (par exemple, "Taille : S", "Couleur : Rouge").
-    -   **Effet de la modification de ce paramètre :**
-        -   *Lorsqu'activé :* Les valeurs d'attributs seront plus descriptives.
-        -   *Lorsqu'désactivé :* Seule la valeur de l'attribut sera affichée (par exemple, "S", "Rouge").
-    -   **Valeur recommandée :** OUI (améliore la clarté, surtout si les valeurs d'attributs ne sont pas explicites).
-    -   **Scénario / exemple de marchand :** Un produit a une valeur d'attribut "Standard". Est-ce une taille standard, une couleur standard ou une finition standard ? "Finition : Standard" le clarifie.
--   **Attribut de couleur**
-
-    -   **Ce que fait ce paramètre :** Vous permet de spécifier quel groupe d'attributs représente la "couleur" dans votre boutique. Ceci est important pour que le module affiche correctement les échantillons de couleur ou la logique spécifique à la couleur.
-    -   **Effet de la modification de ce paramètre :**
-        -   *Lorsqu'sélectionné :* Le module traitera les valeurs de ce groupe d'attributs comme des couleurs, les affichant potentiellement comme des échantillons de couleur au lieu de texte.
-    -   **Valeur recommandée :** Sélectionnez votre groupe d'attributs "Couleur" principal.
-    -   **Scénario / exemple de marchand :** Vous avez un groupe d'attributs nommé "Couleur" avec des valeurs comme "Rouge", "Bleu", "Vert". La sélection de ce groupe garantit qu'elles sont affichées comme de véritables échantillons de couleur.
-
-#### Options d'affichage
-
--   **Masquer l'en-tête du tableau**
-
-    -   **Ce que fait ce paramètre :** Supprime la ligne d'en-tête du tableau des déclinaisons (par exemple, "Image | Taille | Couleur | Prix | Quantité").
-    -   **Effet de la modification de ce paramètre :**
-        -   *Lorsqu'activé :* Le tableau commencera directement par les lignes de déclinaisons, sans titres de colonnes.
-        -   *Lorsqu'désactivé :* La ligne d'en-tête sera visible.
-    -   **Valeur recommandée :** NON (les en-têtes sont généralement importants pour la clarté, sauf si votre tableau est très simple et explicite).
-    -   **Scénario / exemple de marchand :** Pour un produit très simple avec un seul attribut (par exemple, "Taille du paquet"), vous pourriez masquer l'en-tête si le contenu de la colonne est évident.
--   **Masquer les déclinaisons en rupture de stock**
-
-    -   **Ce que fait ce paramètre :** Empêche les déclinaisons actuellement en rupture de stock d'être affichées dans le tableau.
-    -   **Effet de la modification de ce paramètre :**
-        -   *Lorsqu'activé :* Seules les déclinaisons en stock seront visibles, réduisant l'encombrement et évitant la frustration des clients.
-        -   *Lorsqu'désactivé :* Les déclinaisons en rupture de stock seront toujours affichées, souvent avec une étiquette "Épuisé" ou un bouton "Ajouter au panier" désactivé.
-    -   **Valeur recommandée :** OUI (généralement meilleure pour l'expérience utilisateur, sauf si vous souhaitez afficher toutes les options pour les précommandes ou les notifications de retour en stock).
-    -   **Scénario / exemple de marchand :** Un modèle de chaussure populaire est en rupture de stock pour la taille 10. Le masquer empêche les clients d'essayer de le sélectionner.
--   **Masquer les déclinaisons avec un prix = 0**
-
-    -   **Ce que fait ce paramètre :** Exclut les déclinaisons dont le prix est nul d'être affichées dans le tableau.
-    -   **Effet de la modification de ce paramètre :**
-        -   *Lorsqu'activé :* Les déclinaisons avec un prix nul n'apparaîtront pas.
-        -   *Lorsqu'désactivé :* Les déclinaisons avec un prix nul seront listées.
-    -   **Valeur recommandée :** OUI (sauf si vous proposez intentionnellement des déclinaisons gratuites, ce qui est rare).
-    -   **Scénario / exemple de marchand :** Parfois, en raison d'une mauvaise configuration, une déclinaison peut se retrouver avec un prix nul. Les masquer évite toute confusion.
--   **Afficher uniquement les déclinaisons avec des images**
-
-    -   **Ce que fait ce paramètre :** Filtre le tableau pour n'afficher que les déclinaisons auxquelles une image spécifique est attribuée.
-    -   **Effet de la modification de ce paramètre :**
-        -   *Lorsqu'activé :* Seules les déclinaisons avec des images uniques seront listées.
-        -   *Lorsqu'désactivé :* Toutes les déclinaisons seront affichées, qu'elles aient ou non une image spécifique.
-    -   **Valeur recommandée :** NON (il est généralement préférable d'afficher toutes les déclinaisons, en utilisant des images par défaut si nécessaire, sauf si la différenciation visuelle est primordiale).
-    -   **Scénario / exemple de marchand :** Si vous ne souhaitez présenter que les déclinaisons qui ont des différences visuelles distinctes, et que vous n'avez pas téléchargé d'images pour toutes.
--   **Afficher le prix**
-
-    -   **Ce que fait ce paramètre :** Contrôle si le prix de chaque déclinaison est affiché dans le tableau.
-    -   **Effet de la modification de ce paramètre :**
-        -   *Lorsqu'activé :* Une colonne "Prix" sera visible.
-        -   *Lorsqu'désactivé :* La colonne de prix sera masquée.
-    -   **Valeur recommandée :** OUI (le prix est un facteur critique pour les clients).
-    -   **Scénario / exemple de marchand :** Un client souhaite comparer les prix entre différentes tailles ou matériaux d'un produit.
--   **Afficher le prix unitaire**
-
-    -   **Ce que fait ce paramètre :** Affiche le prix unitaire (par exemple, prix par kg, par litre) pour chaque déclinaison, le cas échéant.
-    -   **Effet de la modification de ce paramètre :**
-        -   *Lorsqu'activé :* Une colonne "Prix unitaire" supplémentaire apparaîtra.
-        -   *Lorsqu'désactivé :* Cette colonne ne sera pas affichée.
-    -   **Valeur recommandée :** OUI (si vos produits sont vendus au poids/volume et que le prix unitaire est pertinent).
-    -   **Scénario / exemple de marchand :** Vendre des grains de café dans différentes tailles de sacs, et les clients veulent comparer le prix par 100g.
--   **Afficher le prix uniquement pour les clients connectés**
-
-    -   **Ce que fait ce paramètre :** Masque les prix des déclinaisons aux visiteurs qui ne sont pas connectés à leur compte client.
-    -   **Effet de la modification de ce paramètre :**
-        -   *Lorsqu'activé :* Les invités ne verront pas les prix ; ils pourraient voir un message les invitant à se connecter.
-        -   *Lorsqu'désactivé :* Les prix sont visibles pour tout le monde.
-    -   **Valeur recommandée :** NON (sauf si vous gérez une boutique B2B ou avez des stratégies de tarification spécifiques nécessitant une connexion).
-    -   **Scénario / exemple de marchand :** Un magasin de gros où la tarification est négociée ou spécifique aux comptes professionnels enregistrés.
--   **Afficher l'étiquette de taxe**
-
-    -   **Ce que fait ce paramètre :** Affiche une étiquette indiquant si les prix affichés incluent ou excluent la taxe (par exemple, "TTC", "HT").
-    -   **Effet de la modification de ce paramètre :**
-        -   *Lorsqu'activé :* Le statut de la taxe sera clairement indiqué à côté des prix.
-        -   *Lorsqu'désactivé :* Aucune étiquette de taxe ne sera affichée.
-    -   **Valeur recommandée :** OUI (améliore la transparence et est conforme aux exigences légales dans de nombreuses régions).
-    -   **Scénario / exemple de marchand :** Les clients en Europe s'attendent à voir des prix "TTC", tandis que les clients B2B pourraient préférer "HT".
-
-#### Autres clés de configuration (Avancé/Interne)
-
-Ces paramètres sont généralement gérés en interne par le module ou sont moins fréquemment ajustés par les marchands.
-
--   `mypresta_updates`, `update_`, `updatev_` : Clés internes pour les mises à jour du module et le suivi des versions.
--   `ctp_position` : Contrôle la position du hook où le tableau est affiché.
--   `ctp_lasttab` : Lié à l'affichage du tableau dans un onglet produit.
--   `ctp_reference`, `ctp_ean`, `ctp_mpn` : Contrôle l'affichage des colonnes Référence, EAN13/JAN et MPN.
--   `ctp_cname` : Contrôle l'affichage du nom de la déclinaison.
--   `ctp_atc`, `ctp_atcq` : Contrôle le bouton "Ajouter au panier" et la saisie de la quantité.
--   `ctp_ajax` : Détermine si AJAX est utilisé pour l'ajout au panier.
--   `ctp_sort` : Options de tri pour les déclinaisons dans le tableau.
--   `ctp_quantity`, `ctp_quantity_sum` : Affichage de la quantité en stock et de la somme des quantités.
--   `ctp_availability`, `ctp_availability_d` : Affichage du statut et de la date de disponibilité.
--   `ctp_imagetype`, `ctp_imagetype_zoom`, `ctp_grid_imagetype`, `ctp_grid_defimg` : Paramètres de type d'image (couverts ci-dessus).
--   `ctp_attributes_method` : Méthode d'affichage des attributs (couverte ci-dessus).
--   `ctp_prices_tax` : Paramètres d'affichage des taxes (couverts ci-dessus).
--   `ctp_color_method` : Comment les attributs de couleur sont affichés (par exemple, échantillons).
--   `ctp_hide_default`, `ctp_hide_r` : Masquer la déclinaison par défaut, masquer les déclinaisons avec un prix nul (couverts ci-dessus).
--   `ctp_where`, `ctp_tabtype` : Placement du tableau (hook, type d'onglet).
--   `ctp_quantity_pm` : Boutons plus/moins pour la saisie de la quantité.
--   `ctp_view_mode` : Mode d'affichage global du tableau (tableau, grille, etc.).
--   `ctp_grid_row_attr`, `ctp_grid_col_attr` : Paramètres pour la mise en page en grille (quels attributs forment les lignes/colonnes).
-
-### 2.2 Écrans d'administration dédiés et vues de contrôleur
-
-#### AdminCombinationstabSearchController (Back Office > Modules > Tableau des déclinaisons sur la page produit > Recherche)
-
-Ce contrôleur fournit une interface dédiée dans le back office de PrestaShop, probablement pour gérer ou rechercher des déclinaisons, potentiellement sur plusieurs produits, ou pour une configuration avancée liée à l'affichage des déclinaisons.
-
--   **Nom de l'écran et emplacement du menu :** Vous trouverez généralement un nouvel élément de menu sous **Modules > Tableau des déclinaisons sur la page produit** (ou similaire, selon la version de PrestaShop) intitulé "Recherche" ou "Recherche de déclinaisons".
--   **Actions et paramètres disponibles :** Cet écran présente probablement une grille ou une vue de gestion des déclinaisons de produits. Il pourrait vous permettre de :
-    -   Rechercher des déclinaisons spécifiques par attributs, référence, EAN ou nom de produit.
-    -   Afficher les détails des déclinaisons, tels que le stock, le prix et le produit associé.
-    -   Potentiellement effectuer des actions en masse comme la mise à jour du stock ou du prix pour plusieurs déclinaisons (bien que cela soit souvent géré par la page produit principale de PrestaShop).
-    -   Cet écran est principalement destiné à *gérer* et *visualiser* les données de déclinaisons de manière structurée, séparément de la page d'édition du produit principal.
--   **Effet des modifications :** Toute modification apportée ici (si l'édition est activée) mettrait directement à jour les données de déclinaisons dans votre base de données PrestaShop, affectant les prix, le stock et la disponibilité sur le front office.
--   **Flux de travail recommandé pour la gestion quotidienne de la boutique :** Utilisez cet écran pour auditer rapidement les données de déclinaisons, trouver des déclinaisons spécifiques ou vérifier les niveaux de stock sans naviguer vers les pages de produits individuelles. C'est un outil puissant pour les boutiques avec un grand catalogue de produits et de déclinaisons.
-
-#### index.php (combinationstab/controllers/admin/index.php)
-
-Ce fichier sert généralement de marqueur de position ou de redirigeur pour le contrôleur d'administration principal du module. Il peut simplement charger le `AdminCombinationstabSearchController` ou présenter une page d'accueil de base pour la section d'administration du module. Il n'a généralement pas de paramètres configurables directs mais agit comme un point d'entrée.
-
-### 2.3 Tableau de référence rapide de la configuration
-
-| Écran / Vue | Paramètre / Option | Par défaut / Recommandé | Objectif et impact |
-| --- | --- | --- | --- |
-| **Configuration du module** | Activer la fonction de filtres | OUI | Active les filtres d'attributs pour le tableau des déclinaisons. |
-| | Mettre en évidence le meilleur prix | OUI | Met visuellement en évidence la déclinaison la moins chère. |
-| | Afficher la colonne des économies | OUI | Affiche le montant/pourcentage de réduction dans une colonne dédiée. |
-| | Astuce de seuil de réduction de quantité | OUI | Affiche des astuces pour les réductions basées sur la quantité. |
-| | Mise en page mobile en carte | OUI | Optimise l'affichage du tableau pour les appareils mobiles. |
-| | Ordre des colonnes | Personnalisable | Définit la séquence des colonnes dans le tableau. |
-| | Cliquer et changer de déclinaison | OUI | Met à jour l'image/les détails principaux du produit lors du clic sur une ligne. |
-| | Afficher l'image | OUI | Affiche les images des déclinaisons dans le tableau. |
-| | Afficher la colonne d'image s'il y a au moins une déclinaison avec image | OUI | Garantit que la colonne d'image apparaît si une déclinaison a une image. |
-| | Utiliser l'image par défaut du produit | OUI | Retourne à l'image principale du produit si la déclinaison n'a pas d'image spécifique. |
-| | Activer le zoom Fancybox | OUI | Permet le zoom des images de déclinaisons. |
-| | Type d'image à afficher | `medium_default` | Définit la taille des miniatures dans le tableau. |
-| | Type d'image utilisé pour agrandir la miniature | `large_default` | Définit la taille de l'image zoomée. |
-| | Méthode d'affichage des attributs | Nom complet | Comment les en-têtes d'attributs sont étiquetés (par exemple, "Taille"). |
-| | Associations d'attributs avec la boutique (multiboutique) | Configurer selon les besoins | Filtre les attributs par boutique en multiboutique. |
-| | Inclure l'étiquette au nom de l'attribut | OUI | Ajoute le nom du groupe d'attributs à la valeur (par exemple, "Taille : S"). |
-| | Attribut de couleur | Sélectionnez votre attribut de couleur | Identifie l'attribut de couleur pour un affichage spécial. |
-| | Masquer l'en-tête du tableau | NON | Garde les titres de colonnes visibles pour plus de clarté. |
-| | Masquer les déclinaisons en rupture de stock | OUI | Supprime les déclinaisons indisponibles du tableau. |
-| | Masquer les déclinaisons avec un prix = 0 | OUI | Supprime les déclinaisons à prix nul. |
-| | Afficher uniquement les déclinaisons avec des images | NON | Affiche toutes les déclinaisons, en utilisant les images par défaut si nécessaire. |
-| | Afficher le prix | OUI | Affiche le prix de chaque déclinaison. |
-| | Afficher le prix unitaire | OUI (si applicable) | Affiche le prix par unité (par exemple, par kg). |
-| | Afficher le prix uniquement pour les clients connectés | NON | Rend les prix visibles à tous les visiteurs. |
-| | Afficher l'étiquette de taxe | OUI | Indique si les prix incluent/excluent la taxe. |
-| **AdminCombinationstabSearchController** | Vue grille / Gestion | N/A | Rechercher, afficher et potentiellement gérer les déclinaisons sur les produits. |
-
-## 3. Dépannage pour les marchands et questions fréquemment posées (FAQ)
-
-**Q1 : Le tableau des déclinaisons n'apparaît pas sur ma page produit.**
-R1 :
-
--   **Vérifier la position du module :** Allez dans **Design > Positions** (ou **Modules > Positions** dans les anciennes versions de PrestaShop) dans votre Back Office. Recherchez le module "Tableau des déclinaisons sur la page produit". Assurez-vous qu'il est accroché à un hook d'affichage pertinent comme `displayProductFooter`, `displayProductExtraContent` ou `displayProductTabContent`. Si ce n'est pas le cas, cliquez sur "Greffer un module" et ajoutez-le au hook souhaité.
--   **Configuration du module :** Vérifiez à nouveau la page de configuration du module pour vous assurer qu'il est activé et non masqué par d'autres paramètres (par exemple, "Masquer les déclinaisons avec un prix = 0" pourrait tout masquer si tout est à zéro).
--   **Le produit a des déclinaisons :** Assurez-vous que le produit que vous visualisez a bien des déclinaisons définies dans ses paramètres produit.
--   **Vider le cache :** Allez dans **Paramètres avancés > Performances** et cliquez sur "Vider le cache". Parfois, un ancien contenu mis en cache empêche l'affichage de nouveaux modules.
-
-**Q2 : Mes images de déclinaisons n'apparaissent pas ou ont la mauvaise taille.**
-R2 :
-
--   **Paramètres d'image :** Vérifiez les paramètres "Type d'image à afficher" et "Type d'image utilisé pour agrandir la miniature" dans la configuration du module. Assurez-vous d'avoir sélectionné des types d'images appropriés qui existent dans votre thème PrestaShop.
--   **Images de déclinaisons téléchargées :** Vérifiez que vous avez bien téléchargé des images spécifiques pour vos déclinaisons de produits dans l'onglet "Déclinaisons" du produit dans le Back Office. Si ce n'est pas le cas, le module utilisera l'image principale du produit (si "Utiliser l'image par défaut du produit" est activé).
--   **Régénérer les miniatures :** Si vous avez modifié les types d'images ou téléchargé de nouvelles images, allez dans **Design > Paramètres des images** (ou **Préférences > Images**) et cliquez sur "Régénérer les miniatures" pour les types d'images pertinents (par exemple, `medium_default`, `large_default`).
-
-**Q3 : Le tableau semble étrange ou mal aligné sur mon thème personnalisé.**
-R3 :
-
--   **Conflits CSS :** Les thèmes personnalisés ont parfois des styles CSS conflictuels. Ce module essaie d'être compatible, mais des ajustements mineurs pourraient être nécessaires.
--   **Contacter le support :** Si vous êtes à l'aise avec le CSS, vous pouvez inspecter les éléments à l'aide des outils de développement de votre navigateur et essayer de remplacer les styles conflictuels. Sinon, contactez le support MyPresta.eu avec les détails de votre thème et une capture d'écran ; ils peuvent souvent fournir une solution rapide.
--   **Mises à jour du module :** Assurez-vous d'utiliser la dernière version du module, car les améliorations de compatibilité sont souvent incluses dans les mises à jour.
-
-**Q4 : Les prix ne s'affichent pas correctement ou sont masqués.**
-R4 :
-
--   **Paramètres d'affichage des prix :** Vérifiez "Afficher le prix" et "Afficher le prix uniquement pour les clients connectés" dans la configuration du module. Si ce dernier est activé, assurez-vous d'être connecté en tant que client pour voir les prix.
--   **Tarification de base de PrestaShop :** Vérifiez que les prix de vos déclinaisons sont correctement définis dans l'onglet "Déclinaisons" du produit.
--   **Paramètres de taxe :** Vérifiez "Afficher l'étiquette de taxe" et vos paramètres généraux de taxe PrestaShop (**International > Taxes**) pour vous assurer que les prix sont calculés et affichés comme prévu (TTC/HT).
-
-**Q5 : Comment puis-je modifier l'ordre des attributs dans le tableau ?**
-R5 :
-
--   Le paramètre "Ordre des colonnes" du module vous permet de réorganiser les colonnes. Pour l'ordre des attributs eux-mêmes (par exemple, "Taille" avant "Couleur"), cela est généralement géré dans le cœur de PrestaShop : **Catalogue > Attributs & Caractéristiques > Attributs** et **Groupes d'attributs**. L'ordre que vous définissez là-bas influence généralement leur apparition dans le tableau du module.
-
-## 4. Guide du développeur et du webmaster (Architecture technique et carte du code)
-
-Cette section est strictement destinée aux développeurs, aux webmasters de boutique et aux agences techniques qui maintiennent ou étendent la boutique.
-
-### 4.1 Aperçu de l'architecture
-
-Le module "Tableau des déclinaisons sur la page produit" (`combinationstab`) suit une architecture de module PrestaShop standard, tirant fortement parti des hooks pour l'affichage front-office et des contrôleurs d'administration personnalisés pour la configuration avancée et la gestion des données. Il s'intègre profondément aux données de produit et de déclinaison de base de PrestaShop, rendant dynamiquement des tableaux ou des grilles HTML à l'aide de modèles Smarty. AJAX est utilisé pour des fonctionnalités telles que "Ajouter au panier" et le changement de déclinaison pour une expérience utilisateur fluide. Le module n'introduit pas de classes `ObjectModel` personnalisées mais fonctionne directement avec les objets `Product` et `Combination` existants.
-
-### 4.2 Contrôleurs (`controllers/`)
-
-#### Contrôleurs Front-Office
-
-Ces contrôleurs gèrent des requêtes AJAX spécifiques ou des fonctionnalités front-office dédiées.
-
--   `controllers/front/BackInStock.php`
-    -   **Nom de la classe et classe parente :** `CombinationstabBackInStockModuleFrontController` étend `ModuleFrontController`.
-    -   **Responsabilité :** Gère probablement les requêtes AJAX liées aux notifications de "retour en stock" pour des déclinaisons spécifiques. Cela pourrait impliquer la soumission d'un formulaire pour s'inscrire aux notifications lorsqu'une déclinaison en rupture de stock devient disponible.
--   `controllers/front/CsvImport.php`
-    -   **Nom de la classe et classe parente :** `CombinationstabCsvImportModuleFrontController` étend `ModuleFrontController`.
-    -   **Responsabilité :** Suggère une fonctionnalité d'importation de données de déclinaisons via CSV depuis le front-office, éventuellement pour des groupes d'utilisateurs spécifiques ou des scénarios B2B. Cela impliquerait l'analyse de fichiers CSV et la mise à jour des déclinaisons de produits.
--   `controllers/front/Export.php`
-    -   **Nom de la classe et classe parente :** `CombinationstabExportModuleFrontController` étend `ModuleFrontController`.
-    -   **Responsabilité :** Fournit une fonctionnalité pour exporter les données de déclinaisons, potentiellement pour des produits spécifiques ou des ensembles filtrés, probablement au format CSV ou similaire. Utile pour le B2B ou l'analyse de données.
--   `controllers/front/index.php`
-    -   **Nom de la classe et classe parente :** `CombinationstabIndexModuleFrontController` étend `ModuleFrontController`.
-    -   **Responsabilité :** Souvent un marqueur de position ou un répartiteur par défaut. Il pourrait gérer les requêtes AJAX générales liées au tableau des déclinaisons qui ne rentrent pas dans des contrôleurs plus spécifiques, ou simplement rediriger.
--   `controllers/front/PriceCalculator.php`
-    -   **Nom de la classe et classe parente :** `CombinationstabPriceCalculatorModuleFrontController` étend `ModuleFrontController`.
-    -   **Responsabilité :** Gère les requêtes AJAX pour calculer et renvoyer dynamiquement les prix des déclinaisons, particulièrement pertinent pour les réductions de quantité ou les règles de tarification complexes, garantissant des mises à jour de prix en temps réel sans rechargement de page.
--   `controllers/front/Reorder.php`
-    -   **Nom de la classe et classe parente :** `CombinationstabReorderModuleFrontController` étend `ModuleFrontController`.
-    -   **Responsabilité :** Facilite probablement la commande de déclinaisons précédemment achetées, potentiellement depuis la page de compte d'un client ou une liste de "recommande" dédiée.
--   `controllers/front/Wishlist.php`
-    -   **Nom de la classe et classe parente :** `CombinationstabWishlistModuleFrontController` étend `ModuleFrontController`.
-    -   **Responsabilité :** Gère les interactions AJAX avec une fonction de liste de souhaits intégrée au tableau des déclinaisons, permettant aux clients d'ajouter des déclinaisons spécifiques à leur liste de souhaits.
-
-#### Contrôleurs d'administration Back-Office
-
-Ces contrôleurs fournissent l'interface administrative du module.
-
--   `controllers/admin/AdminCombinationstabSearchController.php`
-    -   **Nom de l'onglet et entité gérée :** "Recherche de déclinaisons" (ou similaire, accessible via le menu du module). Gère les déclinaisons de `Product`.
-    -   **Responsabilité :** Implémente une interface de recherche et de gestion pour les déclinaisons de produits. Ce contrôleur utilise probablement un `HelperList` ou un `HelperForm` pour afficher une grille filtrable et triable de déclinaisons, permettant aux administrateurs de trouver et potentiellement de modifier rapidement les données de déclinaisons (par exemple, stock, prix, référence) sans naviguer vers les pages de produits individuelles. Il pourrait également gérer les actions en masse.
--   `controllers/admin/index.php`
-    -   **Nom de l'onglet et entité gérée :** N/A (point d'entrée).
-    -   **Responsabilité :** Un modèle courant pour les répertoires de contrôleurs d'administration. Ce fichier sert généralement de point d'entrée par défaut ou de redirigeur vers le `AdminCombinationstabSearchController` principal. Il ne contient généralement pas de logique directe mais garantit que l'élément de menu d'administration pointe vers un contrôleur valide.
-
-### 4.3 Classes et modèles de base (`classes/`)
-
-Le dossier du module n'indique aucune classe personnalisée dans le répertoire `classes/`. Cela suggère que le module étend principalement les fonctionnalités et objets de base de PrestaShop existants (`Product`, `Combination`, `Attribute`, `AttributeGroup`) plutôt que d'introduire de nouveaux modèles de données. Toute la logique métier est probablement encapsulée dans le fichier principal `combinationstab.php` et ses contrôleurs.
-
-### 4.4 Actifs JavaScript (`views/js/`)
-
-Le module utilise une variété de fichiers JavaScript pour fournir des fonctionnalités dynamiques front-office et back-office.
-
--   `combinationstab/js/admin.js`
-    -   **Portée :** Back-office.
-    -   **Détails :** Gère la logique JavaScript pour les pages d'administration du module, y compris les interactions de formulaire, les appels AJAX pour les mises à jour de configuration et potentiellement les éléments dynamiques au sein de l'interface `AdminCombinationstabSearchController`.
--   `combinationstab/js/atc.js`
-    -   **Portée :** Front-office.
-    -   **Détails :** Gère la fonctionnalité "Ajouter au panier" pour le tableau des déclinaisons. Il lie les événements de clic aux boutons "Ajouter au panier", gère les saisies de quantité et envoie des requêtes AJAX au contrôleur de panier de PrestaShop pour ajouter les déclinaisons sélectionnées (potentiellement plusieurs à la fois) sans rechargement de page.
--   `combinationstab/js/combinationstab-switch.js`
-    -   **Portée :** Front-office.
-    -   **Détails :** Implémente la fonction "Cliquer et changer de déclinaison". Il écoute les clics sur les lignes de déclinaisons dans le tableau et met à jour dynamiquement l'image principale du produit, le prix et d'autres détails du produit sur la page pour refléter la déclinaison sélectionnée.
--   `combinationstab/js/combinationstab.js`
-    -   **Portée :** Front-office.
-    -   **Détails :** Le fichier JavaScript principal du front-office pour le tableau des déclinaisons. Il initialise le tableau, gère les interactions générales, gère potentiellement l'affichage du stock, de la disponibilité et des mises à jour de prix en fonction de l'entrée ou des sélections de l'utilisateur.
--   `combinationstab/js/ctp-extras.js`
-    -   **Portée :** Front-office.
-    -   **Détails :** Contient des fonctionnalités JavaScript supplémentaires, non essentielles, pour le tableau des déclinaisons, telles que l'affichage d'info-bulles, des améliorations mineures de l'interface utilisateur ou des interactions spécifiques non couvertes par les scripts principaux.
--   `combinationstab/js/ctp-filters.js`
-    -   **Portée :** Front-office.
-    -   **Détails :** Implémente la logique de filtrage pour le tableau des déclinaisons. Il écoute les changements dans les listes déroulantes de filtres ou les champs de saisie, masque/affiche dynamiquement les lignes du tableau en fonction des valeurs d'attributs sélectionnées et met à jour les déclinaisons visibles.
--   `combinationstab/js/ctp-mobile.js`
-    -   **Portée :** Front-office.
-    -   **Détails :** Gère le comportement réactif du tableau des déclinaisons, en implémentant spécifiquement la fonction "Mise en page mobile en carte". Il détecte la taille de l'écran et transforme le tableau en une mise en page basée sur des cartes pour une meilleure convivialité mobile.
--   `combinationstab/js/ctp-wishlist-toast.js`
-    -   **Portée :** Front-office.
-    -   **Détails :** Fournit un retour visuel (par exemple, une notification toast) lorsqu'une déclinaison est ajoutée à une liste de souhaits, améliorant l'expérience utilisateur.
--   `combinationstab/lib/searchTool/views/js/autocomplete.js`
-    -   **Portée :** Back-office (probablement).
-    -   **Détails :** Fournit une fonctionnalité d'autocomplétion, probablement pour les champs de recherche de produits ou de déclinaisons dans les interfaces d'administration du module (par exemple, `AdminCombinationstabSearchController`).
--   `combinationstab/views/js/wishlist.js`
-    -   **Portée :** Front-office.
-    -   **Détails :** JavaScript dédié à l'intégration de la liste de souhaits, gérant les appels AJAX pour ajouter/supprimer des articles de la liste de souhaits directement depuis le tableau des déclinaisons.
-
-### 4.5 Feuilles de style CSS (`views/css/`)
-
-Le module comprend plusieurs fichiers CSS pour le style du front-office et l'administration du back-office.
-
--   `combinationstab/css/admin.css`
-    -   **Portée :** Style des formulaires d'administration du back-office.
-    -   **Détails :** Style la page de configuration du module et toutes les interfaces d'administration personnalisées (comme `AdminCombinationstabSearchController`), garantissant une apparence cohérente dans le back office de PrestaShop.
--   `combinationstab/css/combinationstab.css`
-    -   **Portée :** Style client du front-office.
-    -   **Détails :** Contient le style de base pour le tableau des déclinaisons, y compris la mise en page du tableau, le rembourrage des cellules, l'alignement du texte et la réactivité de base.
--   `combinationstab/css.css`
-    -   **Portée :** Style client du front-office.
-    -   **Détails :** Potentiellement une feuille de style plus ancienne ou supplémentaire pour le front-office, ou des remplacements spécifiques.
--   `combinationstab/lib/searchTool/views/css/autocomplete.css`
-    -   **Portée :** Back-office (probablement).
-    -   **Détails :** Styles pour les champs de recherche d'autocomplétion utilisés dans le panneau d'administration.
--   `combinationstab/views/css/ctp-admin.css`
-    -   **Portée :** Style des formulaires d'administration du back-office.
-    -   **Détails :** Style d'administration supplémentaire ou spécifique, potentiellement pour de nouvelles fonctionnalités ou des remplacements de `admin.css`.
--   `combinationstab/views/css/wishlist.css`
-    -   **Portée :** Style client du front-office.
-    -   **Détails :** Styles pour le bouton de liste de souhaits et tous les éléments associés dans le tableau des déclinaisons.
-
-### 4.6 Structure des modèles Smarty (`views/templates/`)
-
-Le module utilise des modèles Smarty pour le rendu de toutes ses vues front-office et back-office.
-
-#### Modèles de hook (`views/templates/hook/`)
-
-Ces modèles sont conçus pour être rendus lorsque des hooks PrestaShop spécifiques sont exécutés.
-
--   `views/templates/hook/columns/cells.tpl`
-    -   **Hook :** Probablement rendu dans le modèle principal du tableau des déclinaisons.
-    -   **Sortie :** Définit la structure et le contenu des cellules de données individuelles dans les lignes du tableau (par exemple, affichage des valeurs d'attributs, du prix, de la saisie de la quantité).
--   `views/templates/hook/columns/headers.tpl`
-    -   **Hook :** Probablement rendu dans le modèle principal du tableau des déclinaisons.
-    -   **Sortie :** Définit les cellules d'en-tête pour le tableau des déclinaisons, affichant les titres de colonnes comme "Image", "Taille", "Prix".
--   `views/templates/hook/columns/_wishlist_btn.tpl`
-    -   **Hook :** Intégré aux lignes de déclinaisons.
-    -   **Sortie :** Rend le bouton ou l'icône "Ajouter à la liste de souhaits" pour chaque déclinaison dans le tableau.
--   `views/templates/hook/customer_account.tpl`
-    -   **Hook :** `displayCustomerAccount`
-    -   **Sortie :** Ajoute un lien ou un bloc à la page de compte du client, potentiellement pour accéder aux listes de commande, aux données exportées ou à la gestion de la liste de souhaits.
--   `views/templates/hook/grid/_axis_label.tpl`
-    -   **Hook :** Utilisé en interne lorsque `ctp_view_mode` est défini sur une mise en page en grille.
-    -   **Sortie :** Rend les étiquettes pour les axes (lignes/colonnes) d'un affichage de déclinaisons de style grille.
--   `views/templates/hook/grid/_cell.tpl`
-    -   **Hook :** Utilisé en interne lorsque `ctp_view_mode` est défini sur une mise en page en grille.
-    -   **Sortie :** Rend les cellules individuelles dans un affichage de déclinaisons de style grille, contenant les détails de la déclinaison.
--   `views/templates/hook/productfooter.tpl`
-    -   **Hook :** `displayProductFooter`
-    -   **Sortie :** Le modèle principal pour le rendu du tableau des déclinaisons lorsqu'il est placé sous le contenu principal du produit. C'est souvent le placement par défaut ou le plus courant.
--   `views/templates/hook/productfooter_grid.tpl`
-    -   **Hook :** `displayProductFooter` (conditionnel au mode d'affichage).
-    -   **Sortie :** Un modèle alternatif pour `displayProductFooter` spécifiquement pour le rendu des déclinaisons dans une mise en page en grille au lieu d'un tableau traditionnel.
--   `views/templates/hook/quickViewScripts.tpl`
-    -   **Hook :** Potentiellement `displayHeader` ou `actionFrontControllerSetMedia` (pour les modales de vue rapide).
-    -   **Sortie :** Inclut le JavaScript nécessaire ou initialise la fonctionnalité du module spécifiquement pour les modales de vue rapide de produit, garantissant que le tableau des déclinaisons fonctionne dans ces fenêtres contextuelles.
--   `views/templates/hook/tab.tpl`
-    -   **Hook :** `displayProductTabContent` (ou similaire pour les onglets de produit).
-    -   **Sortie :** Rend le tableau des déclinaisons dans un onglet produit dédié sur la page produit.
--   `views/templates/hook/volume_discounts.tpl`
-    -   **Hook :** Intégré aux lignes de déclinaisons ou en tant qu'info-bulle.
-    -   **Sortie :** Affiche des informations sur les réductions de quantité pour des déclinaisons spécifiques.
--   `views/templates/hook/_filters.tpl`
-    -   **Hook :** Rendu au-dessus du tableau des déclinaisons.
-    -   **Sortie :** Rend l'interface de filtrage des attributs pour le tableau des déclinaisons.
--   `views/templates/hook/_toolbar.tpl`
-    -   **Hook :** Rendu au-dessus du tableau des déclinaisons.
-    -   **Sortie :** Rend une barre d'outils, contenant potentiellement des filtres, une recherche ou d'autres éléments interactifs pour le tableau des déclinaisons.
-
-#### Modèles d'administration (`views/templates/admin/`)
-
-Ces modèles sont utilisés pour la configuration du back-office du module et les écrans de gestion.
-
--   `views/templates/admin/b2b.tpl`
-    -   **Sortie :** Modèle pour les paramètres ou fonctionnalités spécifiques au B2B dans le panneau d'administration.
--   `views/templates/admin/b2b_groups.tpl`
-    -   **Sortie :** Modèle pour la gestion des groupes de clients B2B ou de leurs paramètres de prix/visibilité spécifiques.
--   `views/templates/admin/column_editor.tpl`
-    -   **Sortie :** Fournit une interface permettant aux administrateurs de personnaliser l'ordre et la visibilité des colonnes dans le tableau des déclinaisons du front-office.
--   `views/templates/admin/getCombinations.tpl`
-    -   **Sortie :** Utilisé par `AdminCombinationstabSearchController` pour afficher une liste ou une grille de déclinaisons.
--   `views/templates/admin/getProducts.tpl`
-    -   **Sortie :** Utilisé par `AdminCombinationstabSearchController` ou d'autres outils d'administration pour afficher une liste de produits.
--   `views/templates/admin/grid_block_editor.tpl`
-    -   **Sortie :** Interface pour configurer l'affichage des déclinaisons de style grille, définissant potentiellement quels attributs forment les lignes et les colonnes.
--   `views/templates/admin/menu.tpl`
-    -   **Sortie :** Rend les éléments de sous-menu du module dans le back office de PrestaShop.
--   `views/templates/admin/overrides_entity.tpl`
-    -   **Sortie :** Modèle pour la gestion des remplacements spécifiques à l'entité (par exemple, paramètres spécifiques au produit pour le tableau).
--   `views/templates/admin/overrides_fields.tpl`
-    -   **Sortie :** Modèle pour la gestion des remplacements spécifiques aux champs.
--   `views/templates/admin/overrides_list.tpl`
-    -   **Sortie :** Modèle pour lister et gérer les différents remplacements configurés pour le module.
--   `views/templates/admin/presets.tpl`
-    -   **Sortie :** Interface pour enregistrer et charger des préréglages de configuration pour le tableau des déclinaisons.
--   `views/templates/admin/selectedProducts.tpl`
-    -   **Sortie :** Affiche une liste de produits qui ont été sélectionnés pour des configurations ou des remplacements de module spécifiques.
--   `views/templates/admin/subtabs.tpl`
-    -   **Sortie :** Rend les onglets de sous-navigation dans l'interface de configuration du module.
--   `views/templates/admin/tabs.tpl`
-    -   **Sortie :** Rend les onglets de navigation principaux pour la configuration du module.
--   `views/templates/admin/tabstype.tpl`
-    -   **Sortie :** Options de configuration liées à la manière dont le tableau des déclinaisons est affiché dans les onglets de produit.
-
-#### Modèles Front-office (`views/templates/front/`)
-
--   `views/templates/front/wishlist.tpl`
-    -   **Sortie :** Rend l'interface de liste de souhaits du front-office, potentiellement une page dédiée ou une modale, affichant les articles ajoutés à la liste de souhaits via le tableau des déclinaisons.
-
-#### Autres modèles
-
--   `combinationstab/lib/searchTool/views/scripts.tpl`
-    -   **Sortie :** Inclut des extraits JavaScript ou initialise des scripts pour la fonctionnalité de l'outil de recherche.
-
-### 4.7 Schéma de la base de données et carte des hooks
-
-#### Tables de la base de données
-
-Le dossier du module n'indique aucun fichier SQL personnalisé. Cela implique que le module utilise principalement la table `ps_configuration` de PrestaShop pour stocker ses paramètres et s'appuie sur les tables de base existantes comme `ps_product_attribute`, `ps_product_attribute_combination`, `ps_product_attribute_shop`, `ps_stock_available`, etc., pour les données de déclinaisons.
-
--   **`ps_configuration`** : Stocke tous les paramètres du module (par exemple, `CTP_POSITION`, `CTP_IMAGE`, `CTP_PRICE_LOGGED`, `CTP_MOBILE_CARD_LAYOUT`).
-
-#### Tableau des hooks enregistrés
-
-Le module s'enregistre à divers hooks PrestaShop pour injecter son contenu et ses fonctionnalités.
-
-| Nom du hook | Moment d'exécution | Objectif technique |
-| --- | --- | --- |
-| `ActionAdminControllerSetMedia` | Lors de l'initialisation d'un contrôleur d'administration et de la définition des médias (JS/CSS). | Injecte les JS/CSS spécifiques au module dans le Back Office. |
-| `displayRightColumn` | Rend le contenu dans la colonne de droite du front office. | Affiche le tableau des déclinaisons dans la colonne de droite (moins courant pour les tableaux). |
-| `displayProductFooter` | Rend le contenu sous les informations principales du produit sur la page produit. | Hook principal pour afficher le tableau des déclinaisons sous le produit. |
-| `displayHeader` | Rend le contenu dans la section `<head>` du front office. | Injecte les JS/CSS spécifiques au module, les balises meta ou d'autres éléments d'en-tête pour la fonctionnalité front-office. |
-| `displayProductExtraContent` | Rend des blocs de contenu supplémentaires sur la page produit. | Offre la flexibilité de placer le tableau des déclinaisons dans un bloc de contenu personnalisé. |
-| `displayRightColumnProduct` | Rend le contenu dans la colonne de droite spécifiquement sur la page produit. | Similaire à `displayRightColumn` mais ciblé sur les pages produit. |
-| `displayCustomerAccount` | Rend le contenu sur la page de compte du client. | Ajoute des liens ou des informations liés aux commandes, aux listes de souhaits ou aux exportations. |
-| `actionUpdateQuantity` | Après la mise à jour de la quantité (stock) d'un produit. | Déclenche potentiellement des mises à jour de l'affichage du tableau des déclinaisons (par exemple, le statut "en rupture de stock"). |
-| `displayProductListFunctionalButtons` | Rend les boutons dans les listes de produits (par exemple, pages de catégorie). | Pourrait ajouter des boutons de vue rapide ou de comparaison liés aux déclinaisons. |
-| `displayExtraLeft` | Rend le contenu dans une colonne gauche supplémentaire (si le thème le prend en charge). | Une autre option de placement pour le tableau des déclinaisons. |
-| `CombinationsTable` | **Hook personnalisé** | Un hook personnalisé défini par le module lui-même, permettant à d'autres modules ou thèmes de s'intégrer ou de remplacer sa sortie de tableau. |
-| `displayLeftColumnProduct` | Rend le contenu dans la colonne de gauche spécifiquement sur la page produit. | Similaire à `displayRightColumnProduct` mais pour la colonne de gauche. |
-| `displayProductTabContent` | Rend le contenu dans un onglet produit. | Affiche le tableau des déclinaisons dans un onglet produit dédié. |
-| `displayCombinationsTable` | **Hook personnalisé** | Un autre hook personnalisé, probablement pour le rendu principal du tableau des déclinaisons, offrant une alternative à `displayProductFooter`. |
-| `displayProductActions` | Rend le contenu près du bouton "Ajouter au panier" sur la page produit. | Pourrait être utilisé pour un sélecteur de déclinaisons compact ou des boutons d'ajout rapide. |
-
-## 5. Support officiel et mises à jour
-
-Pour les dernières mises à jour du module, le support technique et toute question concernant le module "Tableau des déclinaisons sur la page produit", veuillez vous référer à votre compte client sur [MyPresta.eu](https://mypresta.eu/my-account/orders/). Notre équipe de support est prête à vous aider.
+Les captures d’écran de ce manuel proviennent d’un back-office en anglais. Utilisez les mêmes noms d’onglets et de champs ci-dessous même si la langue de votre employé diffère.
+
+## 1. Prérequis
+
+Combinations Tab Pro affiche une liste de déclinaisons ou une matrice 2D sur la fiche produit afin que les clients puissent filtrer, trier, saisir des quantités et ajouter des variantes au panier.
+
+- PrestaShop : 1.7, 8 et 9
+- PHP : une version prise en charge par votre boutique PrestaShop
+- Extensions PHP utilisées par le module : JSON
+- Autres modules : aucun requis. En option, **Product combination features** débloque les colonnes description de déclinaison et caractéristiques de déclinaison lorsque ce module est installé dans la boutique
+- Hors boutique : rien. Les vérifications de mise à jour contactent MyPresta lorsque les notifications sont activées
+- Gros catalogues : de nombreuses déclinaisons par produit ralentissent la page si vous laissez toutes les colonnes et les extras liste et grille actifs ; utilisez des filtres, la pagination ou un preset adapté à votre catalogue
+
+## 2. Installation
+
+1. Téléversez le ZIP du module dans **Modules** → **Module Manager**, puis installez et activez **Combinations Tab Pro**.
+2. Ouvrez la configuration depuis la liste des modules avec **Configure**. Il n’y a pas d’entrée de menu back-office séparée pour l’usage quotidien ; tous les réglages se trouvent sur cette page de configuration.
+3. L’installation ne vide pas elle-même le cache PrestaShop. Videz le cache Smarty / du thème dans **Advanced Parameters** → **Performance** si le tableau n’apparaît pas après l’installation.
+
+**Après désinstallation :** le module est retiré du Module Manager. Les tables de base de données pour la wishlist, les alertes de réapprovisionnement et les profils d’override par entité sont supprimées. Les valeurs de configuration restent dans la base de la boutique, de sorte qu’une réinstallation ultérieure peut reprendre les interrupteurs précédents jusqu’à ce que vous les modifiiez à nouveau. Les overrides de templates du module dans le thème (si vous en avez ajouté) ne sont pas supprimés par la désinstallation.
+
+## 3. Configuration et travail en back-office
+
+Ouvrez **Modules** → **Module Manager** → **Combinations Tab Pro** → **Configure**. La page utilise des onglets en haut : **Overview**, **Display**, **Cart**, **B2B**, **Visibility**, **Exclusions**, **Integrations**, **Overrides**, **Updates**. La recherche de produits sur **Visibility**, **Exclusions** et **Overrides** s’exécute en arrière-plan (AJAX) ; il n’y a pas de menu Orders séparé pour ce module.
+
+### 3.1 Processus complet
+
+1. Le marchand configure le placement, le mode d’affichage, les colonnes ou les cellules de grille, les règles panier, les outils B2B optionnels, la visibilité, les exclusions, les intégrations et les overrides.
+2. Le client ouvre un produit qui a des déclinaisons et qui passe les règles de visibilité.
+3. La vitrine affiche une liste (une ligne par déclinaison) ou une grille 2D (matrice lorsque le produit a deux groupes d’attributs et que le mode d’affichage le permet), dans le pied de produit ou sous un onglet **Product variants**.
+4. Le client peut utiliser les filtres d’attributs, trier les en-têtes de liste, saisir des quantités et ajouter une ou plusieurs lignes au panier (y compris l’ajout en masse).
+5. Outils optionnels : cœur wishlist, notification de réapprovisionnement, collage de quantités CSV, feuille d’export, remplir la dernière commande.
+6. Le checkout se poursuit comme une commande PrestaShop normale. Le module n’utilise pas de statuts de type devis ; le succès est un tableau visible, des quantités remplies et un panier contenant les déclinaisons sélectionnées.
+
+### 3.2 Overview & presets
+
+![Overview and presets — English back office](https://mypresta.eu/docs/images/docs/combinationstab-overview.webp)
+
+**Overview & presets** est l’onglet de départ. Les configurations prêtes activent ou désactivent de nombreux interrupteurs d’un coup. Utilisez **Preview** pour voir les valeurs prévues, puis **Apply**. Confirmation : *Preset applied. Review Display & Columns and Cart & prices if you want to fine-tune.* Ouvrez ensuite **Display** et **Cart** pour affiner les détails.
+
+Principaux presets par nom :
+
+| Preset | Tag | What it prepares |
+|---|---|---|
+| **Fashion** | B2C | Photos, filtres, pastilles de couleur, wishlist, cartes mobiles pour les vêtements avec de nombreuses tailles et couleurs |
+| **B2B Wholesale** | B2B | Matrice orientée SKU, ajout en masse au panier, import CSV, export, remises de volume |
+| **Minimal** | Simple | Nom de déclinaison, prix et ajout au panier uniquement |
+| **Replace buy block** | UX | Masque le bloc d’achat PrestaShop par défaut pour que les clients commandent depuis le tableau |
+| **2D size × color** | Grid | Force la grille 2D avec un contenu de cellule riche lorsque les produits ont Color + Size |
+| **Detailed list** | List | Liste complète avec images, SKU, EAN, stock, tri, pagination |
+| **Electronics** | B2C | Référence, EAN, prix unitaire, dates de disponibilité pour appareils et gadgets |
+| **Beauty & cosmetics** | B2C | Case couleur + texte, photos, wishlist et réapprovisionnement pour teintes et kits |
+| **Catalog only** | Display | Déclinaisons sans commande ; les prix peuvent rester pour les clients connectés |
+| **Logged-in pricing** | B2B | Prix et ajout au panier uniquement pour les clients connectés |
+| **Mobile first** | UX | Liste avec cartes mobiles, quantité +/- , ajout en masse sticky |
+| **Restock & alerts** | Conversion | Lignes en rupture avec dates et alertes de réapprovisionnement |
+| **Luxury / lookbook** | B2C | Grandes photos, zoom, stock exact masqué, mises en avant d’économies |
+| **Food & packaging** | Retail | Prix unitaire, poids, qté min, remises de volume |
+| **Quick order sheet** | B2B | Grille + ajout en masse + CSV/export/réassort sans images |
+
+### 3.3 Display — Placement
+
+![Display settings — English back office](https://mypresta.eu/docs/images/docs/combinationstab-display.webp)
+
+Sous-onglet **Placement**. Placement au niveau de la page et habillage autour du tableau (liste et grille 2D). L’enregistrement affiche *Display settings saved.*
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Position on the product page** | Product footer (below product content) | Choisit où les clients voient le tableau de déclinaisons. Utilisez **Product footer** sous le produit, ou **Product tabs section** pour un onglet nommé comme **Product variants**. Choisissez l’emplacement adapté à votre thème — un mauvais choix peut masquer le tableau ou le placer trop bas. |
+| **Tab style (legacy themes)** | Classic tabs (PS 1.5 style) | Ne compte que si vous utilisez la position Product tabs sur d’anciens thèmes. Laissez la valeur par défaut sauf si votre thème utilise encore des onglets style PrestaShop 1.5. Modifie la façon dont le titre d’onglet est injecté ; les thèmes modernes 1.7/8/9 l’ignorent généralement. Options : Classic tabs (PS 1.5 style) ou Accordion bars (PS 1.6 style). |
+| **Custom HTML above the table** | Empty | Contenu libre (note de livraison, lien guide des tailles, etc.) au-dessus de la matrice. Optionnel par langue. Visible au-dessus de la liste et de la grille 2D. |
+| **Hide default PrestaShop buy block** | No | Masque les listes déroulantes d’attributs classiques et l’ajout au panier sur la fiche produit. Mettez **Yes** lorsque le tableau doit être le seul moyen d’acheter. Page plus claire ; assurez-vous que le tableau lui-même autorise l’ajout au panier. |
+| **Hide default buy block only when table has combinations** | No | Conserve le bloc d’achat normal sur les produits simples ; le masque lorsque la matrice est affichée. **Yes** est en général le plus sûr pour que les produits simples fonctionnent encore normalement. |
+| **Also hide default buy block based on product restrictions** | No | Appariement avancé avec les règles Visibility. Laissez **No** sauf si vous utilisez des listes complexes d’affichage/masquage. Peut masquer le bloc d’achat natif sur des produits sélectionnés même sans le tableau. |
+
+### 3.4 Display — View mode
+
+| Field | At the start | What it does |
+|---|---|---|
+| **View mode** | List (classic table — one row per combination) | Choisit tableau liste ou matrice 2D. **List** = toujours des lignes ; **2D grid** = forcer la matrice si possible ; **Auto** = matrice pour 2 groupes d’attributs, liste sinon. Les boutiques fashion/B2B avec Color+Size conviennent à Grid/Auto ; les produits à un attribut restent en liste. |
+| **Click combination to open that variant** | Off | Un clic sur une ligne/cellule ouvre l’URL produit de cette déclinaison. Mettez **Yes** si vous voulez parcourir les variantes depuis le tableau. Utile avec des photos ; désactivez si les clics ne doivent que changer la quantité. |
+
+### 3.5 Display — Filters
+
+Ces règles s’appliquent à la fois au tableau liste et à la grille 2D.
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Attribute filters above the table / grid** | Off | Affiche des pastilles cliquables (par ex. Red, XL) pour filtrer lignes/colonnes. Mettez **Yes** pour les produits à nombreuses déclinaisons. Les clients réduisent la liste et la matrice sans défiler indéfiniment. |
+| **Hide out-of-stock combinations** | Off | Retire les déclinaisons en rupture de la liste et de la grille 2D. Mettez **Yes** pour ne vendre que les variantes disponibles. Tableau/matrice plus courts ; les clients ne voient pas les tailles manquantes. |
+| **Hide combinations with price = 0** | Off | Masque les variantes gratuites/à prix zéro de la liste et de la grille. Mettez **Yes** si zéro signifie « non vendu ». Les matrices peuvent paraître incomplètes si certaines cellules sont volontairement à 0. |
+| **Show only combinations that have a picture** | Off | Masque les déclinaisons sans image dans la liste et la grille. Mettez **Yes** pour les lookbooks ; **No** si chaque SKU doit être commandable. Les catalogues incomplets sont plus jolis mais certaines variantes disparaissent. |
+| **Multistore: disabled attribute values** | Hide the whole combination | Lorsqu’une valeur d’attribut est désactivée pour la boutique courante. Multiboutique uniquement — choisir masquer la déclinaison, afficher « - », ou ignorer. S’applique avant la construction de la liste et de la grille ; les boutiques mono-magasin peuvent laisser la valeur par défaut. |
+
+### 3.6 Display — Stock format
+
+Comment les quantités de stock sont affichées dans la liste et la grille lorsque le stock est montré. La visibilité colonne/cellule est sous List columns ou Grid cells.
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Show negative stock as zero** | Off | Affiche 0 au lieu de nombres négatifs. Mettez **Yes** si votre stock peut passer sous zéro. Chiffres de stock plus clairs dans la liste et la grille. |
+| **Hide exact stock above a threshold** | Off | Affiche par exemple « 20+ » au lieu du nombre réel. Mettez **Yes** et le seuil. Masque les grands stocks d’entrepôt aux concurrents dans la liste et la grille. |
+| **Stock threshold (show as X+)** | Empty | Lorsque masquer le stock exact est **Yes**, les quantités au-dessus s’affichent comme « N+ ». Exemple : 20 fait apparaître le stock 45 comme « 20+ ». |
+
+### 3.7 Display — Grid axes, images, cells
+
+Une grille 2D est une matrice style taille×couleur. Elle fonctionne lorsque le produit a exactement deux groupes d’attributs et que View mode est **Grid** ou **Auto**. Un mauvais appariement d’axes (même groupe deux fois) casse la grille et bascule vers la liste.
+
+**Grid axes**
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Grid rows = attribute group** | -- automatic -- | Quel attribut devient le côté gauche de la matrice (par ex. Color). Choisissez un groupe ou laissez Automatic (premier groupe d’attributs par position). Un mauvais couple casse la grille et bascule vers la liste. |
+| **Grid columns = attribute group** | -- automatic -- | Quel attribut devient le haut de la matrice (par ex. Size). Choisissez un groupe différent des lignes, ou Automatic. Chaque cellule est une déclinaison où les clients saisissent la quantité. |
+
+**Grid images** (grille 2D uniquement)
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Show image in cells** | Off | Miniature dans chaque cellule de la matrice. Mettez **Yes** pour les matrices fashion couleur×taille. Cellules plus denses ; utilise l’image de déclinaison ou le fallback couverture ci-dessous. |
+| **Use product cover when combination has no image** | Yes | Affiche la photo principale du produit en secours dans les cellules. Mettez **Yes** pour ne jamais montrer une image vide dans la matrice. N’affecte que la grille 2D, pas la liste. |
+| **Grid thumbnail image type** | Empty (shop image types) | Taille d’image PrestaShop utilisée dans les cellules. Choisissez un type petit (par ex. cart / small_default). Grille 2D uniquement ; la liste utilise List images → Thumbnail type. |
+
+**Grid cells** — glissez **Cell block order** (haut→bas), puis Save. Seuls les blocs activés apparaissent. Wishlist/BIS nécessitent encore **Integrations** ; l’ajout au panier nécessite l’interrupteur maître sous **Cart**.
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Cell block order** | Default block order | Ordre des blocs dans chaque cellule de la matrice. Glissez, puis Save. Seuls les blocs activés ci-dessous apparaissent. Image on/off et taille sous Grid images. |
+| **Grid: show reference (SKU)** | Off | SKU sous le contenu de la cellule. Mettez **Yes** en B2B pour que les acheteurs identifient les SKU sans ouvrir le produit. |
+| **Grid: show price** | Off | Prix dans la cellule (règles taxe/remise suivent Cart). Mettez **Yes** pour presque toutes les boutiques afin de comparer les variantes par prix dans la matrice. |
+| **Grid: show unit price** | Off | Prix unitaire dans la cellule. Mettez **Yes** si vous utilisez le prix unitaire. Ligne compacte sous le prix principal. |
+| **Grid: show stock quantity** | Off | Nombre de stock disponible dans la cellule. Mettez **Yes** pour la transparence ; révèle l’inventaire par taille/couleur. |
+| **Grid: show availability** | Off | Libellé In stock / Out of stock dans la cellule. Mettez **Yes** lorsque les chiffres de stock sont masqués. Statut clair sans la qté exacte. |
+| **Grid: show minimal quantity** | Off | Qté min de commande dans la cellule. Mettez **Yes** pour les packs B2B ; réduit les mauvaises quantités panier. |
+| **Grid: show savings badge** | Off | % économisé vs la déclinaison la plus chère. Mettez **Yes** pour la conversion ; met en avant les tailles/couleurs moins chères. |
+| **Grid: quantity input** | Off | Champ qté dans chaque cellule (fonctionne avec Bulk Add to cart). Mettez **Yes** pour la commande en matrice afin que les clients remplissent les quantités par taille. |
+| **Grid: Add to cart button (when bulk ATC is off)** | Off | Bouton d’ajout par cellule lorsque Bulk add to cart est désactivé. Mettez **Yes** pour des ajouts en un clic sans bulk. Ignoré tant que le bulk ATC est actif. |
+| **Grid: wishlist heart** | Off | Bouton cœur dans la cellule. Activez d’abord Wishlist sous Integrations. Les clients enregistrent une taille/couleur depuis la matrice. |
+| **Grid: back-in-stock alert** | Off | Bouton de notification sur les cellules en rupture. Activez d’abord Back in stock sous Integrations. Capture la demande pour les tailles manquantes. |
+
+### 3.8 Display — List layout, images, columns
+
+Ces réglages n’affectent que la liste classique (une ligne par déclinaison), pas les cellules de grille 2D.
+
+**List layout & sorting**
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Column order (list only)** | Default column order | Définit l’ordre gauche-droite des colonnes en vue liste. Glissez les éléments, puis Save. Les clients voient les colonnes dans cet ordre (seules les colonnes activées apparaissent). |
+| **Mobile card layout (list)** | Yes | Sur téléphone, transforme les larges lignes de tableau en cartes empilées. Mettez **Yes** pour une meilleure UX mobile. Chaque déclinaison ressemble à une petite carte ; le bureau reste un tableau normal. |
+| **Hide table header (list)** | Off | Retire la ligne du haut avec les noms de colonnes. Laissez en général **No**. Aspect plus épuré mais colonnes plus difficiles à comprendre. |
+| **Paginate long tables (list)** | Off | Découpe de nombreuses déclinaisons en pages. Mettez **Yes** si un produit a des dizaines de variantes. Sensation de page plus rapide ; réglez Rows per page ci-dessous. |
+| **Rows per page** | 10 when pagination is used without a custom value | Combien de déclinaisons par page lorsque la pagination est active. Exemple : 10 ou 20. Nombre plus petit = pages plus courtes, plus de clics. |
+| **Allow sorting by column headers** | Yes | En-têtes cliquables pour trier la liste. Mettez **Yes** pour les longues listes. Les clients trient par prix, référence, etc. (vue liste uniquement). |
+| **Default sort by price** | Off | Le tri initial utilise le prix. Optionnel. Moins cher/plus cher en premier selon la direction. |
+| **Default sort by attribute** | Off | Tri initial par un groupe d’attributs choisi. Réglez l’ID d’attribut et la direction ci-dessous. Exemple : tailles S→XL. |
+| **Attribute sort uses** | Attribute value position | Trier par position d’attribut (ordre catalogue) ou par nom A→Z. La position convient généralement mieux aux tailles. Change l’ordre des lignes par défaut lorsque le tri par attribut est activé. |
+| **Attribute group ID to sort by** | Empty | ID numérique du groupe d’attributs utilisé pour le tri par défaut. Dans Catalog → Attributes, ouvrez le groupe et lisez l’ID dans l’URL. Mauvais ID = ordre inattendu. |
+| **Sort direction** | Ascending | Ordre par défaut ascendant ou descendant. Ascending pour S→XL ; Descending pour prix haut→bas lors du tri par prix. Contrôle les premières lignes que voient les clients. |
+
+**List images**
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Show image column** | Yes | Ajoute une miniature pour chaque déclinaison. Mettez **Yes** lorsque les variantes ont des photos différentes pour les reconnaître plus vite. |
+| **Show image column only if at least one combination has a photo** | Off | Masque la colonne image vide lorsqu’aucune déclinaison n’a de photo. Mettez **Yes** pour éviter une colonne vide inutile. Le tableau reste propre sur les produits sans images de déclinaison. |
+| **Use product cover when combination has no image** | Off | Affiche la photo principale du produit en secours dans la liste. Mettez **Yes** pour ne jamais montrer une cellule image vide. N’affecte que la vue liste, pas la grille 2D. |
+| **Click image to zoom** | Off | Ouvre une image plus grande en lightbox. Mettez **Yes** pour les produits visuels ; réglez la taille de zoom ci-dessous. Les clients inspectent les détails sans quitter la page. |
+| **Thumbnail image type** | Empty (shop image types) | Taille d’image PrestaShop utilisée dans la colonne liste. Choisissez un type petit (par ex. cart / small_default). Liste uniquement ; la grille utilise Grid images → Thumbnail type. |
+| **Zoom image type** | Empty (shop image types) | Taille d’image ouverte dans la lightbox lorsque le zoom est activé. Choisissez un type grand (par ex. large_default). Aperçu zoom plus net en vue liste. |
+
+**List columns** — visibilité pour la liste classique. Description / caractéristiques de déclinaison nécessitent le module optionnel Combination features ; sinon ces contrôles restent verrouillés avec un lien boutique.
+
+| Field | At the start | What it does |
+|---|---|---|
+| **How attributes are shown** | All attributes in one column | Une colonne combinée « Combination name » vs colonnes séparées par attribut (Color, Size…). Les colonnes séparées sont plus faciles à parcourir et à trier. La mise en page de la vue liste change immédiatement. |
+| **Include attribute label in the name** | Off | Affiche « Color: Red, Size: L » au lieu de « Red, L ». Mettez **Yes** pour plus de clarté ; s’applique uniquement à la méthode une colonne. Noms plus longs mais plus clairs. |
+| **Color attribute display** | Text only | Aspect des valeurs de couleur (pastille, texte, ou les deux). Case couleur pour la mode ; Texte si les couleurs sont nommées spécialement. N’affecte que les attributs de type « color ». |
+| **Show combination / attribute columns** | Yes | Interrupteur maître des colonnes de nom d’attribut. Presque toujours **Yes**. **No** masque comment les variantes diffèrent — uniquement pour des mises en page très particulières. |
+| **Show combination description** | Off (locked without Combination features) | Affiche la description personnalisée assignée à la déclinaison par Combination features. Mettez **Yes** lorsque les variantes ont un texte unique. Colonne liste supplémentaire ; les cellules vides affichent « - ». |
+| **Show combination features** | Off (locked without Combination features) | Affiche les valeurs de caractéristiques assignées à la déclinaison par Combination features. Mettez **Yes** lorsque les variantes ont leur propre fiche. Colonne liste supplémentaire avec nom de caractéristique + valeurs. |
+| **Show reference (SKU)** | Yes | Affiche la référence de déclinaison. Mettez **Yes** pour B2B / gros afin que les acheteurs commandent plus vite par SKU. |
+| **Show EAN** | No | Affiche le code-barres EAN-13. Mettez **Yes** si le personnel/les clients scannent des codes. Colonne supplémentaire ; désactivez pour la mode B2C si inutilisé. |
+| **Show MPN** | No | Colonne numéro de pièce fabricant. Mettez **Yes** lorsque vous renseignez le MPN dans le catalogue. Les cellules vides affichent « - » si le MPN est vide. |
+| **Show weight** | Off | Poids produit + impact de déclinaison. Mettez **Yes** pour les biens sensibles à la livraison afin d’estimer les frais. |
+| **Show stock quantity** | Yes | Stock disponible par déclinaison. Mettez **Yes** pour la transparence ; couplez avec Stock format pour « 10+ ». Renforce la confiance ; révèle l’inventaire. |
+| **Show total product stock in header** | No | Ajoute la somme du stock à côté de l’en-tête Quantity. Aperçu optionnel rapide de la disponibilité totale. |
+| **Show availability text** | Yes | « In stock » / « Out of stock » (ou vos libellés boutique). Mettez **Yes** pour la clarté afin que les clients voient le statut sans lire le chiffre. |
+| **Show availability date when out of stock** | Yes | Affiche la date de disponibilité de la déclinaison sous le statut en rupture. Mettez **Yes** si vous renseignez les dates de disponibilité. Fixe les attentes de réassort. |
+| **Show minimal quantity** | Off | Affiche la qté minimale de commande de la déclinaison. Mettez **Yes** pour les packs B2B ; réduit les erreurs d’ajout au panier. |
+| **Show price** | Yes | Colonne prix par déclinaison (liste uniquement). Mettez **Yes** pour presque toutes les boutiques. Les clients comparent les variantes par prix. La grille utilise Grid cells → show price. |
+| **Show unit price** | Off | Colonne prix unitaire (liste uniquement). Mettez **Yes** si vous utilisez le prix unitaire. Valeurs vides/étranges si l’unité n’est pas définie sur le produit. |
+| **Show savings column** | No | Combien une déclinaison est moins chère vs la plus chère (liste uniquement). Mettez **Yes** pour la psychologie d’upsell. Colonne supplémentaire avec % et montant économisé. La grille utilise Grid cells → savings badge. |
+| **Show volume (quantity) discounts column** | Off | Liste les paliers de remise quantité par déclinaison (liste uniquement). Mettez **Yes** pour le gros. Tableau plus large ; idéal en B2B. |
+| **Hide volume discount rows that do not apply** | Off | Nettoie les listes de remises vides dans la colonne liste. Mettez **Yes** pour réduire le bruit et ne garder que les paliers utiles. |
+
+### 3.9 Cart — Prices
+
+![Cart settings — English back office](https://mypresta.eu/docs/images/docs/combinationstab-cart.webp)
+
+Sous-onglet **Prices**. Règles globales d’affichage des prix pour la liste et la grille 2D. L’enregistrement affiche *Cart & price settings saved.*
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Show prices only to logged-in customers** | No | Les invités voient une invite de connexion au lieu des prix. Mettez **Yes** pour les prix B2B masqués. Les invités doivent se connecter pour voir les montants dans la liste et la grille. |
+| **Tax display** | Tax included | Taxes incluses, exclues, ou suivre le réglage du groupe client. Alignez sur la politique de prix de votre boutique. Un mauvais choix confond acheteurs B2B et B2C. |
+| **Show “tax incl./excl.” label next to price** | Off | Petit texte après le prix. Mettez **Yes** pour la clarté légale dans l’UE. Cellules un peu plus chargées. |
+| **Show discount % badge on reduced prices** | Off | Affiche -X% lorsqu’une réduction de prix spécifique existe. Mettez **Yes** pour mettre en avant les offres. Attire l’attention sur les déclinaisons remisées dans la liste et la grille. |
+| **Highlight the cheapest combination** | Yes | Marque la ligne/cellule au prix le plus bas. Mettez **Yes** pour guider les achats impulsifs. Surbrillance verte du meilleur prix dans la liste et la grille. |
+
+### 3.10 Cart — Add to cart
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Show add to cart controls** | Yes | Champ quantité et/ou bouton par déclinaison. Mettez **Yes** pour vendre depuis le tableau. **No** = matrice d’affichage uniquement. |
+| **Add to cart only for logged-in customers** | Off | Les invités ne peuvent pas ajouter depuis le tableau. Mettez **Yes** pour le B2B. Les invités voient un message à la place des boutons. |
+| **Show quantity input** | Yes | Case qté éditable. **Yes** toujours recommandé. **No** masque la qté (plus difficile d’acheter plusieurs unités). |
+| **Qty box also in the table header (fill all rows)** | Off | Une qté d’en-tête se copie sur toutes les lignes. Commodité optionnelle. Accélère le remplissage en masse ; à utiliser avec prudence. |
+| **Plus / minus buttons** | No | Boutons +/- à côté de la qté. Mettez **Yes** pour les appareils tactiles. Changements de quantité plus faciles. |
+| **Block qty higher than stock** | Off | Empêche de commander plus que le disponible (lorsque les commandes hors stock ne sont pas autorisées). Mettez **Yes** pour éviter le survente. Le bouton + s’arrête au stock. |
+| **AJAX add to cart** | Yes | Ajoute sans rechargement complet de la page. Mettez **Yes** sur les thèmes modernes. UX plus fluide ; désactivez uniquement en cas de conflit de thème. |
+| **Bulk add to cart (one button for many rows)** | Off | Le client remplit plusieurs champs qté, puis un **Add to cart** envoie tout. Mettez **Yes** pour B2B/mode. Les boutons par ligne peuvent être masqués ; une barre sticky apparaît sur mobile. |
+| **Show live total price of selected quantities** | Off | Calcule la somme des lignes sélectionnées (respecte les remises quantité si possible). Mettez **Yes** avec l’ajout en masse. Les clients voient la valeur du panier avant de cliquer Add. |
+| **Tip: how many units until next quantity discount** | Yes | Sous la barre en masse, indique au client « add X more to unlock the next discount ». Mettez **Yes** si vous utilisez les remises quantité. Encourage des paniers plus grands. |
+| **Use Font Awesome cart icon** | Off | Icône FA au lieu de l’icône Material. Mettez **Yes** uniquement si votre thème charge Font Awesome. FA manquant = icône cassée. |
+
+### 3.11 B2B Tools and Groups
+
+![B2B tools — English back office](https://mypresta.eu/docs/images/docs/combinationstab-b2b.webp)
+
+**Tools** — aides gros. Les interrupteurs globaux sont des valeurs par défaut ; utilisez **Groups** pour autoriser ou refuser par groupe de clients PrestaShop. L’enregistrement affiche *B2B settings saved.*
+
+| Field | At the start | What it does |
+|---|---|---|
+| **CSV quantity import on product page** | No | Les acheteurs collent des lignes comme SKU;5 (ou EAN;qty) pour remplir les quantités. Mettez **Yes** pour le gros ; puis autorisez-le par groupe si besoin. Gain de temps énorme pour les réassortiments. |
+| **Export order sheet (CSV / XLSX / PDF)** | No | Télécharge les déclinaisons avec les quantités saisies. Mettez **Yes** pour les acheteurs qui envoient des feuilles à la comptabilité. Les boutons apparaissent à côté de l’ajout en masse. |
+| **Fill last order button** | No | Restaure les quantités du dernier ajout en masse / export pour ce produit. Mettez **Yes** pour les commandes gros répétées. Un clic remplit à nouveau la matrice. |
+
+**Groups** — pour chaque groupe de clients réglez **Show table**, **Add to cart**, **CSV import**, **Export**, **Reorder** (Yes/No). Défauts sans règle personnalisée : show table Yes, add to cart Yes, CSV/export/reorder suivent les interrupteurs globaux Tools (off après installation). Si **Show table** est No pour le groupe du visiteur, la matrice n’apparaît pas. Si **Add to cart** est No, le visiteur ne peut pas ajouter depuis le tableau même lorsque les interrupteurs Cart globaux sont actifs.
+
+### 3.12 Visibility
+
+![Visibility — English back office](https://mypresta.eu/docs/images/docs/combinationstab-visibility.webp)
+
+Contrôlez sur quels produits les clients voient le tableau de déclinaisons. Recherchez des produits avec le sélecteur à l’écran (recherche AJAX). Confirmation : *Successfully updated*.
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Visibility rule** | Show on all products | Décide si le tableau apparaît sur tous les produits, seulement sur les sélectionnés, ou partout sauf les sélectionnés. Choisissez une règle, puis cochez des catégories / ajoutez des produits dans le sélecteur ci-dessous. « All products » est le plus simple ; utilisez Include/Exclude lorsque seule une partie du catalogue a besoin de la matrice. |
+| **Selected categories & products** | None | La liste des catégories et produits utilisés par la règle ci-dessus. Cochez des catégories et/ou recherchez des produits et cliquez Add. Utilisé uniquement lorsque la règle est Include ou Exclude — ignoré pour « all products ». |
+| **Hide table when product has too few attribute groups** | Off | Masque le tableau sur les produits qui n’ont que peu de groupes d’attributs (par ex. seulement Color, pas de Size). Mettez **Yes** et le nombre ci-dessous. Exemple : seuil 1 masque les produits avec 1 groupe d’attributs ou moins — utile si vous ne voulez la matrice que pour les produits Color+Size. |
+| **Hide when attribute groups ≤** | Empty | Seuil pour l’interrupteur ci-dessus. Entrez 1 pour masquer les produits à un attribut ; 0 ne masque pratiquement jamais via cette règle. Comparé au nombre de groupes d’attributs du produit. |
+
+### 3.13 Exclusions
+
+Masquez définitivement des déclinaisons choisies du tableau (tous les produits). Recherchez un produit, choisissez des déclinaisons avec **Select**, puis **Save**. Confirmation : *Settings saved*. Ces variantes restent dans PrestaShop mais n’apparaissent jamais dans la matrice — utile pour des tailles obsolètes ou des SKU internes. La recherche produit et déclinaison utilise la même recherche AJAX produit que Visibility.
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Search for product** | Empty | Trouvez le produit dont vous voulez exclure les déclinaisons. |
+| **Combination** | None selected | Marquez les déclinaisons à masquer de la matrice vitrine, puis Save. |
+
+### 3.14 Integrations
+
+![Integrations — English back office](https://mypresta.eu/docs/images/docs/combinationstab-integrations.webp)
+
+L’enregistrement affiche *Integrations saved.* Le formulaire indique Advanced Stock Management lorsqu’il est détecté ; sans ASM, laissez l’interrupteur entrepôt sur Off.
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Combination wishlist** | No | Le bouton cœur enregistre une variante dans une wishlist légère (compte ou cookie). Mettez **Yes** si les clients marquent des tailles. Le lien apparaît dans My Account ; ce n’est pas une suite wishlist complète. |
+| **Back-in-stock email alerts** | No | Les lignes en rupture obtiennent un bouton de notification ; lorsque le stock revient, le module e-mail le client. Mettez **Yes** et assurez-vous que votre boutique peut envoyer des e-mails. Récupère la demande sur les tailles manquantes. |
+| **Warehouse stock column** | No | Liste les quantités par entrepôt lorsque Advanced Stock est activé. Mettez **Yes** uniquement avec ASM. Sans ASM la colonne reste vide — laissez Off. |
+
+### 3.15 Overrides
+
+![Overrides — English back office](https://mypresta.eu/docs/images/docs/combinationstab-overrides.webp)
+
+Les profils cascadenent **Product → deepest Category → Manufacturer → Global**. Seuls les champs surchargés modifient la couche inférieure. Filtrez la liste avec **All / Products / Categories / Manufacturers**. Créez avec **Product override**, **Category override** ou **Manufacturer override**.
+
+Sur l’écran d’édition : recherchez et sélectionnez une entité, activez uniquement les champs à surcharger, laissez les champs non cochés hériter. Utilisez **Copy all from global** pour préremplir les valeurs, puis **Save override**. Succès : *Override profile saved.* La suppression demande *Delete this override profile ?* Succès : *Override profile deleted.*
+
+Raisons typiques d’utiliser des overrides : une marque a toujours besoin du mode grille ; une catégorie masque les prix pour les invités ; un produit a besoin de colonnes SKU supplémentaires sans changer toute la boutique.
+
+### 3.16 Updates
+
+**Check now** demande à MyPresta si une version plus récente existe. Messages : *New version available!* ou *Module is up to date!*
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Check updates** | — | Lance une vérification immédiate et indique si une nouvelle version existe. |
+| **Updates notifications** | Select / as previously saved | Activez cette option si vous souhaitez vérifier automatiquement MyPresta.eu pour les mises à jour du module. Cette option affichera une notification sur les nouvelles versions de cet addon. |
+| **Module page** | Link on screen | Lien direct vers la page officielle de l’addon où vous pouvez lire les changements du module (changelog). Utilisez Support (chapitre 7) pour les demandes d’aide. |
+
+## 4. Front office
+
+- **Placement :** pied de produit sous le contenu produit, ou un onglet **Product variants** dans la zone d’onglets produit, selon Display → Placement.
+- **List vs 2D grid :** la liste est une ligne par déclinaison. La grille est une matrice lorsque le produit a exactement deux groupes d’attributs et que View mode est Grid ou Auto ; sinon la vitrine bascule vers la liste.
+- **Filters :** pastilles d’attributs au-dessus du tableau/grille lorsque activées.
+- **Sorting / pagination / mobile cards :** liste uniquement, lorsque ces options Display sont activées.
+- **Add to cart :** contrôles par ligne et/ou **Add to cart** en masse avec total live optionnel et tip « units until next discount ».
+- **Toolbar :** lorsque activée — **Fill last order**, **Export** (CSV / XLSX / PDF), zone de texte **Import quantities** avec des lignes comme `REF001;5`, puis **Apply**.
+- **Wishlist :** cœur sur les lignes/cellules lorsque Integrations + interrupteurs colonne/cellule le permettent. Les clients connectés obtiennent **My combination wishlist** sur la page compte client.
+- **Back in stock :** contrôle de notification sur les lignes en rupture ; e-mail lorsque le stock revient (le mail boutique doit fonctionner).
+- **Guest prices :** avec « prices only for logged-in », les invités voient une invite de connexion au lieu des montants ; avec « ATC only for logged-in », les invités ne peuvent pas ajouter depuis le tableau.
+
+Aucune capture vitrine séparée n’est requise ici ; la mise en page du thème décide de l’habillage exact autour du bloc du module.
+
+## 5. Problèmes courants
+
+### 5.1 Tableau non visible sur la fiche produit
+
+Vérifiez module activé, produit avec déclinaisons, règle **Visibility** qui inclut le produit, groupe client **Show table** à Yes, et position adaptée à votre thème (pied vs onglets). Videz le cache. Confirmez qu’Exclusions n’a pas masqué toutes les déclinaisons.
+
+### 5.2 Mauvaise position ou onglet vide
+
+Changez **Position on the product page**. Sur les thèmes modernes, ignorez Tab style. Si vous utilisez des onglets, ouvrez le produit et cherchez **Product variants**.
+
+### 5.3 Grille 2D attendue mais liste affichée
+
+La grille nécessite exactement deux groupes d’attributs et View mode Grid ou Auto. Un attribut, ou trois ou plus, force la liste. Le même groupe d’attributs pour les deux axes bascule aussi vers la liste — définissez des groupes de lignes et de colonnes différents.
+
+### 5.4 Bloc d’achat par défaut manquant ou encore visible
+
+Vérifiez **Hide default PrestaShop buy block** et **Hide default buy block only when table has combinations**. Si le bloc natif est masqué mais que le tableau n’a pas d’ajout au panier, les clients ne peuvent pas acheter — activez Cart → **Show add to cart controls**.
+
+### 5.5 L’ajout en masse ne fait rien ou recharge mal
+
+Activez **AJAX add to cart** pour les thèmes modernes. Confirmez que **Bulk add to cart** est Yes et que les quantités sont remplies. La règle de groupe **Add to cart** doit être Yes pour ce groupe client.
+
+### 5.6 Les règles de groupe bloquent l’ajout au panier ou masquent le tableau
+
+Sous **B2B** → **Groups**, mettez **Show table** et **Add to cart** à Yes pour le groupe du visiteur (Guest, Customer, ou votre groupe gros).
+
+### 5.7 Prix masqués pour les invités
+
+Attendu lorsque **Show prices only to logged-in customers** est Yes. Mettez Off pour les prix publics, ou demandez aux invités de se connecter.
+
+### 5.8 Wishlist ou réapprovisionnement manquant
+
+Activez-les sous **Integrations**, puis activez les interrupteurs de colonne liste ou de cellule grille correspondants. Pour BIS, confirmez que PrestaShop peut envoyer des mails et que le stock se met à jour lors du réassort.
+
+### 5.9 Colonnes description / caractéristiques de déclinaison verrouillées
+
+Installez et activez le module optionnel **Product combination features**. Jusque-là ces colonnes restent verrouillées dans Display et Overrides.
+
+### 5.10 CSV / export / remplir dernière commande manquants
+
+Activez les outils sous **B2B** → **Tools**, et mettez Yes pour ce groupe client sous **Groups**.
+
+## 6. Guide développeur
+
+### 6.1 Vue d’ensemble
+
+- Nom technique : `combinationstab`
+- Version : 3.0.5
+- Nom affiché : Combinations Tab Pro
+- Auteur : mypresta.eu
+- Onglet module : `smart_shopping`
+- Classe principale : `Combinationstab`
+- UI BO : `CtpAdminBo` (`lib/CtpAdminBo.php`)
+- Résolution des réglages : `CtpSettingsResolver` (Product → Category → Manufacturer → Global)
+- Optionnel : `CtpCombfeat` — le fichier peut être absent ; `class_exists('CtpCombfeat')` contrôle description/caractéristiques de déclinaison. Sans la classe, ces options restent verrouillées.
+
+Flux : Configuration / réglages d’entité → les hooks FO rendent les templates liste ou grille → les contrôleurs front gèrent les aides AJAX panier, wishlist, BIS, CSV, export, réassort, calculateur de prix.
+
+### 6.2 Fichiers importants
+
+| Path | Role |
+|---|---|
+| `combinationstab.php` | Classe module, install/uninstall, hooks, formulaires visibility/exclusions |
+| `lib/CtpAdminBo.php` | Onglets de la page Configure et champs HelperForm |
+| `lib/CtpColumnRegistry.php` | Colonnes liste, presets, JSON d’ordre |
+| `lib/CtpGridRegistry.php` | Blocs de cellules grille et JSON d’ordre |
+| `lib/CtpGrid2d.php` | Construction matrice 2D / `shouldUseGrid` |
+| `lib/CtpCombinationsData.php` | Lignes de déclinaison pour le FO |
+| `lib/CtpGroupRules.php` | Par groupe show/atc/csv/export/reorder |
+| `lib/CtpWishlist.php` / `CtpBackInStock.php` / `CtpExport.php` / `CtpReorder.php` | Aides de fonctionnalités |
+| `lib/CtpSettingsResolver.php` | Table d’override et cascade |
+| `views/templates/admin/tabs.tpl` | Habillage onglets BO |
+| `views/templates/hook/productfooter.tpl` / `productfooter_grid.tpl` | Liste / grille FO |
+| `views/templates/hook/_toolbar.tpl` | Barre bulk / export / CSV |
+| `controllers/front/*.php` | Endpoints front |
+| `controllers/admin/AdminCombinationstabSearchController.php` | Recherche AJAX produit pour les sélecteurs BO |
+
+### 6.3 Contrôleurs
+
+**Admin :** `AdminCombinationstabSearchController` — recherche AJAX produit/déclinaison utilisée par Visibility, Exclusions, Overrides. Pas une page de menu pour les marchands.
+
+**Front :**
+
+| Controller | Purpose |
+|---|---|
+| `Wishlist` | Basculer / lister la wishlist (JSON + page compte) |
+| `BackInStock` | S’abonner aux alertes OOS (JSON) |
+| `CsvImport` | Appliquer les quantités SKU/EAN collées (JSON) |
+| `Export` | Télécharger la feuille CSV/XLSX/PDF |
+| `Reorder` | Enregistrer / restaurer les dernières quantités (JSON) |
+| `PriceCalculator` | Total sélectionné en live / tip volume (corps JSON, pas de curl) |
+
+### 6.4 Hooks (enregistrés à l’installation)
+
+`displayHeader`, `displayProductFooter`, `displayFooterProduct`, `displayProductTab`, `displayProductExtraContent`, `displayProductTabContent`, `CombinationsTable`, `ActionAdminControllerSetMedia`, `displayCustomerAccount`, `actionUpdateQuantity`.
+
+Pas de `enable()` / `disable()` personnalisés au-delà des défauts PrestaShop. Uninstall supprime les tables de fonctionnalités puis `parent::uninstall()`.
+
+### 6.5 Overrides
+
+Le module ne livre aucun override de classe/contrôleur sous `override/`. Les overrides de templates `.tpl` du module dans le thème sont optionnels et côté marchand.
+
+### 6.6 Base de données
+
+Uninstall supprime ces tables ; les clés Configuration sont conservées.
+
+| Table | Content |
+|---|---|
+| `ctp_wishlist` | `id_ctp_wishlist`, customer/guest, product, combination, shop, `date_add` |
+| `ctp_backinstock` | Abonnements e-mail, product/combination, shop, lang, `notified`, dates |
+| `ctp_entity_settings` | `entity_type`, `id_entity`, JSON `settings`, `date_upd` |
+
+### 6.7 Clés de configuration et défauts (installation)
+
+Défauts sélectionnés écrits à l’installation : `ctp_position` = `productFooter`, `ctp_where` = `1`, `ctp_view_mode` = `list`, `ctp_image`/`ctp_price`/`ctp_reference`/`ctp_cname`/`ctp_atc`/`ctp_atcq`/`ctp_ajax`/`ctp_sort`/`ctp_quantity`/`ctp_availability`/`ctp_availability_d` = `1`, `ctp_ean`/`ctp_mpn` = `0`, `ctp_wishlist`/`ctp_bis`/`ctp_export`/`ctp_csv_import`/`ctp_reorder` = `0`, `ctp_group_rules` = `{}`, `ctp_column_order` = JSON de `CtpColumnRegistry::defaultKeys()`, plus clés taxe/masquer/grille associées comme dans `install()`. L’ordre colonnes/cellules utilise aussi du JSON (`ctp_column_order`, `ctp_grid_cell_order`). Traductions : `translations/{iso}.php`. Les textes `desc` des champs vivent principalement dans `CtpAdminBo`.
+
+### 6.8 Extension
+
+Surchargez les templates FO depuis le thème sous `modules/combinationstab/...` sans éditer le paquet du module. Le thème doit toujours appeler les hooks produit enregistrés pour la sortie. L’intégration optionnelle Combination features exige `lib/CtpCombfeat.php` présent et `CtpCombfeat::isAvailable()` true.
+
+## 7. Support
+
+Page produit : https://mypresta.eu/modules/front-office-features/product-page-combinations-table.html
+
+Pour obtenir de l’aide : connectez-vous à votre compte client sur mypresta.eu, ouvrez Contact et choisissez **Support for paid modules**. Le formulaire exige une connexion pour les modules payants ; après connexion, sélectionnez ce module dans votre historique d’achats.

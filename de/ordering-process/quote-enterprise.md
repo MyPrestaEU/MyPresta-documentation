@@ -1,8 +1,8 @@
 ---
-title: "Quote Enterprise - Händlerhandbuch & Konfigurationsanleitung"
-description: "Vollständiges Benutzerhandbuch, schrittweise Einrichtungsanleitung und Entwicklerreferenz für das PrestaShop-Modul Quote Enterprise von MyPresta.eu."
+title: "Quote Enterprise - Händlerhandbuch"
 sidebar:
-  label: "Quote Enterprise - Händlerhandbuch & Konfigurationsanleitung"
+  label: "Quote Enterprise - Händlerhandbuch"
+description: "So konfigurieren Sie Quote Enterprise, führen den gesamten Prozess von Angebot bis Bestellung durch und beheben Probleme."
 ---
 
 > ⚠️ **Notice:** This is the offizielle Dokumentation für das PrestaShop-Modul.
@@ -12,378 +12,353 @@ sidebar:
 > ---
 
 
-# Quote Enterprise
-
-## 1. Anforderungen & Kompatibilität
-
-- **Unterstützte PrestaShop-Versionen**: PrestaShop 1.7.x, 8.x, 9.x
-- **PHP-Kompatibilität**: PHP 7.1 - 8.5
-- **Hosting-Anforderungen**: Standard-PHP-Erweiterungen (cURL, JSON, OpenSSL) sind erforderlich. Stellen Sie sicher, dass Ihr Server die Mindestanforderungen von PrestaShop erfüllt.
-
-## 2. Vollständige Konfigurationsanleitung (Jede Einstellung nach Bildschirm gruppiert)
-
-### 2.1 Modulkonfigurationsseite (Back Office > Module > Konfigurieren > Quote Enterprise)
-
-Dies ist der Hauptkonfigurationsbildschirm, auf dem Sie das Kernverhalten und das Erscheinungsbild des Moduls Quote Enterprise definieren.
-
-#### Registerkarte Allgemeine Einstellungen
-
-- **Quote Enterprise aktivieren:**
-
-  - **Was diese Einstellung bewirkt:** Dies ist der Hauptschalter für das gesamte Modul.
-  - **Auswirkung der Änderung dieser Einstellung:**
-    - *Wenn aktiviert:* Das Angebotssystem wird in Ihrem Shop aktiv, und Kunden können Angebote anfordern.
-    - *Wenn deaktiviert:* Die gesamte Angebotsfunktionalität wird im Front Office ausgeblendet, und es können keine neuen Angebote angefordert werden. Bestehende Angebote im Back Office bleiben zur Verwaltung zugänglich.
-  - **Empfohlener Wert:** JA
-  - **Händlerszenario / Beispiel:** Aktivieren Sie dies, wenn Sie bereit sind, Angebotsdienste anzubieten. Deaktivieren Sie es vorübergehend während der Wartung oder wenn Sie sich entscheiden, keine Angebote mehr anzubieten.
-- **Angebotsanfragen aus dem Warenkorb zulassen:**
-
-  - **Was diese Einstellung bewirkt:** Legt fest, ob Kunden ihren gesamten Warenkorb in eine Angebotsanfrage umwandeln können.
-  - **Auswirkung der Änderung dieser Einstellung:**
-    - *Wenn aktiviert:* Eine Schaltfläche oder ein Link „Angebot anfordern“ erscheint in der Warenkorbzusammenfassung, die es Kunden ermöglicht, alle Artikel in ihrem Warenkorb für ein Angebot einzureichen.
-    - *Wenn deaktiviert:* Kunden können Angebote nur von einzelnen Produktseiten oder über die schwebende Schaltfläche (falls aktiviert) anfordern, nicht direkt aus ihrem Warenkorb.
-  - **Empfohlener Wert:** JA (für die meisten B2B- und Großbestellungsszenarien)
-  - **Händlerszenario / Beispiel:** Wenn Sie hauptsächlich mit großen, mehrteiligen Bestellungen zu tun haben, bei denen die Preise oft verhandelt werden, aktivieren Sie dies. Wenn Ihre Angebote normalerweise für einzelne, kundenspezifische Produkte gelten, können Sie dies deaktivieren.
-- **Angebotsanfragen von der Produktseite zulassen:**
-
-  - **Was diese Einstellung bewirkt:** Steuert, ob eine Schaltfläche „Angebot anfordern“ auf einzelnen Produktseiten erscheint.
-  - **Auswirkung der Änderung dieser Einstellung:**
-    - *Wenn aktiviert:* Kunden können ein bestimmtes Produkt direkt von seiner Seite zu einer Angebotsanfrage hinzufügen, anstatt es in den Warenkorb zu legen.
-    - *Wenn deaktiviert:* Die Option zur Angebotsanfrage wird von den Produktseiten entfernt.
-  - **Empfohlener Wert:** JA
-  - **Händlerszenario / Beispiel:** Unerlässlich für kundenspezifische Produkte, hochwertige Artikel oder wenn Sie eine Alternative zum Direktkauf für jedes Produkt anbieten möchten.
-- **Schwebende Angebots-Schaltfläche anzeigen:**
-
-  - **Was diese Einstellung bewirkt:** Fügt eine dauerhafte, schwebende Schaltfläche zum Front Office Ihres Shops hinzu, die es Kunden ermöglicht, von fast jeder Seite aus eine Angebotsanfrage zu initiieren.
-  - **Auswirkung der Änderung dieser Einstellung:**
-    - *Wenn aktiviert:* Eine kleine, anklickbare Schaltfläche (oft in einer Ecke des Bildschirms) erscheint, die das Angebotsanfrageformular oder eine Liste bestehender Angebote öffnet.
-    - *Wenn deaktiviert:* Die schwebende Schaltfläche ist nicht sichtbar.
-  - **Empfohlener Wert:** JA (für hohe Sichtbarkeit und einfachen Zugang)
-  - **Händlerszenario / Beispiel:** Verwenden Sie dies, um die Angebotsoption in Ihrem gesamten Shop gut sichtbar zu machen und mehr Anfragen zu fördern.
-- **Mindestbestellwert für Angebotsanfrage:**
-
-  - **Was diese Einstellung bewirkt:** Legt einen Mindestgesamtwert (in Ihrer Standardwährung) fest, den eine Angebotsanfrage erreichen muss, um eingereicht zu werden.
-  - **Auswirkung der Änderung dieser Einstellung:**
-    - *Wenn ein Wert festgelegt ist (z. B. 100):* Kunden können keine Angebotsanfrage einreichen, wenn der Gesamtwert der Artikel in ihrer Anfrage unter diesem Betrag liegt. Eine Fehlermeldung wird angezeigt.
-    - *Wenn auf 0 gesetzt oder leer gelassen:* Es wird kein Mindestwert erzwungen.
-  - **Empfohlener Wert:** 0 (oder ein Wert, der triviale Anfragen herausfiltert)
-  - **Händlerszenario / Beispiel:** Wenn Sie nur Angebote für bedeutende Bestellungen bearbeiten möchten, legen Sie einen Mindestwert fest (z. B. 500 €), um den Verwaltungsaufwand für kleine Anfragen zu reduzieren.
-- **Standard-Angebotsgültigkeit (Tage):**
-
-  - **Was diese Einstellung bewirkt:** Definiert, wie viele Tage ein neu erstelltes Angebot standardmäßig gültig ist.
-  - **Auswirkung der Änderung dieser Einstellung:**
-    - *Wenn eine Zahl festgelegt ist (z. B. 30):* Alle neuen Angebote, die von Ihrem Team erstellt werden, haben automatisch ein Ablaufdatum 30 Tage nach ihrer Erstellung.
-    - *Wenn auf 0 gesetzt oder leer gelassen:* Angebote haben keine Standardgültigkeitsdauer, und Ihr Team muss diese manuell festlegen oder sie ohne Ablaufdatum verwalten.
-  - **Empfohlener Wert:** 30 (oder ein für Ihre Branche typischer Zeitraum)
-  - **Händlerszenario / Beispiel:** Eine Gültigkeit von 30 Tagen ermutigt Kunden, innerhalb eines angemessenen Zeitrahmens zu handeln, und schützt Sie vor Preisschwankungen.
-
-#### Registerkarte E-Mail-Vorlagen
-
-Dieser Abschnitt ermöglicht es Ihnen, die vom Modul gesendeten E-Mail-Benachrichtigungen anzupassen.
-
-- **E-Mail-Vorlagen-Manager:**
-  - **Was diese Einstellung bewirkt:** Bietet eine visuelle Oberfläche zum Bearbeiten des Inhalts verschiedener E-Mail-Vorlagen, die sich auf Angebote beziehen (z. B. neue Angebotsanfrage, Angebot aktualisiert, Angebot angenommen).
-  - **Auswirkung der Änderung dieser Einstellung:**
-    - *Wenn Sie eine Vorlage bearbeiten:* Die entsprechende E-Mail, die an Kunden oder Ihr Team gesendet wird, spiegelt Ihre Änderungen wider, einschließlich Text, Branding und Layout.
-  - **Empfohlener Wert:** Anpassen, um Ihre Markenstimme widerzuspiegeln und klare Anweisungen zu geben.
-  - **Händlerszenario / Beispiel:** Ändern Sie die E-Mail „Neue Angebotsanfrage“, um spezifische Anweisungen für Ihr Vertriebsteam aufzunehmen oder eine personalisierte Begrüßung für Kunden hinzuzufügen.
-
-#### Registerkarte Erweiterte Einstellungen
-
-- **REST API aktivieren:**
-
-  - **Was diese Einstellung bewirkt:** Aktiviert eine programmatische Schnittstelle (API) für das Modul, die es externen Systemen oder benutzerdefinierten Anwendungen ermöglicht, mit Ihren Angeboten zu interagieren.
-  - **Auswirkung der Änderung dieser Einstellung:**
-    - *Wenn aktiviert:* Das Modul stellt Endpunkte bereit, die von Entwicklern verwendet werden können, um Angebote programmatisch zu erstellen, zu lesen, zu aktualisieren und zu löschen.
-    - *Wenn deaktiviert:* Die API ist inaktiv und kann nicht aufgerufen werden.
-  - **Empfohlener Wert:** NEIN (es sei denn, Sie haben spezifische Integrationsbedürfnisse)
-  - **Händlerszenario / Beispiel:** Wenn Sie mit einem CRM, ERP oder einer benutzerdefinierten mobilen App integrieren, ermöglicht die Aktivierung der API diesen Systemen, Angebote in PrestaShop automatisch zu erstellen oder zu aktualisieren. Erfordert Entwicklerkenntnisse.
-- **API-Schlüsselverwaltung:**
-
-  - **Was diese Einstellung bewirkt:** Ermöglicht Ihnen das Generieren und Verwalten von API-Schlüsseln, die für die Authentifizierung von Anfragen an die REST-API des Moduls erforderlich sind.
-  - **Auswirkung der Änderung dieser Einstellung:**
-    - *Wenn Sie einen Schlüssel erstellen:* Sie erhalten eine eindeutige Kennung, die externe Anwendungen verwenden müssen, um auf die API zuzugreifen.
-    - *Wenn Sie einen Schlüssel widerrufen:* Jede Anwendung, die diesen Schlüssel verwendet, verliert den Zugriff auf die API.
-  - **Empfohlener Wert:** Schlüssel nur bei Bedarf für spezifische Integrationen generieren.
-  - **Händlerszenario / Beispiel:** Erstellen Sie einen neuen API-Schlüssel für Ihr CRM-System, um neue Leads als Angebotsanfragen in PrestaShop zu übertragen.
-- **Cron-Job-URL für Ablauf & Digest:**
-
-  - **Was diese Einstellung bewirkt:** Bietet eine URL, die bei Zugriff Hintergrundaufgaben wie die Überprüfung des Angebotsablaufs und das Senden täglicher Zusammenfassungen an Ihr Team auslöst.
-  - **Auswirkung der Änderung dieser Einstellung:**
-    - *Wenn auf Ihrem Server konfiguriert:* Das Modul führt diese Aufgaben automatisch in regelmäßigen Abständen (z. B. täglich) aus, um sicherzustellen, dass Angebote als abgelaufen markiert werden und Ihr Team zeitnahe Zusammenfassungen erhält.
-    - *Wenn nicht konfiguriert:* Ablaufprüfungen und Digest-E-Mails werden nicht automatisiert.
-  - **Empfohlener Wert:** Konfigurieren Sie diese URL als täglichen Cron-Job auf Ihrem Hosting-Server.
-  - **Händlerszenario / Beispiel:** Richten Sie einen Cron-Job ein, der diese URL einmal täglich ausführt, um sicherzustellen, dass Kunden über ablaufende Angebote benachrichtigt werden und Ihr Vertriebsteam eine tägliche Zusammenfassung neuer Anfragen erhält.
-
-### 2.2 Dedizierte Admin-Bildschirme & Controller-Ansichten
-
-#### 2.2.1 Angebotsverwaltung (Back Office > Quote Enterprise > Angebote)
-
-Dies ist die zentrale Anlaufstelle für Ihr Vertriebsteam, um alle Angebotsanfragen zu verwalten.
-
-- **Bildschirmname & Menüpfad:** **Quote Enterprise > Angebote**
-- **Verfügbare Aktionen & Einstellungen:**
-  - **Angebotslistentabelle:** Zeigt alle eingereichten Angebote mit wichtigen Informationen wie Kundennamen, Status, Gesamtwert und Erstellungsdatum an.
-  - **Filtern & Suchen:** Tools zum Auffinden spezifischer Angebote nach Kunde, Status, Datumsbereich usw.
-  - **Angebot anzeigen/bearbeiten:** Klicken Sie auf ein beliebiges Angebot, um eine detaillierte Ansicht zu öffnen, in der Sie:
-    - **Produkte & Mengen anpassen:** Artikel, Mengen und Preise innerhalb des Angebots ändern.
-    - **Produkte hinzufügen/entfernen:** Neue Produkte zum Angebot suchen und hinzufügen oder bestehende entfernen.
-    - **Rabatte anwenden:** Spezifische Rabatte auf den Gesamtbetrag des Angebots oder einzelne Artikel anbieten.
-    - **Gültigkeit festlegen:** Das Ablaufdatum für das Angebot definieren.
-    - **Notizen/Nachrichten hinzufügen:** Direkt über die Angebots-Oberfläche mit dem Kunden kommunizieren.
-    - **Status ändern:** Den Status des Angebots aktualisieren (z. B. Ausstehend, Gesendet, Angenommen, Abgelehnt, Abgelaufen).
-    - **PDF generieren:** Eine professionelle PDF-Proforma-Rechnung für den Kunden erstellen.
-    - **In Bestellung umwandeln:** Mit einem einzigen Klick ein angenommenes Angebot in eine Standard-PrestaShop-Bestellung umwandeln, bereit zum Checkout.
-    - **E-Mail senden:** Aktualisierte Angebotsdetails oder Nachrichten an den Kunden senden.
-  - **Massenaktionen:** Wählen Sie mehrere Angebote aus, um Aktionen wie Statusänderung, Löschen oder Exportieren durchzuführen.
-- **Auswirkung von Änderungen:**
-  - Das Ändern eines Angebots aktualisiert dessen Details in der Datenbank und kann E-Mail-Benachrichtigungen an den Kunden auslösen.
-  - Die Umwandlung in eine Bestellung erstellt eine neue Bestellung im Standard-Bestellverwaltungssystem von PrestaShop, vorab ausgefüllt mit den angebotenen Artikeln und Preisen.
-  - Das Ändern des Status aktualisiert die Kundenansicht in deren Konto und kann spezifische E-Mail-Vorlagen auslösen.
-- **Empfohlener Workflow für die tägliche Shop-Verwaltung:**
-  1. Überprüfen Sie regelmäßig die Liste „Angebote“ auf neue „Ausstehende“ Anfragen.
-  2. Öffnen Sie jede neue Anfrage, überprüfen Sie die Artikel, passen Sie Preise/Mengen bei Bedarf an und fügen Sie interne Notizen hinzu.
-  3. Legen Sie eine Gültigkeitsdauer fest und generieren Sie eine PDF-Proforma-Rechnung.
-  4. Ändern Sie den Status auf „Gesendet“ und senden Sie das Angebot per E-Mail an den Kunden.
-  5. Verfolgen Sie „Gesendete“ Angebote. Wenn angenommen, in Bestellung umwandeln. Wenn abgelehnt oder abgelaufen, den Status entsprechend aktualisieren.
-
-#### 2.2.2 Audit-Log (Back Office > Quote Enterprise > Audit-Log)
-
-Dieser Bildschirm bietet eine detaillierte Historie aller an Angeboten durchgeführten Aktionen.
-
-- **Bildschirmname & Menüpfad:** **Quote Enterprise > Audit-Log**
-- **Verfügbare Aktionen & Einstellungen:**
-  - **Protokolllistentabelle:** Zeigt eine chronologische Liste von Ereignissen im Zusammenhang mit Angeboten an, einschließlich wer die Aktion durchgeführt hat, welche Aktion durchgeführt wurde (z. B. „Angebot erstellt“, „Preis geändert“, „Status aktualisiert“) und wann sie stattgefunden hat.
-  - **Filtern:** Filtern Sie das Protokoll nach Datum, Benutzer oder Aktionstyp, um spezifische Ereignisse zu finden.
-- **Auswirkung von Änderungen:** Dies ist ein schreibgeschütztes Protokoll; Sie können hier keine Änderungen vornehmen. Es dient als historische Aufzeichnung.
-- **Empfohlener Workflow für die tägliche Shop-Verwaltung:**
-  - Verwenden Sie das Audit-Log, um Änderungen zu verfolgen, Probleme zu beheben oder die Teamaktivität bei Angeboten zu überprüfen. Es ist von unschätzbarem Wert für die Rechenschaftspflicht und das Verständnis des Lebenszyklus jedes Angebots.
-
-### 2.3 Konfigurations-Kurzübersichtstabelle
-
-| Bildschirm / Ansicht | Einstellung / Option | Standard / Empfohlen | Zweck & Auswirkung |
-| --- | --- | --- | --- |
-| **Modulkonfiguration** | Quote Enterprise aktivieren | JA | Hauptschalter für die Modulfunktionalität. |
-|  | Angebotsanfragen aus dem Warenkorb zulassen | JA | Fügt Angebots-Schaltfläche zur Warenkorbseite hinzu. |
-|  | Angebotsanfragen von der Produktseite zulassen | JA | Fügt Angebots-Schaltfläche zu Produktseiten hinzu. |
-|  | Schwebende Angebots-Schaltfläche anzeigen | JA | Zeigt eine dauerhafte Angebots-Schaltfläche im Front Office an. |
-|  | Mindestbestellwert für Angebotsanfrage | 0 | Legt einen Mindestwert für Angebotsabgaben fest. |
-|  | Standard-Angebotsgültigkeit (Tage) | 30 | Legt das Standardablaufdatum für neue Angebote fest. |
-|  | E-Mail-Vorlagen-Manager | Anpassen | Bearbeiten Sie den E-Mail-Inhalt für verschiedene Angebotsereignisse. |
-|  | REST API aktivieren | NEIN | Aktiviert die API für externe Integrationen (nur für Entwickler). |
-|  | API-Schlüsselverwaltung | N/A | Verwalten Sie API-Schlüssel für sicheren API-Zugriff (nur für Entwickler). |
-|  | Cron-Job-URL für Ablauf & Digest | Konfigurieren | Automatisiert Angebotsablaufprüfungen und Team-Zusammenfassungen. |
-| **Angebotsverwaltung** | Angebotsliste | N/A | Alle Angebote anzeigen, filtern und verwalten. |
-|  | Angebot anzeigen/bearbeiten | N/A | Artikel, Preise, Status anpassen, PDF generieren, in Bestellung umwandeln. |
-|  | Massenaktionen | N/A | Aktionen auf mehrere ausgewählte Angebote anwenden. |
-| **Audit-Log** | Protokollliste | N/A | Historische Aktionen zu allen Angeboten überprüfen. |
-
-## 3. Händler-Fehlerbehebung & Häufig gestellte Fragen (FAQ)
-
-**F: Meine Schaltflächen „Angebot anfordern“ werden im Front Office nicht angezeigt.**
-A:
-
-1. **Modulstatus überprüfen:** Stellen Sie sicher, dass „Quote Enterprise aktivieren“ in der Modulkonfiguration auf JA gesetzt ist.
-2. **Spezifische Einstellungen überprüfen:** Vergewissern Sie sich, dass „Angebotsanfragen aus dem Warenkorb zulassen“ und „Angebotsanfragen von der Produktseite zulassen“ bei Bedarf aktiviert sind.
-3. **Cache leeren:** Gehen Sie zu **Erweiterte Einstellungen > Leistung** und leeren Sie Ihren PrestaShop-Cache (Smarty-Cache, Dateisystem-Cache). Manchmal werden Änderungen erst nach dem Aktualisieren des Caches angezeigt.
-4. **Theme-Kompatibilität:** Wenn Sie ein benutzerdefiniertes Theme verwenden, könnte es ein Kompatibilitätsproblem geben. Kontaktieren Sie den MyPresta.eu-Support mit Details zu Ihrem Theme.
-
-**F: Kunden erhalten keine Angebotsbenachrichtigungs-E-Mails.**
-A:
-
-1. **E-Mail-Vorlagen überprüfen:** Gehen Sie in der Modulkonfiguration zur Registerkarte „E-Mail-Vorlagen“ und stellen Sie sicher, dass die Vorlagen korrekt konfiguriert und gespeichert sind.
-2. **PrestaShop E-Mail-Einstellungen:** Überprüfen Sie Ihre allgemeinen PrestaShop-E-Mail-Einstellungen (SMTP, PHP-Mail) unter **Erweiterte Einstellungen > E-Mail**. Senden Sie von dort eine Test-E-Mail, um zu bestätigen, dass das Mailsystem Ihres Shops funktioniert.
-3. **Spam-Ordner:** Weisen Sie Kunden an, ihre Spam- oder Junk-Ordner zu überprüfen.
-4. **Cron-Job (für Digests/Erinnerungen):** Wenn es um Ablauferinnerungen oder tägliche Digests geht, stellen Sie sicher, dass die Cron-Job-URL auf Ihrem Server korrekt konfiguriert ist, um regelmäßig ausgeführt zu werden.
-
-**F: Kann ich das Aussehen des Angebotsanfrageformulars oder der Schaltflächen anpassen?**
-A: Ja, das Modul verwendet Standard-PrestaShop-Templates. Für grundlegende Stiländerungen (Farben, Schriftarten) können Sie oft das CSS des Moduls in der benutzerdefinierten CSS-Datei Ihres Themes überschreiben. Für komplexere Layoutänderungen müssten Sie die TPL-Dateien des Moduls in Ihrem Theme überschreiben. Dies erfordert in der Regel einen Webentwickler.
-
-**F: Wie wandle ich ein angenommenes Angebot in eine reguläre Bestellung um?**
-A: Navigieren Sie im PrestaShop Back Office zu **Quote Enterprise > Angebote**. Öffnen Sie das spezifische Angebot, das Sie umwandeln möchten. In der Detailansicht des Angebots finden Sie eine Schaltfläche (z. B. „In Bestellung umwandeln“ oder „Bestellung erstellen“). Durch Klicken darauf wird eine neue Bestellung in Ihrer Standard-PrestaShop-Bestellliste generiert, vorab ausgefüllt mit den angebotenen Artikeln und Preisen.
-
-**F: Was passiert, wenn ein Angebot abläuft?**
-A: Wenn der Cron-Job konfiguriert ist, markiert das Modul abgelaufene Angebote automatisch als „Abgelaufen“. Kunden können ein abgelaufenes Angebot nicht mehr annehmen oder in eine Bestellung umwandeln. Ihr Vertriebsteam kann abgelaufene Angebote weiterhin einsehen und bei Bedarf reaktivieren oder ein neues Angebot erstellen.
-
-## 4. Entwickler- & Webmaster-Handbuch (Technische Architektur & Code-Map)
-
-### 4.1 Architekturübersicht
-
-Das Modul Quote Enterprise folgt einer robusten PrestaShop MVC (Model-View-Controller)-Architektur und nutzt `ObjectModel` stark für die Datenpersistenz. Es integriert sich nahtlos in das Hook-System von PrestaShop für die Front-Office-Anzeige und Back-Office-Aktionen. Das Modul enthält dedizierte Admin-Controller zur Verwaltung von Angeboten und Audit-Logs, Front-Controller für die Kundeninteraktion (Anfrage, Liste, Ansicht, API) und eine umfassende Reihe von Hilfsklassen für Geschäftslogik, PDF-Generierung, E-Mail-Verwaltung und mehr. Eine REST-API wird auch für die Integration externer Systeme bereitgestellt.
-
-### 4.2 Controller (`controllers/`)
-
-#### Front-Office-Controller
-
-- `controllers/front/api.php`
-  - Klassenname: `QuoteenterpriseApiModuleFrontController` (erweitert `ModuleFrontController`)
-  - Zuständigkeit: Behandelt API-Anfragen vom Front-Office, wahrscheinlich für spezifische kundenorientierte Integrationen oder dynamisches Laden von Inhalten.
-- `controllers/front/cron.php`
-  - Klassenname: `QuoteenterpriseCronModuleFrontController` (erweitert `ModuleFrontController`)
-  - Zuständigkeit: Dient als Endpunkt für den Cron-Job und löst Hintergrundaufgaben wie die Überprüfung des Angebotsablaufs und das Senden von Digest-E-Mails aus.
-- `controllers/front/index.php`
-  - Klassenname: `QuoteenterpriseIndexModuleFrontController` (erweitert `ModuleFrontController`)
-  - Zuständigkeit: Wahrscheinlich ein Fallback- oder Basis-Controller oder behandelt eine Standardroute für den Front-Office-Bereich des Moduls.
-- `controllers/front/list.php`
-  - Klassenname: `QuoteenterpriseListModuleFrontController` (erweitert `ModuleFrontController`)
-  - Zuständigkeit: Zeigt eine Liste von Angeboten für den angemeldeten Kunden in seinem Kontobereich an.
-- `controllers/front/pdf.php`
-  - Klassenname: `QuoteenterprisePdfModuleFrontController` (erweitert `ModuleFrontController`)
-  - Zuständigkeit: Generiert und stellt PDF-Versionen von Angeboten für Kunden zum Download bereit.
-- `controllers/front/quoteList.php`
-  - Klassenname: `QuoteenterpriseQuoteListModuleFrontController` (erweitert `ModuleFrontController`)
-  - Zuständigkeit: Ähnlich wie `list.php`, potenziell eine alternative oder spezifische Ansicht für Angebotslisten, möglicherweise für AJAX-Laden.
-- `controllers/front/request.php`
-  - Klassenname: `QuoteenterpriseRequestModuleFrontController` (erweitert `ModuleFrontController`)
-  - Zuständigkeit: Behandelt die Anzeige und Übermittlung des Angebotsanfrageformulars von Produktseiten, Warenkorb oder schwebender Schaltfläche. Verarbeitet Formulardaten und erstellt neue Angebotseinträge.
-- `controllers/front/view.php`
-  - Klassenname: `QuoteenterpriseViewModuleFrontController` (erweitert `ModuleFrontController`)
-  - Zuständigkeit: Zeigt die Detailansicht eines einzelnen Angebots für den Kunden an, einschließlich Artikel, Preise, Status und Nachrichten.
-
-#### Back-Office-Admin-Controller
-
-- `controllers/admin/AdminQuoteEnterpriseAuditLog.php`
-  - Klassenname: `AdminQuoteEnterpriseAuditLogController` (erweitert `ModuleAdminController`)
-  - Registerkartenname: Quote Enterprise > Audit-Log
-  - Verwaltete Entität: `quote_audit_log` (wahrscheinlich ein benutzerdefiniertes `ObjectModel` für Audit-Einträge)
-  - Zuständigkeit: Bietet eine Rasteransicht für Administratoren, um alle historischen Aktionen und Änderungen im Zusammenhang mit Angeboten zu überprüfen.
-- `controllers/admin/AdminQuoteEnterpriseQuotes.php`
-  - Klassenname: `AdminQuoteEnterpriseQuotesController` (erweitert `ModuleAdminController`)
-  - Registerkartenname: Quote Enterprise > Angebote
-  - Verwaltete Entität: `quote` (wahrscheinlich ein benutzerdefiniertes `ObjectModel` für Angebote)
-  - Zuständigkeit: Die primäre Schnittstelle zur Verwaltung von Angeboten, einschließlich Auflistung, Anzeige, Bearbeitung, Umwandlung in Bestellung und Senden von Mitteilungen.
-- `controllers/admin/index.php`
-  - Klassenname: `QuoteenterpriseAdminIndexModuleFrontController` (erweitert `ModuleAdminController`)
-  - Zuständigkeit: Wahrscheinlich ein Platzhalter oder Basis-Admin-Controller, der möglicherweise zur Hauptangebotsliste oder zum Dashboard weiterleitet.
-
-### 4.3 Kernklassen & Modelle (`classes/`)
-
-- `classes/index.php`: Leere Datei, gängige Praxis, um das Auflisten von Verzeichnissen zu verhindern.
-- `classes/QuoteAdmin.php`: Enthält Logik für adminspezifische Aufgaben, möglicherweise im Zusammenhang mit der Modulkonfiguration oder allgemeinen Admin-Dienstprogrammen.
-- `classes/QuoteAdminAjax.php`: Behandelt AJAX-Anfragen, die vom Back-Office stammen, wie z. B. die dynamische Produktsuche zum Hinzufügen zu einem Angebot.
-- `classes/QuoteAdminQuoteForm.php`: Verwaltet die komplexe Formularlogik zum Bearbeiten und Erstellen von Angeboten im Back-Office.
-- `classes/QuoteApi.php`: Kernklasse für die REST-API des Moduls, die Authentifizierung, Routing und Daten-Serialisierung handhabt.
-- `classes/QuoteApiDocumentation.php`: Bietet Methoden zum Generieren oder Anzeigen der Dokumentation für die API-Endpunkte des Moduls.
-- `classes/QuoteBulkActions.php`: Implementiert Logik zum Ausführen von Aktionen auf mehreren ausgewählten Angeboten in der Admin-Liste (z. B. Massenstatusänderung).
-- `classes/QuoteConverter.php`: Behandelt die entscheidende Logik der Umwandlung eines angenommenen Angebots in eine Standard-PrestaShop-Bestellung.
-- `classes/QuoteDashboard.php`: Stellt Daten und Logik für die Dashboard-Ansicht des Moduls im Back-Office bereit (falls vorhanden), die die Angebotsaktivität zusammenfasst.
-- `classes/QuoteDuplicator.php`: Logik zum Duplizieren bestehender Angebote.
-- `classes/QuoteenterpriseModuleFrontController.php`: Basisklasse für Front-Office-Controller, die gemeinsame Methoden und Eigenschaften bereitstellt.
-- `classes/QuoteExpiry.php`: Verwaltet die Logik zur Überprüfung der Angebotsgültigkeit, zum Markieren von Angeboten als abgelaufen und zum Senden entsprechender Benachrichtigungen.
-- `classes/QuoteExporter.php`: Behandelt den Export von Angebotsdaten (z. B. CSV, Excel).
-- `classes/QuoteFeeProduct.php`: Wahrscheinlich ein `ObjectModel` oder Helfer zur Verwaltung spezieller „Gebührenprodukte“, die zu Angeboten hinzugefügt werden können (z. B. für Dienstleistungen, kundenspezifische Gebühren).
-- `classes/QuoteListHelper.php`: Bietet Dienstprogramm-Methoden zum Anzeigen und Filtern von Angebotslisten im Front- und Back-Office.
-- `classes/QuoteMailer.php`: Zentralisierte Klasse zum Senden verschiedener E-Mail-Benachrichtigungen im Zusammenhang mit Angeboten.
-- `classes/QuoteNotifyDigest.php`: Logik zum Kompilieren und Senden täglicher oder periodischer Zusammenfassungen der Angebotsaktivität an Administratoren.
-- `classes/QuotePdf.php`: Behandelt die Generierung von PDF-Proforma-Rechnungen für Angebote.
-- `classes/QuoteProductHelper.php`: Dienstprogramm-Methoden zur Interaktion mit PrestaShop-Produkten im Kontext eines Angebots.
-- `classes/QuoteQtyHelper.php`: Unterstützt die Mengenverwaltung und -validierung innerhalb von Angeboten.
-- `classes/QuoteQuotesManager.php`: Kern-Geschäftslogik zur Verwaltung von Angeboten, einschließlich Erstellung, Aktualisierungen und Statusänderungen.
-- `classes/QuoteReference.php`: Verwaltet die Generierung und Einzigartigkeit von Angebotsreferenznummern.
-- `classes/QuoteRequestHelper.php`: Unterstützt die Verarbeitung und Validierung von Angebotsanfragen, die von Kunden eingereicht werden.
-- `classes/QuoteSchema.php`: Definiert das Datenbankschema für benutzerdefinierte Tabellen, die vom Modul verwendet werden (z. B. `ps_quote`, `ps_quote_product`, `ps_quote_audit_log`).
-- `classes/QuoteSettingDescTrait.php`: Ein PHP-Trait, das wahrscheinlich verwendet wird, um gemeinsame Beschreibungen oder Metadaten für Moduleinstellungen bereitzustellen.
-- `classes/QuoteTaxHelper.php`: Behandelt Steuernberechnungen, die spezifisch für Angebote sind.
-- `classes/QuoteThemeCompat.php`: Enthält Logik zur Sicherstellung der Kompatibilität mit verschiedenen PrestaShop-Themes, möglicherweise durch Erkennung von Theme-Funktionen oder Bereitstellung von Überschreibungen.
-- `classes/QuoteTimeline.php`: Verwaltet und zeigt die Zeitleiste der Ereignisse für ein bestimmtes Angebot an (ähnlich der Bestellhistorie).
-- `classes/QuoteValidityHelper.php`: Dienstprogramm-Methoden zur Berechnung und Validierung von Angebotsablaufdaten.
-- `classes/QuoteVisibility.php`: Steuert die Sichtbarkeit von angebotsbezogenen Elementen im Front Office (z. B. wer ein Angebot anfordern kann, wo Schaltflächen erscheinen).
-
-### 4.4 JavaScript-Assets (`views/js/`)
-
-- `lib/emailTemplatesManager/js/emailTemplatesManager.js`: Front-End-Logik für den E-Mail-Vorlagen-Editor im Back-Office.
-- `lib/searchTool/views/js/autocomplete.js`: Bietet Autocomplete-Funktionalität zum Suchen von Produkten oder Kunden im Back-Office-Angebotseditor.
-- `views/js/admin-audience-picker.js`: Behandelt die Logik zur Auswahl von Kundengruppen oder spezifischen Kunden für die Angebotssichtbarkeit oder -zielgruppenansprache im Admin.
-- `views/js/adminQuoteApi.js`: JavaScript für den Admin-API-Konfigurationsbildschirm, möglicherweise zur Schlüsselgenerierung oder API-Dokumentationsanzeige.
-- `views/js/adminQuoteDashboard.js`: Skripte für interaktive Elemente oder Datenvisualisierung auf dem Admin-Dashboard.
-- `views/js/adminQuoteDetail.js`: Behandelt dynamische Interaktionen innerhalb der detaillierten Angebotsansicht im Back-Office (z. B. Hinzufügen von Produkten, Anwenden von Rabatten, Statusänderungen).
-- `views/js/adminQuoteEditor.js`: Kern-JavaScript für das Back-Office-Angebots-Erstellungs-/Bearbeitungsformular, einschließlich Produktauswahl, Mengenaktualisierungen und Preisanpassungen.
-- `views/js/adminQuoteSelector.js`: Wird zur Auswahl von Angeboten verwendet, möglicherweise in einem Modal oder verknüpften Kontext.
-- `views/js/adminQuotesList.js`: Skripte für die Admin-Angebotsliste, einschließlich Filterung, Sortierung und Massenaktionen.
-- `views/js/front.js`: Allgemeines Front-Office-JavaScript für das Modul, das Schaltflächenklicks, modale Pop-ups für Angebotsanfragen, Formularübermittlungen und dynamische Aktualisierungen verarbeitet.
-
-### 4.5 CSS-Stylesheets (`views/css/`)
-
-- `lib/emailTemplatesManager/css/emailTemplatesManager.css`: Styling für den E-Mail-Vorlagen-Editor im Back-Office.
-- `lib/searchTool/views/css/autocomplete.css`: Stile für die Autocomplete-Suchergebnisse (z. B. Produktsuche).
-- `views/css/admin-audience-picker.css`: Styling für die Kunden-/Zielgruppenauswahl-Oberfläche im Admin.
-- `views/css/admin_quoteenterprise.css`: Primäres Stylesheet für die Back-Office-Oberflächen des Moduls (Angebotsliste, Detail, Audit-Log).
-- `views/css/front-hummingbird.css`: Spezifische Front-Office-Stilanpassungen für das PrestaShop-Standardtheme „Hummingbird“.
-- `views/css/front.css`: Allgemeines Front-Office-Styling für Angebots-Schaltflächen, Formulare und Kundenkontoansichten. Entwickler können Klassen wie `.quoteenterprise-button`, `.quoteenterprise-form`, `.quoteenterprise-list` in ihrem Theme überschreiben.
-
-### 4.6 Smarty-Template-Struktur (`views/templates/`)
-
-#### Hook-Templates (`views/templates/hook/`)
-
-- `hook/adminOrderQuote.tpl`: Rendert einen angebotsbezogenen Block auf der Standard-PrestaShop-Bestelldetailseite im Admin.
-- `hook/cartQuoteButton.tpl`: Zeigt die Schaltfläche oder den Link „Angebot anfordern“ auf der Warenkorbseite an.
-- `hook/customerAccount-hummingbird.tpl`: Rendert den Angebotslisten-Link im Kundenkontobereich für das Hummingbird-Theme.
-- `hook/customerAccount.tpl`: Rendert den Angebotslisten-Link im Kundenkontobereich für klassische Themes.
-- `hook/productListQuote.tpl`: Zeigt eine Angebots-Schaltfläche oder -Option auf Produktlistenseiten (Kategorie, Suchergebnisse) an.
-- `hook/quoteFloatButton.tpl`: Rendert die dauerhafte schwebende Angebots-Schaltfläche im Front Office.
-- `hook/quoteListModal.tpl`: Template für ein modales Fenster, das eine Liste von Angeboten anzeigt.
-- `hook/quoteRequestButton.tpl`: Zeigt die Schaltfläche „Angebot anfordern“ auf einzelnen Produktseiten an.
-- `hook/quoteRequestModal.tpl`: Template für das modale Fenster, das das Angebotsanfrageformular öffnet.
-
-#### Admin-Templates (`views/templates/admin/`)
-
-- `admin/api.tpl`: Rendert die API-Konfigurations- und Schlüsselverwaltungs-Oberfläche.
-- `admin/audience-picker.tpl`: Template für das Kunden-/Gruppenauswahl-Tool im Admin.
-- `admin/audit.tpl`: Zeigt die Audit-Log-Tabelle im Back-Office an.
-- `admin/dashboard.tpl`: Rendert die Dashboard-Übersicht des Moduls im Back-Office.
-- `admin/notifications.tpl`: Zeigt Admin-Benachrichtigungen im Zusammenhang mit Angeboten an.
-- `admin/quoteDetail.tpl`: Das umfassende Template zum Anzeigen und Bearbeiten eines einzelnen Angebots im Back-Office.
-- `admin/quotes.tpl`: Rendert die Hauptangebotslistentabelle im Back-Office.
-- `admin/quotesOverview.tpl`: Ein Zusammenfassungs- oder Übersichtsabschnitt für Angebote, möglicherweise auf dem Dashboard.
-- `admin/scopeSelector.tpl`: Template zur Auswahl des Bereichs (z. B. Shop, Sprache) im Admin.
-- `admin/visibilityConfigurator.tpl`: Template zur Konfiguration von Angebots-Sichtbarkeitsregeln.
-- `admin/_api_documentation_modal.tpl`: Rendert ein modales Fenster mit API-Dokumentation für Entwickler.
-- `admin/_bulk_options.tpl`: Template für Dropdowns für Massenaktionen in Admin-Listen.
-
-#### Front-Office-Templates (`views/templates/front/`)
-
-- `front/list.tpl`: Zeigt die Kundenliste der Angebote in deren Konto an.
-- `front/request.tpl`: Das Haupttemplate für das Angebotsanfrageformular des Kunden.
-- `front/view.tpl`: Zeigt die Detailansicht eines einzelnen Angebots für den Kunden an.
-- `front/_requestComplianceFields.tpl`: Partielles Template für zusätzliche Compliance-bezogene Felder im Angebotsanfrageformular.
-- `front/_requestLinesTable.tpl`: Partielles Template zur Anzeige der Produktzeilen innerhalb eines Angebotsanfrageformulars.
-
-#### PDF-Templates (`views/templates/pdf/`)
-
-- `pdf/quote.tpl`: Template, das zur Generierung des Inhalts der PDF-Proforma-Rechnung verwendet wird.
-
-### 4.7 Datenbankschema & Hooks-Map
-
-#### Datenbanktabellen
-
-Das Modul erstellt benutzerdefinierte Tabellen, die typischerweise mit `ps_` (oder Ihrem benutzerdefinierten Präfix) beginnen. Wichtige Tabellen sind:
-
-- `ps_quote`: Speichert die Hauptangebotsdetails (Kunden-ID, Status, Gesamtbetrag, Gültigkeit, Referenz usw.).
-- `ps_quote_product`: Speichert die einzelnen Produkte und deren Mengen/Preise, die jedem Angebot zugeordnet sind.
-- `ps_quote_audit_log`: Zeichnet alle Änderungen und Aktionen auf, die an Angeboten zu Prüfzwecken durchgeführt wurden.
-- `ps_quote_api_key`: Speichert API-Schlüssel für externe Integrationen.
-- `ps_configuration`: Moduleinstellungen werden hier mit Schlüsseln wie `QUOTEENTERPRISE_ENABLE`, `QUOTEENTERPRISE_MIN_VALUE` usw. gespeichert.
-
-#### Registrierte Hooks-Tabelle
-
-| Hook-Name | Ausführungszeitpunkt | Technischer Zweck |
-| --- | --- | --- |
-| `displayHeader` | Im `<head>`-Bereich jeder Seite. | Einfügen von CSS/JS-Assets, Meta-Tags oder globaler Modulinitialisierung. |
-| `displayRightColumn` | In der rechten Spalte Ihres Shops (falls vom Theme aktiviert). | Anzeige der schwebenden Angebots-Schaltfläche oder eines statischen Angebotsanfrageblocks. |
-| `displayLeftColumn` | In der linken Spalte Ihres Shops (falls vom Theme aktiviert). | Anzeige der schwebenden Angebots-Schaltfläche oder eines statischen Angebotsanfrageblocks. |
-| `displayFooter` | Im Fußbereich jeder Seite. | Anzeige der schwebenden Angebots-Schaltfläche oder eines statischen Angebotsanfrageblocks. |
-| `displayProductButtons` | Auf der Produktseite, in der Nähe der Schaltfläche „In den Warenkorb“. | Anzeige der Schaltfläche „Angebot anfordern“ auf Produktseiten. |
-| `displayShoppingCartFooter` | In der Warenkorbzusammenfassung, unterhalb der Produktliste. | Anzeige der Schaltfläche „Angebot anfordern“, um den Warenkorb in ein Angebot umzuwandeln. |
-| `displayCustomerAccount` | Auf der Seite „Mein Konto“ des Kunden. | Hinzufügen eines Links zur Kundenliste der Angebote. |
-| `actionValidateOrder` | Nachdem eine Bestellung erfolgreich validiert wurde. | Potenziell verwendet, um ein Angebot mit der resultierenden Bestellung zu verknüpfen oder den Angebotsstatus zu aktualisieren. |
-| `actionAdminControllerSetMedia` | Wenn ein Admin-Controller seine Assets lädt. | Einfügen modulspezifischer CSS/JS für Back-Office-Seiten. |
-| `displayAdminOrder` | Auf der PrestaShop-Admin-Bestelldetailseite. | Anzeige eines Blocks mit Angebotsinformationen, wenn die Bestellung aus einem Angebot stammt. |
-| `actionObjectProductUpdateAfter` | Nach der Aktualisierung eines Produkts. | Potenziell zur Aktualisierung von Angebotspreisen, wenn sich Produktpreise ändern (erweiterte Funktion). |
-| `actionObjectProductDeleteAfter` | Nach dem Löschen eines Produkts. | Zum Behandeln von Produkten, die aus Angeboten entfernt wurden. |
-| `actionObjectCustomerDeleteAfter` | Nach dem Löschen eines Kunden. | Zum Behandeln von Angeboten, die einem gelöschten Kunden zugeordnet sind. |
-| `displayBackOfficeHeader` | Im `<head>` jeder Back-Office-Seite. | Allgemeine Back-Office-Asset-Injektion oder globale Admin-Modul-Einrichtung. |
-| `displayBackOfficeTop` | Oben im Back-Office-Inhaltsbereich. | Anzeige modulspezifischer Warnungen oder Dashboard-Widgets. |
-
-## 5. Offizieller Support & Updates
-
-Für die neuesten Modul-Updates, Fehlerbehebungen und offiziellen Support melden Sie sich bitte in Ihrem Kundenkonto unter [MyPresta.eu](https://mypresta.eu/my-account/orders/) an. Unser Support-Team steht Ihnen bei allen Problemen oder Fragen zum Modul Quote Enterprise gerne zur Verfügung.
+## 1. Requirements
+
+Das Modul läuft auf PrestaShop 1.7, 8 und 9 sowie auf PHP 7.1 bis 8.5.
+
+Der Server benötigt cURL und JSON. Es wird kein weiteres Modul benötigt.
+
+Google-reCAPTCHA-Schlüssel erstellen Sie nur selbst, wenn Sie reCAPTCHA einschalten. Slack- oder Teams-Webhooks sind optional und nur für Mitarbeiter-Digests. Erinnerungs-E-Mails und Digests benötigen einen Server-Cronjob auf der Modul-Cron-URL.
+
+## 2. Installation
+
+1. Laden Sie das Modul unter **Modules**, **Module Manager** hoch und aktivieren Sie es.
+2. Nach der Installation hat **Orders** zwei Einträge: **Quotes** und **Audit log**.
+3. Das Modul leert den Cache während der Installation nicht.
+4. Die Installation erstellt die Angebotstabellen und ein verstecktes virtuelles Produkt für individuelle Servicezeilen. Außerdem schreibt sie die unten beschriebenen Standardeinstellungen.
+
+Die Deinstallation entfernt die Menüeinträge, die Modultabellen und die Konfigurationsschlüssel. Das versteckte Gebührenprodukt im Katalog wird durch die Deinstallation nicht gelöscht.
+
+## 3. Configuration and back-office work
+
+Öffnen Sie **Modules**, **Module Manager**, **Quote Enterprise**, **Configure**. Das Modul öffnet sich auf **Dashboard**. Die obere Leiste enthält: **Dashboard**, **Quotes**, **Audit log**, **Settings**, **PDF**, **Emails**, **API**, **Notifications**, **Updates**.
+
+Die Screenshots in diesem Handbuch stammen aus einem englischen Backoffice.
+
+Die tägliche Angebotsarbeit finden Sie auch unter **Orders**, **Quotes** (vollständige Liste und Editor) sowie **Orders**, **Audit log**.
+
+### 3.1 Full quote process
+
+Nutzen Sie diesen Ablauf als Übersicht. Die Abschnitte darunter erklären jeden Bildschirm.
+
+1. Ein Kunde fordert ein Angebot von einer Produktseite, einer Produktliste, dem Warenkorb oder einer Mehrprodukt-Angebotsliste an. Gäste können Schaltflächen sehen, wenn das erlaubt ist, aber zum Speichern der Anfrage ist immer ein Kundenkonto nötig.
+2. Die Anfrage wird zu einem Angebot in **Pending review** (Kundenanfrage), oder Mitarbeiter erstellen einen **Draft** im Backoffice.
+3. Mitarbeiter öffnen das Angebot unter **Orders**, **Quotes**, setzen Preise, Rabatte, Versand und Nachrichten und wählen dann **Save** oder **Save & send**.
+4. **Save & send** sendet dem Kunden eine E-Mail und setzt das Angebot auf **Sent** (oder behält den Verhandlungsfluss beim erneuten Senden).
+5. Der Kunde öffnet **My quotes**, sieht das Angebot, kann das PDF herunterladen, annehmen, ablehnen oder Änderungen anfordern (**Negotiation**).
+6. Nach **Accepted** kann der Kunde zur Kasse gehen. Der Checkout baut einen Warenkorb aus dem Angebot und kann zu einer Bestellung werden (**Converted**). Das Angebot wird dann gesperrt.
+7. Nach **valid until** werden gesendete oder in Verhandlung befindliche Angebote zu **Expired**, wenn sie geöffnet werden oder wenn der Cron läuft. Erinnerungs-E-Mails benötigen Cron.
+
+Status, die Sie sehen: **Draft**, **Pending review**, **Sent**, **Negotiation**, **Accepted**, **Converted**, **Expired**, **Rejected**, **Cancelled**.
+
+Nur **Sent** und **Negotiation** können vom Kunden angenommen werden. Ändern Sie den Status bei Bedarf manuell im Editor.
+
+### 3.2 Dashboard
+
+Das Dashboard zeigt die Angebotspipeline. Öffnen Sie **Analytics parameters**, um den KPI-Zeitraum und die Diagrammbereiche festzulegen, und klicken Sie dann auf **Save analytics parameters**. Bestätigung: **Tracking parameters updated.**
+
+![Dashboard](https://mypresta.eu/docs/images/docs/quoteenterprise-dashboard.webp)
+
+![Dashboard tables](https://mypresta.eu/docs/images/docs/quoteenterprise-dashboard-b.webp)
+
+| Field | At the start | What it does |
+|---|---|---|
+| **KPI period** | **Last 90 days** | Zeitfenster für KPI-Karten, Funnel-Tabelle, Top-Kunden und Mitarbeiter. Wählen Sie 30, 90, 180 oder 365 Tage und speichern Sie. Zählt erstellte, gesendete, angenommene, umgewandelte und abgelehnte Angebote in diesem Zeitraum. |
+| **Weekly chart range** | 12 | Anzahl der Wochen im wöchentlichen Funnel-Diagramm (4–52). Die Wochen-Registerkarte zeigt erstellt, gesendet, angenommen und umgewandelt pro ISO-Woche. |
+| **Monthly chart range** | 12 | Anzahl der Monate im monatlichen Funnel-Diagramm (3–24). |
+| **Yearly chart range** | 5 | Anzahl der Jahre im jährlichen Funnel-Diagramm (2–10). |
+| **Default chart tab** | **Monthly** | Welche Diagramm-Registerkarte zuerst geöffnet wird: Weekly, Monthly oder Yearly. Sie können die Registerkarten weiterhin ohne Speichern wechseln. |
+| **Expiring soon window** | 7 | Wie viele Tage im Voraus Angebote als bald ablaufend markiert werden. Typischerweise 7 oder 14. Es werden nur gesendete und in Verhandlung befindliche Angebote mit einem valid_until-Datum in diesem Fenster aufgelistet. |
+
+KPI-Karten: offener Pipeline-Wert, Pending review, bald ablaufend, umgewandelter Wert, Conversion-Rate, Win-Rate. Darunter: erstellt, gesendet, angenommen, umgewandelt, abgelehnt, durchschnittliche Tage bis zur Umwandlung, durchschnittlicher Angebotswert. Diagramme zeigen den Funnel über die Zeit. Tabellen: Perioden-Funnel, Alterung der offenen Pipeline, bald ablaufend, aktuelle Aktivität, Top-Kunden und Mitarbeiter. Offene Pipeline bedeutet Angebote in Sent, Negotiation oder Accepted.
+
+### 3.3 Quotes tab in module configuration
+
+Dieser Reiter ist eine kurze Übersicht. Vollständige Filter, Sammelaktionen und der Editor liegen unter **Orders**, **Quotes**.
+
+![Quotes overview](https://mypresta.eu/docs/images/docs/quoteenterprise-quotes.webp)
+
+Zweck dieses Bildschirms: eine schnelle Liste der letzten Angebote aus der Modulkonfiguration. Klicken Sie auf **View**, um den vollständigen Angebotseditor zu öffnen. Nutzen Sie **Manage all quotes** für Filter, Export und Sammeloperationen. Wirkung: Die Moduleinstellungen bleiben schlank, während die volle Angebotsarbeit im eigenen Backoffice-Bildschirm stattfindet.
+
+**Create quote:** Wählen Sie einen Kunden (Suche), geben Sie optional eine **Internal note** ein und klicken Sie auf **Create draft quote**. Sie werden zum vollständigen Editor weitergeleitet. Leerer Kunde zeigt: **Please select a customer.**
+
+**Quote templates** (wenn Vorlagen vorhanden sind): Wählen Sie eine Vorlage und einen Kunden, dann **Create from template**.
+
+**Recent quotes**-Spalten: Reference, Customer, Status, Total. Leer: **No quotes yet.** Links: **Manage all quotes**, **CSV**, **XML**, **Open full quotes list**.
+
+### 3.4 Quotes list (Orders menu)
+
+Öffnen Sie **Orders**, **Quotes**. Das ist der Hauptverwaltungsschirm.
+
+Spalten: **ID**, **Reference**, **Customer**, **Status**, **Total**, **Valid until**, **Assigned**, **Created**. Zeilenaktionen: bearbeiten und duplizieren. Sie können kein leeres Angebot aus der Listen-Symbolleiste hinzufügen; erstellen Sie aus der Modulübersicht, aus einer Vorlage oder durch Duplizieren. Fehler bei Versuch: **Create quotes from module configuration or duplicate an existing quote.**
+
+Sammelaktionen:
+
+| Action | What it does |
+|---|---|
+| **Assign to employee** | Setzt den zugewiesenen Mitarbeiter für die ausgewählten Angebote. |
+| **Extend validity** | Verschiebt valid until für die Auswahl nach vorne. |
+| **Send expiry reminder** | Sendet Erinnerungs-E-Mails an die ausgewählten Kunden (Bestätigungsdialog). |
+| **Export CSV** | Lädt CSV für die Auswahl herunter. |
+| **Export XML** | Lädt XML für die Auswahl herunter. |
+
+Filtern Sie nach Status und suchen Sie wie in einer Standard-PrestaShop-Liste. Öffnen Sie eine Zeile zum Bearbeiten.
+
+### 3.5 Quote editor — how to manage a request
+
+Öffnen Sie ein Angebot aus der Liste. Die Legende zeigt Referenz und Status, zum Beispiel `Q-2026-00001 — Pending review`.
+
+**Typischer Mitarbeiterweg für eine neue Kundenanfrage**
+
+1. Filtern oder öffnen Sie Angebote in **Pending review**.
+2. Prüfen Sie **Messages from customer** (Anfragetext, spätere Änderungs- oder Ablehnungsgründe). Schreibgeschützt.
+3. Fügen Sie **Line items** hinzu oder passen Sie sie an (Katalogprodukte und individuelle Services).
+4. Setzen Sie **Global discount %** / **Global discount amount**, **Shipping label** und Versandbeträge.
+5. Schreiben Sie **General message to customer** und optional **Internal note**.
+6. Setzen Sie **Validity period** und **Validity unit**, prüfen Sie das aktuelle valid until.
+7. Setzen Sie bei Bedarf **Status**, dann **Save** (**Quote saved.**) oder **Save & send** (**Quote sent to customer by e-mail.**).
+
+**Sperren.** Angenommene oder umgewandelte Angebote werden gesperrt. Abgelaufene Angebote zeigen: **This quote has expired. Click Unlock to extend validity and send an updated offer.** Umgewandelt: **This quote is locked because it was converted to an order.** Angenommen: **This quote is locked because the customer accepted it. Click Unlock to make changes.** Entsperren: **Quote unlocked for editing.** Erneut sperren: **Quote locked again.**
+
+| Field | What it does (from field descriptions) |
+|---|---|
+| **Status** | Aktuelle Stufe im Verkaufsprozess. Draft: nur intern. Pending review: Kunde hat angefragt, wartet auf Ihre Preisgestaltung. Sent: per E-Mail an den Kunden gesendet. Accepted: Kunde hat zugestimmt. Converted: wurde zu einer Bestellung. Nur Sent und Negotiation können vom Kunden angenommen werden. Ändern Sie den Status bei Bedarf manuell. |
+| **Validity period** | Wie lange der Kunde zum Annehmen Zeit hat, gezählt ab Speichern/Senden. Beispiele: 15 mit Minutes, 1 mit Hours, 30 mit Days. Speichern berechnet das Ablaufdatum ab jetzt neu. Der Kunde kann nach Ablauf nicht annehmen. Kurze Zeiträume können ablaufen, bevor der tägliche Cron Erinnerungen sendet. |
+| **Validity unit** | Minuten, Stunden oder Tage mit der Gültigkeitszahl. |
+| **Payment hint** | Kurzer Hinweis zur erwarteten Zahlung, z. B. „30 days net transfer“. Wird in der Kundenansicht und im PDF angezeigt. Erzwingt kein Zahlungsmodul. |
+| **Global discount %** | Extra-Rabatt 0–100 auf alle Produktzeilen vor dem Versand. Beim Checkout kann er als Warenkorbregel gelten. |
+| **Global discount amount (tax excl.)** | Fester Rabatt auf die Produktzwischensumme. Prozent wird zuerst angewendet, wenn beide gesetzt sind. |
+| **Shipping label** | Name im PDF, z. B. „Express delivery“. |
+| **Shipping (tax excl.)** / **Shipping (tax incl.)** | Liefergebühr. Tax incl. wird aus excl. automatisch berechnet, wenn in den Moduleinstellungen eine Steuerregel gesetzt ist. Enthalten in der Summe und beim Checkout als fester Versand übergeben. |
+| **Messages from customer** | Alles, was der Kunde geschrieben hat (Anfrage, Änderungswunsch, Ablehnung). Schreibgeschützt. Antworten Sie in den Feldern darunter. |
+| **General message to customer** | Dauerhafte Nachricht, die dem Kunden immer sichtbar ist (Umfang, Lieferzeit, Bedingungen). Wird in Angebotsansicht, PDF und E-Mails angezeigt. |
+| **Internal note** | Private Teamnotiz. Wird dem Kunden nie angezeigt. |
+| **Line items** | Produktzeilen und individuelle Servicezeilen. Katalogprodukt hinzufügen (Kombination wählen, wenn nötig). Individuelle Zeile hinzufügen: Beschreibung, Menge, Stückpreis ohne Steuer, Steuer %. Individuelle Zeilen erscheinen im PDF und landen beim Checkout im Gebührenprodukt. Meldungen: **Product line added.**, **Custom line added.**, **Line removed.**, **Select a product to add.**, **Please select a product combination.**, **Enter a service line description.** |
+| **Comment for this send** | Einmalige Notiz nur für dieses **Save & send**. Erklärt, was sich geändert hat. Nach dem Senden geleert. Erscheint in der Timeline, optionaler PDF-Historie und der E-Mail dieses Versands. |
+| **Version history** | Snapshots früherer Versionen. |
+| **Save as template** | Geben Sie einen Vorlagennamen ein und speichern Sie. Später neue Angebote aus dieser Vorlage für einen anderen Kunden erstellen. Meldungen: **Please enter a template name.**, **Template "…" saved.** |
+| **Quote timeline** | Chronologie der Mitarbeiter- und Kundenereignisse zu diesem Angebot. |
+
+Duplizieren aus der Liste oder dem Editor: **Unable to duplicate quote.** bei Fehler. Nach dem Duplizieren bearbeiten Sie die Kopie.
+
+### 3.6 Audit log
+
+Modul-Reiter: aktuelle Aktivität (Anfragen, Sendungen, Annehmen/Ablehnen, Verhandlungen). Nutzen Sie **View** für den vollen Kontext. Öffnen Sie **Orders**, **Audit log** für Filter, Export und die vollständige Historie.
+
+Zweck: nur anhängbare Spur für Compliance und Fehlerbehebung. Einträge können nicht bearbeitet oder gelöscht werden. Jede Zeile speichert den Akteur-Namen und die ID (Mitarbeiter oder Kunde) zum Zeitpunkt der Aktion. Akteur-Badges: Employee, Customer, System.
+
+### 3.7 Settings — Theme & display
+
+Öffnen Sie **Settings**. Klicken Sie nach Änderungen unten auf **Save**.
+
+![Theme and display](https://mypresta.eu/docs/images/docs/quoteenterprise-settings-theme.webp)
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Front theme template** | **Auto-detect (recommended)** | Wählt, welches Template und CSS-Set für My quotes, Angebotsvorschau und den Kundenkonto-Link verwendet wird. Lassen Sie Auto-detect, es sei denn, Ihr Theme-Fork wird falsch erkannt — dann Classic oder Hummingbird erzwingen. |
+| **Quantity display format** | **Integer (e.g. 1, 2)** | Wie Mengen in Front Office, Backoffice, PDF und E-Mails angezeigt werden. Oder **Fixed decimals (e.g. 1.000, 2.500)**. Formulareingaben nutzen dasselbe Format für Standardwerte. |
+| **Quantity decimal places** | 3 | Stellen nach dem Dezimalpunkt, wenn das Format Fixed decimals ist. Typischerweise 3 für B2B oder 2 für Retail. Im Integer-Modus ignoriert. |
+
+### 3.8 Settings — General
+
+![General](https://mypresta.eu/docs/images/docs/quoteenterprise-settings-general.webp)
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Module enabled** | **Yes** | Hauptschalter für die gesamte Angebot-bis-Bestellung-Funktion. Yes: Kunden fordern Angebote an und Mitarbeiter verwalten Angebote. No: alle Angebotsschaltflächen und Kundenkonto-Links ausblenden ohne Deinstallation. Wenn deaktiviert: keine neuen Anfragen und keine Schaltflächen auf Warenkorb-, Produkt- oder Kategorieseiten. Bestehende Angebote bleiben im Backoffice. |
+| **Product page quote button** | **Yes** | Zeigt **Request a quote** auf jeder Produktseite. Für B2B-Shops, in denen Käufer einen Preis für eine einzelne SKU anfragen. Der Kunde muss angemeldet sein (oder Gastfluss erlaubt) und in einer erlaubten Gruppe. Instant-Modus öffnet das Formular für dieses Produkt. List-Modus fügt Menge und Kombination zur schwebenden Angebotsliste hinzu. |
+| **Cart quote button** | **Yes** | Zeigt **Request a quote** im Warenkorb. Aktivieren, wenn Kunden Angebote für mehrere Produkte auf einmal anfordern. Beachtet den Mindestwarenkorbwert unten. Der aktuelle Warenkorbinhalt wird nach Bestätigung zur Basis einer neuen Angebotsanfrage. |
+| **Category / list quote button** | **Yes** | Kompaktes **Request quote** auf Listenseiten (Kategorie, Suche, Neuheiten). Dieselben Berechtigungsregeln. Instant-Modus öffnet den Produkt-Angebotsfluss. List-Modus fügt das Produkt (Standardkombination, Menge 1) zur schwebenden Liste hinzu. |
+| **Product quote mode** | **Instant — open form for this product** | Instant: Formular für das aktuelle Produkt öffnen. List: zu einem Angebotskorb hinzufügen; schwebende Schaltfläche öffnet ein Formular mit allen Produkten. Warenkorb-Anfragen bleiben unabhängig. Die schwebende Schaltfläche erscheint nur im List-Modus, wenn die Liste nicht leer ist. |
+| **Floating quote button position** | **Bottom right** | Oder **Bottom left**. Nur wenn der Produkt-Angebotsmodus List ist. Badge zeigt die Produktanzahl; öffnet das Mehrprodukt-Anfrageformular. |
+| **Allow guests** | **No** | Ob Besucher ohne Konto eine Anfrage starten dürfen. Für striktes B2B ausgeschaltet lassen. Aktivieren, wenn Gäste die Schaltfläche sehen sollen — sie werden trotzdem zum Anmelden oder Registrieren aufgefordert, bevor die Anfrage gespeichert wird. Erstellt keine anonymen Angebote. |
+
+### 3.9 Settings — Quote button visibility
+
+![Visibility](https://mypresta.eu/docs/images/docs/quoteenterprise-settings-visibility.webp)
+
+| Field | At the start | What it does |
+|---|---|---|
+| Customer groups | all groups | Beschränkt, wer Angebotsschaltflächen sieht. Alle Gruppen oder nur ausgewählte Gruppen (z. B. Wholesale). Kunden außerhalb der ausgewählten Gruppen sehen keine Schaltflächen, auch wenn das Modul aktiviert ist. |
+| **Enable catalog visibility rules** | **No** | Katalogbasierte Regeln für Angebotsschaltflächen ein- oder ausschalten. Aktivieren, um Angebote auf bestimmte Produkte, Kategorien, Marken oder Lieferanten zu begrenzen. Wenn deaktiviert, kann jedes Produkt angefragt werden (Gruppenregeln gelten weiterhin). Wenn aktiviert, werden Whitelist/Blacklist und die Filter darunter erzwungen. |
+| **Catalog rule mode** | **Whitelist — only matching products** | Whitelist: Schaltflächen nur auf passenden Produkten. Blacklist: Schaltflächen auf passenden Produkten ausblenden. Ein Produkt passt, wenn es in der Produktliste ist oder zu einer ausgewählten Kategorie, einem Hersteller oder Lieferanten gehört. |
+| Catalog pickers | empty | Kategorien (Baum), Produkte (Suche), Hersteller und Lieferanten. Leer lassen, um nur Hilfsfilter anzuwenden. Regeln kombinieren mit ODER — ein Treffer reicht. |
+| **Minimum product price** | 0 | Angebotsschaltflächen unter diesem Shop-Preis inklusive Steuer ausblenden. 0 deaktiviert. Gilt, wenn Katalogregeln aktiviert sind. |
+| **Exclude virtual products** | **No** | Verhindert das Anfragen von Download-/virtuellen Produkten, wenn Katalogregeln aktiviert sind. |
+| **Exclude out-of-stock products** | **No** | Schaltflächen ausblenden, wenn das Produkt nicht aus dem Lager bestellt werden kann (beachtet das PrestaShop-Verhalten bei Fehlbestand). |
+| **Mixed cart (eligible + excluded items)** | **Hide cart quote button** | Wenn der Warenkorb anfragbare und nicht anfragbare Produkte mischt: Show = Schaltfläche sichtbar, nur berechtigte Zeilen importiert; Hide = Schaltfläche ausgeblendet, bis der Warenkorb nur anfragbar ist. Alle berechtigt → immer anzeigen. Alle ausgeschlossen → immer ausblenden. |
+
+### 3.10 Settings — Product quote request form
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Require privacy policy acceptance** | **Yes** | Pflicht-Datenschutz-Checkbox im Produkt-Angebotsanfrage-Modal (DSGVO). Kunden müssen vor dem Absenden zustimmen. |
+| **Privacy policy CMS page** | none | CMS-Seite, die von der Checkbox verlinkt wird. Wenn leer, hat der Checkbox-Text keinen Link. |
+| **Enable reCAPTCHA** | **No** | Schützt das Produkt-Angebotsanfrageformular mit Google reCAPTCHA v2. Wenn aktiviert, sind Site- und Secret-Key unten erforderlich. |
+| **reCAPTCHA site key** | empty | Öffentlicher Site-Key aus der Google-reCAPTCHA-Verwaltung (v2-Checkbox). |
+| **reCAPTCHA secret key** | empty | Secret-Key. In der Shop-Konfiguration gespeichert. |
+| **Minimum cart total** | 0 | Mindestwarenkorbwert, bevor die Warenkorb-Angebotsschaltfläche angezeigt wird. Standardwährung des Shops. 0 = kein Minimum. Betrifft nur die Warenkorb-Schaltfläche, nicht Einzelprodukt-Anfragen. Kleine Warenkörbe zeigen die Schaltfläche nicht. |
+
+### 3.11 Settings — Offers & references
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Default validity** | 30 | Standarddauer, wie lange ein Angebot nach Erstellung gültig bleibt. Zahl plus Einheit: Minuten für Flash-Angebote, Stunden für Tagesentscheidungen, Tage für Standard-B2B. Setzt valid_until bei neuen Angeboten aus Storefront, Backoffice und Duplikaten. Pro Angebot im Editor überschreibbar. |
+| **Default validity unit** | **Days** | Minuten, Stunden oder Tage mit der Zahl oben. Erinnerungs-E-Mails und der automatische Status Expired hängen für Erinnerungen weiterhin vom Cron ab. |
+| **Expiry reminder (days before)** | 3 | Erinnerungs-E-Mail vor Ablauf. Wird nur vom täglichen Cronjob gesendet. Jedes berechtigte Angebot erhält höchstens eine Erinnerung mit Link zum Ansehen und Annehmen. Ohne Cron keine Erinnerungen. |
+| Cron URL | generated token | Automatisierte Ablauf-Erinnerungen und Statusaktualisierungen. Fügen Sie die URL einmal täglich in die crontab ein (Beispiel 08:00). Token neu erzeugen, wenn er preisgegeben wurde. Ablauf wird auch erzwungen, wenn jemand das Angebot öffnet; Erinnerungs-E-Mails brauchen weiterhin Cron. |
+| **Reference prefix** | Q | Präfix für Angebotsnummern. Das Modul hängt Jahr und Sequenz an, z. B. Q-2026-00042. Hilft Mitarbeitern und Kunden, Dokumente in E-Mail und PDF zu erkennen. |
+| **Notify staff on new request** | **Yes** | E-Mail an Shop-Mitarbeiter, wenn ein Kunde eine Anfrage absendet. Stellen Sie sicher, dass Preferences > Contact-E-Mail korrekt ist. Vorlage: qe-request-staff im Reiter Emails. |
+
+Gelber Hinweis auf dem Bildschirm: Cron ist für die Gültigkeitsautomatisierung erforderlich; Ablauf gilt auch beim Öffnen; Erinnerungen nutzen die Cron-URL.
+
+### 3.12 Settings — Checkout
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Shipping / service tax rule** | shop default tax rule | MwSt.-Regel für Versand und individuelle Servicezeilen, wenn Sie Beträge ohne Steuer eingeben. Wählen Sie eine Steuerregelgruppe unter Catalog → Products. Wenn ausgewählt, berechnet das Speichern eines Angebots Versand inkl. Steuer aus dem Exkl.-Betrag neu. |
+| **Fee product (custom lines)** | created on install | Verstecktes virtuelles Produkt, das individuelle Servicezeilen in den Checkout bringt. Wird automatisch erstellt — nur ändern, wenn Sie individuelle Zeilen auf ein anderes Produkt zeigen müssen. Beim Checkout werden Service-Summen zu einer Warenkorbzeile mit dem gesperrten Angebotspreis. |
+
+### 3.13 PDF
+
+Öffnen Sie den Reiter **PDF**. Legende: **PDF documents**. Wenn PDF deaktiviert ist, sind Download-Schaltflächen ausgeblendet und PDF-URLs liefern „nicht gefunden“.
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Enable PDF** | **Yes** | Hauptschalter für PDF-Erzeugung und Download-Links. Deaktivieren, wenn Sie keine PDF-Proformas wollen. Wenn aus, sind PDF-Schaltflächen in Backoffice, Storefront und Bestelldetail ausgeblendet; direkte PDF-URLs liefern „nicht gefunden“. E-Mail-Vorlagen erhalten weiterhin einen leeren PDF-URL-Platzhalter. |
+| **Use shop logo on PDF** | **Yes** | Nutzt das Shop-Logo aus Preferences > Themes. No: nur ein unten hochgeladenes eigenes Logo verwenden (falls vorhanden). Das Logo erscheint oben auf PDF-/Proforma-Dokumenten. |
+| **Add negotiation history to PDF** | **No** | Hängt ein kurzes Kommunikationsprotokoll an (Änderungswünsche, erneutes Senden, Annehmen, Ablehnen). Kompakte Tabelle vor den Bedingungen. Leer, wenn keine Verhandlungsaktivität vorliegt. |
+| **Custom PDF logo** | empty | Optionales PNG oder JPG nur für Angebots-PDFs. Überschreibt das Shop-Logo, wenn vorhanden. |
+| **PDF terms & conditions** | empty | Rechtliche oder kommerzielle Bedingungen am Ende jedes PDFs. |
+| **Authorized signature** | empty | Name oder Zeile des Unterzeichners, z. B. „John Smith, Sales Director“. Leer lassen, um wegzulassen. |
+
+### 3.14 Emails
+
+Öffnen Sie den Reiter **Emails**. Transaktionale E-Mails für den Angebotslebenszyklus. Betreff und Text pro Sprache bearbeiten. Platzhalter aus der Editor-Seitenleiste nutzen (Kundenname, Angebotsreferenz, Link, Summen). Eingebaute Schlüssel: qe-request-staff, qe-quote-sent, qe-quote-accepted, qe-quote-rejected, qe-quote-negotiation, qe-quote-reminder, qe-staff-digest. Kunden und Mitarbeiter erhalten diese, wenn ein Angebot angefragt, gesendet, angenommen wird oder bald abläuft. Nach Änderungen testen.
+
+### 3.15 API
+
+Öffnen Sie den Reiter **API**. CRM, ERP oder Automatisierung anbinden. Geben Sie eine Schlüsselbezeichnung ein und **Generate new API key**. Kopieren Sie den Schlüssel. **Revoke** deaktiviert ihn (Bestätigung). Leer: **No API keys yet.** **API documentation** beschreibt Aktionen: list, get, pending, stats, update_status. Rufen Sie die Modul-API-URL mit dem Schlüssel auf.
+
+### 3.16 Notifications
+
+Öffnen Sie **Notifications** (**Staff digest notifications**). Periodische Zusammenfassung, wenn Angebote Aktion brauchen, ohne eine E-Mail pro Ereignis.
+
+Was als wartend zählt: **Pending review** (neue Anfrage) oder **Negotiation** (Kunde hat Änderungen angefragt). Sent, Accepted, Expired und Converted sind nicht enthalten. Cron läuft nach Ihrem Zeitplan. Wenn Digest aktiviert ist, mindestens ein Angebot wartet und das Intervall abgelaufen ist, geht eine Nachricht an jeden konfigurierten Kanal. Mitarbeiter sehen eine Zusammenfassung mit Referenzen, Status, Kundenname und Backoffice-Links (bis zu 20 Angebote aufgelistet).
+
+| Field | At the start | What it does |
+|---|---|---|
+| **Enable digest** | **No** | Hauptschalter. Aktivieren, nachdem mindestens ein Kanal gesetzt ist. Cron muss geplant sein — Digests werden nicht durch Seitenbesuche gesendet. Wenn aus, erledigt Cron weiterhin Ablauf-Erinnerungen und Statusaktualisierungen, aber keinen Digest. |
+| **Interval (hours)** | 24 | Mindestzeit zwischen Digests (1–168). Cron mindestens so oft wie dieser Wert ausführen. Nach einem erfolgreichen Digest wartet der nächste, bis so viele Stunden vergangen sind. |
+| **E-mail recipients** | empty | Durch Komma oder Semikolon getrennt. Leer nutzt die Shop-E-Mail aus Preferences > Contact. Vorlage qe-staff-digest. |
+| **Slack webhook URL** | empty | Incoming-Webhook-URL. Leer lassen, um Slack zu überspringen. |
+| **Teams webhook URL** | empty | Connector-Webhook-URL. Leer lassen, um Teams zu überspringen. |
+
+**Save** speichert die Einstellungen. **Send test digest now** sendet einen Test, wenn Angebote warten. Dieselbe Cron-URL wie unter Settings.
+
+### 3.17 Updates
+
+Öffnen Sie **Updates**. **Check Now** prüft auf eine neue Version. **Automatic Notifications** aktiviert oder deaktiviert. **Save** speichert die Update-Einstellungen.
+
+### 3.18 Quote block on an order
+
+Bei einer aus einem Angebot erstellten Bestellung zeigt das Backoffice **Source quote** mit Link zum Angebot und optional **View quote PDF**.
+
+## 4. Front office
+
+Kunden sehen Angebotswerkzeuge, wenn das Modul aktiviert ist und ihre Gruppe erlaubt ist.
+
+**Product page.** **Request a quote** öffnet das Formular (Instant) oder fügt zur Angebotsliste hinzu (List-Modus). Datenschutz-Checkbox und reCAPTCHA gelten, wenn aktiviert.
+
+**Product list.** **Request quote** — dieselben Regeln.
+
+**Cart.** **Request a quote** — beachtet Mindestwarenkorbwert und Mixed-Cart-Regeln. Bestätigter Warenkorb wird zu einem Pending-Angebot.
+
+**List mode.** Schwebende Schaltfläche mit Zähler öffnet das Mehrprodukt-Anfrageformular.
+
+**Customer account.** Link zu **My quotes**: Historie, Status, valid until, **View**, PDF wenn aktiviert, **Checkout** nach Annahme, **Request re-opening** wenn abgelaufen/gesperrt. Leer: **You have no quotes yet. Request a quote from a product page or your cart to get started.** Nach dem Absenden: **Your quote request has been submitted. Our team will prepare an offer shortly.**
+
+**Quote view.** Annehmen, ablehnen, Änderungen anfordern, PDF herunterladen, Checkout wenn angenommen. Gesperrt abgelaufen: **Locked — validity expired**.
+
+Gastbesucher können Schaltflächen sehen, wenn **Allow guests** auf **Yes** steht, aber die Anfrage wird nur für einen angemeldeten Kunden gespeichert.
+
+In diesem Paket gibt es keinen Storefront-Screenshot, weil der Testshop beim Fertigstellen der Screens nicht erreichbar war.
+
+## 5. Common problems
+
+**Keine Angebotsschaltfläche auf Produkt oder Warenkorb.** Prüfen Sie **Module enabled**, den passenden Schalter für die Schaltfläche, die Kundengruppe und die Katalogsichtbarkeit. Für den Warenkorb prüfen Sie **Minimum cart total** und **Mixed cart**.
+
+**Gast kann Anfrage nicht abschließen.** Das Absenden braucht immer ein Konto.
+
+**Angebot ist gesperrt / nicht bearbeitbar.** Entsperren, wenn Accepted oder Expired (Gültigkeit verlängern). Umgewandelte Angebote bleiben an die Bestellung gebunden gesperrt.
+
+**Kunde kann nicht annehmen.** Status muss Sent oder Negotiation sein, und valid until muss in der Zukunft liegen.
+
+**Erinnerungs-E-Mails kommen nie an.** Planen Sie die Cron-URL und halten Sie **Expiry reminder** über null. Das Öffnen eines Angebots kann es ohne Cron ablaufen lassen; Erinnerungen brauchen weiterhin Cron.
+
+**PDF-Schaltflächen fehlen.** Schalten Sie **Enable PDF** ein.
+
+**reCAPTCHA blockiert das Formular.** Schalten Sie es aus oder geben Sie beide Schlüssel ein.
+
+**Mitarbeiter-Digest kommt nie an.** Digest aktivieren, einen Kanal setzen, Cron mindestens so oft wie das Intervall ausführen.
+
+**Deinstalliert und Menü ist weg.** Neu installieren. Deinstallation löscht die Angebotstabellen. Das Gebührenprodukt kann im Katalog bleiben.
+
+## 6. Developer guide
+
+### 6.1 Overview
+
+Technischer Name `quoteenterprise`, Version 1.7.6, Klasse `quoteenterprise` erweitert `Module`. Anzeigename über `$this->l('Quote Enterprise')`. Autor MyPresta.eu. Tab `checkout`. Produkt-URL in `$this->mypresta_link`.
+
+Ablauf: Anfrage → `quote`-Zeile → Mitarbeiter bearbeiten/senden → Kunde annehmen/verhandeln → Checkout → Bestellung. Feldtexte für Händler liegen in `QuoteSettingDescTrait` und Angebotseditor-Methoden `desc*`.
+
+### 6.2 Files
+
+- `quoteenterprise.php` — Installation, Hooks, Konfigurationseinstieg, Cron-URL.
+- `classes/QuoteAdmin.php` — Konfigurationsreiter und Einstellungsformulare.
+- `classes/QuoteAdminQuoteForm.php` — Angebotseditor.
+- `classes/QuoteQuotesManager.php` — Übersicht, Speichern/Senden/Zeilen/Vorlagen.
+- `classes/QuoteDashboard.php`, `QuoteVisibility.php`, `QuoteListHelper.php`, `QuoteRequestHelper.php`, `QuoteMailer.php`, `QuotePdf.php`, `QuoteApi.php`, `QuoteNotifyDigest.php`, `QuoteExpiry.php`, `QuoteConverter.php`, `QuoteFeeProduct.php`, `QuoteSettingDescTrait.php`.
+- `controllers/admin/AdminQuoteEnterpriseQuotes.php`, `AdminQuoteEnterpriseAuditLog.php`.
+- `controllers/front/` — `list`, `view`, `request`, `quoteList`, `pdf`, `cron`, `api`.
+- `models/` — `quote`, `quotedetail`, `quoteauditlog`, `quoterevision`, `quoteapikey`.
+- `views/templates/`, `lib/updateChecker.php`, `lib/emailTemplatesManager/`, `lib/searchTool/`.
+
+### 6.3 Controllers
+
+Admin unter **Orders** (`AdminParentOrders`). Front-Controller in `$this->controllers`. Cron erwartet `QE_CRON_TOKEN`. API erwartet einen aktiven Schlüssel und einen Aktionsnamen.
+
+### 6.4 Hooks
+
+Registriert: `displayHeader`, `displayShoppingCart`, `displayCustomerAccount`, `displayProductAdditionalInfo`, `displayProductActions`, `displayFooterProduct`, `displayFooter`, `actionProductPriceCalculation`, `actionValidateOrder`, `actionAdminControllerSetMedia`, `displayProductListFunctionalButtons`, `displayProductListReviews`, `displayProductPriceBlock`, `displayAdminOrderMain`, `displayAdminOrderSide`, `displayAdminOrder`, `actionCartGetPackageShippingCost`. Keine eigenen Hooks freigegeben.
+
+### 6.5 Overrides
+
+Dieses Modul liefert keine Klassen- oder Controller-Overrides.
+
+### 6.6 Database
+
+| Table | Contents |
+|---|---|
+| `quote` | Angebotskopf. |
+| `quote_detail` | Zeilen. |
+| `quote_revision` | Versions-Snapshots. |
+| `quote_audit_log` | Nur anhängbare Aktivität. |
+| `quote_api_key` | API-Schlüssel. |
+| `qe_cart_quote` | Warenkorb–Angebot-Verknüpfung. |
+
+Deinstallation löscht diese Tabellen. `QuoteSchema::ensure` und `inconsistency()` reparieren fehlende Teile, wenn die Konfiguration geöffnet wird.
+
+### 6.7 Keys and translations
+
+`QE_*`-Konfigurationsschlüssel. Standardwerte in `installDefaults()`. Neue Sprache: `translations/{iso}.php`. Händler-Feldhilfe: `QuoteSettingDescTrait` und Editor-Methoden `desc*`. Zeichenketten über `$this->l()` und `{l s=... mod='quoteenterprise'}`.
+
+### 6.8 Extending
+
+Front-Templates unter `modules/quoteenterprise/` im Theme überschreiben. Classic und Hummingbird werden unterstützt. Ein anderes PDF-Layout bedeutet Änderung der PDF-Vorlage oder des Modulcodes.
+
+## 7. Support
+
+Modulseite: [Quote Enterprise](https://mypresta.eu/modules/ordering-process/quote-enterprise.html).
+
+Um über dieses Modul zu schreiben, melden Sie sich in Ihrem Kundenkonto auf [mypresta.eu](https://mypresta.eu/) an, öffnen Sie [Contact](https://mypresta.eu/contact.html) und wählen Sie den Betreff **Support for paid modules**. Das Formular sagt, dass die Anmeldung erforderlich ist. Nach der Anmeldung wählen Sie dieses Modul aus Ihrer Kaufhistorie.

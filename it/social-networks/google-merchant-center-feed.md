@@ -2,7 +2,7 @@
 title: "Google Merchant Center Feed - istruzioni per il venditore"
 sidebar:
   label: "Google Merchant Center Feed - istruzioni per il venditore"
-description: "Configurazione e risoluzione dei problemi del file di catalogo, dei file salvati e dell'indirizzo del catalogo in un negozio che ha già il modulo."
+description: "Come configurare il file prodotti per Google Merchant Center e cosa fare quando quel file non riesce."
 ---
 
 > ⚠️ **Notice:** This is the documentazione ufficiale per il modulo PrestaShop.
@@ -12,157 +12,332 @@ description: "Configurazione e risoluzione dei problemi del file di catalogo, de
 > ---
 
 
-Il nome tecnico è `gmfeed`, versione 2.4.3, e la lista dei moduli mostra **Google Merchant Center Feed**, nome scritto nel file del modulo e non preso da `translations/it.php`.
+## 1. Requisiti
 
-## 1. Dove sono le schermate
+Il modulo gira su PrestaShop 1.6, 1.7, 8 e 9, e su PHP da 5.6 a 8.5.
 
-Ci sono due schermate.
+Il server deve avere cURL e JSON. Non serve un altro modulo.
 
-Moduli, poi Gestione moduli, poi **Google Merchant Center Feed**, poi Configura. Questa pagina ha un campo, **Mostra albero delle categorie**.
+Con decine di migliaia di prodotti, aprire l'indirizzo del file richiede più tempo e più memoria.
 
-Catalogo, poi **Feed di Google Merchant**. È il controller `AdminExportProductsFeedGoogle`. Il titolo è **Feed Google Merchant Center**. Le schede sono **Dashboard**, **Feed**, **Aggiornamenti** e **Crea / Modifica feed**. L'ultima resta disattivata finché non apri **Crea nuovo feed** o un feed esistente.
+L'account Google Merchant Center lo crea lei.
 
-Non c'è una schermata di importazione né un blocco sulla scheda prodotto. La vetrina non disegna un riquadro. L'effetto pubblico è l'indirizzo di catalogo di un feed salvato.
+## 2. Installazione
 
-## 2. Cosa scrive l'installazione
+1. Carichi il modulo in **Moduli**, **Gestione moduli**, e lo attivi.
+2. Dopo l'installazione, **Catalogo** ha la voce **Feed di Google Merchant**.
+3. Il modulo non svuota la cache durante l'installazione.
 
-L'installazione esegue l'installazione della classe padre, registra `actionAdminControllerSetMedia`, crea una scheda sotto Catalogo e crea le tabelle del punto 8.
+La disinstallazione toglie solo la voce di Catalogo. L'elenco dei file, gli abbinamenti delle categorie, i file salvati sul server e l'impostazione dell'albero delle categorie restano. Tornano quando reinstalla il modulo.
 
-La classe della scheda è `AdminExportProductsFeedGoogle`. L'etichetta passata all'installazione è **Feed di Google Merchant**. La stessa etichetta è scritta per ogni lingua del negozio esistente in quel momento.
+## 3. Configurazione
 
-`actionAdminControllerSetMedia` carica i plugin fancybox e autocomplete solo quando il controller è `AdminExportProductsFeedGoogle`.
+Le immagini arrivano da un back office in inglese. Sotto ci sono i nomi italiani, quando il pannello italiano li mostra.
 
-La classe non ha `enable()` né `disable()`.
+### 3.1 Pagina delle impostazioni del modulo
 
-## 3. Impostazioni del modulo
+Apra **Moduli**, **Gestione moduli**, **Google Merchant Center Feed**, **Configura**. Il titolo è **Impostazioni del modulo**. C'è un campo.
 
 ![Impostazioni del modulo](https://mypresta.eu/docs/images/docs/gmfeed-settings.webp)
 
-Lo schermo è in inglese. In queste istruzioni questa pagina si chiama **Impostazioni del modulo**.
+| Campo | All'inizio | Cosa fa |
+|---|---|---|
+| **Mostra albero delle categorie** | **No** | **Sì** mostra le categorie padre mentre abbina le categorie Google. Non sceglie quali prodotti entrano nel file. |
 
-La legenda è **Impostazioni del modulo**. Il pulsante è **Salva**. L'unico campo è **Mostra albero delle categorie** (`pf_tree`). **No** vale 0. **Sì** vale 1. Se la chiave manca, `(int)Configuration::get('pf_tree')` vale 0 e la lista mostra **No**.
+Clicchi **Save**. Compare **Impostazioni salvate correttamente**.
 
-**Salva** invia `submitgmfeedSettings` e scrive `pf_tree`. Il testo dopo il salvataggio è **Impostazioni salvate correttamente**.
+### 3.2 Dashboard
 
-**Sì** fa mostrare le categorie padre nell'elenco di associazione sul formulario del feed. La descrizione collega **Vedi screenshot** a `https://i.imgur.com/enzXRaJ.png`. La stessa descrizione collega **Catalogo > Feed di Google Merchant**.
-
-Questa pagina non genera il file di catalogo.
-
-## 4. Pagina del catalogo
+Apra **Catalogo**, **Feed di Google Merchant**. Il titolo è **Feed Google Merchant Center**. La scheda è **Dashboard**.
 
 ![Dashboard](https://mypresta.eu/docs/images/docs/gmfeed-dashboard.webp)
 
-Lo schermo è in inglese. In queste istruzioni questa scheda si chiama **Dashboard**.
+La dashboard mostra quanti file sono salvati, quante volte oggi qualcuno ha aperto un indirizzo, quante volte negli ultimi 7 giorni e quanti file stanno sul server. Il grafico e l'elenco delle esecuzioni recenti restano vuoti finché qualcuno non apre un indirizzo. In basso c'è l'elenco dei file impostati per il salvataggio sul server.
+
+### 3.3 Elenco dei file
+
+La scheda è **Feed**.
 
 ![Feed](https://mypresta.eu/docs/images/docs/gmfeed-feeds.webp)
 
-Lo schermo è in inglese. In queste istruzioni questa scheda si chiama **Feed**.
+Se l'elenco è vuoto, vede che non ci sono ancora feed e **Crea nuovo feed**.
 
-Apri **Catalogo > Feed di Google Merchant**.
+Quando i file ci sono, la riga mostra stato, nome, negozio, ultima esecuzione e l'indirizzo. **Crea nuovo feed** sta sopra l'elenco.
 
-**Dashboard** mostra **Feed salvati**, **Esecuzioni cron di oggi**, **Esecuzioni ultimi 7 giorni** e **File salvati**. I numeri vengono da `gms` e `gms_log`. Se nessun indirizzo è stato chiamato, la pagina mostra **Nessun cron o generazione di URL ancora effettuata. Salva un feed, quindi chiama il suo URL di catalogo da uno scheduler.**
+- L'interruttore accende e spegne il file. L'indirizzo resta.
+- Un file dal vivo ha un indirizzo. Google lo legge e l'elenco nasce a ogni apertura.
+- Il salvataggio sul server ha due indirizzi. L'indirizzo di generazione costruisce l'elenco e scrive il file. In Google incolli l'indirizzo del file, non quello di generazione. Se il file non c'è ancora, apra prima l'indirizzo di generazione.
+- **Edit** apre il formulario. Una copia aggiunge un segno di copia al nome. **Delete** chiede conferma e toglie la riga. Il file sul disco resta.
 
-**Feed** elenca le righe di `gms`, dal `id_gms` più alto. **Crea nuovo feed** apre il formulario. **Duplica** copia la stringa di query salvata, toglie `export_id_gms`, `id_gms` e `gmfeed_write_key` e aggiunge ` (copia)` al nome. Se il nome è vuoto, la copia parte da **Feed senza titolo**. Il testo dopo la copia è **Feed duplicato. Rivedi la copia e salvala se ti serve un nome file o un URL diverso.** **Elimina** cancella quella riga di `gms`. Il testo è **Feed rimosso.** Il file salvato sul disco non viene cancellato da questa azione.
+### 3.4 Aggiornamenti
+
+La scheda è **Aggiornamenti**.
 
 ![Aggiornamenti](https://mypresta.eu/docs/images/docs/gmfeed-updates.webp)
 
-Lo schermo è in inglese. In queste istruzioni questa scheda si chiama **Aggiornamenti**.
+- **Aggiornamenti MyPresta**
+- **Check Now** chiede una volta se esiste una versione più recente.
+- Notifiche automatiche: **Enabled** o **Disabled**. **Enabled** controlla circa ogni tre giorni e può mostrare un avviso nel back office.
+- **Product Page** apre la pagina del modulo.
+- **Save** salva queste impostazioni.
 
-**Aggiornamenti** è il formulario di `lib/updateChecker.php`. **Controlla ora** invia `submit_settings_updates_now`. **Salva** invia `submit_settings_updates` e scrive `mypresta_updates`. Il costruttore interroga il server remoto quando `mypresta_updates` non è 0 e `update_gmfeed` è più vecchio di 172800 secondi. Il valore di licenza inviato se manca `mkey` è `nokey`. Un avviso compare quando `updatev_gmfeed` è superiore a 2.4.3 e la richiesta non è ajax.
+### 3.5 Formulario del file
 
-## 5. Formulario del feed
+Clicchi **Crea nuovo feed** o **Edit**. In basso ci sono **Save feed** e **Save & download**.
 
-![Crea nuovo feed](https://mypresta.eu/docs/images/docs/gmfeed-form.webp)
+L'immagine mostra la parte alta del formulario.
 
-Lo schermo è in inglese. In queste istruzioni questa vista si chiama **Crea nuovo feed**. Il ritaglio mostra la parte alta del formulario. Gli altri campi stanno sotto.
+![Formulario del file](https://mypresta.eu/docs/images/docs/gmfeed-form.webp)
 
-**Crea feed** e **Modifica feed** usano lo stesso formulario. Il campo **Nome feed** è obbligatorio. **Attivo** **Sì** / **No** è salvato in `gms.active`. Un nuovo feed è attivo. **Negozio** salva `gms.id_shop`. Gli altri campi sono salvati in `gms.conf` come stringa di query.
+Un nome vuoto al salvataggio diventa **Feed senza titolo**.
 
-Una chiave assente su un nuovo formulario prende il valore della tabella. Durante la modifica, una chiave assente prende lo stesso valore e non legge la configurazione condivisa `gm_`.
-
-| Chiave | Valore predefinito di un nuovo feed | Cosa ne fa il codice |
+| Campo | All'inizio | Cosa fa |
 |---|---|---|
-| `export_file_format` | `csv` | `csv` o `xml`. Ogni altra estensione viene riportata a `csv` da `sanitizeExportExtension`. |
-| `export_type` | `product` | `sanitizeExportType` tiene solo `products` e `combinations`. Il valore salvato `product` è quindi trattato come `products`. |
-| `export_save_file` | `0` | `0` invia il catalogo nella risposta. `1` scrive un file in `/modules/gmfeed/`. |
-| `export_filename` | vuoto | Usato solo con il salvataggio su file. Vuoto diventa il tipo di export. I caratteri diversi da lettere, cifre, `_` e `-` vengono rimossi. |
-| `export_identification` | `id_product` | Id prodotto scritto come id del catalogo. |
-| `export_delimiter` | barra verticale | Separatore delle colonne CSV. |
-| `export_enclosure` | `0` | Valore enclosure passato alla scrittura CSV. |
-| `export_language` | `PS_LANG_DEFAULT` | Lingua di nomi e descrizioni. |
-| `export_currency` | `PS_CURRENCY_DEFAULT` | Valuta dei prezzi. |
-| `export_tax` | `price_tin` | Quale colonna di prezzo viene compilata. |
-| `export_specific` | `1` | Quando la valuta predefinita del negozio differisce dalla valuta del contesto, un valore diverso da zero fa usare i prezzi specifici al passo del prezzo. |
-| `export_category` | `all` | Categorie incluse nel catalogo. |
-| `export_manufacturers` | `all` | Produttori inclusi. |
-| `export_manufacturers_default` | `Default` | Testo del brand quando il prodotto non ha un produttore. |
-| `export_suppliers` | `all` | Fornitori inclusi. |
-| `export_gtin` | `upc` | Quale codice prodotto viene scritto come GTIN. |
-| `export_img` | `1` | Tipo di immagine passato a `getImageLink`. L'elenco mostra i nomi dei tipi di immagine. |
-| `export_what_pictures` | `0` | `0` è **Esporta solo copertina** e toglie la colonna delle immagini aggiuntive. `1` è **Esporta tutte le immagini**. |
-| `export_active` | false | Passato a `Product::getProducts` come flag solo attivi. `0` è **Esporta tutti i prodotti.** `1` è **Esporta solo i prodotti attivi**. |
-| `export_instock` | false | `1` salta una riga quando la quantità è 0 o inferiore. `0` è **Esporta tutti i prodotti.** `1` è **Esporta solo i prodotti disponibili in magazzino**. |
-| `export_igid` | `0` | `0` toglie `item_group_id`. |
-| `export_gender` | `0` | `0` toglie la colonna genere. |
-| `export_age_group` | `0` | `0` toglie la colonna fascia di età. |
-| `export_size` | `0` | `0` toglie la colonna taglia. |
-| `export_color` | `0` | `0` toglie la colonna colore. |
-| `export_shipping_info` | `0` | `0` è **Non includere**. `1` è **Includi (prezzo di spedizione calcolato separatamente per ogni articolo)**. `2` è **Imposta il prezzo di spedizione manualmente**. |
-| `export_product_weight` | `0` | Il peso resta spento finché questo valore non viene cambiato. |
-| `export_product_type` | `0` | Il tipo di prodotto resta spento finché questo valore non viene cambiato. |
-| `export_removehtml` | `0` | Un valore diverso da `0` toglie l'HTML dalla descrizione. |
-| `export_nophoto_exclude` | `0` | `1` esclude un prodotto senza foto. |
-| `export_adult` | `0` | Il campo adult resta spento finché questo valore non viene cambiato. |
-| `export_storecode` | `0` | `0` toglie la colonna codice negozio. |
-| `export_country_prices` | `PS_COUNTRY_DEFAULT` | Paese usato per il prezzo. |
-| `export_group_prices` | `PS_UNIDENTIFIED_GROUP` | Gruppo clienti usato per il prezzo. |
-| `remember_settings` | true | Quando il valore inviato è `1`, lo stesso salvataggio scrive anche `gm_{chiave}` in Configuration. La chiave di scrittura, il negozio, l'id del feed e il flag attivo sono esclusi. |
-| `feed_active` | attivo per un nuovo feed | `gms.active`. `0` fa rispondere all'indirizzo con HTTP 503 e la fonte inglese `Feed is disabled`. |
+| **Feed name** | vuoto, obbligatorio | Il nome nell'elenco. |
+| **Active** | **Yes** | **No** tiene l'indirizzo. Aprendolo dice che il file è spento. |
+| **Shop** | il negozio attuale | Il campo c'è solo con più negozi. L'indirizzo vale nel negozio scelto. |
 
-**Salva su file** descrive la directory `modules/gmfeed/` e indica che scrivere il file dall'indirizzo richiede la chiave segreta mostrata su questo formulario. La chiave è `gmfeed_write_key`, un HMAC di `gmfeed.write.` più l'id del negozio, con `_COOKIE_KEY_`. Un dipendente connesso scrive il file senza questa chiave. Chiunque altro riceve la fonte inglese `Access denied`.
+### 3.6 Opzioni del catalogo
 
-Il testo dopo il salvataggio è **Feed salvato. Il suo URL di catalogo è pronto per l'uso.**
+| Campo | All'inizio | Cosa fa |
+|---|---|---|
+| **Remember settings** | **Yes** | Il file nuovo successivo parte dalle stesse scelte. Quello appena salvato tiene le proprie. |
 
-## 6. Indirizzo del catalogo e file
+### 3.7 Cosa esportare
 
-L'indirizzo del catalogo è il controller frontale `feed` del modulo, più `?feed=` e l'id di `gms`. `gms::getFeedUrl` aggiunge anche `gmfeed_write_key` quando costruisce il link per il back office.
+Qui sceglie il file che Google leggerà, e se l'elenco nasce all'apertura oppure si scrive sul server.
 
-L'apertura di questo indirizzo carica la stringa di query salvata e sostituisce i valori `export_` e `gmfeed_` della richiesta, tranne la chiave di scrittura e `debug_feed`. Un feed assente, oppure un `conf` di 20 caratteri o meno, si ferma sulla fonte inglese `feed does not exists`. Un feed con `id_shop` impostato e diverso dal negozio corrente si ferma sulla fonte inglese `Feed is not available in this store`.
+![Cosa esportare](https://mypresta.eu/docs/images/docs/gmfeed-form-export.webp)
 
-`debug_feed` stampa i parametri salvati e non scrive il file.
+Lasci **CSV**, salvo che Google debba ricevere XML. **Products** è una riga per prodotto. L'altra scelta è una riga per variante. **Combination title** compare solo in quel caso. **Save to file** su **No** mostra l'elenco subito. **Yes** lo scrive anche sul server. L'indirizzo copiato dall'elenco ha già la chiave. Senza, vede **Access denied**.
 
-Il nome del file è `export_filename` ripulito più `.csv`, `.xml` o `.txt`. Il percorso resta in `/modules/gmfeed/`. `.htaccess` in questa directory vieta l'esecuzione diretta dei file PHP. `index.php` resta consentito. Il catalogo è servito dal controller frontale, non dall'apertura dei file PHP.
+| Campo | All'inizio | Cosa fa |
+|---|---|---|
+| Tipo di file | **CSV** | **CSV** o **XML**. |
+| Cosa esportare | **Products** | **Products**: una riga per prodotto. L'altra scelta: una riga per variante. |
+| **Save to file** | **No** | **No**: l'indirizzo mostra l'elenco subito. **Yes**: l'elenco si scrive anche sul server. Per scrivere, l'indirizzo deve avere la chiave di questa pagina. Senza chiave vede **Access denied**. Entrato nel back office, scrive il file senza incollare la chiave. |
+| **File name** | vuoto | Restano lettere, cifre, trattino e trattino basso. Un nome vuoto viene riempito dal tipo di esportazione. |
+| Come riconoscere il prodotto | id prodotto | Id prodotto, id variante, o entrambi. È la colonna ID del file. |
 
-Ogni esecuzione inserisce `gms_log`: ora, durata, numero di articoli, stato, se un file è stato salvato, nome del file, formato e fonte `url`.
+### 3.8 Taglia, genere, colore ed età
 
-## 7. Categorie Google
+Google chiede queste colonne per l'abbigliamento e i prodotti simili. Partono spente. Accenda un gruppo solo se il negozio ha davvero quel dato. Gli altri campi compaiono quando il gruppo è su **Yes**.
 
-Il formulario elenca i file di tassonomia da `/modules/gmfeed/google/`. Una lingua del negozio è segnata come presente quando esiste `google/{language_code}.txt`. Questo pacchetto contiene `google/en-us.txt`. La prima riga di quel file è `# Google_Product_Taxonomy_Version: 2015-02-19`.
+![Taglia, genere, colore ed età](https://mypresta.eu/docs/images/docs/gmfeed-form-attributes.webp)
 
-L'associazione di una categoria del negozio scrive `pixelgoogle`: `id_google`, `id_category`, `id_lang`, `value`. **Mostra albero delle categorie** cambia solo il modo in cui viene disegnata questa lista.
-
-## 8. Tabelle
-
-L'installazione crea tre tabelle quando mancano. Il prefisso del negozio precede ogni nome.
-
-| Tabella | Cosa scrive l'istruzione CREATE |
+| Gruppo | Campi |
 |---|---|
-| `pixelgoogle` | `id_pixelgoogle` auto increment, chiave primaria, `id_google`, `id_category`, `id_lang`, `value` varchar 254. Set di caratteri `utf8`. |
-| `gms` | `id_gms` auto increment, `name`, `id_shop` predefinito 0, `conf` text, `active` predefinito 1. Chiavi `idtoskey` e `id_shop`. L'istruzione CREATE non ha chiave primaria. |
-| `gms_log` | `id_gms_log` auto increment, chiave primaria, `id_gms`, `date_add`, `duration_ms`, `items`, `status` predefinito `ok`, `save_file`, `file_name`, `format`, `source` predefinito `url`. |
+| Taglia | esportare o no, attributo taglia, valore predefinito |
+| Genere | esportare o no, origine, caratteristica, attributo, predefinito: male, female, unisex |
+| Colore | esportare o no, origine, attributo, caratteristica, valore predefinito |
+| Età | esportare o no, origine, caratteristica, attributo, predefinito: newborn, infant, toddler, kids, adult |
 
-L'apertura della pagina del catalogo esegue `gms::ensureSchema()`. Questo aggiunge `gms.active` e `gms.id_shop` se mancano, crea `gms_log` se la tabella manca e riempie `id_shop` 0 con `PS_SHOP_DEFAULT`.
+### 3.9 Impostazioni del file
 
-Configurazione condivisa che non è una colonna: `pf_tree`, `gm_{campo}` quando il formulario la scrive fuori da un feed, `mypresta_updates`, `update_gmfeed`, `updatev_gmfeed`.
+Qui c'è il contenuto di una riga: identificatori, spedizione, descrizioni, nomi, giacenza, foto e prezzi. Lasci i valori iniziali se Google deve ricevere un catalogo normale.
 
-Risorse della pagina del catalogo: `views/css/admin-app.css`, `views/js/admin-app.js`, fancybox, autocomplete. La pagina di configurazione del modulo carica fancybox. Lo script di ricerca degli id viene da `lib/searchTool/`.
+![Identificatori e spedizione](https://mypresta.eu/docs/images/docs/gmfeed-form-feed-a.webp)
 
-## 9. Disinstallazione
+![Spedizione, descrizioni e nome](https://mypresta.eu/docs/images/docs/gmfeed-form-feed-b.webp)
 
-`uninstall()` cancella la scheda Catalogo `AdminExportProductsFeedGoogle` e poi esegue la disinstallazione della classe padre. La classe padre toglie il modulo e la registrazione dell'hook.
+![Formato, lingua e giacenza](https://mypresta.eu/docs/images/docs/gmfeed-form-feed-c.webp)
 
-Il metodo non cancella `pixelgoogle`, `gms` né `gms_log`. Non cancella `pf_tree`, `mypresta_updates`, `update_gmfeed`, `updatev_gmfeed` né le chiavi `gm_`. Non cancella i file scritti in `/modules/gmfeed/`. Un'installazione successiva usa `CREATE TABLE IF NOT EXISTS`, quindi le righe lasciate nelle tabelle restano.
+![Foto e prezzi](https://mypresta.eu/docs/images/docs/gmfeed-form-feed-d.webp)
 
-## 10. Supporto
+Valuta e paese partono da quelli del negozio. L'immagine mostra quelli del negozio di prova.
+
+| Campo | All'inizio | Cosa fa |
+|---|---|---|
+| Id gruppo | **No** | Colonna che lega le varianti di un prodotto. |
+| Identificatore unico | UPC | UPC, EAN-13, riferimento, MPN, ISBN o vuoto. Vuoto dice che l'identificatore non esiste. |
+| Campo identifier_exists | **No** | Colonna che dice se l'identificatore esiste. |
+| Campo adult | non includere | Lasciarlo fuori, includerlo come true o includerlo come false. |
+| Prezzo di spedizione | non includere | Calcolato per articolo, oppure scritto a mano. |
+| Costo di spedizione aggiuntivo del prodotto | **No** | Somma il supplemento di spedizione dalla scheda prodotto. |
+| Importo di spedizione manuale | 0 | L'importo quando la spedizione è manuale. |
+| Zona per calcolare la spedizione | la prima zona | La zona da cui esce il prezzo di spedizione. |
+| Peso | **No** | Colonna del peso. |
+| Tipo di prodotto | **No** | Il suo percorso di categorie nel file. |
+| Aggiungere l'id categoria al tipo | **No** | Il numero di categoria accanto al nome. |
+| Descrizione breve | descrizione breve | Descrizione breve o descrizione lunga. |
+| Togliere l'HTML dalle descrizioni | **No** | **Yes** toglie i tag. |
+| Nome prodotto | nome prodotto | Oppure il meta titolo. |
+| Titolo della variante | solo il nome | Il nome, il nome più il valore della variante, oppure il nome più «etichetta: valore». |
+| Formato del nome | invariato | Prima lettera, ogni parola, oppure tutto minuscolo. |
+| Caratteri da togliere dal nome | vuoto | I caratteri che scrive spariscono dal nome. |
+| Lingua | lingua del negozio | Nomi e descrizioni nel file. |
+| Separatore | barra verticale | Il carattere tra le colonne CSV. |
+| Virgolette intorno al testo | **No** | **Yes** avvolge i campi tra virgolette. |
+| Informazione di giacenza | la giacenza reale | Tutti disponibili, tutti esauriti, tutti in backorder, oppure il backorder trattato come disponibile. |
+| Data di disponibilità | vuoto | La data per i prodotti in backorder che non ne hanno una propria. |
+| Quantità | **No** | **Yes** inserisce la quantità. |
+| Marca se manca | Default | Il testo della marca quando il prodotto non ha un produttore. |
+| Dimensione foto | dimensioni del negozio | Quale dimensione foto mettere nell'indirizzo. |
+| Foto prodotto se la variante non ne ha | **No** | Per le varianti senza foto propria. |
+| Quante foto | solo la copertina | Oppure tutte le foto. |
+| Valuta | valuta del negozio | Prezzi nel file. |
+| Imposta nel prezzo | con imposta | Con imposta o senza. |
+| Prezzi specifici | **Yes** | Quando la valuta del file non è la valuta con cui guarda il negozio. |
+| Gruppo prezzi | gruppo visitatori | Prezzi per quel gruppo di clienti. |
+| Prezzo unitario | **No** | Una colonna extra del prezzo per unità. |
+| Paese dei prezzi | paese del negozio | Il paese per imposta e sconti. |
+
+### 3.10 Prodotti scelti
+
+Lasci **All** se devono entrare tutti i produttori, i fornitori e le categorie. Una sola scelta taglia il catalogo. Non sostituisce le esclusioni sotto.
+
+![Produttore, fornitore e categoria](https://mypresta.eu/docs/images/docs/gmfeed-form-products.webp)
+
+| Campo | All'inizio | Cosa fa |
+|---|---|---|
+| Produttore | **All** | Un produttore, oppure tutti. |
+| Fornitore | **All** | Un fornitore, oppure tutti. |
+| Categoria | **All** | Una categoria, oppure tutte. |
+
+### 3.11 Esclusioni
+
+Qui escono i prodotti che hanno passato il filtro del punto 3.10. All'inizio non si esclude quasi nulla.
+
+![Esclusioni](https://mypresta.eu/docs/images/docs/gmfeed-form-exclude.webp)
+
+| Campo | All'inizio | Cosa fa |
+|---|---|---|
+| Categorie da saltare | vuoto | Scriva un nome. I prodotti di quella categoria escono. |
+| Prodotti senza foto | **No** | **Yes** salta i prodotti senza foto. |
+| Disponibilità | tutti i prodotti | Oppure solo quelli attivi nel negozio. |
+| Giacenza | tutti i prodotti | Oppure solo quelli disponibili. |
+| Saltare per riferimento | spento | Accende un filtro sull'inizio del riferimento. Vale anche per le varianti. |
+| Inizio del riferimento | vuoto | Testo da cui il riferimento esce. |
+| Saltare più economici di | spento | Una soglia di prezzo nella valuta del negozio. |
+| Importo della soglia | vuoto | I prodotti sotto questo importo escono. |
+| Prodotti indicati | vuoto | Una ricerca dei prodotti da saltare. |
+
+### 3.12 Limite
+
+Lasci 0 se tutto il catalogo deve stare in un file. Accanto al campo si vede quanti prodotti ha il negozio. Con un hosting stretto, imposti un limite e un numero di parte. L'esempio del formulario: 3000 prodotti e un limite di 1000 danno le parti 1, 2 e 3.
+
+![Limite e codice negozio](https://mypresta.eu/docs/images/docs/gmfeed-form-limit.webp)
+
+| Campo | All'inizio | Cosa fa |
+|---|---|---|
+| Limite prodotti | 0 | 0 o vuoto significa nessun limite. Accanto si vede il numero di prodotti del negozio. |
+| Parte del file | 0 | Il numero di parte quando divide un catalogo in più file. Con 3000 prodotti e un limite di 1000 fa le parti 1, 2 e 3. |
+
+### 3.13 Codice del negozio fisico
+
+| Campo | All'inizio | Cosa fa |
+|---|---|---|
+| Includere il codice negozio | **No** | Una colonna per il codice del negozio fisico. |
+| Codice negozio | vuoto | Lo stesso codice di Google Business. Contano maiuscole e minuscole. |
+
+### 3.14 Categorie Google
+
+In fondo c'è una riga per ogni lingua del negozio. **Pair categories** apre l'abbinamento. **Synchronize** scarica l'elenco Google di quella lingua. Se l'elenco manca, il pulsante è rosso. Nell'immagine en-us ha già il file e fr no.
+
+![Categorie Google](https://mypresta.eu/docs/images/docs/gmfeed-form-categories.webp)
+
+**Mostra albero delle categorie** del punto 3.1 cambia solo il disegno di questo elenco. In fondo ci sono di nuovo **Save & download** e **Save feed**.
+
+**Mostra albero delle categorie** del punto 3.1 cambia solo il disegno di questo elenco. Non cambia quali prodotti entrano nel file.
+
+## 4. Negozio
+
+Il cliente non vede nulla nel negozio. Non c'è un blocco sulla scheda, nel carrello né nel piè di pagina. Non c'è un'immagine del negozio.
+
+C'è un indirizzo che apre Google o il browser. Lo copi dall'elenco. Non lo componga da solo.
+
+Un'apertura dal vivo restituisce CSV o XML. Con il salvataggio sul server, l'indirizzo di generazione scrive il file, e l'indirizzo per Google è quello del file.
+
+Aggiungere parametri propri non cambia nulla. Il modulo usa le impostazioni salvate su quel file.
+
+Salvare il formulario non manda i prodotti a Google. L'elenco nasce all'apertura dell'indirizzo.
+
+| Cosa vede aprendolo | Cosa fare |
+|---|---|
+| feed does not exists | Il numero è sbagliato, oppure il file è stato tolto. Copi l'indirizzo dall'elenco. |
+| Feed is disabled | Accenda **Active**. |
+| Feed is not available in this store | Il file appartiene a un altro negozio. |
+| Access denied | Il salvataggio sul server è acceso e nell'indirizzo manca la chiave. Copi l'indirizzo dall'elenco. |
+| Invalid export path | Accorci il nome del file. |
+| Unable to save export file | Controlli lo spazio e il permesso di scrittura nella cartella del modulo. |
+
+## 5. Problemi
+
+**Google mostra ancora i prodotti di ieri.** Il modulo non manda nulla a Google. Apra l'indirizzo e controlli l'elenco. Poi lo scarichi a mano in Merchant Center.
+
+**Nel file non ci sono quasi prodotti.** Controlli se sono rimasti solo i prodotti attivi, solo quelli con giacenza, un produttore, un fornitore, una categoria, esclusioni, un limite o un numero di parte.
+
+**L'albero delle categorie è acceso e il file ha gli stessi prodotti.** L'albero mostra solo le categorie padre durante l'abbinamento.
+
+**Ho disinstallato il modulo e l'elenco è sparito.** Lo reinstalli. I dati restano. È sparita solo la voce di Catalogo.
+
+**Un catalogo grande si interrompe a metà.** Imposti un limite e un numero di parte. Faccia più file.
+
+## 6. Per lo sviluppatore
+
+### 6.1 Panoramica
+
+`gmfeed` 2.4.3. La classe `gmfeed` estende `Module`. Il nome nell'elenco moduli è la stringa fissa `Google Merchant Center Feed`. Autore MyPresta.eu. Scheda `administration`.
+
+Il formulario salva una riga `gms`. Il campo `conf` è una stringa di query. L'indirizzo pubblico legge quella riga, costruisce CSV o XML e chiude la risposta. Il salvataggio su file lo scrive in `/modules/gmfeed/`.
+
+### 6.2 File
+
+- `gmfeed.php`: install, uninstall, la pagina delle impostazioni, la chiave di scrittura e la pulizia di nome, estensione e tipo.
+- `controllers/admin/AdminExportProductsFeedGoogle.php`: dashboard, elenco, formulario, salvataggio.
+- `controllers/front/feed.php`: generazione. `initContent()` chiama `generateFeed()` e `die()`.
+- `model/gms.php`: la riga del file e l'indirizzo. Classe `gms`.
+- `model/google.php`: coppie di categorie. Classe `pixelgoogle`.
+- `lib/updateChecker.php`: classe `gmfeedUpdate`.
+- `lib/searchTool/searchTool.php`: suggerimenti di categorie e prodotti.
+- `views/templates/admin/`: `layout.tpl`, `dashboard.tpl`, `feeds.tpl`, `form-chrome.tpl`.
+- `google/en-us.txt`: la tassonomia. Prima riga `# Google_Product_Taxonomy_Version: 2015-02-19`.
+- `.htaccess` nella cartella del modulo blocca l'esecuzione di PHP.
+
+### 6.3 Controller
+
+Admin: `AdminExportProductsFeedGoogle`, padre `AdminCatalog`. Viste in `gmfeed_view`: `dashboard`, `feeds`, `form`, `updates`.
+
+Front: `gmfeedfeedModuleFrontController`. Indirizzo `module/gmfeed/feed?feed=` e il numero.
+
+La chiave di scrittura è HMAC-SHA256 di `gmfeed.write.` più l'id negozio, segreto `_COOKIE_KEY_`. Un dipendente connesso scrive senza la chiave. I parametri `export_` e `gmfeed_` in arrivo vengono scartati e sostituiti con quelli salvati. Restano la chiave e `debug_feed`.
+
+Un file spento risponde HTTP 503 e `Feed is disabled`. Un `conf` vuoto o troppo corto termina con `feed does not exists`. Un altro `id_shop` termina con `Feed is not available in this store`.
+
+### 6.4 Hook
+
+C'è un hook: `actionAdminControllerSetMedia`. Carica fancybox e l'autocompletamento solo su `AdminExportProductsFeedGoogle`. Il modulo non espone hook propri. Non ci sono `enable()` né `disable()`.
+
+### 6.5 Override
+
+Questo modulo non sovrascrive classi né controller di PrestaShop.
+
+### 6.6 Database
+
+| Tabella | Contenuto |
+|---|---|
+| `pixelgoogle` | Una coppia di categorie: `id_google`, `id_category`, `id_lang`, `value`. |
+| `gms` | Un file: `name`, `id_shop`, `conf`, `active`. `CREATE` non mette una chiave primaria. |
+| `gms_log` | Un'apertura dell'indirizzo: ora, numero, stato, scrittura del file, nome, formato, origine. |
+
+`ensureSchema` sulla pagina catalogo aggiunge `active` e `id_shop`, crea `gms_log` se manca e riempie `id_shop` 0 con il negozio predefinito. La disinstallazione non cancella le tabelle.
+
+### 6.7 Chiavi e traduzioni
+
+`pf_tree`: se la chiave manca, è spento. Il resto del formulario vive in `gms.conf`. **Remember settings** inviato come 1 copia i campi in `gm_{campo}`, senza la chiave di scrittura, il link breve, attivo, il negozio e l'id del file. Con un file aperto, un campo assente usa il valore iniziale del formulario, non la copia `gm_`. Una chiave vecchia `notepad_products` viene copiata in `gmfeed_products` se manca quella nuova.
+
+Aggiornamenti: `mypresta_updates`, `update_gmfeed` (172800 secondi tra i controlli), `updatev_gmfeed`. Se manca `mkey`, viene inviato `nokey`.
+
+Una lingua nuova è un file `translations/{iso}.php`. I testi di `$this->l()` partono dalla fonte inglese. Il nome nell'elenco moduli non passa da `$this->l()`. In `translations/de.php` i testi della pagina impostazioni sono in ceco.
+
+Il tipo di esportazione salvato come `product` in generazione è trattato come `products`. Le estensioni permesse sono `csv`, `xml` e `txt`. Il formulario mostra CSV e XML.
+
+### 6.8 Estendere
+
+Il tema non ha nulla da sovrascrivere sulla pagina del negozio, perché il front non disegna un template. Un altro ordine di colonne richiede di cambiare il codice del modulo. Una tassonomia in un'altra lingua si aggiunge come `google/{codice}.txt`.
+
+## 7. Supporto
 
 Pagina del modulo: [Google Merchant Center Feed](https://mypresta.eu/modules/social-networks/google-merchant-center-feed.html).
+
+Per scrivere su questo modulo, acceda all'account cliente su [mypresta.eu](https://mypresta.eu/), apra il [contatto](https://mypresta.eu/contact.html) e scelga l'oggetto **Support for paid modules**. Il formulario indica che l'accesso è obbligatorio. Dopo l'accesso, scelga questo modulo dalla cronologia degli acquisti.

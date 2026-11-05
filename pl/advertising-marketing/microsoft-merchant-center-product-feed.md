@@ -1,8 +1,8 @@
 ---
-title: "Microsoft Merchant Center Product Feed - Instrukcja dla sprzedawcy i przewodnik konfiguracji"
-description: "Kompletna instrukcja obsługi, przewodnik konfiguracji krok po kroku oraz odniesienie dla programistów modułu PrestaShop Microsoft Merchant Center Product Feed od MyPresta.eu."
+title: "Microsoft Merchant Center Product Feed - dokumentacja i instrukcja obsługi"
+description: "Instrukcja konfiguracji plików produktowych Microsoft Merchant Center oraz rozwiązywania problemów z ich generowaniem i katalogami."
 sidebar:
-  label: "Microsoft Merchant Center Product Feed - Instrukcja dla sprzedawcy i przewodnik konfiguracji"
+  label: "Microsoft Merchant Center Product Feed - dokumentacja i instrukcja obsługi"
 ---
 
 > ⚠️ **Notice:** This is the oficjalna dokumentacja modułu PrestaShop.
@@ -12,241 +12,442 @@ sidebar:
 > ---
 
 
-# Microsoft Merchant Center Product Feed
+## 1. Wymagania
 
-## 1. Wymagania i kompatybilność
+Przed instalacją modułu upewnijcie się, że sklep i hosting spełniają następujące wymagania:
 
-- **Obsługiwane wersje PrestaShop**: PrestaShop 1.7.x, 8.x, 9.x
-- **Kompatybilność z PHP**: PHP 7.1 - 8.5
-- **Wymagania hostingowe**: Standardowe rozszerzenia PHP (cURL, JSON, OpenSSL). Twój serwer musi być w stanie wykonywać zadania cron do automatycznego generowania pliku danych.
+- PrestaShop 1.7, 8 lub 9.
+- PHP od 7.1 do 8.5.
+- Rozszerzenia PHP: cURL, JSON, hash oraz SimpleXML, jeśli generujecie pliki produktowe XML.
+- Aktywne konto Microsoft Merchant Center, na którym można utworzyć katalog i podać adres jego pliku produktowego.
+- Żaden inny moduł PrestaShop nie jest wymagany.
 
-## 2. Kompletny przewodnik konfiguracji (każde ustawienie pogrupowane według ekranu)
+Duży katalog wymaga odpowiednio długiego czasu wykonywania skryptów PHP i wystarczającej ilości pamięci do zebrania produktów, obliczenia cen i kosztów wysyłki oraz utworzenia danych wyjściowych. Jeśli jeden pełny plik produktowy przekracza limity hostingu, użyjcie opcji **Limit number of products in feed** razem z **Part of feed**, aby podzielić go na mniejsze pliki.
 
-### 2.1 Strona konfiguracji modułu (Panel administracyjny > Moduły > Konfiguruj)
+## 2. Instalacja
 
-Po instalacji kliknięcie „Konfiguruj” przeniesie Cię do głównej strony konfiguracji modułu. Tutaj ustawisz ogólne zachowanie i uzyskasz dostęp do narzędzi zarządzania plikami danych.
+1. Otwórzcie **Modules → Module Manager**.
+2. Kliknijcie **Upload a module** i prześlijcie plik ZIP modułu.
+3. Zainstalujcie **Microsoft Merchant Center Feed**.
+4. Otwórzcie **Catalog → Microsoft Merchant Feed**. Jest to obszar roboczy do tworzenia plików produktowych, kopiowania adresów katalogów, monitorowania uruchomień i parowania kategorii.
+5. Jeśli nazwy kategorii powtarzają się w różnych gałęziach katalogu, otwórzcie **Modules → Module Manager**, znajdźcie moduł, kliknijcie **Configure** i włączcie **Show categories tree**.
 
-#### Ustawienia ogólne
+Instalacja nie czyści pamięci podręcznej PrestaShop.
 
-Ta sekcja zazwyczaj obejmuje ustawienia globalne, które wpływają na działanie modułu i generowanie plików danych.
+Aby usunąć moduł, odinstalujcie go w **Module Manager**. Odinstalowanie usuwa pozycję **Microsoft Merchant Feed** z menu **Catalog**, ale zachowuje zapisane pliki produktowe, historię generowania, powiązania kategorii, zapamiętane ustawienia formularza, wygenerowane pliki katalogów oraz pobrane dane taksonomii. Po ponownej instalacji moduł może zatem wykorzystać zachowane dane.
 
-- **Do czego służy to ustawienie:** Są to podstawowe ustawienia, które definiują sposób przygotowania danych produktów dla Microsoft Merchant Center. Zazwyczaj znajdziesz opcje wyboru języka, waluty i kraju dla pliku danych, a także ogólne preferencje eksportu.
-- **Efekt zmiany tego ustawienia:**
-  - *Język:* Określa, która wersja językowa nazw produktów, opisów i kategorii zostanie uwzględniona w pliku danych. Kluczowe dla targetowania na konkretne rynki międzynarodowe.
-  - *Waluta:* Ustawia walutę dla wszystkich cen w pliku danych. Musi odpowiadać walucie skonfigurowanej na Twoim koncie Microsoft Merchant Center dla kraju docelowego.
-  - *Kraj:* Określa kraj docelowy dla pliku danych. Wpływa to na zasady podatkowe, ustawienia wysyłki i inne wymagania specyficzne dla kraju w Microsoft Merchant Center.
-  - *Inne opcje eksportu:* Mogą obejmować ustawienia dotyczące obsługi wariantów produktów, wykluczania niektórych kategorii lub definiowania sposobu eksportowania określonych atrybutów (takich jak rozmiar lub kolor).
-- **Zalecana wartość:**
-  - *Język, Waluta, Kraj:* Wybierz podstawowy język, walutę i kraj, na które kierujesz swoje reklamy Microsoft Shopping Ads. Jeśli reklamujesz się w wielu krajach/językach, prawdopodobnie utworzysz oddzielne pliki danych dla każdego z nich.
-  - *Inne opcje:* Postępuj zgodnie z zaleceniami modułu lub dostosuj je w oparciu o swój konkretny katalog produktów i strategię reklamową.
-- **Scenariusz/przykład sprzedawcy:** Jeśli sprzedajesz we Francji, a domyślny język Twojego sklepu to francuski, wybierzesz francuski dla języka, EUR dla waluty i Francję dla kraju. Jeśli sprzedajesz również w Niemczech, utworzysz oddzielny plik danych skonfigurowany dla języka niemieckiego, waluty EUR i Niemiec jako kraju.
+## 3. Konfiguracja i praca w panelu administracyjnym
 
-#### Zarządzanie i generowanie plików danych
+Aby opublikować katalog, wykonajcie następujące czynności:
 
-Ta sekcja zapewnia dostęp do tworzenia, zarządzania i generowania plików danych produktów.
+1. Otwórzcie **Catalog → Microsoft Merchant Feed** i wybierzcie **Create new feed**.
+2. Wpiszcie **Feed name**, pozostawcie **Active** ustawione na **Yes**, wybierzcie opcje danych wyjściowych i produktów, powiążcie **Microsoft Categories**, a następnie kliknijcie **Save feed**.
+3. Wybierzcie jedną z metod publikacji:
+   - W przypadku pliku generowanego na żywo pozostawcie **Save to file** ustawione na **No**. Skopiujcie **Live catalog URL**. Microsoft wywołuje ten adres, a moduł ponownie generuje plik produktowy przy każdym żądaniu.
+   - W przypadku pliku statycznego ustawcie **Save to file** na **Yes**. Wywołajcie poufny adres **Generate / cron URL** ręcznie lub za pomocą harmonogramu. Po pierwszym udanym wygenerowaniu skopiujcie **Catalog file URL**. Do Microsoft Merchant Center przekażcie adres pliku katalogu, nigdy adres generowania.
+4. Utwórzcie lub otwórzcie właściwy katalog w Microsoft Merchant Center i wklejcie skopiowany adres pliku generowanego na żywo lub pliku katalogu jako źródło danych.
+5. Wróćcie do **Dashboard**, aby sprawdzić, czy uruchomienia są rejestrowane oraz czy zapisany plik jest gotowy, gdy używany jest tryb plikowy.
+6. Otwórzcie sekcję **Microsoft Categories** danego pliku produktowego, zsynchronizujcie taksonomię dla jego języka i użyjcie **Pair categories**, aby połączyć kategorie sklepu z kategoriami zakupowymi Microsoft.
+7. Aby wstrzymać publikację bez zmiany adresu, wyłączcie plik produktowy w sekcji **Feeds**. Ustawienie **Active** na **Off** zatrzymuje generowanie, a ponowne ustawienie na **On** wznawia działanie tego samego pliku pod tym samym adresem.
 
-- **Do czego służy to ustawienie:** To serce modułu, umożliwiające definiowanie i generowanie rzeczywistych plików danych produktów. Zazwyczaj znajdziesz opcje tworzenia nowych plików danych, przeglądania istniejących i wyzwalania procesu generowania.
-- **Efekt zmiany tego ustawienia:**
-  - *Tworzenie nowego pliku danych:* Inicjuje proces konfiguracji nowego pliku danych produktów z własnymi specyficznymi ustawieniami (język, waluta, kategorie itp.).
-  - *Generowanie pliku danych:* Przetwarza dane produktów z PrestaShop i tworzy plik CSV, XML lub TSV, który prześlesz do Microsoft Merchant Center. Ten plik zawiera wszystkie atrybuty produktów w formacie wymaganym przez Microsoft.
-  - *URL Cron:* Udostępnia specjalny adres internetowy, który po odwiedzeniu automatycznie wyzwala generowanie pliku danych. Jest to niezbędne do ustawienia automatycznych codziennych lub godzinowych aktualizacji pliku danych produktów bez ręcznej interwencji.
-- **Zalecana wartość:**
-  - Utwórz co najmniej jeden plik danych dla swojego głównego rynku docelowego.
-  - Skonfiguruj zadanie cron za pomocą podanego adresu URL, aby zapewnić regularne aktualizowanie pliku danych produktów (np. codziennie) o najnowsze informacje o produktach (poziomy zapasów, ceny, nowe produkty).
-- **Scenariusz/przykład sprzedawcy:** Właśnie wprowadziłeś nową linię produktów. Dzięki codziennemu zadaniu cron, Twoje reklamy Microsoft Shopping Ads automatycznie odzwierciedlą te nowe produkty i ich aktualne poziomy zapasów następnego dnia, bez konieczności ręcznego ponownego przesyłania pliku danych.
+Zrzuty ekranu w tej instrukcji pochodzą z angielskiej wersji panelu administracyjnego.
 
-### 2.2 Dedykowane ekrany administracyjne i widoki kontrolerów
+### 3.1 Ustawienia modułu
 
-#### AdminExportProductsFeedMicrosoftController (Panel administracyjny > Microsoft Merchant Center > Eksportuj plik danych produktów)
+Otwórzcie **Modules → Module Manager**, znajdźcie **Microsoft Merchant Center Feed** i kliknijcie **Configure**.
 
-Jest to główny dedykowany ekran do zarządzania szczegółami plików danych produktów. Uzyskasz do niego dostęp poprzez nową pozycję menu dodaną przez moduł, prawdopodobnie w sekcji „Katalog” lub nowej sekcji „Microsoft Merchant Center”.
+![Ustawienia modułu z opcją Show categories tree](https://mypresta.eu/docs/images/docs/mmcfeed-module-settings.webp)
 
-- **Nazwa ekranu i lokalizacja w menu:** **Panel administracyjny > Microsoft Merchant Center > Eksportuj plik danych produktów** (lub podobnie, w zależności od wersji modułu i struktury menu PrestaShop).
-- **Dostępne działania i ustawienia:** Ten ekran służy do definiowania konkretnej zawartości i mapowania dla każdego z plików danych produktów. Zazwyczaj zobaczysz listę istniejących plików danych, z opcjami „Dodaj nowy plik danych” lub „Edytuj” istniejący. Podczas dodawania/edycji skonfigurujesz:
-  - **Nazwa pliku danych:** Opisowa nazwa dla Twojego pliku danych (np. „Francja - plik francuski”, „USA - plik angielski”).
-  - **Kraj docelowy:** Kraj, dla którego przeznaczony jest ten plik danych (np. Francja, Stany Zjednoczone). Wpływa to na walutę, język i zasady podatkowe.
-  - **Język treści:** Język danych produktów w tym pliku danych (np. francuski, angielski).
-  - **Waluta:** Waluta używana dla cen w tym pliku danych (np. EUR, USD).
-  - **Format pliku:** Wybierz między CSV, XML lub TSV, zgodnie z wymaganiami Microsoft Merchant Center.
-  - **Mapowanie kategorii:** Jest to kluczowa sekcja, w której mapujesz kategorie PrestaShop do taksonomii produktów Microsoftu. Pomaga to firmie Microsoft zrozumieć, czym są Twoje produkty i wyświetlać je w odpowiednich wyszukiwaniach.
-  - **Filtrowanie produktów:** Opcje włączania/wykluczania konkretnych produktów lub całych kategorii z pliku danych.
-  - **Mapowanie atrybutów:** Mapuj atrybuty produktów PrestaShop (takie jak rozmiar, kolor, materiał) do wymaganych atrybutów Microsoftu (np. `size`, `color`, `material`).
-  - **Etykiety niestandardowe:** Zdefiniuj do 5 etykiet niestandardowych (`custom_label_0` do `custom_label_4`), aby segmentować produkty dla strategii licytacji w reklamach Microsoft Ads.
-  - **Dostępność i stan:** Ustawienia definiujące sposób eksportowania dostępności produktów (w magazynie, brak w magazynie, przedsprzedaż) i stanu (nowy, używany, odnowiony).
-  - **GTIN (Globalny Numer Jednostki Handlowej):** Ustawienia eksportu kodów EAN/UPC jako GTIN.
-  - **Marka:** Sposób eksportowania marek produktów.
-  - **Opis:** Opcje eksportu opisów produktów, często z konwersją na zwykły tekst.
-  - **Linki do zdjęć:** Sposób linkowania zdjęć produktów.
-  - **Cena i cena promocyjna:** Sposób eksportowania cen regularnych i promocyjnych, w tym kwestie podatkowe.
-  - **URL Cron:** Unikalny adres URL dla tego konkretnego pliku danych, którego użyjesz do automatycznych aktualizacji.
-- **Efekt zmian:**
-  - Zmiany tutaj bezpośrednio wpływają na zawartość i strukturę wygenerowanego pliku danych produktów. Nieprawidłowe ustawienia mogą prowadzić do odrzucenia produktów w Microsoft Merchant Center.
-  - Prawidłowe mapowanie kategorii zapewnia, że Twoje produkty pojawiają się w odpowiednich kategoriach zakupowych w Bing.
-  - Dokładne dane o cenach i dostępności zapobiegają frustracji klientów i odrzucaniu reklam.
-- **Zalecany przepływ pracy dla codziennego zarządzania sklepem:**
-  1. **Początkowa konfiguracja:** Utwórz plik danych dla każdej kombinacji kraju docelowego/języka, w której się reklamujesz. Ostrożnie mapuj swoje kategorie do taksonomii Microsoftu.
-  2. **Przegląd atrybutów:** Upewnij się, że wszystkie krytyczne atrybuty (GTIN, marka, cena, dostępność, linki do zdjęć) są poprawnie zmapowane i wyeksportowane.
-  3. **Konfiguracja zadań Cron:** Wdróż dostarczone adresy URL Cron na swoim serwerze hostingowym, aby zautomatyzować codzienne (lub częstsze) generowanie plików danych. Jest to kluczowe dla utrzymania świeżości danych produktów.
-  4. **Monitorowanie Microsoft Merchant Center:** Regularnie sprawdzaj swoje konto Microsoft Merchant Center pod kątem odrzuceń produktów lub ostrzeżeń i dostosuj ustawienia modułu w PrestaShop w razie potrzeby.
-  5. **Aktualizacje produktów:** Podczas dodawania nowych produktów lub wprowadzania znaczących zmian w istniejących, upewnij się, że zadanie cron działa, lub ręcznie wygeneruj plik danych, jeśli wymagana jest natychmiastowa aktualizacja.
+| Pole | Wartość początkowa | Działanie |
+|---|---|---|
+| **Show categories tree** | No | Obszar roboczy plików produktowych znajduje się w **Catalog → Microsoft Merchant Feed**. Można tam powiązać kategorie sklepu z kategoriami Microsoft Shopping. Ustawcie to pole na **Yes**, aby w oknie parowania wyświetlać ścieżkę nadrzędną każdej kategorii. Ścieżki nadrzędne ułatwiają rozróżnienie kategorii o identycznych nazwach. Kliknijcie **Save**; strona potwierdzi zapis komunikatem **Settings saved properly**. |
 
-#### index.php (mmcfeed/controllers/admin/index.php)
+### 3.2 Lista plików produktowych
 
-Ten kontroler prawdopodobnie służy jako pulpit nawigacyjny lub ogólny widok zarządzania modułem w Panelu administracyjnym PrestaShop.
+Otwórzcie **Catalog → Microsoft Merchant Feed**, a następnie wybierzcie **Feeds**.
 
-- **Nazwa ekranu i lokalizacja w menu:** Prawdopodobnie część głównej sekcji menu „Microsoft Merchant Center”, być może domyślna strona docelowa.
-- **Dostępne działania i ustawienia:** Ten ekran prawdopodobnie wyświetla przegląd skonfigurowanych plików danych, datę ich ostatniego wygenerowania, status i szybkie linki do ich edycji lub generowania. Może również wyświetlać ogólny status modułu lub ważne alerty.
-- **Efekt zmian:** Ten widok zapewnia szybki przegląd konfiguracji pliku danych. Działania tutaj (takie jak kliknięcie „Generuj plik danych”) wyzwolą proces generowania pliku danych.
-- **Zalecany przepływ pracy dla codziennego zarządzania sklepem:** Użyj tego ekranu jako szybkiego pulpitu nawigacyjnego do monitorowania stanu plików danych produktów. Jeśli musisz ręcznie wyzwolić aktualizację pliku danych, to właśnie tutaj to zrobisz.
+![Lista plików produktowych](https://mypresta.eu/docs/images/docs/mmcfeed-feeds.webp)
 
-### 2.3 Tabela szybkiego odniesienia do konfiguracji
+Jeśli nie istnieje żaden plik produktowy, strona wyświetla **You have no feeds yet** oraz **Create your first feed**. W przeciwnym razie dostępne są następujące kolumny:
 
-| Ekran / Widok | Ustawienie / Opcja | Domyślne / Zalecane | Cel i wpływ |
-| --- | --- | --- | --- |
-| **Strona konfiguracji modułu** | Język docelowy | Twój podstawowy język sklepu | Określa język nazw produktów, opisów itp. |
-| | Waluta docelowa | Twoja podstawowa waluta sklepu | Ustawia walutę dla wszystkich cen w pliku danych. |
-| | Kraj docelowy | Twój główny rynek docelowy | Wpływa na podatki, wysyłkę i zasady specyficzne dla kraju. |
-| | URL Cron | Dostarczony przez moduł | Automatyzuje generowanie pliku danych w zaplanowanych odstępach czasu. |
-| **AdminExportProductsFeedMicrosoftController** | Nazwa pliku danych | Opisowa (np. „Francja - FR”) | Identyfikuje konkretny plik danych. |
-| | Format pliku | CSV, XML lub TSV | Wybierz na podstawie wymagań Microsoft Merchant Center. |
-| | Mapowanie kategorii | Mapuj PrestaShop do taksonomii Microsoftu | Zapewnia, że produkty pojawiają się w prawidłowych kategoriach zakupowych. |
-| | Filtrowanie produktów | Na podstawie Twojej strategii | Włączaj/wykluczaj konkretne produkty lub kategorie. |
-| | Mapowanie atrybutów | Mapuj atrybuty PrestaShop do atrybutów Microsoftu | Dostarcza szczegółowych informacji o produktach dla reklam. |
-| | Etykiety niestandardowe (0-4) | W razie potrzeby dla kampanii reklamowych | Segmentuj produkty dla strategii licytacji. |
-| | Eksport GTIN | Włączony, jeśli dostępny | Eksportuje EAN/UPC do identyfikacji produktu. |
-| | Data dostępności | Włączona, jeśli dotyczy | Eksportuje datę dostępności produktu dla zamówień przedpremierowych. |
+| Kolumna | Wyświetlane informacje |
+|---|---|
+| **Status** | **On** lub **Off**. Użyjcie przełącznika, aby wstrzymać lub wznowić plik produktowy bez usuwania go ani zmiany jego adresu. |
+| **Feed** | Nazwa pliku produktowego oraz oznaczenia formatu pliku, eksportu produktów lub wariantów, języka i trybu **Live** albo **File**. |
+| **Shop** | Sklep, do którego należy plik produktowy. W trybie multistore plik spoza bieżącego sklepu jest oznaczony jako **Not available in this store**. |
+| **Last run** | Liczba wygenerowanych pozycji i czas ostatniego uruchomienia. Przed pierwszym wywołaniem wyświetla **Never** i **No cron call yet**. |
+| **Catalog URL** | W trybie na żywo adres **Live catalog**. W trybie plikowym poufny adres **Generate / cron** i publiczny adres **Catalog file**. Skopiujcie adres za pomocą znajdującego się obok przycisku kopiowania. |
+| **Actions** | Polecenia dostępne dla danego pliku produktowego. |
 
-## 3. Rozwiązywanie problemów dla sprzedawców i często zadawane pytania (FAQ)
+Poszczególne działania mają następujące zastosowanie:
 
-**P: Moje produkty nie pojawiają się w reklamach Microsoft Shopping Ads. Co powinienem sprawdzić?**
-O:
+- **Edit** otwiera wszystkie zapisane opcje.
+- **Duplicate** tworzy kopię i otwiera ją do sprawdzenia. Jeśli kopia ma być niezależna, przed zapisaniem zmieńcie jej nazwę, nazwę pliku, sklep, filtry lub inne ustawienia.
+- **Generate** wywołuje generator w trybie plikowym.
+- **Open file** otwiera zapisany plik w trybie plikowym.
+- **Open** generuje i otwiera plik produktowy działający na żywo.
+- **Delete** trwale usuwa rekord pliku produktowego po potwierdzeniu.
 
-1. **Status przesyłania pliku danych:** Najpierw sprawdź swoje konto Microsoft Merchant Center, aby upewnić się, że plik danych został pomyślnie przesłany i przetworzony bez większych błędów.
-2. **Odrzucenia produktów:** Poszukaj wszelkich odrzuceń produktów w sekcji „Diagnostyka” w Microsoft Merchant Center. Pokażą Ci one dokładnie, dlaczego produkty się nie wyświetlają. Typowe przyczyny to brak GTIN, nieprawidłowe linki do zdjęć lub naruszenia zasad.
-3. **Konfiguracja modułu:** Sprawdź, czy ustawienia modułu (język, waluta, kraj, mapowanie kategorii) są poprawne i zgodne z ustawieniami Twojego konta Microsoft Merchant Center.
-4. **Generowanie pliku danych:** Upewnij się, że plik danych jest poprawnie generowany przez moduł. Spróbuj ręcznie go wygenerować i sprawdzić plik wyjściowy.
-5. **Kampanie reklamowe:** Potwierdź, że Twoje kampanie Microsoft Ads są aktywne, prawidłowo ukierunkowane i połączone z prawidłowym plikiem danych produktów.
+Po wykonaniu operacji strona może wyświetlić:
 
-**P: Moje ceny produktów lub poziomy zapasów są nieaktualne w reklamach Microsoft Shopping Ads.**
-O: Zazwyczaj oznacza to, że Twój plik danych produktów nie jest aktualizowany wystarczająco często.
+- **Feed saved. Its catalog URL is ready to use.**
+- **Feed removed.**
+- **Feed duplicated. Review the copy and save if you need a different filename or URL.**
 
-1. **Zadanie Cron:** Upewnij się, że zadanie cron jest poprawnie skonfigurowane na Twoim serwerze hostingowym i działa z żądaną częstotliwością (np. codziennie). Moduł udostępnia unikalny adres URL do tego celu.
-2. **Ręczne generowanie:** Jeśli wprowadziłeś pilne zmiany, możesz ręcznie wygenerować plik danych ze strony konfiguracji modułu i ponownie przesłać go do Microsoft Merchant Center (jeśli nie używasz zaplanowanych pobrań).
+### 3.3 Dashboard
 
-**P: Niektóre z moich produktów brakuje w pliku danych.**
-O:
+Wybierzcie **Dashboard**, aby monitorować działanie plików produktowych.
 
-1. **Wykluczenie kategorii:** Sprawdź, czy kategorie zawierające te produkty nie zostały przypadkowo wykluczone w ustawieniach modułu.
-2. **Status produktu:** Upewnij się, że produkty są aktywne, widoczne i dostępne w magazynie w Twoim sklepie PrestaShop. Produkty oznaczone jako „wyłączone” lub „brak w magazynie” (w zależności od Twoich ustawień) mogą zostać wykluczone.
-3. **Specyficzne filtry:** Przejrzyj wszelkie specyficzne filtry produktów, które mogłeś zastosować w konfiguracji modułu.
+![Dashboard](https://mypresta.eu/docs/images/docs/mmcfeed-dashboard.webp)
 
-**P: Jak mapować kategorie PrestaShop do taksonomii produktów Microsoftu?**
-O: Na ekranie konfiguracji pliku danych modułu znajdzie się sekcja „Mapowanie kategorii”. Zazwyczaj zobaczysz listę swoich kategorii PrestaShop. Dla każdej z nich będziesz musiał wybrać najbardziej odpowiednią kategorię z predefiniowanej listy taksonomii Microsoftu. Jest to kluczowy krok dla trafności reklam. Poświęć czas, aby zrobić to poprawnie.
+Podsumowanie pokazuje **Saved feeds**, udane **Cron runs today**, produkty wygenerowane dzisiaj, **Runs last 7 days**, średni czas generowania oraz liczbę gotowych **Saved files**. Wykres **Catalog generation activity** przedstawia ostatnie 14 dni. Lista **Recent runs** zawiera najnowszy plik produktowy, czas, liczbę pozycji, czas trwania, format oraz informację, czy plik został zapisany.
 
-**P: Mój niestandardowy motyw powoduje problemy z wyświetlaniem interfejsu administracyjnego modułu.**
-O: Chociaż moduł nie ma wpływu na front-office, jego interfejs back-office może czasami kolidować z mocno dostosowanymi motywami administracyjnymi.
+Tabela **Generated files** zawiera każdy plik produktowy działający w trybie plikowym wraz ze sklepem, nazwą pliku, rozmiarem, stanem i czasem ostatniej aktualizacji. **Waiting for first cron** oznacza, że konfiguracja została zapisana, ale adres generowania nie utworzył jeszcze pliku. **On disk** oznacza, że plik jest dostępny pod adresem pliku katalogu.
 
-1. **Wyczyść pamięć podręczną:** Najpierw spróbuj wyczyścić pamięć podręczną Smarty w PrestaShop (Zaawansowane > Wydajność > Wyczyść pamięć podręczną).
-2. **Domyślny motyw:** Tymczasowo przełącz motyw back-office na domyślny motyw PrestaShop, aby sprawdzić, czy problem nadal występuje. Jeśli problem zostanie rozwiązany, konflikt dotyczy Twojego niestandardowego motywu administracyjnego.
-3. **Skontaktuj się z pomocą techniczną:** Jeśli problem nadal występuje, zbierz zrzuty ekranu i szczegóły i skontaktuj się z pomocą techniczną MyPresta.eu.
+### 3.4 Karta Updates
 
-## 4. Przewodnik dla programistów i webmasterów (architektura techniczna i mapa kodu)
+Wybierzcie **Updates**, aby porównać zainstalowany moduł z aktualizacjami MyPresta.
 
-Ta sekcja jest przeznaczona wyłącznie dla programistów, webmasterów sklepów i agencji technicznych utrzymujących lub rozszerzających sklep.
+![Karta Updates](https://mypresta.eu/docs/images/docs/mmcfeed-updates.webp)
 
-### 4.1 Przegląd architektury
+| Pole | Wartość początkowa | Działanie |
+|---|---|---|
+| **Manual Check** | Brak wyniku do czasu sprawdzenia | Kliknijcie **Check Now** po instalacji lub gdy spodziewacie się nowej wersji. Moduł jednokrotnie łączy się z usługą aktualizacji, porównuje wersje i natychmiast wyświetla **Module is up to date!** albo **New version available!** |
+| **Automatic Notifications** | Bieżące wspólne ustawienie aktualizacji MyPresta | Ustawcie **Enabled**, aby panel administracyjny sprawdzał aktualizacje mniej więcej co trzy dni i wyświetlał pracownikom ostrzeżenie o nowszej wersji. Ustawcie **Disabled**, jeśli aktualizacje sprawdzacie ręcznie. Kliknijcie **Save**, aby zastosować ustawienie. |
+| **Product Page** | Dostępny odnośnik | Otwiera oficjalną stronę modułu z informacjami i zasobami pomocy. Nie wymaga konfiguracji. |
 
-Moduł `Microsoft Merchant Center Product Feed` (`mmcfeed`) stosuje standardową architekturę modułu PrestaShop, wykorzystując głównie kontrolery administracyjne do zarządzania back-office oraz kontrolery front-office do generowania pliku danych produktów za pomocą zadań cron. Nie wprowadza nowych klas `ObjectModel`, ale raczej odpytuje istniejące dane produktów PrestaShop i formatuje je zgodnie ze specyfikacjami Microsoft Merchant Center. Moduł w dużym stopniu opiera się na wartościach konfiguracyjnych przechowywanych w `ps_configuration` i wykorzystuje szablony Smarty do renderowania zarówno interfejsów administracyjnych, jak i potencjalnie części logiki generowania pliku danych (chociaż pliki danych są zazwyczaj generowane programowo).
+### 3.5 Tworzenie i edycja pliku produktowego
 
-### 4.2 Kontrolery (`controllers/`)
+Wybierzcie **Create new feed** lub kliknijcie **Edit** obok istniejącego pliku produktowego. Pola są wyświetlane w opisanej poniżej kolejności. Opcje zależne od sklepu pochodzą z języków, walut, krajów, grup, typów obrazów, cech, atrybutów, kategorii, producentów, dostawców, stref i sklepów skonfigurowanych w PrestaShop.
 
-#### Kontrolery Front-Office
+Kliknijcie **Save feed**, aby zapisać dane i wrócić do listy. Kliknijcie **Save & download**, aby zapisać ustawienia i natychmiast pobrać nowo wygenerowany plik CSV lub XML. Podczas edycji strona pokazuje również właściwy **Live catalog URL** albo adresy **Generate / cron URL** i **Catalog file URL**.
 
-- `mmcfeed/controllers/front/feed.php`
-  - **Nazwa klasy i klasa nadrzędna:** `MmcfeedFeedModuleFrontController` rozszerzający `ModuleFrontController`.
-  - **Odpowiedzialność:** Ten kontroler jest głównym punktem końcowym do generowania pliku danych produktów. Jest zaprojektowany do wywoływania za pomocą unikalnego adresu URL („URL cron”) do automatycznego generowania pliku danych. Obsługuje logikę odpytywania danych produktów, stosowania reguł filtrowania i mapowania zdefiniowanych w back-office oraz wyprowadzania pliku danych produktów w określonym formacie (CSV, XML, TSV). Zazwyczaj nie renderuje strony wizualnej, ale wyprowadza surowe dane.
-- `mmcfeed/controllers/front/index.php`
-  - **Nazwa klasy i klasa nadrzędna:** `MmcfeedIndexModuleFrontController` rozszerzający `ModuleFrontController`.
-  - **Odpowiedzialność:** Jest to kontroler front-office zastępczy lub awaryjny. W wielu modułach `index.php` w katalogu kontrolera służy jako domyślny lub prosty punkt wejścia. Może przekierowywać lub po prostu zwracać pustą odpowiedź, jeśli nie zdefiniowano żadnej konkretnej akcji. Jego bezpośrednia rola funkcjonalna w generowaniu pliku danych jest prawdopodobnie minimalna w porównaniu do `feed.php`.
+![Tworzenie lub edycja pliku produktowego: nazwa, stan, format, typ i tryb plikowy](https://mypresta.eu/docs/images/docs/mmcfeed-form-top.webp)
 
-#### Kontrolery administracyjne Back-Office
+**Tożsamość pliku produktowego i format wyjściowy**
 
-- `mmcfeed/controllers/admin/AdminExportProductsFeedMicrosoft.php`
-  - **Nazwa zakładki i zarządzana encja:** Zarządza konfiguracją i generowaniem poszczególnych plików danych produktów Microsoft Merchant Center. Tworzy nową pozycję menu w panelu administracyjnym PrestaShop.
-  - **Odpowiedzialność:** Ten kontroler obsługuje operacje CRUD dla konfiguracji plików danych produktów. Wyświetla listę skonfigurowanych plików danych, umożliwia dodawanie nowych plików danych, edytowanie istniejących i wyzwalanie ich generowania. Przetwarza przesyłanie formularzy w celu zdefiniowania ustawień specyficznych dla pliku danych, takich jak kraj docelowy, język, waluta, format pliku, mapowanie kategorii, filtrowanie produktów i mapowanie atrybutów (np. `gtin`, `identifier_exists`, `title`, `availability`, `brand`, `link`, `image_link`, `description`, `product_type`, `condition`, `price`, `sale_price`, `tax rate`, `custom_label_0`, `google_product_category`). Współdziała z `ps_configuration` w celu przechowywania tych ustawień i orkiestruje pobieranie i formatowanie danych dla procesu generowania pliku danych.
-- `mmcfeed/controllers/admin/index.php`
-  - **Nazwa zakładki i zarządzana encja:** Prawdopodobnie pulpit nawigacyjny lub strona przeglądu modułu w panelu administracyjnym PrestaShop.
-  - **Odpowiedzialność:** Ten kontroler prawdopodobnie służy jako główny punkt wejścia do interfejsu administracyjnego modułu, zapewniając podsumowanie skonfigurowanych plików danych, ich statusu i szybkich działań. Może renderować szablon podobny do pulpitu nawigacyjnego (`dashboard.tpl`), aby zapewnić przegląd aktywności modułu.
+| Pole | Wartość początkowa | Działanie |
+|---|---|---|
+| **Feed name** | Puste | Wpiszcie wymaganą, łatwo rozpoznawalną nazwę używaną na liście plików produktowych. Jeśli do zapisu trafi pusty formularz, nazwa zostanie zapisana jako **Untitled feed**. |
+| **Active** | Yes | Pozostawcie włączone, aby zezwolić na generowanie. Ustawcie **No**, aby wstrzymać plik produktowy z zachowaniem jego adresu i ustawień. |
+| **Shop** | Bieżący sklep; widoczne tylko w multistore | Przypiszcie plik produktowy do jednego sklepu. Jego adres katalogu działa tylko dla tego sklepu. |
+| **Remember settings** | Yes | Zapisuje wybory z formularza jako wartości początkowe następnego nowego pliku produktowego. Ustawcie **No**, jeśli wybory z tego pliku nie powinny stać się zapamiętanymi wartościami domyślnymi. |
+| **Type of file module will generate** | CSV | Wybierzcie **CSV** dla tekstowego pliku produktowego lub **XML** dla pliku zakupowego Atom. Aby uzyskać TSV, wybierzcie **CSV** i ustawcie **Delimiter** na `Tab`; TSV jest wynikiem CSV z tabulatorem jako separatorem. |
+| **What you want to export?** | Products | Wybierzcie **Products**, aby wyeksportować jeden wiersz na produkt, albo **All products variants**, aby eksportować kombinacje oddzielnie. |
+| **Save to file** | No | **No** generuje dane na żywo i zwraca je przy każdym wywołaniu adresu katalogu. **Yes** powoduje, że adres generowania zapisuje plik statyczny; dodajcie ten poufny adres do harmonogramu, a następnie przekażcie Microsoftowi osobny adres pliku katalogu. |
+| **File name** | Puste | Gdy **Save to file** jest włączone, wpiszcie nazwę bazową statycznego pliku produktowego. Jeśli pole pozostanie puste, moduł użyje typu eksportu. Aby uzyskać przewidywalną nazwę, użyjcie liter, cyfr, łączników lub znaków podkreślenia. |
+| **How to identify product?** | `id_product` | Wybierzcie `id_product`, `id_combination` lub `id_product-id_attribute`. Ta wartość staje się unikalnym identyfikatorem pozycji w pliku produktowym. Przy osobnym eksporcie wariantów użyjcie opcji uwzględniającej kombinacje. |
 
-### 4.3 Klasy podstawowe i modele (`classes/`)
+**Rozmiar, płeć, kolor i grupa wiekowa**
 
-Dostarczone informacje wskazują, że w katalogu `classes/` nie ma niestandardowych klas ani modeli. Sugeruje to, że moduł działa głównie poprzez bezpośrednie odpytywanie podstawowych klas `ObjectModel` PrestaShop, takich jak `Product`, `Category`, `Language`, `Currency` itp., oraz `ps_configuration` dla swoich ustawień. Logika przetwarzania danych i generowania pliku danych jest prawdopodobnie hermetyzowana w głównym pliku modułu `mmcfeed.php` oraz w kontrolerach administracyjnych/front-office.
+![Pola rozmiaru, płci, koloru i grupy wiekowej](https://mypresta.eu/docs/images/docs/mmcfeed-form-attributes.webp)
 
-### 4.4 Zasoby JavaScript (`views/js/`)
+| Pole | Wartość początkowa | Działanie |
+|---|---|---|
+| **Export size** | No | Ustawcie **Yes**, aby dodać pole `size`. |
+| **Size attribute** | None | Wybierzcie grupę atrybutów produktu zawierającą rozmiar. Przytrzymajcie Ctrl podczas klikania, aby wybrać kilka grup. Produkty bez wybranego rozmiaru użyją wartości **Default size value**. |
+| **Default size value** | Puste | Wpiszcie zastępczy rozmiar używany, gdy produkt nie ma wartości w wybranej grupie atrybutów rozmiaru. |
+| **Export gender** | No | Ustawcie **Yes**, aby dodać pole `gender`. |
+| **Export gender value from** | No source selected | Wybierzcie **Attribute** lub **Feature** jako źródło danych o płci. Uzupełnijcie odpowiednie pole źródłowe poniżej. |
+| **Gender feature** | No feature selected | Gdy źródłem jest **Feature**, wybierzcie cechę produktu przechowującą płeć. |
+| **Gender attribute** | No attribute selected | Gdy źródłem jest **Attribute**, wybierzcie grupę atrybutów produktu przechowującą płeć. |
+| **Default gender value** | Puste | Wybierzcie **Male**, **Female** lub **Unisex** jako wartość zastępczą, gdy produkt nie udostępnia płci przez wybrane źródło. |
+| **Export color** | No | Ustawcie **Yes**, aby dodać pole `color`. |
+| **Export color value from** | No source selected | Wybierzcie **Attribute** lub **Feature** jako źródło danych o kolorze. |
+| **Color attribute** | No attribute selected | Gdy źródłem jest **Attribute**, wybierzcie grupę atrybutów produktu przechowującą kolor. |
+| **Color feature** | No feature selected | Gdy źródłem jest **Feature**, wybierzcie cechę produktu przechowującą kolor. |
+| **Default color value** | Puste | Wpiszcie wartość zastępczą używaną, gdy wybrane źródło koloru jest puste. Użyjcie angielskich nazw kolorów, ponieważ Microsoft akceptuje w tym polu nazwy angielskie. |
+| **Export age_group** | No | Ustawcie **Yes**, aby dodać pole `age_group`. |
+| **Export age group value from** | No source selected | Wybierzcie **Attribute** lub **Feature** jako źródło danych o grupie wiekowej. |
+| **age group feature** | No feature selected | Gdy źródłem jest **Feature**, wybierzcie cechę produktu przechowującą grupę wiekową. |
+| **age group attribute** | No attribute selected | Gdy źródłem jest **Attribute**, wybierzcie grupę atrybutów produktu przechowującą grupę wiekową. |
+| **Default age group value** | No fallback selected | Wybierzcie wartość zastępczą używaną, gdy produkt nie ma wartości źródłowej: **adult**, **kids**, **toddler**, **infant** lub widoczną na ekranie wartość **newbord**. Przy przygotowywaniu danych produkcyjnych dopasujcie je do wartości grup wiekowych akceptowanych przez Microsoft. |
 
-- `mmcfeed/lib/searchTool/views/js/autocomplete.js`
-  - **Zakres:** Back-office.
-  - **Odpowiedzialność:** Zapewnia funkcjonalność autouzupełniania, prawdopodobnie do wyszukiwania produktów, kategorii lub atrybutów w formularzach konfiguracyjnych modułu. Zwiększa to komfort użytkowania podczas mapowania kategorii lub filtrowania produktów. Wiąże się z polami wejściowymi i wykonuje żądania AJAX w celu pobrania sugestii.
-- `mmcfeed/views/js/admin-app.js`
-  - **Zakres:** Back-office.
-  - **Odpowiedzialność:** Jest to główny plik JavaScript dla interfejsu back-office modułu. Obsługuje różne elementy interaktywne, walidacje formularzy, dynamiczne ładowanie treści (np. modale Fancybox do wyboru kategorii) i wywołania AJAX związane z zapisywaniem konfiguracji lub wyzwalaniem generowania pliku danych. Prawdopodobnie wiąże słuchaczy zdarzeń z przyciskami, selektorami i polami wejściowymi w formularzach kontrolera `AdminExportProductsFeedMicrosoft`.
+**Pola pliku produktowego, wysyłka, tekst, stany magazynowe, obrazy i ceny**
 
-### 4.5 Arkusze stylów CSS (`views/css/`)
+![Ustawienia pliku produktowego obejmujące identyfikatory, wysyłkę, opisy, język i separator](https://mypresta.eu/docs/images/docs/mmcfeed-form-feed-settings.webp)
 
-- `mmcfeed/lib/searchTool/views/css/autocomplete.css`
-  - **Zakres:** Stylizacja formularzy administracyjnych back-office.
-  - **Odpowiedzialność:** Stylizuje rozwijane listy autouzupełniania i pola wejściowe używane przez skrypt `autocomplete.js`, zapewniając spójny i przyjazny dla użytkownika wygląd w panelu administracyjnym PrestaShop.
-- `mmcfeed/views/admin-theme.css`
-  - **Zakres:** Stylizacja formularzy administracyjnych back-office.
-  - **Odpowiedzialność:** Zapewnia ogólne dostosowania stylów i nadpisania dla stron back-office modułu, aby bezproblemowo integrować się z motywem administracyjnym PrestaShop. Może definiować style dla układu, przycisków, tabel i elementów formularzy specyficznych dla modułu.
-- `mmcfeed/views/css/admin-app.css`
-  - **Zakres:** Stylizacja formularzy administracyjnych back-office.
-  - **Odpowiedzialność:** Zawiera specyficzne style dla niestandardowych komponentów interfejsu użytkownika modułu i układów w panelu administracyjnym, takich jak interfejsy mapowania kategorii, listy wykluczeń produktów lub elementy pulpitu nawigacyjnego. Działa w połączeniu z `admin-theme.css`, aby zapewnić wizualną tożsamość modułu w back-office.
+| Pole | Wartość początkowa | Działanie |
+|---|---|---|
+| **Include item_group_id** | No | Ustawcie **Yes**, aby grupować warianty różniące się szczegółami takimi jak rozmiar, kolor, wzór, grupa wiekowa lub płeć. Dzięki temu Microsoft traktuje je jako warianty jednego produktu, a nie niezależne oferty. |
+| **Unique product identifier** | Product UPC barcode | Wybierzcie pole produktu używane jako GTIN lub dane identyfikatora: **Product UPC barcode**, **Product ean13 / JAN barcode**, **Product reference number**, **Product MPN code**, **Product ISBN code** albo **Make this field empty, identifier_exists field will have value false then**. Jeśli identyfikatory nadane przez producenta są dostępne, należy je podać, ponieważ poprawiają dopasowanie produktów i jakość ofert. |
+| **Include identifier_exists field** | No | Ustawcie **Yes**, aby dodać `identifier_exists`. Pole informuje Microsoft, czy pozycja ma unikalny identyfikator produktu. |
+| **Include adult field** | Do not include | Wybierzcie **Include as true** dla produktów dla dorosłych objętych ograniczeniem wiekowym, **Include as false**, aby przesłać jednoznaczną wartość false, albo **- do not include -**, aby pominąć pole. Formularz wyświetla też niezwiązaną czwartą etykietę **Lowercase all letters, example: product name**; nie używajcie jej dla tego pola. |
+| **Include shipping price** | Do not include | Wybierzcie **Do not include**, **Include (shipping price calculated for each item separately)** albo **Set shipping price manually**. Obliczanie automatyczne odbywa się osobno dla każdego produktu, a tryb ręczny stosuje jedną wpisaną kwotę. |
+| **Include product's additional shipping cost** | No | Ustawcie **Yes**, aby do eksportowanego kosztu dostawy dodać dodatkową opłatę za wysyłkę przypisaną do produktu. |
+| **Manual shipping value** | 0 | Po wybraniu wysyłki ręcznej wpiszcie kwotę wysyłki stosowaną do każdej pozycji. |
+| **Automatic shipping price zone select** | Początkowa strefa sklepu | Po wybraniu wysyłki automatycznej wybierzcie strefę docelową używaną do obliczeń. Obliczanie osobno dla każdej pozycji zużywa więcej zasobów hostingu niż jedna ręcznie ustawiona kwota. |
+| **Include weight** | No | Ustawcie **Yes**, aby dodać wagę wysyłkową produktu wraz z jednostką wagi używaną przez sklep. |
+| **Product type** | No | Ustawcie **Yes**, aby dodać własną strukturę kategorii sklepu jako `product_type`. |
+| **Product type - include category ID** | No | Gdy **Product type** jest włączone, ustawcie **Yes**, aby dołączyć identyfikator kategorii i rozróżnić kategorie o tej samej nazwie. |
+| **Short description** | Short description | Wybierzcie, czy opis w pliku produktowym ma pochodzić z pola **Short description**, czy **Long description**. |
+| **Remove html from descriptions** | Yes | Microsoft wymaga zwykłego tekstu. Znaczniki HTML i zakłócające podziały wierszy są usuwane z opisów nawet po wybraniu **No**, dlatego pozostawcie **Yes** jako zgodną ze skutkiem informację o wyniku. |
+| **Product name** | Product name | Wybierzcie **Product name** lub **Meta title** jako źródło tytułu w pliku produktowym. |
+| **Format name** | Do not format name | Pozostawcie bez zmian, zmieńcie tylko pierwszą literę na wielką, rozpocznijcie każde słowo wielką literą albo zamieńcie wszystkie litery na małe. Formatowanie przydaje się, gdy tytuły w katalogu są zapisane w całości wielkimi literami, czego Microsoft nie akceptuje. |
+| **Remove selected characters from product name** | Puste | Wpiszcie każdy znak, który ma zostać usunięty z tytułów, na przykład `x=,` usuwa `x`, `=` i `,`. Aby niczego nie usuwać, pozostawcie pole całkowicie puste, bez spacji. |
+| **Language** | Domyślny język sklepu | Wybierzcie język tytułów, opisów i pozostałych tłumaczonych danych katalogowych produktów. |
+| **Delimiter** | `|` | Ustawcie separator danych CSV. Wpiszcie `Tab`, aby uzyskać format TSV zalecany przez Microsoft Merchant Center. W plikach CSV można też używać pionowej kreski lub przecinka. To ustawienie nie wpływa na XML. |
+| **Wrap strings in double quotes** | Yes | Pozostawcie włączone, aby tekst zawierający separatory lub znaki specjalne nie uszkodził wierszy CSV. |
+| **Information about stock** | Include real stock information | Użyjcie rzeczywistej dostępności albo wymuście dla wszystkich eksportowanych produktów wartość **in-stock**, **out-of-stock** lub **backorder**. Ostatnia opcja zgłasza produkty z włączonymi zamówieniami oczekującymi jako dostępne, a nie jako backorder. |
+| **Availability date** | Puste | Wpiszcie zastępczą datę dla produktów dostępnych na zamówienie, które nie mają indywidualnej daty dostępności. Microsoft wymaga tej daty dla ofert backorder. |
+| **Include quantity info** | No | Ustawcie **Yes**, aby dodać kolumnę zapasów zawierającą ilość produktu lub kombinacji. |
+| **Default manufacturer value** | `Default` | Wpiszcie zastępczą markę używaną, gdy produkt nie ma przypisanego producenta. |
+| **Image size for product pictures** | Początkowy typ obrazu zależny od sklepu | Wybierzcie typ obrazu PrestaShop używany do tworzenia adresów zdjęć produktów. |
+| **Use default product picture if combination will not have associated photo** | No | Ustawcie **Yes**, aby użyć głównego zdjęcia produktu, gdy eksportowana kombinacja nie ma przypisanego obrazu. |
+| **How many pictures you want to export?** | Export cover only | Wybierzcie **Export cover only** lub **Export all pictures**. Eksport wszystkich zdjęć dodaje kolejne odnośniki do obrazów. |
+| **Currency** | Domyślna waluta sklepu | Wybierzcie walutę eksportowanych cen. Powinna odpowiadać rynkowi docelowemu katalogu w Microsoft Merchant Center. |
+| **Price tax included or excluded** | Price Tax Included | Wybierzcie, czy ceny zwykłe i promocyjne mają zawierać podatek, czy go nie uwzględniać. |
+| **Include specific prices** | Yes | Pozostawcie włączone, jeśli ceny specyficzne PrestaShop określają ceny dla walut lub innych kontekstów, które powinny znaleźć się w pliku produktowym. |
+| **Export prices for selected group** | Grupa niezidentyfikowanych klientów sklepu | Wybierzcie grupę klientów, której kontekst cenowy ma być używany przez moduł. |
+| **Export also unit price** | No | Ustawcie **Yes**, aby w plikach wariantów dodać dostępne informacje o jednostkowej mierze ceny. |
+| **Export prices for selected country** | Domyślny kraj sklepu | Wybierzcie kontekst kraju używany do obliczania podatków i rabatów zależnych od kraju. |
 
-### 4.6 Struktura szablonów Smarty (`views/templates/`)
+**Wybór produktów, wykluczenia, limity, lokalne stany magazynowe i parowanie kategorii**
 
-- **Szablony hooków (`views/templates/hook/`)**: Brak wyraźnie wymienionych, co wskazuje, że moduł nie renderuje treści bezpośrednio w standardowych hookach front-office.
-- **Szablony administracyjne (`views/templates/admin/`)**:
-  - `mmcfeed/views/templates/admin/dashboard.tpl`: Prawdopodobnie główny szablon pulpitu nawigacyjnego renderowany przez `controllers/admin/index.php`, zapewniający przegląd modułu i jego skonfigurowanych plików danych.
-  - `mmcfeed/views/templates/admin/feeds.tpl`: Prawdopodobnie renderuje listę plików danych produktów zarządzanych przez `AdminExportProductsFeedMicrosoftController`, pokazując ich status, datę ostatniego wygenerowania i działania.
-  - `mmcfeed/views/templates/admin/form-chrome.tpl`: Ogólny szablon do opakowywania formularzy w interfejsie administracyjnym PrestaShop, zapewniający spójną stylizację i strukturę (np. nagłówek, stopka, przyciski zapisu).
-  - `mmcfeed/views/templates/admin/layout.tpl`: Podstawowy szablon układu dla stron administracyjnych modułu, definiujący ogólną strukturę, w tym nagłówki, menu i obszary treści.
-- **Inne szablony (`views/`)**:
-  - `mmcfeed/lib/searchTool/views/scripts.tpl`: Zawiera kod JavaScript lub włączenia skryptów związane z narzędziem wyszukiwania/funkcją autouzupełniania.
-  - `mmcfeed/views/categories-fancybox.tpl`: Renderuje zawartość modalu Fancybox używanego do wyboru lub mapowania kategorii, prawdopodobnie zapewniając strukturę drzewiastą dla łatwej nawigacji.
-  - `mmcfeed/views/category_taxonomy.tpl`: Częściowy szablon używany w `categories-fancybox.tpl` lub głównym formularzu konfiguracji pliku danych do wyświetlania i zarządzania mapowaniem kategorii PrestaShop do taksonomii Microsoftu.
-  - `mmcfeed/views/exclude-products.tpl`: Renderuje interfejs do wybierania i zarządzania produktami, które mają zostać wykluczone z pliku danych.
-  - `mmcfeed/views/google_lang_links.tpl`: Ta nazwa szablonu jest intrygująca dla modułu Microsoftu. Może to być pozostałość po module Google Merchant Center lub ogólny komponent do obsługi linków specyficznych dla języka, potencjalnie dla samych adresów URL plików danych.
-  - `mmcfeed/views/returnAlert.tpl`: Ogólny szablon do wyświetlania komunikatów o sukcesie lub błędach użytkownikowi w back-office.
-  - `mmcfeed/views/script-fancybox.tpl`: Zawiera kod JavaScript lub włączenia skryptów specjalnie dla biblioteki Fancybox, używanej do wyskakujących okien modalnych.
-  - `mmcfeed/views/script.tpl`: Ogólny szablon włączenia skryptu, potencjalnie dla zmiennych JavaScript lub inicjalizacji w całym module.
+![Filtry, limity, kod sklepu i Microsoft Categories](https://mypresta.eu/docs/images/docs/mmcfeed-form-filters.webp)
 
-### 4.7 Schemat bazy danych i mapa hooków
+| Pole | Wartość początkowa | Działanie |
+|---|---|---|
+| **Product Manufacturer** | All | Eksportujcie produkty wszystkich producentów lub tylko wybranego producenta. |
+| **Product Supplier** | All | Eksportujcie produkty wszystkich dostawców lub tylko wybranego dostawcy. |
+| **Product Category** | All | Eksportujcie wszystkie kategorie lub ograniczcie plik produktowy do wybranej kategorii. |
+| **Exclude categories** | Puste | Wyszukajcie kategorie i dodajcie je do listy wykluczeń. Produkty przypisane do wybranej wykluczonej kategorii zostaną pominięte. |
+| **Exclude products without pictures** | No | Ustawcie **Yes**, aby pomijać produkty bez użytecznego obrazu. |
+| **Products's availability** | Export all products | Wybierzcie **Export only active products**, aby pominąć wyłączone produkty katalogowe. |
+| **Products's stock** | Export all products | Wybierzcie **Export only in-stock products**, aby pominąć produkty bez zapasu. |
+| **Exclude products with specific reference** | No | Ustawcie **Yes**, aby włączyć filtrowanie według prefiksu numeru referencyjnego. |
+| **Exclude product where reference starts with:** | Puste | Wpiszcie prefiks, który ma powodować pominięcie produktu. Dotyczy to produktów i kombinacji, których numery referencyjne zaczynają się od tego tekstu. |
+| **Exclude products worth less than defined value** | No | Ustawcie **Yes**, aby pomijać produkty poniżej minimalnej wartości wyrażonej w domyślnej walucie sklepu. |
+| **Value of products (worth less) to exclude** | Puste | Wpiszcie minimalną wartość używaną przez poprzedni filtr. Produkty o niższej cenie zostaną pominięte. |
+| **Exclude products** | Pusta lista | Zacznijcie wpisywać nazwę produktu i wybierzcie go, aby dodać go do listy wykluczeń. Użyjcie **Add all search results**, aby wykluczyć wszystkie wyniki bieżącego wyszukiwania; produkt można usunąć z listy jego przyciskiem usuwania. |
+| **Limit number of products in feed** | 0 | Wpiszcie maksymalną liczbę produktów w tym pliku produktowym. Pozostawcie pole puste lub wpiszcie `0`, aby nie stosować limitu. Limit jest przydatny, gdy duży katalog przekracza dostępny czas wykonywania lub pamięć. |
+| **Part of feed** | 0 | Wpiszcie `0`, jeśli plik produktowy nie jest dzielony. W przypadku plików dzielonych utwórzcie osobne konfiguracje z takim samym limitem i kolejnymi numerami części. Dla 3000 produktów i limitu 1000 użyjcie części 1, 2 i 3. |
+| **Include store code to feed** | No | Ustawcie **Yes** dla pliku lokalnych stanów magazynowych, który musi identyfikować sklep stacjonarny. Użyjcie tego samego identyfikatora, który skonfigurowano na koncie biznesowym Microsoft. |
+| **Store code** | Puste | Wpiszcie dokładny, rozróżniający wielkość liter alfanumeryczny identyfikator sklepu używany przez Microsoft. |
+| **Microsoft Categories** | Synchronizacja taksonomii nie jest gwarantowana | Sprawdźcie stan pliku dla każdego języka. Kliknijcie **Synchronize** albo wybierzcie źródło w **Synchronize specific**, jeśli zwykłe źródło nie obsługuje danego języka. Następnie kliknijcie **Pair categories**, wyszukajcie odpowiednią kategorię Microsoft obok każdej kategorii sklepu i zapiszcie powiązanie. Ikona powtarzania stosuje jedną wartość kategorii do wszystkich pól, a ikona usuwania usuwa powiązanie. |
 
-- **Tabele bazy danych**:
+## 4. Front office i adresy plików produktowych
 
-  - Moduł nie tworzy niestandardowych tabel SQL na podstawie dostarczonych informacji.
-  - Wszystkie konfiguracje modułu są przechowywane w tabeli `ps_configuration`, używając kluczy z prefiksem `mmc_` (np. `mmc_pf_tree`, `mmc_mmcfeed_products`, `mmc_export_size_attribute`, `mmc_export_exclude_categories`, `mmc_export_availability_date`).
-  - Współdziała ze standardowymi tabelami PrestaShop, takimi jak `ps_product`, `ps_product_lang`, `ps_category`, `ps_category_lang`, `ps_image`, `ps_stock_available`, `ps_attribute_group`, `ps_attribute`, `ps_feature`, `ps_feature_value`, `ps_manufacturer`, `ps_tax_rule` itp., w celu pobierania danych produktów.
-- **Tabela zarejestrowanych hooków**:
-  Moduł wykorzystuje głównie hooki back-office dla swojego interfejsu administracyjnego i potencjalnie hooki `action` dla logiki wewnętrznej. Hooki front-office nie są używane do renderowania treści, ale kontroler front-office modułu `feed.php` działa jako bezpośredni punkt końcowy dla usług zewnętrznych (takich jak zadania cron).
+Moduł nie dodaje bloku, przycisku, treści na stronie produktu, formularza klienta, strony konta ani żadnego innego elementu interfejsu sklepu. Klienci nie korzystają z niego bezpośrednio.
 
-| Nazwa hooka | Czas wykonania | Cel techniczny |
-| --- | --- | --- |
-| `displayHeader` | W sekcji `<head>` stron front-office. | *Nie używany do renderowania treści.* Jeśli zarejestrowany, prawdopodobnie do wewnętrznego ładowania JS/CSS, ale główną funkcją modułu jest generowanie pliku danych, a nie wyświetlanie front-office. |
-| `displayRightColumn` | W prawej kolumnie stron front-office. | *Nie używany do renderowania treści.* |
-| `displayLeftColumn` | W lewej kolumnie stron front-office. | *Nie używany do renderowania treści.* |
-| `displayFooter` | W stopce stron front-office. | *Nie używany do renderowania treści.* |
-| `displayAdminProductsExtra` | Na stronie edycji produktu w back-office. | *Potencjalnie używany* do dodania zakładki lub sekcji dla wykluczeń lub nadpisań specyficznych dla produktu w pliku danych. |
-| `actionAdminControllerSetMedia` | Gdy kontroler administracyjny jest inicjowany i przed załadowaniem jego mediów (JS/CSS). | Używany do rejestrowania specyficznych dla modułu JavaScript (`admin-app.js`, `autocomplete.js`) i CSS (`admin-app.css`, `admin-theme.css`, `autocomplete.css`) dla interfejsu back-office. |
-| `actionModuleInstall` | Podczas instalacji modułu. | Do tworzenia wpisów konfiguracyjnych w `ps_configuration` i potencjalnie rejestrowania zakładek administracyjnych. |
-| `actionModuleUninstall` | Podczas deinstalacji modułu. | Do czyszczenia wpisów konfiguracyjnych i usuwania zakładek administracyjnych. |
-| `actionValidateOrder` | Po pomyślnym zatwierdzeniu zamówienia. | *Mało prawdopodobne dla tego modułu.* Jeśli obecny, służyłby do śledzenia konwersji lub aktualizowania danych pliku danych na podstawie sprzedaży, ale nie jest to podstawowa funkcja generatora pliku danych. |
-| `actionProductUpdate` | Po zaktualizowaniu produktu. | *Potencjalnie używany* do wyzwolenia flagi do regeneracji pliku danych lub do aktualizacji wewnętrznych pamięci podręcznych, jeśli moduł takie utrzymuje. |
-| `actionProductAdd` | Po dodaniu nowego produktu. | *Potencjalnie używany* do wyzwolenia flagi do regeneracji pliku danych lub do aktualizacji wewnętrznych pamięci podręcznych. |
-| `displayAdminNavBarBefore` | Przed głównym paskiem nawigacyjnym w back-office. | *Potencjalnie używany* do dodania szybkiego linku lub powiadomienia związanego z modułem. |
+Usługi zewnętrzne używają adresu katalogu skopiowanego z sekcji **Feeds**:
 
-## 5. Oficjalne wsparcie i aktualizacje
+- **Live catalog URL** ponownie generuje i zwraca katalog przy każdym żądaniu. Żadne dane nie są zapisywane jako plik statyczny.
+- **Generate / cron URL** zawiera poufny klucz wymagany do zapisania pliku statycznego. Wywołujcie go z harmonogramu lub za pomocą **Generate**. Nie przekazujcie go do Microsoft Merchant Center.
+- **Catalog file URL** prowadzi do statycznego pliku utworzonego przez adres generowania. Gdy **Save to file** jest włączone, użyjcie tego adresu jako źródła danych w Microsoft Merchant Center.
 
-Aby uzyskać najnowsze aktualizacje modułu, poprawki błędów i oficjalne wsparcie, zapoznaj się ze swoim kontem klienta na stronie [MyPresta.eu](https://mypresta.eu/my-account/orders/). MyPresta.eu zapewnia dedykowane wsparcie dla wszystkich zakupionych modułów, zapewniając, że Twój sklep pozostaje aktualny i funkcjonalny.
-"""
+Otwarcie niedostępnego adresu może wyświetlić:
+
+| Wyświetlany komunikat | Zalecane działanie |
+|---|---|
+| **Feed is disabled** | Otwórzcie **Feeds** i ustawcie stan pliku produktowego na **On** albo edytujcie go i ustawcie **Active** na **Yes**. |
+| **feed does not exists** | Ponownie skopiujcie bieżący adres z sekcji **Feeds**. Zapisany plik produktowy został usunięty, adres jest niepełny lub zapisana konfiguracja jest nieprawidłowa. |
+| **Feed is not available in this store** | Przełączcie się na sklep przypisany do pliku produktowego, edytujcie pole **Shop** i skopiujcie adres wygenerowany dla tego sklepu. |
+| **Access denied** | W trybie plikowym użyjcie kompletnego adresu **Generate / cron URL** skopiowanego ze strony pliku produktowego. Nie usuwajcie ani nie zmieniajcie jego poufnej części. |
+
+## 5. Problemy i rozwiązania
+
+### 5.1 Plik produktowy zgłasza, że jest wyłączony
+
+**Objaw:** Po otwarciu adresu wyświetla się **Feed is disabled**.
+
+**Przyczyna:** Przełącznik stanu jest wyłączony lub **Active** ma wartość **No**.
+
+**Działanie:** Otwórzcie **Catalog → Microsoft Merchant Feed → Feeds** i ustawcie plik produktowy na **On**. Jego dotychczasowy adres pozostanie prawidłowy.
+
+### 5.2 Plik produktowy nie istnieje
+
+**Objaw:** Po otwarciu adresu wyświetla się **feed does not exists**.
+
+**Przyczyna:** Adres wskazuje usunięty plik produktowy, jest niepełny albo zapisana konfiguracja nie nadaje się do użycia.
+
+**Działanie:** Otwórzcie **Feeds** i ponownie skopiujcie adres. Jeśli pliku produktowego nie ma, utwórzcie go i zapiszcie ponownie.
+
+### 5.3 Plik produktowy należy do innego sklepu
+
+**Objaw:** Na liście widnieje **Not available in this store** albo pod adresem wyświetla się **Feed is not available in this store**.
+
+**Przyczyna:** W trybie multistore plik produktowy jest przypisany do innego sklepu.
+
+**Działanie:** Przełączcie panel administracyjny na przypisany sklep albo edytujcie **Shop**, zapiszcie zmiany i skopiujcie nowy adres.
+
+### 5.4 Generowanie w trybie plikowym zgłasza odmowę dostępu
+
+**Objaw:** Wywołanie generatora pliku wyświetla **Access denied**, a plik nie jest aktualizowany.
+
+**Przyczyna:** W adresie brakuje poufnej autoryzacji zapisu dodawanej przez moduł.
+
+**Działanie:** Ponownie skopiujcie **Generate / cron URL** z sekcji **Feeds** lub strony edycji i użyjcie go w harmonogramie bez żadnych zmian. Zachowajcie ten adres w poufności.
+
+### 5.5 Microsoft otrzymuje odpowiedź generatora zamiast stałego pliku
+
+**Objaw:** Zaplanowane pobieranie przez Microsoft kończy się niepowodzeniem albo nieoczekiwanie uruchamia generowanie przy każdym żądaniu, mimo że **Save to file** jest włączone.
+
+**Przyczyna:** Do Microsoft Merchant Center wklejono adres **Generate / cron URL**.
+
+**Działanie:** Adresu generowania używajcie wyłącznie w harmonogramie. Uruchomcie go raz, sprawdźcie obecność stanu **On disk** w sekcji **Dashboard** i wklejcie **Catalog file URL** do Microsoft Merchant Center.
+
+### 5.6 Plik produktowy jest pusty lub brakuje w nim produktów
+
+**Objaw:** Generowanie kończy się powodzeniem, ale nie zwraca żadnych pozycji lub zwraca ich mniej, niż oczekiwano.
+
+**Przyczyna:** Produkty są usuwane przez ustawienia producenta, dostawcy, kategorii, wykluczonych kategorii, wykluczonych produktów, obrazów, aktywnego stanu, zapasów, prefiksu numeru referencyjnego, minimalnej wartości, limitu lub części.
+
+**Działanie:** Edytujcie plik produktowy i sprawdźcie wszystkie pola wyboru oraz wykluczania produktów. Tymczasowo wybierzcie **All**, wyłączcie przełączniki wykluczeń, wyczyśćcie listy wykluczeń i ustawcie limit oraz część na `0`. Zapiszcie i ponownie wygenerujcie plik, a następnie przywracajcie filtry pojedynczo.
+
+### 5.7 Brakuje kategorii Microsoft
+
+**Objaw:** Plik produktowy nie zawiera przydatnych wartości kategorii Microsoft albo funkcja **Pair categories** nie może przeszukiwać taksonomii.
+
+**Przyczyna:** Taksonomia dla wybranego języka nie została zsynchronizowana albo kategorie sklepu nie zostały powiązane.
+
+**Działanie:** Edytujcie plik produktowy, przewińcie do **Microsoft Categories** i kliknijcie **Synchronize** dla danego języka. Jeśli to źródło jest niedostępne, wybierzcie inne w **Synchronize specific**. Gdy plik zostanie oznaczony jako dostępny, kliknijcie **Pair categories** i uzupełnijcie powiązania.
+
+### 5.8 Duży katalog przekracza czas lub pamięć
+
+**Objaw:** Generowanie zatrzymuje się, trwa zbyt długo albo zapisany plik nie jest aktualizowany.
+
+**Przyczyna:** Hosting nie może przetworzyć w jednym uruchomieniu całego katalogu, kontekstu cen, obrazów i automatycznych obliczeń wysyłki.
+
+**Działanie:** Wpiszcie odpowiednią wartość **Limit number of products in feed** i utwórzcie osobne pliki produktowe z kolejnymi wartościami **Part of feed**. Jeśli jest to właściwe, zamiast automatycznego obliczania wysyłki dla każdej pozycji użyjcie jednej ręcznie ustawionej kwoty, a poszczególne części uruchamiajcie oddzielnie.
+
+### 5.9 Microsoft zgłasza problemy z jakością danych
+
+**Objaw:** Microsoft Merchant Center wyświetla ostrzeżenia dotyczące identyfikatorów, opisów, cen, dostępności, obrazów, wariantów, grup wiekowych, płci, kolorów lub wysyłki.
+
+**Przyczyna:** Wybrane pola źródłowe są puste, zawierają nieobsługiwaną wartość albo nie odpowiadają rynkowi katalogu Microsoft.
+
+**Działanie:** Otwórzcie odpowiedni plik produktowy i dopasujcie **Language**, **Currency**, kraj oraz kontekst podatkowy do katalogu Microsoft. Podajcie prawidłowe dane GTIN, zastępczą markę, opisy w zwykłym tekście, bieżącą dostępność, odpowiednie obrazy i powiązania kategorii. W przypadku odzieży sprawdźcie **size**, **gender**, **color**, **age_group** i **item_group_id**. Ponownie wygenerujcie plik produktowy i jeszcze raz sprawdźcie diagnostykę w Microsoft Merchant Center.
+
+## 6. Informacje dla programistów
+
+### 6.1 Przegląd modułu
+
+| Element | Wartość |
+|---|---|
+| Nazwa techniczna | `mmcfeed` |
+| Wersja | `1.1.0` |
+| Nazwa wyświetlana | `Microsoft Merchant Center Feed` |
+| Autor | `MyPresta.eu` |
+| Karta modułu | `administration` |
+| Karta panelu administracyjnego | `AdminExportProductsFeedMicrosoft`, zainstalowana pod `AdminCatalog` |
+| Endpoint front office | `controllers/front/feed.php` |
+
+`mmcfeed` rozszerza klasę `Module`. Definicje plików produktowych są przechowywane przez ObjectModel `mmc` jako nazwa, sklep, flaga aktywności i serializowana konfiguracja w postaci ciągu zapytania. Zarówno natychmiastowe pobieranie z panelu administracyjnego, jak i wywołania kontrolera frontowego tworzą dane CSV lub XML z danych produktów PrestaShop. Tryb plikowy zapisuje oczyszczoną nazwę pliku w katalogu modułu, natomiast tryb na żywo strumieniuje odpowiedź.
+
+### 6.2 Ważne pliki i klasy
+
+| Plik | Odpowiedzialność |
+|---|---|
+| `mmcfeed.php` | Metadane modułu, instalacja i odinstalowanie, globalny formularz konfiguracji, funkcje pomocnicze oczyszczania danych, bezpieczne ścieżki plików i weryfikacja tokena zapisu HMAC. |
+| `controllers/admin/AdminExportProductsFeedMicrosoft.php` | Dashboard, lista plików produktowych, formularz tworzenia i edycji, duplikowanie, usuwanie, synchronizacja i parowanie kategorii, natychmiastowe eksporty oraz zapisywanie domyślnych wartości formularza. |
+| `controllers/front/feed.php` | Wczytuje zapisany plik produktowy, sprawdza aktywny stan i przynależność do sklepu, stosuje zapisane opcje, strumieniuje dane na żywo albo zapisuje plik statyczny. |
+| `model/mmc.php` | ObjectModel `mmc`, migracja schematu, tworzenie adresów plików produktowych, uzupełnianie list, rejestrowanie uruchomień, statystyki panelu i metadane wygenerowanych plików. |
+| `model/categorymap.php` | Definiuje ObjectModel `pixelgoogle` używany do mapowania kategorii. |
+| `model/google.php` | Powiela tę samą definicję klasy `pixelgoogle` i metody co `model/categorymap.php`; wczytanie obu definicji w jednym żądaniu spowodowałoby ponowną deklarację klasy. |
+| `lib/updateChecker.php` | `mmcfeedUpdate`, sprawdzanie aktualizacji, wspólne ustawienie powiadomień oraz formularz Updates. |
+| `lib/searchTool/searchTool.php` | Autouzupełnianie produktów i kategorii używane przez pola wykluczeń. |
+| `views/templates/admin/layout.tpl` | Nagłówek aplikacji, karty nawigacyjne, komunikaty i wspólne zasoby. |
+| `views/templates/admin/feeds.tpl` | Karty plików produktowych, adresy, stany i działania wierszy. |
+| `views/templates/admin/dashboard.tpl` | Wskaźniki KPI, wykres aktywności, ostatnie uruchomienia i wygenerowane pliki. |
+| `views/templates/admin/form-chrome.tpl` | Nagłówek formularza i prezentacja adresów trybu na żywo oraz plikowego. |
+| `views/category_taxonomy.tpl` | Stan taksonomii oraz punkty wejścia synchronizacji i parowania. |
+| `views/categories-fancybox.tpl` | Okno mapowania kategorii i opcjonalne ścieżki nadrzędne. |
+| `views/exclude-products.tpl` | Autouzupełnianie wykluczeń produktów i lista wybranych produktów. |
+| `views/js/admin-app.js` i `views/css/admin-app.css` | Interakcje i stylizacja aplikacji w panelu administracyjnym. |
+
+### 6.3 Kontrolery i przepływ żądań
+
+`AdminExportProductsFeedMicrosoftController` rozszerza `ModuleAdminController`. Widoki aplikacji są wybierane przez `mmcfeed_view`: `dashboard`, `feeds`, `updates` lub `form`. Kontroler obsługuje:
+
+- `saveonly` do zapisywania pliku produktowego i powrotu do listy.
+- `submitExport` do zapisywania i natychmiastowego pobierania danych wyjściowych.
+- `updatemmc` z `id_mmc` do edycji.
+- `duplicatemmc` i `deletemmc` do działań w wierszach.
+- AJAX `toggleFeedActive`.
+- Synchronizację taksonomii przez AJAX, mapowanie kategorii, autouzupełnianie, zapisywanie powiązań i usuwanie powiązań.
+
+`mmcfeedfeedModuleFrontController` rozszerza `ModuleFrontController`. Przyjmuje identyfikator zapisanego pliku produktowego, wczytuje wyłącznie zapisane parametry, odrzuca brakujący lub wyłączony plik oraz plik należący do innego sklepu, a następnie wywołuje generowanie. W trybie plikowym wymaga również `mmcfeed_write_key`. Parametry debugowania i parametry eksportu otrzymane w żądaniu są usuwane lub ignorowane, dlatego wywołujący nie mogą nadpisać zapisanych ustawień.
+
+Moduł zawiera zastępcze pliki `index.php`, ale nie ma drugiego funkcjonalnego kontrolera frontowego.
+
+### 6.4 Hooki i cykl życia
+
+Jedynym zarejestrowanym hookiem jest `actionAdminControllerSetMedia`. Dla `AdminExportProductsFeedMicrosoft` włącza wtyczki jQuery Fancybox i autocomplete. Metoda hooka nie generuje treści w front office.
+
+Moduł nie definiuje własnych metod `enable()` ani `disable()`. Nie udostępnia też własnych hooków.
+
+`install()` wywołuje instalator klasy nadrzędnej, rejestruje hook, tworzy kartę administracyjną, tworzy tabele i uzupełnia schemat. Nie czyści pamięci podręcznej. `uninstall()` usuwa kartę administracyjną i wywołuje `parent::uninstall()`; nie usuwa tabel modułu, wartości konfiguracji, wygenerowanych plików produktowych ani plików taksonomii.
+
+### 6.5 Nadpisania
+
+Moduł nie instaluje nadpisań klas ani kontrolerów PrestaShop.
+
+### 6.6 Baza danych
+
+Rzeczywisty prefiks tabel jest prefiksem bazy danych skonfigurowanym w sklepie.
+
+| Tabela | Zawartość |
+|---|---|
+| `pixelgoogle` | Rekordy mapowania kategorii: klucz główny `id_pixelgoogle`, starszy klucz `id_google`, identyfikator PrestaShop `id_category`, `id_lang` i zmapowana wartość taksonomii `value`. |
+| `mmc` | Zapisane pliki produktowe: klucz główny `id_mmc`, `name`, właściciel `id_shop`, serializowane `conf` i `active`. Kontrola schematu dodaje `active` oraz `id_shop` do starszych instalacji i przypisuje starsze pliki produktowe do sklepu domyślnego. |
+| `mmc_log` | Historia generowania: identyfikator pliku produktowego, znacznik czasu, czas trwania, liczba pozycji, stan, flaga trybu plikowego, nazwa pliku, format i źródło. Wpisy starsze niż 90 dni są usuwane podczas rejestrowania uruchomienia. |
+
+Odinstalowanie zachowuje wszystkie trzy tabele. Zachowuje także rekordy plików produktowych, mapowania i historię uruchomień.
+
+### 6.7 Klucze konfiguracji i wartości domyślne
+
+Klucze globalne i klucze mechanizmu aktualizacji:
+
+| Klucz | Wartość domyślna lub działanie |
+|---|---|
+| `mmc_pf_tree` | Brakująca wartość działa jak `0`; steruje ścieżkami nadrzędnymi w mapowaniu kategorii. |
+| `mypresta_updates` | Wspólne ustawienie aktualizacji MyPresta; brakująca wartość jest traktowana jako wyłączenie okresowego sprawdzania. |
+| `update_mmcfeed` | Znacznik czasu ostatniego sprawdzenia aktualizacji; zapisywany podczas sprawdzania. |
+| `updatev_mmcfeed` | Najnowsza wersja zwrócona przez usługę aktualizacji. |
+
+Gdy **Remember settings** jest włączone, domyślne wartości formularza są zapisywane z prefiksem `mmc_`. Klucze i wartości zastępcze w kodzie:
+
+| Klucze | Wartości zastępcze |
+|---|---|
+| `mmc_export_igid`, `mmc_export_active`, `mmc_export_instock`, `mmc_export_product_type`, `mmc_export_product_type_id`, `mmc_export_product_weight`, `mmc_export_shipping_info`, `mmc_export_unit_price`, `mmc_export_save_file`, `mmc_export_nophoto_exclude`, `mmc_export_adult`, `mmc_export_color`, `mmc_export_gender`, `mmc_export_age_group`, `mmc_export_size`, `mmc_export_storecode`, `mmc_export_mainpicture`, `mmc_export_inventory`, `mmc_export_ie` | `0` lub false. |
+| `mmc_export_additional_sc`, `mmc_export_exworthless` | False. |
+| `mmc_remember_settings`, `mmc_export_specific`, `mmc_export_enclosure`, `mmc_export_removehtml` | `1` lub true. |
+| `mmc_export_file_format` | `csv`. |
+| `mmc_export_type` | Starsza wartość zastępcza `product`, normalizowana do `products` podczas generowania. |
+| `mmc_export_identification` | `id_product`. |
+| `mmc_export_gtin` | `upc`. |
+| `mmc_export_product_name` | `name`. |
+| `mmc_export_product_name_format`, `mmc_export_instock_info`, `mmc_export_what_pictures` | `0`. |
+| `mmc_export_short_description_what` | `short`. |
+| `mmc_export_delimiter` | `|`. |
+| `mmc_export_tax` | `price_tin`. |
+| `mmc_export_manufacturers_default` | `Default`. |
+| `mmc_export_language`, `mmc_export_currency`, `mmc_export_country_prices`, `mmc_export_group_prices` | Odpowiednie wartości domyślne sklepu. |
+| `mmc_export_category`, `mmc_export_manufacturers`, `mmc_export_suppliers` | Starsza wartość zastępcza `all`; widoczny selektor używa opcji **All**. |
+| `mmc_export_shipping_info_price`, `mmc_limit_limit`, `mmc_limit_page` | `0`. |
+| `mmc_export_shipping_id_zone` | `1`. |
+| `mmc_export_filename`, `mmc_export_remove_char_product_name`, `mmc_export_exclude`, `mmc_export_exclude_categories`, `mmc_export_color_type`, `mmc_export_color_default`, `mmc_export_gender_default`, `mmc_export_size_default`, `mmc_export_availability_date`, `mmc_export_exreference`, `mmc_export_exreference_value`, `mmc_export_sc`, `mmc_export_exworthless_value` | Pusty ciąg. |
+| `mmc_export_color_attribute`, `mmc_export_color_feature`, `mmc_export_gender_type`, `mmc_export_gender_feature`, `mmc_export_gender_attribute`, `mmc_export_age_group_type`, `mmc_export_age_group_feature`, `mmc_export_age_group_attribute`, `mmc_export_age_group_default` | `0`. |
+| `mmc_export_size_attribute` | Identyfikatory rozdzielone przecinkami; domyślnie puste. |
+| `mmc_mmcfeed_products` | Identyfikatory wykluczonych produktów rozdzielone przecinkami; domyślnie puste. |
+
+Pętla zapamiętanych ustawień odczytuje również `delete_images` jako `mmc_delete_images`, chociaż ta wersja nie ma dla niego widocznego pola. Odinstalowanie nie usuwa żadnego z tych kluczy.
+
+### 6.8 Wygenerowane pliki, taksonomia, bezpieczeństwo i rozszerzenia
+
+Statyczne pliki produktowe są zapisywane jako `modules/mmcfeed/{sanitized-name}.{csv|xml|txt}`. Nazwy plików są ograniczane do liter, cyfr, łączników i znaków podkreślenia, a kontrola bezpiecznych ścieżek zapobiega wyjściu poza katalog modułu. Pliki taksonomii są przechowywane w `modules/mmcfeed/google/{language-code}.txt`. Żadna z tych grup nie jest usuwana podczas odinstalowania.
+
+Token zapisu pliku to `hash_hmac('sha256', 'mmcfeed.write.' . $idShop, _COOKIE_KEY_)`. Pracownik panelu administracyjnego może zapisywać bezpośrednio; zewnętrzne wywołanie generowania pliku musi przekazać token, a porównanie używa `hash_equals`. Przed zastosowaniem zapisanej konfiguracji kontroler pliku produktowego odrzuca niezaufane parametry wejściowe `export_*`, `mmcfeed_*`, `mmc_*`, `pf_*`, limitu, debugowania i wykluczeń.
+
+CSV używa `fputcsv`, znormalizowanego separatora i podwójnego cudzysłowu jako ogranicznika tekstu. W tekście pliku produktowego dekodowane są encje HTML, normalizowane są białe znaki, usuwane są podziały wierszy, tabulatory i kod HTML. XML używa `SimpleXMLElement`. Sprawdzanie aktualizacji korzysta z cURL, jeśli jest dostępne, a w przeciwnym razie z dostępu do plików obsługującego adresy URL.
+
+Tłumaczenia używają `translations/{iso}.php`. Większość tekstów przechodzi przez wywołania tłumaczeń modułu; niektóre etykiety opcji, takie jak **All**, **Price Tax Included** i **Price Tax Excluded**, są dosłownie zapisane po angielsku. Opisy pól znajdują się bezpośrednio w tablicach HelperForm kontrolera administracyjnego, a opisy aktualizatora w `lib/updateChecker.php`.
+
+Nie istnieje szablon front office, który można nadpisać w motywie. Szablony Smarty panelu administracyjnego można zmienić wyłącznie przez modyfikację lub rozszerzenie modułu. Bezpieczniejszą metodą dostosowania generowania plików produktowych jest utrzymywany fork modułu albo oddzielna integracja zamiast edytowania podstawowych plików PrestaShop; moduł nie udostępnia formalnego hooka rozszerzeń.
+
+## 7. Pomoc
+
+Strona produktu: [Microsoft Merchant Center Product Feed](https://mypresta.eu/modules/advertising-and-marketing/microsoft-merchant-center-feed.html)
+
+Aby uzyskać pomoc, zalogujcie się na konto klienta w mypresta.eu, otwórzcie stronę kontaktową i wybierzcie **Support for paid modules**. Ten temat wymaga zalogowania; po zalogowaniu wybierzcie moduł z historii zakupów i opiszcie plik produktowy, sklep oraz dokładny wyświetlany komunikat.

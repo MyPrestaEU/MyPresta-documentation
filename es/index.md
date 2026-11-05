@@ -27,14 +27,19 @@ hero:
 
 | Categoría de Módulo | Qué Puedes Configurar | Centro de Documentación |
 | :--- | :--- | :--- |
+| **IA y Automatización** | Generación de contenido con IA, ChatGPT, Gemini, Claude, DeepSeek, descripciones automáticas de productos y SEO. | [Explorar IA y Automatización](./ai-artificial-intelligence/) |
+| **Herramientas de Back-Office y Administración** | Utilidades de gestión de pedidos, herramientas de catálogo masivo y módulos de mantenimiento de la tienda. | [Explorar Back-Office](./back-office-tools/) |
+| **Marketing y Publicidad** | Promociones, modales de intención de salida, notificaciones y herramientas de participación del cliente. | [Explorar Marketing](./advertising-marketing/) |
 | **Módulos de Front-Office** | Mejoras de UX, widgets de página de producto, banners, popups y extensiones de frontend. | [Explorar Front-Office](./front-office/) |
 | **Pedidos y Proceso de Compra** | Optimizaciones del embudo de compra, campos de pago personalizados, recargos y reglas de entrega. | [Explorar Pedidos](./ordering-process/) |
 | **Pasarelas de Pago** | Tarifas de pago personalizadas, restricciones de pago, opciones de recargo y funciones de COD. | [Explorar Pagos](./payment/) |
 | **SEO y Visibilidad en Búsquedas** | Metaetiquetas, URLs canónicas, marcado de esquema y optimizaciones para motores de búsqueda. | [Explorar SEO](./seo/) |
-| **Marketing y Publicidad** | Promociones, modales de intención de salida, notificaciones y herramientas de participación del cliente. | [Explorar Marketing](./advertising-marketing/) |
-| **Herramientas de Back-Office y Administración** | Utilidades de gestión de pedidos, herramientas de catálogo masivo y módulos de mantenimiento de la tienda. | [Explorar Back-Office](./back-office-tools/) |
 | **Sliders y Presentaciones** | Carruseles de imágenes responsivos, banners de video y sliders de medios promocionales. | [Explorar Sliders](./sliders-slideshows/) |
 | **Redes Sociales** | Feeds de redes sociales, integraciones de Facebook, widgets para compartir y herramientas comunitarias. | [Explorar Redes Sociales](./social-networks/) |
+
+
+
+
 
 
 :::tip[¿No encuentras tu módulo?]
