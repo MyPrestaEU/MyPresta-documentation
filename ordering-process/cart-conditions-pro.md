@@ -1,8 +1,8 @@
 ---
-title: "Cart conditions pro - Merchant Manual & Configuration Guide"
-description: "Complete user manual, screen-by-screen setup guide, and developer reference for the Cart conditions pro PrestaShop module by MyPresta.eu."
+title: "Cart Conditions - documentation and user manual"
 sidebar:
-  label: "Cart conditions pro - Merchant Manual & Configuration Guide"
+  label: "Cart Conditions - documentation and user manual"
+description: "Configuration and troubleshooting manual for shops that already use Cart Conditions."
 ---
 
 > ⚠️ **Notice:** This is the official documentation for the PrestaShop module.
@@ -12,357 +12,358 @@ sidebar:
 > ---
 
 
-# Cart conditions pro
-
-## 1. Requirements & Compatibility
-
-- **Supported PrestaShop Versions**: PrestaShop 1.5.x, 1.6.x, 1.7.x, 8.x, 9.x
-- **PHP Compatibility**: PHP 5.6 - 8.5
-- **Hosting Requirements**: Standard PHP extensions (cURL, JSON, OpenSSL) are typically required for PrestaShop itself and are sufficient for this module.
-
-## 2. Complete Configuration Walkthrough (Every Setting Grouped by Screen)
-
-### 2.1 Module Configuration Page (Back Office > Modules > Configure > Cart conditions pro)
-
-This is the main configuration screen for the module, where you set up global behaviors and access the specific condition management areas.
-
-- **What this setting does:** Controls the overall behavior of the module and provides quick links to manage your conditions.
-- **Effect of changing this setting:** Determines how broadly the conditions apply and how certain edge cases are handled.
-
-#### General Settings
-
-1. **Exclude customers from conditions**
-
-   - **What this setting does:** Allows you to specify certain customer groups or individual customers who will be exempt from any cart conditions you set up.
-   - **Effect of changing this setting:**
-     - *When enabled (and customers/groups selected):* The selected customers/groups will always be able to proceed to checkout, regardless of whether their cart meets the conditions.
-     - *When disabled (or no customers/groups selected):* All customers will be subject to the cart conditions.
-   - **Recommended value:** “Off” by default, unless you have specific B2B clients or VIPs you want to exempt.
-   - **Merchant scenario / example:** You have a wholesale customer group that always gets special treatment and shouldn’t be restricted by minimum order values.
-2. **Exclude products from conditions**
-
-   - **What this setting does:** Allows you to specify certain products that will not count towards or be affected by any cart conditions. This is useful for free gifts, samples, or specific promotional items.
-   - **Effect of changing this setting:**
-     - *When enabled (and products selected):* The selected products will be ignored when evaluating cart conditions. For example, if you have a “minimum 3 items” condition, and a customer has 2 regular items + 1 excluded item, the condition might still fail.
-     - *When disabled (or no products selected):* All products in the cart will be considered when evaluating conditions.
-   - **Recommended value:** “Off” by default. Enable only if you have specific products that should be exempt from conditions.
-   - **Merchant scenario / example:** You offer a free sample product with every order. You don’t want this sample to count towards a minimum product quantity condition.
-3. **Block order of products with Various availability date**
-
-   - **What this setting does:** This option specifically addresses products that have different availability dates (e.g., pre-order items with staggered release dates). If enabled, it prevents customers from ordering a mix of immediately available and future-available products in the same cart.
-   - **Effect of changing this setting:**
-     - *When “On”:* If a customer’s cart contains products with different availability dates, they will be blocked from checkout. They would need to place separate orders for items with different availability.
-     - *When “Off”:* Customers can order products with various availability dates in a single cart.
-   - **Recommended value:** “Off” unless you have specific logistical reasons to separate orders based on availability.
-   - **Merchant scenario / example:** You sell both in-stock items and pre-order items. To simplify shipping and avoid holding orders, you want customers to place separate orders for pre-order items.
-
-#### Condition Management Links
-
-Below the general settings, you will find links to manage different types of conditions. These links will take you to dedicated administration screens.
-
-- **Manage Conditions (General):** This is where you define broad conditions based on product associations, categories, or other general rules.
-- **Manage Country Conditions:** Define conditions that apply only to customers from specific countries.
-- **Manage Quantity Conditions:** Set minimum or maximum quantities of products/categories required in the cart.
-- **Manage Value Conditions:** Set minimum or maximum total cart values required.
-
-### 2.2 Dedicated Admin Screens & Controller Views
-
-#### 2.2.1 AdminCartConditionController (Back Office > Modules > Cart conditions pro > Manage Conditions)
-
-This screen allows you to define general conditions, often based on product or category associations.
-
-- **Screen Name & Menu Location:** “Manage Conditions” (accessible from the main module configuration page).
-- **Available Actions & Settings:**
-  - **Listing Table:** Displays all existing general conditions with their names, associated products/categories, and status.
-  - **Add New Condition Button:** Allows you to create a new condition.
-    - **Condition Name:** A descriptive name for your internal reference.
-    - **Products/Categories:** Select specific products or entire categories that must be present (or not present) in the cart.
-    - **Customer Groups:** Apply this condition only to specific customer groups.
-    - **Minimum/Maximum Quantity:** Define a range for the number of selected products/categories.
-    - **Minimum/Maximum Value:** Define a range for the total value of selected products/categories.
-    - **Message:** The message displayed to the customer if the condition is not met.
-    - **Active:** Enable or disable the condition.
-  - **Edit/Delete Buttons:** Modify or remove existing conditions.
-- **Effect of changes:**
-  - Adding a new condition immediately applies that rule to customer carts.
-  - Modifying a condition updates its criteria and message.
-  - Deleting a condition removes the restriction.
-- **Recommended workflow for daily store management:** Regularly review your conditions, especially after adding new products, categories, or running promotions, to ensure they align with your current sales strategy.
-
-#### 2.2.2 AdminCartAssociationsConditionController (Back Office > Modules > Cart conditions pro > Manage Conditions > (Specific Condition) > Associations)
-
-This screen is typically accessed when editing a general condition and allows you to specify which products or categories are *associated* with that condition.
-
-- **Screen Name & Menu Location:** Accessed by editing a condition from “Manage Conditions”.
-- **Available Actions & Settings:**
-  - **Search & Select Products/Categories:** Tools to find and add specific products or entire categories that are part of this condition.
-  - **Selected Products/Categories List:** Shows all items currently associated with the condition.
-  - **Remove Button:** Remove an item from the association.
-- **Effect of changes:** Directly impacts which products or categories are evaluated by the parent condition. For example, if a condition states “Cart must contain at least 2 items from the ‘Electronics’ category,” this screen is where you define which products belong to that “Electronics” category for this specific condition.
-- **Recommended workflow for daily store management:** When creating or updating a condition, ensure all relevant products and categories are correctly associated.
-
-#### 2.2.3 AdminCartCountryConditionController (Back Office > Modules > Cart conditions pro > Manage Country Conditions)
-
-This screen allows you to define conditions that are specific to the customer’s shipping country.
-
-- **Screen Name & Menu Location:** “Manage Country Conditions” (accessible from the main module configuration page).
-- **Available Actions & Settings:**
-  - **Listing Table:** Displays existing country-specific conditions.
-  - **Add New Condition Button:**
-    - **Country:** Select the target country.
-    - **Minimum/Maximum Quantity:** For all products in the cart, or specific products/categories.
-    - **Minimum/Maximum Value:** For the total cart value.
-    - **Message:** The message displayed if the condition is not met.
-    - **Active:** Enable or disable.
-- **Effect of changes:** Applies specific cart rules only to customers whose shipping address is in the selected country.
-- **Recommended workflow for daily store management:** Useful for international stores with varying shipping costs, customs regulations, or market strategies per country.
-
-#### 2.2.4 AdminCartQuantityConditionController (Back Office > Modules > Cart conditions pro > Manage Quantity Conditions)
-
-This screen focuses on conditions related to the total number of items in the cart, or the quantity of specific items/categories.
-
-- **Screen Name & Menu Location:** “Manage Quantity Conditions” (accessible from the main module configuration page).
-- **Available Actions & Settings:**
-  - **Listing Table:** Shows all quantity-based conditions.
-  - **Add New Condition Button:**
-    - **Condition Name:**
-    - **Minimum/Maximum Total Quantity:** For the entire cart.
-    - **Minimum/Maximum Quantity of Specific Products/Categories:** Select items and set quantity rules for them.
-    - **Customer Groups:** Apply to specific groups.
-    - **Message:**
-    - **Active:**
-- **Effect of changes:** Enforces rules based on the count of items in the cart, which can be used to encourage bulk purchases or manage inventory.
-- **Recommended workflow for daily store management:** Use this for “buy X get Y” promotions, minimum order quantity (MOQ) for wholesale, or ensuring customers meet a certain threshold for free shipping.
-
-#### 2.2.5 AdminCartValueConditionController (Back Office > Modules > Cart conditions pro > Manage Value Conditions)
-
-This screen is for setting conditions based on the total monetary value of the customer’s cart.
-
-- **Screen Name & Menu Location:** “Manage Value Conditions” (accessible from the main module configuration page).
-- **Available Actions & Settings:**
-  - **Listing Table:** Displays existing value-based conditions.
-  - **Add New Condition Button:**
-    - **Condition Name:**
-    - **Minimum/Maximum Total Cart Value:** Set a range for the entire cart’s value.
-    - **Customer Groups:**
-    - **Message:**
-    - **Active:**
-- **Effect of changes:** Enforces rules based on the monetary value of the cart, directly impacting average order value.
-- **Recommended workflow for daily store management:** Ideal for setting a minimum order value for free shipping, or a general minimum order value to ensure profitability.
-
-#### 2.2.6 index.php (cartcon/controllers/admin/index.php)
-
-This file is a standard PrestaShop practice to prevent directory listing and does not represent a configurable screen. It simply contains `<?php header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT"); header("Cache-Control: no-store, no-cache, must-revalidate"); header("Cache-Control: post-check=0, pre-check=0", false); header("Pragma: no-cache"); header("Location: ../"); exit;` to redirect if someone tries to access the directory directly.
-
-### 2.3 Configuration Quick Reference Table
-
-| Screen / View | Setting / Option | Default / Recommended | Purpose & Impact |
-| --- | --- | --- | --- |
-| **Module Configuration** | Exclude customers from conditions | Off | Exempt specific customers/groups from all conditions. |
-|  | Exclude products from conditions | Off | Exempt specific products from all conditions. |
-|  | Block order of products with Various availability date | Off | Prevent mixed orders of in-stock and pre-order items. |
-| **Manage Conditions** | Condition Name | User Defined | Internal label for the condition. |
-|  | Products/Categories | User Defined | Select items/categories required or restricted. |
-|  | Customer Groups | All | Apply condition to specific customer segments. |
-|  | Min/Max Quantity | User Defined | Set quantity range for selected items/categories. |
-|  | Min/Max Value | User Defined | Set value range for selected items/categories. |
-|  | Message | User Defined | Customer-facing message when condition is not met. |
-|  | Active | Yes | Enable/disable the condition. |
-| **Manage Country Conditions** | Country | User Defined | Target specific countries for conditions. |
-|  | Min/Max Quantity | User Defined | Quantity range for carts from selected country. |
-|  | Min/Max Value | User Defined | Value range for carts from selected country. |
-|  | Message | User Defined | Customer message for country-specific failure. |
-|  | Active | Yes | Enable/disable country condition. |
-| **Manage Quantity Conditions** | Condition Name | User Defined | Internal label for quantity condition. |
-|  | Min/Max Total Quantity | User Defined | Quantity range for the entire cart. |
-|  | Min/Max Quantity of Specific Products/Categories | User Defined | Quantity range for selected items/categories. |
-|  | Customer Groups | All | Apply to specific customer segments. |
-|  | Message | User Defined | Customer message for quantity failure. |
-|  | Active | Yes | Enable/disable quantity condition. |
-| **Manage Value Conditions** | Condition Name | User Defined | Internal label for value condition. |
-|  | Min/Max Total Cart Value | User Defined | Value range for the entire cart. |
-|  | Customer Groups | All | Apply to specific customer segments. |
-|  | Message | User Defined | Customer message for value failure. |
-|  | Active | Yes | Enable/disable value condition. |
+## 1. Requirements
 
-## 3. Merchant Troubleshooting & Frequently Asked Questions (FAQ)
+Cart Conditions runs inside the shop. It does not need another module and it does not need an account in an outside service.
 
-**Q1: My conditions are set, but they don’t seem to be working on the front office. What’s wrong?**
-**A1:**
+- PrestaShop 1.7, 8 and 9. This manual was checked on PrestaShop 9.2.0.
+- PHP version required by that PrestaShop. The module does not ask for an extra PHP extension.
+- No other module is required.
+- The rules read the current cart. The size of the catalog does not change the check.
 
-- **Check Condition Status:** Ensure the “Active” switch for each condition you’ve set is turned “Yes”.
-- **Clear Cache:** PrestaShop often caches content. Go to **Advanced Parameters > Performance** and click “Clear cache” (or “Clear Smarty cache” in older versions).
-- **Module Position:** Verify the module is hooked correctly. The `displayShoppingCart` and `displayPaymentTop` hooks are crucial. If your theme has custom hooks, you might need developer assistance.
-- **Customer Groups:** Double-check if the conditions are applied to the correct customer groups, and if your test customer belongs to that group.
-- **Product/Category IDs:** When selecting products or categories, ensure you’ve picked the correct ones. Sometimes similar names can cause confusion.
+## 2. Installation
 
-**Q2: The message displayed to customers is not clear or doesn’t look good with my theme.**
-**A2:**
+1. Open **Modules**, then **Module Manager**.
+2. Upload the module zip and install it. The module turns on as part of that install.
+3. Open **Catalog**. Five entries appear, in this order, with these English names on every back-office language:
 
-- **Edit Message:** Go to the specific condition (e.g., Manage Value Conditions, then edit the condition) and update the “Message” field with clearer, more helpful text.
-- **Theme Styling:** The visual appearance (font, color, size) of the message is controlled by your PrestaShop theme’s CSS. If you need to change the styling, you’ll need to consult a web designer or developer to add custom CSS rules to your theme. The module’s CSS files (`cartcon.css`) provide the base styling.
+- **Cart Conditions**
+- **Cart Value Conditions**
+- **Cart Quantity Conditions**
+- **Cart Associations Conditions**
+- **Cart value by country conditions**
 
-**Q3: Can I set different conditions for different languages/countries?**
-**A3:**
+Installation does not clear the shop cache.
 
-- **Country-Specific Conditions:** Yes, use the “Manage Country Conditions” screen to set rules that apply only to customers from specific countries.
-- **Multi-language Messages:** When editing a condition, the “Message” field usually has a language selector (a flag icon). Click it to provide translations for your message in all active languages of your store.
+Uninstall removes those five menu entries and unhooks the module. It leaves the saved rules, the exclusion list, the availability setting and the update setting in the shop. Install the module again and the menu returns, and the old rules are still there.
 
-**Q4: I want to exclude a specific product from ALL conditions. How do I do that?**
-**A4:**
+## 3. Configuration and daily work
 
-- On the main module configuration page (Back Office > Modules > Configure > Cart conditions pro), use the setting “Exclude products from conditions”. You can search for and select the specific products you wish to exempt.
+A customer fills the cart. On the cart page the shop lists every broken rule in a red alert. If the customer continues toward payment, the shop sends them back to the cart until every active rule is met. A customer listed under **Exclude customers from conditions** skips every rule and can check out.
 
-**Q5: The module is blocking checkout, but I can’t find which condition is causing it.**
-**A5:**
+You prepare the shop in this order:
 
-- **Review All Conditions:** Go through “Manage Conditions”, “Manage Country Conditions”, “Manage Quantity Conditions”, and “Manage Value Conditions” one by one. Check the “Active” status of each and review their criteria.
-- **Test Systematically:** If you have many conditions, try disabling them one by one (or in groups) and testing the cart until you identify the culprit. Then, re-enable them and adjust the problematic condition.
-- **Check Customer Group:** Ensure your test customer is not part of an excluded customer group.
+1. Open **Configure** and decide who and which products the rules ignore.
+2. Decide whether future availability dates may be mixed.
+3. Open each list under **Catalog**, click **Add new**, fill the form, set **Active** to **On**, and click **Save**.
+4. Place a test order with a normal customer and with an excluded customer.
 
-## 4. Developer & Webmaster Guide (Technical Architecture & Code Map)
+A new rule form opens with **Active** set to **Off**. **Save** stores that row, and the cart ignores it until you set **Active** to **On**. The configuration page answers **Saved**. The rule lists use the usual back-office confirmation after **Save**.
 
-### 4.1 Architecture Overview
+The blue note on **Configure** says: "Management of this module is located under Price Rules menu." The five links in that note, and the entries under **Catalog**, are the screens that open the lists. There is no Price Rules entry for this module.
 
-The “Cart conditions pro” module follows the standard PrestaShop MVC (Model-View-Controller) pattern, primarily extending `Module` for its main configuration and `AdminController` for dedicated management interfaces. It leverages PrestaShop’s hook system to inject logic and display messages at critical points in the front-office (cart, payment) and uses `ObjectModel` implicitly for managing its various condition entities. The module relies on custom database tables to store its complex condition rules.
+![Links on the configuration page](https://mypresta.eu/docs/images/docs/cartcon-configure-links.webp)
 
-### 4.2 Controllers (`controllers/`)
+### 3.1 Configuration page
 
-#### Front-Office Controllers
+Open **Modules**, **Module Manager**, find **Cart Conditions**, and click **Configure**.
 
-The module does not appear to have dedicated front controllers in the provided inventory. Front-office logic and display are likely handled directly via the main `cartcon.php` module file through hook callbacks.
+#### Exclude customers and products
 
-#### Back-Office Admin Controllers
+![Exclusion form](https://mypresta.eu/docs/images/docs/cartcon-configure-exclude.webp)
 
-All admin controllers extend `ModuleAdminController` (or `AdminController` in older PrestaShop versions) and are responsible for managing the various types of conditions.
+Search a customer, click the result, and that person is added to the exclusion list. Remove a person from the same list before you save. Excluded customers skip every cart rule, including the availability check.
 
-- `cartcon/controllers/admin/AdminCartAssociationsConditionController.php`
+| Field | Starting value | What it does |
+|---|---|---|
+| **Exclude customers from conditions** | empty | Customers in this list can check out with no cart rule. **Save** stores the list. |
+| **Exclude products from conditions** | **Do not exclude products** | **Exclude selected products** makes the rules skip the products and categories you select. **Do not exclude products** counts every product. |
+| **Categories** | none checked | Checked categories are skipped when the switch above is **Exclude selected products**. |
+| **Save** | - | Stores the customers, the switch, the products and the categories. The page shows **Saved**. |
 
-  - **Class Name:** `AdminCartAssociationsConditionController`
-  - **Parent Class:** `ModuleAdminController`
-  - **Responsibility:** Manages the associations (products, categories) linked to a specific general cart condition. This controller provides the interface for searching and selecting products/categories that are part of a condition’s criteria. It interacts with the `cartcon_ass` table.
-- `cartcon/controllers/admin/AdminCartConditionController.php`
+The product search and the category tree sit on this same form. Select the products the same way you select a customer: search, then click the result.
 
-  - **Class Name:** `AdminCartConditionController`
-  - **Parent Class:** `ModuleAdminController`
-  - **Responsibility:** Manages the main, general cart conditions. This is the primary interface for creating, editing, and deleting conditions based on product/category presence, quantity, or value. It interacts with the `cartcon` table.
-- `cartcon/controllers/admin/AdminCartCountryConditionController.php`
+#### Global conditions
 
-  - **Class Name:** `AdminCartCountryConditionController`
-  - **Parent Class:** `ModuleAdminController`
-  - **Responsibility:** Manages cart conditions specifically tied to customer countries. It allows defining rules that only apply when the customer’s shipping country matches a specified country. It interacts with the `cartcon_country` table.
-- `cartcon/controllers/admin/AdminCartQuantityConditionController.php`
+![Availability comparison](https://mypresta.eu/docs/images/docs/cartcon-configure-availability.webp)
 
-  - **Class Name:** `AdminCartQuantityConditionController`
-  - **Parent Class:** `ModuleAdminController`
-  - **Responsibility:** Manages conditions based on the total quantity of items in the cart or the quantity of specific products/categories. It interacts with the `cartcon_quantity` table.
-- `cartcon/controllers/admin/AdminCartValueConditionController.php`
+This check looks only at products that are out of stock and whose **Availability date** is still in the future. Products that are in stock, products with an empty or past availability date, and excluded products are left out. One future date in the cart does not block the order. Two or more different values do.
 
-  - **Class Name:** `AdminCartValueConditionController`
-  - **Parent Class:** `ModuleAdminController`
-  - **Responsibility:** Manages conditions based on the total monetary value of the cart. It interacts with the `cartcon_value` table.
-- `cartcon/controllers/admin/index.php`
+| Field | Starting value | What it does |
+|---|---|---|
+| **Block order of products with Various availabiltiy date** | **Off** | **On** blocks the cart when those future dates do not match the comparison below. **Off** skips this check. PrestaShop can already allow an order for a product that will be available later. This switch decides whether different dates may sit in one cart. |
+| **How to compare availability dates** | **Exact date** | **Exact date** blocks the order when the future dates are not the same day. **Same calendar month** allows different days in the same month and year, and blocks the order when the month or the year differs. 5 November 2026 and 20 November 2026 pass. 2 December 2026 does not. 5 November 2027 does not. |
+| **Save** | - | Stores the switch and the comparison. The page shows **Saved**. This button does not create a Catalog rule. |
 
-  - **Responsibility:** Standard PrestaShop security file to prevent directory listing. It redirects to the parent directory.
+The cart message for **Exact date** is: "Availability dates of products in your cart are different. You cant place an order." The message for **Same calendar month** is: "Availability months of products in your cart are different. You cant place an order."
 
-### 4.3 Core Classes & Models (`classes/`)
+#### MyPresta updates
 
-The provided inventory does not list explicit files in a `classes/` directory. This suggests that the module’s core logic and `ObjectModel` definitions (if any) are either embedded within the main `cartcon.php` file or within the admin controller files themselves, which is a common pattern for simpler modules or older PrestaShop versions. If `ObjectModel`s are used, their `$definition` arrays would be found within the respective controller or main module class.
+![Update check](https://mypresta.eu/docs/images/docs/cartcon-configure-updates.webp)
 
-### 4.4 JavaScript Assets (`views/js/`)
+| Field | Starting value | What it does |
+|---|---|---|
+| **Check updates** / **Check now** | - | Asks MyPresta whether a newer file exists. **Module is up to date!** means this file is current. **New version available!** means a newer file is published. The button does not install it. |
+| **Updates notifications** | **Disable** | **Enable** shows a back-office warning when a newer version is published. **Disable** stays quiet. **Save** stores the choice. |
+| **Module page** | link | Opens the module page, where the change list is published. |
+| **Save** | - | Stores the notification choice. |
 
-- `cartcon/lib/searchTool/views/js/autocomplete.js`
+### 3.2 Cart Conditions
 
-  - **Scope:** Back-office.
-  - **Responsibility:** Provides autocomplete functionality for searching products, categories, or customers within the admin forms (e.g., when setting up exclusions or condition associations). It likely binds to input fields, sends AJAX requests to a search endpoint, and displays suggestions.
-- `cartcon/views/js/cartcon.js`
+Open **Catalog**, then **Cart Conditions**. These rules apply to every customer who is not excluded. There is no customer-group field on this list.
 
-  - **Scope:** Front-office and potentially Back-office.
-  - **Responsibility:**
-    - **Front-office:** Handles the dynamic display of cart condition messages, disabling/enabling the “Proceed to checkout” button based on AJAX responses from the server regarding cart validity. It might listen for cart updates (`prestashop.on('updateCart', ...)` or similar events) to re-evaluate conditions.
-    - **Back-office:** Could contain logic for form validation, dynamic field visibility, or other UI enhancements specific to the module’s configuration pages.
+![Cart Conditions list](https://mypresta.eu/docs/images/docs/cartcon-conditions-list.webp)
 
-### 4.5 CSS Stylesheets (`views/css/`)
+The list columns are **ID**, **Cart condition**, **Target type**, **Target item** and **Active**. An empty shop shows **No records found**. Use the filters above the columns to search. The row actions are edit, delete, and the **Active** icon. The bulk action is delete. **Add new** opens the form.
 
-- `cartcon/lib/searchTool/views/css/autocomplete.css`
+![New Cart Conditions rule](https://mypresta.eu/docs/images/docs/cartcon-conditions-form.webp)
 
-  - **Scope:** Back-office.
-  - **Responsibility:** Styles the autocomplete suggestion dropdowns and search input fields used in the admin forms, ensuring a consistent and user-friendly search experience.
-- `cartcon/views/css/cartcon.css`
+| Field | Starting value | What it does |
+|---|---|---|
+| **Condition** | **Must have** | **Must have** demands the target. **Can't have** blocks the target. |
+| **Target type** | **Category** | **Category** uses a category id. **Product** uses a product id. **More than defined number of products** uses a piece count of the whole cart. |
+| **Target item** | empty | Category id, product id, or the piece count. The hint on the field says to enter an id or a number of products. |
+| **Active** | **Off** | **On** makes the cart check this row. **Off** keeps the row and skips it. |
+| **Save** | - | Stores the rule. |
 
-  - **Scope:** Front-office and Back-office.
-  - **Responsibility:**
-    - **Front-office:** Styles the notification messages displayed on the cart page, payment page, or product page when conditions are not met. It defines the appearance of the warning boxes, text, and potentially the disabled state of the checkout button.
-    - **Back-office:** Provides styling for the module’s configuration forms and list tables, ensuring they integrate well with the PrestaShop back office theme.
-  - **Key CSS class selectors developers can override:** Look for classes like `.cartcon-alert`, `.cartcon-message`, `.cartcon-disabled-button` or similar within this file to target and customize the module’s front-office output.
+What the customer sees:
 
-### 4.6 Smarty Template Structure (`views/templates/`)
+- **Must have** and **Category**: "To place an order you must order product from category: ...".
+- **Can't have** and **Category**: "Your cart contains product from forbidden category: .... To continue order please remove it from cart."
+- **Must have** and **Product**: "To place an order you must order product: ...".
+- **Can't have** and **Product**: "Your cart contains forbidden product: .... To continue order please remove it from cart."
+- **Must have** and a piece count: "Your cart contains less products than required (...). To continue order please increase quantity of products in your cart".
+- **Can't have** and a piece count: "Your cart contains more products than allowed (...). To continue order please decrease quantity of products in your cart".
 
-#### Hook templates (`views/templates/hook/`)
+The piece count is the sum of quantities in the cart, after excluded products are removed. **Must have** requires the cart to reach that number. **Can't have** blocks a cart above that number.
 
-The module’s front-office display logic is likely embedded directly in the main `cartcon.php` file’s hook methods, which then render these templates.
+### 3.3 Cart Value Conditions
 
-- `cartcon/views/templates/front/displayShoppingCart.tpl`
+Open **Catalog**, then **Cart Value Conditions**. Each row is one customer group, one category and one minimum amount.
 
-  - **Rendered in hook:** `displayShoppingCart`
-  - **Purpose:** Displays the cart condition messages and potentially disables the checkout button on the main shopping cart page if conditions are not met. It receives variables from the module’s `hookDisplayShoppingCart` method, indicating the validity of the cart and the message to display.
-- `cartcon/views/templates/front/displayShoppingCartEmpty.tpl`
+![Value conditions list](https://mypresta.eu/docs/images/docs/cartcon-value-list.webp)
 
-  - **Rendered in hook:** Potentially `displayShoppingCart` or a related hook when the cart is empty.
-  - **Purpose:** Provides a specific template for displaying messages or alternative content when the shopping cart is empty, potentially related to minimum order requirements.
-- `cartcon/views/templates/front/productActions.tpl`
+Columns are **ID**, **Customer group**, **Cart condition**, **Target**, **Value** and **Active**. Empty list: **No records found**. Row actions: edit, delete, **Active** icon. Bulk action: delete. **Add new** opens the form.
 
-  - **Rendered in hook:** `displayProductActions` (typically near the “Add to Cart” button on the product page).
-  - **Purpose:** Can be used to display subtle hints or warnings on the product page itself if adding the product would violate a cart condition or if the product requires other items to be purchased with it.
+![New value condition](https://mypresta.eu/docs/images/docs/cartcon-value-form.webp)
 
-#### Admin templates (`views/templates/admin/`)
+| Field | Starting value | What it does |
+|---|---|---|
+| **Customer Group** | first group in the shop (Visitor on a default shop) | Only shoppers in this group are checked. A logged-in customer is checked for every group they belong to. |
+| **Condition** | **Must order from selected category** | This is the only choice. The rule runs when the cart already contains that category. |
+| **Target item** | empty | Category id. |
+| **Value** | empty | Minimum tax-included total of the products from that category. Type it in the shop default currency. The currency sign on the form is the shop currency. |
+| **Active** | **Off** | **On** applies the row. **Off** stores it unused. |
+| **Save** | - | Stores the rule. |
 
-- `cartcon/lib/searchTool/views/scripts.tpl`
+If the category is missing from the cart, this rule stays silent. If the category is present and its tax-included total is below **Value**, the cart shows: "To place an order you must order for: ... from category: ...".
 
-  - **Purpose:** Likely includes JavaScript dependencies or initializes the autocomplete scripts for the admin forms.
-- `cartcon/views/templates/admin/AdminCartAssociationsCondition.tpl`
+### 3.4 Cart Quantity Conditions
 
-  - **Purpose:** The main template for the `AdminCartAssociationsConditionController`, displaying the interface for managing product/category associations for a condition. This would include search fields, selected item lists, and save buttons.
-- `cartcon/views/templates/admin/adminSearchCustomer.tpl`
+Open **Catalog**, then **Cart Quantity Conditions**.
 
-  - **Purpose:** Template for the customer search interface, used when excluding customers from conditions.
-- `cartcon/views/templates/admin/script.tpl`
+![Quantity conditions list](https://mypresta.eu/docs/images/docs/cartcon-quantity-list.webp)
 
-  - **Purpose:** General admin script template, potentially including module-specific JavaScript or configuration variables for the back office.
-- `cartcon/views/templates/admin/search-attribute-value-result.tpl`
+Columns are **ID**, **Customer group**, **Cart condition**, **Target**, **Quantity** and **Active**. Empty list: **No records found**. Row actions: edit, delete, **Active** icon. Bulk action: delete.
 
-  - **Purpose:** Template for displaying the results of an attribute/value search within the admin panel, likely used in conjunction with product searches.
-- `cartcon/views/templates/admin/search-attribute-value.tpl`
+![New quantity condition](https://mypresta.eu/docs/images/docs/cartcon-quantity-form.webp)
 
-  - **Purpose:** Template for the search input field and associated UI elements for searching product attributes/values in the admin.
-- `cartcon/views/templates/admin/selectedProducts.tpl`
+| Field | Starting value | What it does |
+|---|---|---|
+| **Customer Group** | first group in the shop | Only that group is checked. |
+| **Condition** | **Must order at least X products from selected category** | Pick the limit. The full list is below. |
+| **Target country** | first country in the shop | Used only for the two rules that say "from Y category". For every other condition the page hides this list. |
+| **Target item** | empty | Category id, product id, manufacturer id, or attribute value, depending on **Condition**. The hint asks for the id of the target. For whole-cart conditions the page replaces this field with the word Cart and locks it. |
+| **Quantity** | empty | The number X in the chosen condition. |
+| **Accept only multiplied qty** | **Off** | **On** accepts only multiples of **Quantity**, for example 6, 12, 18, 24 when **Quantity** is 6. **Off** accepts any count that meets the rule. |
+| **Active** | **Off** | **On** applies the row. |
+| **Save** | - | Stores the rule. |
 
-  - **Purpose:** Template for displaying the list of products that have been selected and associated with a particular condition in the admin forms.
+**Condition** choices, in the order on the form:
 
-### 4.7 Database Schema & Hooks Map
+- **Must order at least X products from selected category**
+- **Can't more than X products from selected category**
+- **Must order at least X products from selected manufacturer**
+- **Can't more than X products from selected manufacturer**
+- **Must order at least X quantity of selected product**
+- **Can't order more than X quantity of selected product**
+- **Must order at least X quantity of each product**
+- **Can't order more than X quantity of each product**
+- **Can't order more than X products with the same attribute value**
+- **Cart must have at least X products**
+- **Cart can't have more than X products**
+- **Cart must have at least X different products**
+- **Cart can't have more than X different products**
+- **Cart of user from selected country must have more than X products**
+- **Cart of user from selected country can't have more than X products**
+- **Cart of user from selected country must have more than X products from Y category**
+- **Cart of user from selected country can't have more than X products from Y category**
 
-#### Database Tables
+For the last two, set **Target country** and put the category id in **Target item**. For the two country rules that do not mention a category, the page hides **Target country**, so you cannot pick a country for them on this form. Use **Cart value by country conditions** when the limit is a money total, or the last two quantity rules when the limit is a piece count from one category.
 
-The module creates custom tables to store its various conditions and associations. These tables are typically prefixed with `ps_cartcon_` or `cartcon_`.
+**Search for attribute value** appears only for **Can't order more than X products with the same attribute value**. Search, click a value, and that value becomes **Target item**.
 
-- `ps_cartcon`: Stores general cart conditions (name, message, active status, etc.).
-- `ps_cartcon_ass`: Stores associations between conditions and specific products/categories.
-- `ps_cartcon_country`: Stores country-specific conditions.
-- `ps_cartcon_quantity`: Stores quantity-based conditions.
-- `ps_cartcon_value`: Stores value-based conditions.
-- `ps_configuration`: Module settings like `CARTCON_CUSTOMERS`, `ccon_visibility_rule`, `CARTCON_FUTURE`, etc., are stored here.
+The cart text follows the choice. Category and manufacturer rules say "at least" or "can't order more than" and name the category or manufacturer. A product rule quotes the current quantity. A whole-cart rule says "you must order more than" or "you can't order more than" and quotes the current quantity. With **Accept only multiplied qty** on, the cart adds: "We accept only multiplied quantity...".
 
-#### Registered Hooks Table
+The product page can also show "You must order at least: ... quantity of this product" for **Must order at least X quantity of selected product**, when that product is the target and the visitor matches the group. That line is a notice. The block still happens in the cart.
 
-| Hook Name | Execution Timing | Technical Purpose |
-| --- | --- | --- |
-| `displayHeader` | In the `<head>` section of every page. | Used to load module’s CSS and JavaScript assets for both front-office and back-office. |
-| `displayPaymentTop` | At the top of the payment selection page during checkout. | Critical for re-evaluating cart conditions just before payment and blocking if necessary. |
-| `displayShoppingCart` | On the main shopping cart page. | Primary hook for displaying condition messages and disabling the checkout button. |
-| `actionAdminControllerSetMedia` | When an admin controller is loaded and its media (JS/CSS) is being set. | Used to load specific JS/CSS assets for the module’s back-office configuration pages. |
-| `displayProductActions` | Typically near the “Add to cart” button on the product page. | Can be used to display product-specific condition hints or warnings. |
-| `actionCartSave` | After a cart is saved (e.g., product added/removed, quantity changed). | (Implicit/Likely) The module would likely use an `actionCartSave` or similar hook to trigger the re-evaluation of cart conditions on the server-side, which then informs the front-office JS. |
+### 3.5 Cart Associations Conditions
 
-## 5. Official Support & Updates
+Open **Catalog**, then **Cart Associations Conditions**. A row links one item with another for one customer group. The rule starts only when the first item is already in the cart.
 
-For the latest updates, bug fixes, and professional support for the “Cart conditions pro” module, please refer to your customer account at [MyPresta.eu](https://mypresta.eu/my-account/orders/). Our team is dedicated to ensuring the module functions optimally with your PrestaShop store.
+![Associations list](https://mypresta.eu/docs/images/docs/cartcon-associations-list.webp)
+
+Columns are **ID**, **Customer group**, **Cart condition**, **Target item (1)**, **Associated item (2)** and **Active**. Empty list: **No records found**. Row actions: edit, delete, **Active** icon. Bulk action: delete.
+
+![New association](https://mypresta.eu/docs/images/docs/cartcon-associations-form.webp)
+
+| Field | Starting value | What it does |
+|---|---|---|
+| **Active** | **Off** | **On** applies the row. |
+| **Type of condition** | **Associations between product and product** | **Associations between product and category** or **Associations between category and category** change what the two ids mean. |
+| **For what customer group** | first group in the shop | Only that group is checked. |
+| **Target item (1)** | empty | Product id or category id. The rule runs when the customer puts this object in the cart. |
+| **Condition** | **If customer will add to cart Target item (1) then it must order Associated item (2)** | See the choices below. |
+| **Associated item (2)** | empty | The required or forbidden product id or category id. |
+| **Save** | - | Stores the pair. |
+
+**Condition** choices:
+
+- **If customer will add to cart Target item (1) then it must order Associated item (2)**. Cart text: "If your cart has a product: ... you must order also product: ..." or the category equivalent.
+- **If customer will add to cart Target item (1) then cart must have at least one different product**. Shown only for product and product. The cart check does not raise a message for this choice. Use another choice when the cart must block.
+- **If customer will add to cart Target item (1) then it will be forbidden to order Associated item (2)**. Cart text: "If your cart has a product: ... you can't place an order for: ...".
+- **If customer will add to cart Target item (1) then it will be forbidden to add any other product to cart**. The page hides **Associated item (2)**. Cart text: "If your cart has a product: ... you can't place an order for any other product."
+- **If customer will add to cart Target item (1) then it will be forbidden to add products from categories other than Target item (1)**. Shown only for category and category. The page hides **Associated item (2)**.
+
+The form also contains **Include subcategories of Target item (1)** and **Include subcategories of Associated item (2)**. The page hides both switches for every type. The rule uses the ids you type.
+
+### 3.6 Cart value by country conditions
+
+Open **Catalog**, then **Cart value by country conditions**. The rule uses the delivery address country.
+
+![Country totals list](https://mypresta.eu/docs/images/docs/cartcon-country-list.webp)
+
+Columns are **ID**, **Customer group**, **Condition**, **Country**, **Value** and **Active**. Empty list: **No records found**. Row actions: edit, delete, **Active** icon. Bulk action: delete.
+
+![New country total](https://mypresta.eu/docs/images/docs/cartcon-country-form.webp)
+
+| Field | Starting value | What it does |
+|---|---|---|
+| **Customer Group** | first group in the shop | Only that group is checked. |
+| **Target country** | first country in the shop | The rule runs when the delivery address is this country. The list is the shop country list. |
+| **Condition** | **Cart must be worth at least ...** | **Cart can't be worth more than ...** is the maximum. |
+| **Condition tax** | **Tax included** | **Tax excluded** compares the total without tax. The cart message repeats the tax label you picked. |
+| **Cart value type** | **Products + shipping** | **Products** leaves shipping out of the compared total. |
+| **Value** | empty | The amount, in the shop default currency. |
+| **Active** | **Off** | **On** applies the row. |
+| **Save** | - | Stores the rule. |
+
+Below the minimum, the cart shows: "To place an order from country: ... your cart must be worth at least ..., while you cart is worth ...". Above the maximum: "To place an order from country: ... your cart can't be worth more than ..., while you cart is worth ...".
+
+## 4. Storefront
+
+The customer does not open a separate page. The module speaks on the product page and on the cart.
+
+On the product page, and only for an active **Must order at least X quantity of selected product** rule aimed at that product, the theme can show: "You must order at least: ... quantity of this product". The theme has to print the product-actions area. This manual does not include a storefront picture, because that line was not confirmed on the test theme.
+
+On the cart, every broken rule is a line in one red alert. Names of required or forbidden products and categories are links. If the customer opens payment while a rule is broken, the shop returns them to the cart and shows the same alert.
+
+A customer on the exclusion list sees none of these messages and is not sent back.
+
+There is no front-office address to copy. There is no form for the customer to accept or reject a rule.
+
+## 5. Problems
+
+**The five entries are missing under Catalog.** The module is not installed, or it was uninstalled. Install it again from **Module Manager**. Old rules come back with it.
+
+**The blue note says Price Rules, and Price Rules has no Cart Conditions entry.** Use the five links in the note, or **Catalog**. The menu parent is Catalog.
+
+**A saved rule does nothing.** **Active** is **Off**, the customer is on the exclusion list, or the customer is not in the selected group. A visitor who is not logged in is checked as the Visitor group. Open the row, set **Active** to **On**, and test with a customer in that group.
+
+**A value rule stays silent.** The category is not in the cart. Add a product from that category. The compared total is tax included.
+
+**Two country quantity rules ignore the country.** **Target country** is hidden unless **Condition** is one of the two "from Y category" lines. Pick one of those, or use **Cart value by country conditions** for a money limit.
+
+**Same calendar month still blocks November and November.** The years differ. 5 November 2026 and 5 November 2027 are different. The product must also be out of stock with a future **Availability date**. In-stock products are not compared.
+
+**Check now shows nothing, or the warning never appears.** The shop server cannot open the remote MyPresta address. **Check now** only reports a version. It does not download or install the file. Open **Module page** and take the new file from there.
+
+**The cart alert is missing, and payment still returns to the cart.** The theme does not print the cart block. The return to the cart still runs. Override the cart template in the theme, or confirm the theme prints the shopping-cart hook.
+
+**Uninstall removed the menu and a later install shows the old rules.** That is the uninstall behaviour. Delete the rows in the lists before you uninstall if you want an empty module afterwards.
+
+## 6. For developers
+
+### 6.1 Overview
+
+Main class `cartcon`, version 2.1.9, list name **Cart Conditions**, author MyPresta.eu, tab `advertising_marketing`. `cartconPrestashopNewCompatibility` extends `cartcon` for price formatting and is not the instantiated module class. `psversion()` maps a major version of 8 or higher onto the 1.7 branch for a few back-office markup choices. There is no `enable()` or `disable()` override.
+
+`getRestrictions()` reads active rows for the current shop, skips customers listed in `CARTCON_CUSTOMERS`, and fills `errors_cartcon`. `hookDisplayShoppingCart` prints that list. `hookDisplayPaymentTop` redirects to the cart with `cartcon=show` when the list is not empty. `hookDisplayProductActions` prints a minimum quantity only for `cartcon_quantity.c_type = 2` on that product id.
+
+### 6.2 Files
+
+- `cartcon.php` - install, configuration forms, restriction checks, hooks.
+- `lib/prestashop9compatibility.php` - `cartconPrestashopNewCompatibility`.
+- `controllers/admin/AdminCartConditionController.php` - must-have and can't-have rules.
+- `controllers/admin/AdminCartValueConditionController.php` - category minimum amount.
+- `controllers/admin/AdminCartQuantityConditionController.php` - quantity rules.
+- `controllers/admin/AdminCartAssociationsConditionController.php` - pairs.
+- `controllers/admin/AdminCartCountryConditionController.php` - country totals.
+- `models/CartCondition.php`, `CartValueCondition.php`, `CartQuantityCondition.php`, `CartAssociationsCondition.php`, `CartCountryCondition.php` - object models.
+- `views/templates/front/displayShoppingCart.tpl` - red alert.
+- `views/templates/front/productActions.tpl` - product-page minimum.
+- `views/templates/admin/script.tpl` - quantity form behaviour.
+- `views/templates/admin/search-attribute-value.tpl` - attribute search, shown for quantity type 7.
+- `lib/searchTool/searchTool.php` - `initTool()` injects scripts only. It does not render a panel.
+
+### 6.3 Controllers
+
+All five admin controllers extend `ModuleAdminController`. `createMenu()` inserts a tab per language with the English name, parent `AdminCatalog` (`Sell > Catalog` on PrestaShop 9). Class names: `AdminCartCondition`, `AdminCartValueCondition`, `AdminCartQuantityCondition`, `AdminCartAssociationsCondition`, `AdminCartCountryCondition`. There is no front controller. The only front query flag read by the module is `cartcon=show`, added by the payment redirect.
+
+`script.tpl` disables **Target item** and sets its value to the word `Cart` for quantity types 4, 5, 8, 9, 15 and 16. The country select is shown for types 8 and 9 and then hidden by the next block unless the type is 10 or 11, so the visible result is a country field only for types 10 and 11. Type 7 shows `.searchAttributeValue`.
+
+Associations script hides `.subcatt` and `.subcata` for every type. Condition id 4 is enabled only for category-category (type 3). Condition id 5 is shown only for product-product (type 1). Condition ids 3, 4 and 5 hide **Associated item (2)**. `getRestrictions()` compares association `c_value` 1, 2, 3 and 4. It does not compare `c_value` 5.
+
+### 6.4 Hooks
+
+- `displayHeader` - front CSS and JS, and the ajax call `getCartConditions`.
+- `displayShoppingCart` - alert list.
+- `displayProductActions` - minimum quantity notice.
+- `displayPaymentTop` - redirect to the cart when any error exists.
+- `actionAdminControllerSetMedia` - admin assets.
+
+The module does not register its own hooks.
+
+### 6.5 Overrides
+
+None. No class or controller override.
+
+### 6.6 Database
+
+Prefix tables. `inconsistency()` / `maybeUpdateDatabase()` add missing columns during `installdb()` and from the updates button. They do not run on every configuration page load. Uninstall does not drop tables.
+
+| Table | Contents |
+|---|---|
+| `cartcon` | `id_cartcon`, `c_type`, `c_value`, `c_option`, `active` default 1, `id_shop` added later. No customer group. |
+| `cartcon_value` | `id_cartcon_value`, `c_type`, `c_target`, `c_value`, `active`, `c_only_if_in_cart` default 0, `c_group`, `id_shop`. `c_only_if_in_cart` is not on the form. |
+| `cartcon_quantity` | `id_cartcon_quantity`, `c_type`, `c_target`, `c_value`, `active`, `c_only_if_in_cart` default 0, `c_group`, `id_shop`, `multiply` default 0, `c_country` default 0. |
+| `cartcon_ass` | `id_cartcon_ass`, `c_type`, `c_target1`, `c_target2`, `c_value`, `active`, `c_group`, `id_shop`, `subcatt` default 0, `subcata` default 0. Category matching reads `subcatt` and `subcata` when they are 1. The form hides both switches. |
+| `cartcon_country` | `id_cartcon_country`, `c_type`, `c_target`, `c_value`, `active`, `c_group`, `id_shop`, `c_tax` default 1, `c_cartValueType` default 1. |
+
+New HelperForm screens submit **Active** as 0 because the Off radio is checked. The column default 1 applies only when the column is omitted.
+
+### 6.7 Keys and translations
+
+| Key | When missing |
+|---|---|
+| `CARTCON_CUSTOMERS` | empty. Comma-separated customer ids. Those customers return from `getRestrictions()` immediately. |
+| `ccon_visibility_rule` | `0` means do not exclude. `1` means skip selected products and categories. |
+| `ccon_visibility_products` | empty product id list. |
+| `ccon_visibility_cat` | empty category id list. |
+| `CARTCON_FUTURE` | not set, treated as off. `1` runs the availability comparison. |
+| `CARTCON_FUTURE_MODE` | missing casts to `0` (**Exact date**). `1` groups by `date('Y-m')`. Compared products need `stock_quantity <= 0` and `available_date` strictly in the future. More than one distinct key blocks checkout. |
+| `mypresta_updates` | `0` disables the automatic warning. `1` enables it. |
+| `update_cartcon` | last check timestamp. |
+| `updatev_cartcon` | version string from the last check. |
+
+The check uses `allow_url_fopen` and `file_get_contents` against `dev.mypresta.eu`. Shop translation files are `translations/{iso}.php`. Menu labels are written in English for every language inside `createMenu()` and do not go through a translation file. Field descriptions live in the controller `l()` calls and in `cartcon.php` HelperForm `desc` strings. `getCustomerGroups()` maps cart `id_customer` 0 to group id 1. The guest branch runs only when `id_customer` is not set.
+
+### 6.8 Extending
+
+Override `views/templates/front/displayShoppingCart.tpl` and `views/templates/front/productActions.tpl` from the theme. If the theme never calls `displayShoppingCart` or `displayProductActions`, there is nothing to override and the customer will not see the alert. The payment redirect still runs.
+
+## 7. Help
+
+Module page: [Cart Conditions Pro](https://mypresta.eu/modules/ordering-process/cart-conditions-pro.html).
+
+To write about this module, log in to the customer account on mypresta.eu, open the contact form and choose **Support for paid modules**. The form says that login is required for paid modules. After login, pick this module from the purchase history.

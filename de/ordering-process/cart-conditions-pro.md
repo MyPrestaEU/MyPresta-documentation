@@ -1,8 +1,8 @@
 ---
-title: "Warenkorb-Bedingungen Pro - Händlerhandbuch & Konfigurationsanleitung"
-description: "Vollständiges Benutzerhandbuch, schrittweise Einrichtungsanleitung und Entwicklerreferenz für das PrestaShop-Modul Warenkorb-Bedingungen Pro von MyPresta.eu."
+title: "Cart Conditions - Dokumentation und Benutzerhandbuch"
 sidebar:
-  label: "Warenkorb-Bedingungen Pro - Händlerhandbuch & Konfigurationsanleitung"
+  label: "Cart Conditions - Dokumentation und Benutzerhandbuch"
+description: "Handbuch zur Einrichtung und zur Fehlersuche für Shops, die Cart Conditions bereits nutzen."
 ---
 
 > ⚠️ **Notice:** This is the offizielle Dokumentation für das PrestaShop-Modul.
@@ -12,357 +12,360 @@ sidebar:
 > ---
 
 
-# Warenkorb-Bedingungen Pro
-
-## 1. Anforderungen & Kompatibilität
-
-- **Unterstützte PrestaShop-Versionen**: PrestaShop 1.5.x, 1.6.x, 1.7.x, 8.x, 9.x
-- **PHP-Kompatibilität**: PHP 5.6 - 8.5
-- **Hosting-Anforderungen**: Standard-PHP-Erweiterungen (cURL, JSON, OpenSSL) sind typischerweise für PrestaShop selbst erforderlich und ausreichend für dieses Modul.
-
-## 2. Vollständige Konfigurationsanleitung (Jede Einstellung nach Bildschirm gruppiert)
-
-### 2.1 Modulkonfigurationsseite (Back Office > Module > Konfigurieren > Warenkorb-Bedingungen Pro)
-
-Dies ist der Hauptkonfigurationsbildschirm für das Modul, auf dem Sie globale Verhaltensweisen festlegen und auf die spezifischen Bereiche zur Bedingungsverwaltung zugreifen.
-
-- **Was diese Einstellung bewirkt:** Steuert das Gesamtverhalten des Moduls und bietet schnelle Links zur Verwaltung Ihrer Bedingungen.
-- **Auswirkung der Änderung dieser Einstellung:** Bestimmt, wie weit die Bedingungen angewendet werden und wie bestimmte Grenzfälle behandelt werden.
-
-#### Allgemeine Einstellungen
-
-1. **Kunden von Bedingungen ausschließen**
-
-   - **Was diese Einstellung bewirkt:** Ermöglicht es Ihnen, bestimmte Kundengruppen oder einzelne Kunden festzulegen, die von allen von Ihnen eingerichteten Warenkorb-Bedingungen ausgenommen sind.
-   - **Auswirkung der Änderung dieser Einstellung:**
-     - *Wenn aktiviert (und Kunden/Gruppen ausgewählt):* Die ausgewählten Kunden/Gruppen können immer zur Kasse gehen, unabhängig davon, ob ihr Warenkorb die Bedingungen erfüllt.
-     - *Wenn deaktiviert (oder keine Kunden/Gruppen ausgewählt):* Alle Kunden unterliegen den Warenkorb-Bedingungen.
-   - **Empfohlener Wert:** Standardmäßig „Aus“, es sei denn, Sie haben spezifische B2B-Kunden oder VIPs, die Sie ausnehmen möchten.
-   - **Händlerszenario / Beispiel:** Sie haben eine Großhandelskundengruppe, die immer eine Sonderbehandlung erhält und nicht durch Mindestbestellwerte eingeschränkt werden sollte.
-2. **Produkte von Bedingungen ausschließen**
-
-   - **Was diese Einstellung bewirkt:** Ermöglicht es Ihnen, bestimmte Produkte festzulegen, die nicht in die Warenkorb-Bedingungen einbezogen oder von diesen beeinflusst werden. Dies ist nützlich für kostenlose Geschenke, Muster oder spezifische Werbeartikel.
-   - **Auswirkung der Änderung dieser Einstellung:**
-     - *Wenn aktiviert (und Produkte ausgewählt):* Die ausgewählten Produkte werden bei der Bewertung der Warenkorb-Bedingungen ignoriert. Wenn Sie beispielsweise eine Bedingung „mindestens 3 Artikel“ haben und ein Kunde 2 reguläre Artikel + 1 ausgeschlossenen Artikel hat, könnte die Bedingung immer noch fehlschlagen.
-     - *Wenn deaktiviert (oder keine Produkte ausgewählt):* Alle Produkte im Warenkorb werden bei der Bewertung der Bedingungen berücksichtigt.
-   - **Empfohlener Wert:** Standardmäßig „Aus“. Nur aktivieren, wenn Sie spezifische Produkte haben, die von Bedingungen ausgenommen sein sollten.
-   - **Händlerszenario / Beispiel:** Sie bieten zu jeder Bestellung ein kostenloses Musterprodukt an. Sie möchten nicht, dass dieses Muster bei einer Mindestproduktmengenbedingung berücksichtigt wird.
-3. **Bestellung von Produkten mit unterschiedlichem Verfügbarkeitsdatum blockieren**
-
-   - **Was diese Einstellung bewirkt:** Diese Option betrifft speziell Produkte mit unterschiedlichen Verfügbarkeitsdaten (z. B. Vorbestellungsartikel mit gestaffelten Veröffentlichungsterminen). Wenn aktiviert, verhindert sie, dass Kunden eine Mischung aus sofort verfügbaren und zukünftig verfügbaren Produkten im selben Warenkorb bestellen.
-   - **Auswirkung der Änderung dieser Einstellung:**
-     - *Wenn „An“:* Wenn der Warenkorb eines Kunden Produkte mit unterschiedlichen Verfügbarkeitsdaten enthält, wird er am Checkout gehindert. Er müsste separate Bestellungen für Artikel mit unterschiedlicher Verfügbarkeit aufgeben.
-     - *Wenn „Aus“:* Kunden können Produkte mit verschiedenen Verfügbarkeitsdaten in einem einzigen Warenkorb bestellen.
-   - **Empfohlener Wert:** „Aus“, es sei denn, Sie haben spezifische logistische Gründe, Bestellungen nach Verfügbarkeit zu trennen.
-   - **Händlerszenario / Beispiel:** Sie verkaufen sowohl Lagerartikel als auch Vorbestellungsartikel. Um den Versand zu vereinfachen und das Zurückhalten von Bestellungen zu vermeiden, möchten Sie, dass Kunden separate Bestellungen für Vorbestellungsartikel aufgeben.
-
-#### Links zur Bedingungsverwaltung
-
-Unter den allgemeinen Einstellungen finden Sie Links zur Verwaltung verschiedener Arten von Bedingungen. Diese Links führen Sie zu dedizierten Verwaltungsbildschirmen.
-
-- **Bedingungen verwalten (Allgemein):** Hier definieren Sie allgemeine Bedingungen basierend auf Produktzuordnungen, Kategorien oder anderen allgemeinen Regeln.
-- **Länderbedingungen verwalten:** Definieren Sie Bedingungen, die nur für Kunden aus bestimmten Ländern gelten.
-- **Mengenbedingungen verwalten:** Legen Sie Mindest- oder Höchstmengen von Produkten/Kategorien fest, die im Warenkorb erforderlich sind.
-- **Wertbedingungen verwalten:** Legen Sie Mindest- oder Höchstwerte für den gesamten Warenkorb fest.
-
-### 2.2 Dedizierte Admin-Bildschirme & Controller-Ansichten
-
-#### 2.2.1 AdminCartConditionController (Back Office > Module > Warenkorb-Bedingungen Pro > Bedingungen verwalten)
-
-Dieser Bildschirm ermöglicht es Ihnen, allgemeine Bedingungen zu definieren, oft basierend auf Produkt- oder Kategoriezuordnungen.
-
-- **Bildschirmname & Menüpfad:** „Bedingungen verwalten“ (zugänglich von der Hauptkonfigurationsseite des Moduls).
-- **Verfügbare Aktionen & Einstellungen:**
-  - **Auflistungstabelle:** Zeigt alle vorhandenen allgemeinen Bedingungen mit ihren Namen, zugeordneten Produkten/Kategorien und Status an.
-  - **Schaltfläche „Neue Bedingung hinzufügen“:** Ermöglicht das Erstellen einer neuen Bedingung.
-    - **Bedingungsname:** Ein beschreibender Name für Ihre interne Referenz.
-    - **Produkte/Kategorien:** Wählen Sie spezifische Produkte oder ganze Kategorien aus, die im Warenkorb vorhanden sein müssen (oder nicht vorhanden sein dürfen).
-    - **Kundengruppen:** Wenden Sie diese Bedingung nur auf bestimmte Kundengruppen an.
-    - **Mindest-/Höchstmenge:** Definieren Sie einen Bereich für die Anzahl der ausgewählten Produkte/Kategorien.
-    - **Mindest-/Höchstwert:** Definieren Sie einen Bereich für den Gesamtwert der ausgewählten Produkte/Kategorien.
-    - **Nachricht:** Die Nachricht, die dem Kunden angezeigt wird, wenn die Bedingung nicht erfüllt ist.
-    - **Aktiv:** Aktivieren oder deaktivieren Sie die Bedingung.
-  - **Schaltflächen „Bearbeiten/Löschen“:** Vorhandene Bedingungen ändern oder entfernen.
-- **Auswirkung von Änderungen:**
-  - Das Hinzufügen einer neuen Bedingung wendet diese Regel sofort auf die Warenkörbe der Kunden an.
-  - Das Ändern einer Bedingung aktualisiert deren Kriterien und Nachricht.
-  - Das Löschen einer Bedingung entfernt die Einschränkung.
-- **Empfohlener Workflow für die tägliche Shop-Verwaltung:** Überprüfen Sie Ihre Bedingungen regelmäßig, insbesondere nach dem Hinzufügen neuer Produkte, Kategorien oder dem Ausführen von Aktionen, um sicherzustellen, dass sie mit Ihrer aktuellen Verkaufsstrategie übereinstimmen.
-
-#### 2.2.2 AdminCartAssociationsConditionController (Back Office > Module > Warenkorb-Bedingungen Pro > Bedingungen verwalten > (Spezifische Bedingung) > Zuordnungen)
-
-Dieser Bildschirm wird typischerweise beim Bearbeiten einer allgemeinen Bedingung aufgerufen und ermöglicht es Ihnen, festzulegen, welche Produkte oder Kategorien mit dieser Bedingung *verknüpft* sind.
-
-- **Bildschirmname & Menüpfad:** Wird durch Bearbeiten einer Bedingung unter „Bedingungen verwalten“ aufgerufen.
-- **Verfügbare Aktionen & Einstellungen:**
-  - **Produkte/Kategorien suchen & auswählen:** Tools zum Suchen und Hinzufügen spezifischer Produkte oder ganzer Kategorien, die Teil dieser Bedingung sind.
-  - **Liste der ausgewählten Produkte/Kategorien:** Zeigt alle Artikel an, die derzeit mit der Bedingung verknüpft sind.
-  - **Schaltfläche „Entfernen“:** Entfernt einen Artikel aus der Zuordnung.
-- **Auswirkung von Änderungen:** Wirkt sich direkt darauf aus, welche Produkte oder Kategorien von der übergeordneten Bedingung bewertet werden. Wenn eine Bedingung beispielsweise besagt: „Warenkorb muss mindestens 2 Artikel aus der Kategorie ‚Elektronik‘ enthalten“, wird auf diesem Bildschirm definiert, welche Produkte für diese spezifische Bedingung zu dieser Kategorie „Elektronik“ gehören.
-- **Empfohlener Workflow für die tägliche Shop-Verwaltung:** Stellen Sie beim Erstellen oder Aktualisieren einer Bedingung sicher, dass alle relevanten Produkte und Kategorien korrekt zugeordnet sind.
-
-#### 2.2.3 AdminCartCountryConditionController (Back Office > Module > Warenkorb-Bedingungen Pro > Länderbedingungen verwalten)
-
-Dieser Bildschirm ermöglicht es Ihnen, Bedingungen zu definieren, die spezifisch für das Versandland des Kunden sind.
-
-- **Bildschirmname & Menüpfad:** „Länderbedingungen verwalten“ (zugänglich von der Hauptmodulkonfigurationsseite).
-- **Verfügbare Aktionen & Einstellungen:**
-  - **Auflistungstabelle:** Zeigt vorhandene länderspezifische Bedingungen an.
-  - **Schaltfläche „Neue Bedingung hinzufügen“:**
-    - **Land:** Wählen Sie das Zielland aus.
-    - **Mindest-/Höchstmenge:** Für alle Produkte im Warenkorb oder spezifische Produkte/Kategorien.
-    - **Mindest-/Höchstwert:** Für den gesamten Warenkorbwert.
-    - **Nachricht:** Die Nachricht, die angezeigt wird, wenn die Bedingung nicht erfüllt ist.
-    - **Aktiv:** Aktivieren oder deaktivieren.
-- **Auswirkung von Änderungen:** Wendet spezifische Warenkorbregeln nur auf Kunden an, deren Lieferadresse sich im ausgewählten Land befindet.
-- **Empfohlener Workflow für die tägliche Shop-Verwaltung:** Nützlich für internationale Shops mit unterschiedlichen Versandkosten, Zollbestimmungen oder Marktstrategien pro Land.
-
-#### 2.2.4 AdminCartQuantityConditionController (Back Office > Module > Warenkorb-Bedingungen Pro > Mengenbedingungen verwalten)
-
-Dieser Bildschirm konzentriert sich auf Bedingungen, die sich auf die Gesamtzahl der Artikel im Warenkorb oder die Menge bestimmter Artikel/Kategorien beziehen.
-
-- **Bildschirmname & Menüpfad:** „Mengenbedingungen verwalten“ (zugänglich von der Hauptmodulkonfigurationsseite).
-- **Verfügbare Aktionen & Einstellungen:**
-  - **Auflistungstabelle:** Zeigt alle mengenbasierten Bedingungen an.
-  - **Schaltfläche „Neue Bedingung hinzufügen“:**
-    - **Bedingungsname:**
-    - **Mindest-/Höchstgesamtmenge:** Für den gesamten Warenkorb.
-    - **Mindest-/Höchstmenge spezifischer Produkte/Kategorien:** Wählen Sie Artikel aus und legen Sie Mengenregeln für diese fest.
-    - **Kundengruppen:** Auf bestimmte Gruppen anwenden.
-    - **Nachricht:**
-    - **Aktiv:**
-- **Auswirkung von Änderungen:** Erzwingt Regeln basierend auf der Anzahl der Artikel im Warenkorb, was zur Förderung von Großeinkäufen oder zur Bestandsverwaltung verwendet werden kann.
-- **Empfohlener Workflow für die tägliche Shop-Verwaltung:** Verwenden Sie dies für „Kaufe X, erhalte Y“-Aktionen, Mindestbestellmengen (MOQ) für den Großhandel oder um sicherzustellen, dass Kunden einen bestimmten Schwellenwert für kostenlosen Versand erreichen.
-
-#### 2.2.5 AdminCartValueConditionController (Back Office > Module > Warenkorb-Bedingungen Pro > Wertbedingungen verwalten)
-
-Dieser Bildschirm dient zum Festlegen von Bedingungen basierend auf dem gesamten Geldwert des Warenkorbs des Kunden.
-
-- **Bildschirmname & Menüpfad:** „Wertbedingungen verwalten“ (zugänglich von der Hauptmodulkonfigurationsseite).
-- **Verfügbare Aktionen & Einstellungen:**
-  - **Auflistungstabelle:** Zeigt vorhandene wertbasierte Bedingungen an.
-  - **Schaltfläche „Neue Bedingung hinzufügen“:**
-    - **Bedingungsname:**
-    - **Mindest-/Höchstgesamtwarenkorbwert:** Legen Sie einen Bereich für den Wert des gesamten Warenkorbs fest.
-    - **Kundengruppen:**
-    - **Nachricht:**
-    - **Aktiv:**
-- **Auswirkung von Änderungen:** Erzwingt Regeln basierend auf dem Geldwert des Warenkorbs, was sich direkt auf den durchschnittlichen Bestellwert auswirkt.
-- **Empfohlener Workflow für die tägliche Shop-Verwaltung:** Ideal zum Festlegen eines Mindestbestellwerts für kostenlosen Versand oder eines allgemeinen Mindestbestellwerts zur Sicherstellung der Rentabilität.
-
-#### 2.2.6 index.php (cartcon/controllers/admin/index.php)
-
-Diese Datei ist eine Standard-PrestaShop-Praxis, um die Verzeichnisauflistung zu verhindern, und stellt keinen konfigurierbaren Bildschirm dar. Sie enthält lediglich `<?php header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT"); header("Cache-Control: no-store, no-cache, must-revalidate"); header("Cache-Control: post-check=0, pre-check=0", false); header("Pragma: no-cache"); header("Location: ../"); exit;`, um umzuleiten, wenn jemand versucht, direkt auf das Verzeichnis zuzugreifen.
-
-### 2.3 Kurzübersichtstabelle zur Konfiguration
-
-| Bildschirm / Ansicht | Einstellung / Option | Standard / Empfohlen | Zweck & Auswirkung |
-| --- | --- | --- | --- |
-| **Modulkonfiguration** | Kunden von Bedingungen ausschließen | Aus | Bestimmte Kunden/Gruppen von allen Bedingungen ausnehmen. |
-|  | Produkte von Bedingungen ausschließen | Aus | Bestimmte Produkte von allen Bedingungen ausnehmen. |
-|  | Bestellung von Produkten mit unterschiedlichem Verfügbarkeitsdatum blockieren | Aus | Gemischte Bestellungen von Lager- und Vorbestellungsartikeln verhindern. |
-| **Bedingungen verwalten** | Bedingungsname | Benutzerdefiniert | Interne Bezeichnung für die Bedingung. |
-|  | Produkte/Kategorien | Benutzerdefiniert | Artikel/Kategorien auswählen, die erforderlich oder eingeschränkt sind. |
-|  | Kundengruppen | Alle | Bedingung auf bestimmte Kundensegmente anwenden. |
-|  | Min./Max. Menge | Benutzerdefiniert | Mengenbereich für ausgewählte Artikel/Kategorien festlegen. |
-|  | Min./Max. Wert | Benutzerdefiniert | Wertebereich für ausgewählte Artikel/Kategorien festlegen. |
-|  | Nachricht | Benutzerdefiniert | Kundenorientierte Nachricht, wenn die Bedingung nicht erfüllt ist. |
-|  | Aktiv | Ja | Bedingung aktivieren/deaktivieren. |
-| **Länderbedingungen verwalten** | Land | Benutzerdefiniert | Bestimmte Länder für Bedingungen ansprechen. |
-|  | Min./Max. Menge | Benutzerdefiniert | Mengenbereich für Warenkörbe aus dem ausgewählten Land. |
-|  | Min./Max. Wert | Benutzerdefiniert | Wertebereich für Warenkörbe aus dem ausgewählten Land. |
-|  | Nachricht | Benutzerdefiniert | Kundennachricht bei länderspezifischem Fehler. |
-|  | Aktiv | Ja | Länderbedingung aktivieren/deaktivieren. |
-| **Mengenbedingungen verwalten** | Bedingungsname | Benutzerdefiniert | Interne Bezeichnung für die Mengenbedingung. |
-|  | Min./Max. Gesamtmenge | Benutzerdefiniert | Mengenbereich für den gesamten Warenkorb. |
-|  | Min./Max. Menge spezifischer Produkte/Kategorien | Benutzerdefiniert | Mengenbereich für ausgewählte Artikel/Kategorien. |
-|  | Kundengruppen | Alle | Auf bestimmte Kundensegmente anwenden. |
-|  | Nachricht | Benutzerdefiniert | Kundennachricht bei Mengenfehler. |
-|  | Aktiv | Ja | Mengenbedingung aktivieren/deaktivieren. |
-| **Wertbedingungen verwalten** | Bedingungsname | Benutzerdefiniert | Interne Bezeichnung für die Wertbedingung. |
-|  | Min./Max. Gesamtwert des Warenkorbs | Benutzerdefiniert | Wertebereich für den gesamten Warenkorb. |
-|  | Kundengruppen | Alle | Auf bestimmte Kundensegmente anwenden. |
-|  | Nachricht | Benutzerdefiniert | Kundennachricht bei Wertfehler. |
-|  | Aktiv | Ja | Wertbedingung aktivieren/deaktivieren. |
+## 1. Anforderungen
 
-## 3. Händler-Fehlerbehebung & Häufig gestellte Fragen (FAQ)
+Cart Conditions läuft im Shop. Es braucht kein weiteres Modul und kein Konto bei einem externen Dienst.
 
-**F1: Meine Bedingungen sind eingestellt, aber sie scheinen im Front Office nicht zu funktionieren. Was ist falsch?**
-**A1:**
+- PrestaShop 1.7, 8 und 9. Dieses Handbuch wurde auf PrestaShop 9.2.0 geprüft.
+- Die PHP-Version, die diese PrestaShop-Version verlangt. Das Modul verlangt keine zusätzliche PHP-Erweiterung.
+- Kein anderes Modul ist erforderlich.
+- Die Regeln lesen den aktuellen Warenkorb. Die Größe des Katalogs ändert die Prüfung nicht.
 
-- **Bedingungsstatus prüfen:** Stellen Sie sicher, dass der Schalter „Aktiv“ für jede von Ihnen festgelegte Bedingung auf „Ja“ steht.
-- **Cache leeren:** PrestaShop speichert Inhalte oft im Cache. Gehen Sie zu **Erweiterte Einstellungen > Leistung** und klicken Sie auf „Cache leeren“ (oder „Smarty-Cache leeren“ in älteren Versionen).
-- **Modulposition:** Überprüfen Sie, ob das Modul korrekt eingehängt ist. Die Hooks `displayShoppingCart` und `displayPaymentTop` sind entscheidend. Wenn Ihr Theme benutzerdefinierte Hooks hat, benötigen Sie möglicherweise Entwicklerhilfe.
-- **Kundengruppen:** Überprüfen Sie nochmals, ob die Bedingungen auf die richtigen Kundengruppen angewendet werden und ob Ihr Testkunde zu dieser Gruppe gehört.
-- **Produkt-/Kategorie-IDs:** Stellen Sie beim Auswählen von Produkten oder Kategorien sicher, dass Sie die richtigen ausgewählt haben. Manchmal können ähnliche Namen zu Verwechslungen führen.
+## 2. Installation
 
-**F2: Die dem Kunden angezeigte Nachricht ist nicht klar oder sieht mit meinem Theme nicht gut aus.**
-**A2:**
+1. Öffnen Sie **Module**, dann **Module Manager**.
+2. Laden Sie die Zip-Datei hoch und installieren Sie das Modul. Die Installation schaltet es ein.
+3. Öffnen Sie **Katalog**. Fünf Einträge erscheinen in dieser Reihenfolge. Die Namen bleiben in jeder Back-Office-Sprache englisch:
 
-- **Nachricht bearbeiten:** Gehen Sie zur spezifischen Bedingung (z. B. Wertbedingungen verwalten, dann die Bedingung bearbeiten) und aktualisieren Sie das Feld „Nachricht“ mit einem klareren, hilfreichereren Text.
-- **Theme-Styling:** Das visuelle Erscheinungsbild (Schriftart, Farbe, Größe) der Nachricht wird durch das CSS Ihres PrestaShop-Themes gesteuert. Wenn Sie das Styling ändern müssen, müssen Sie einen Webdesigner oder Entwickler konsultieren, um benutzerdefinierte CSS-Regeln zu Ihrem Theme hinzuzufügen. Die CSS-Dateien des Moduls (`cartcon.css`) bieten das Basis-Styling.
+- **Cart Conditions**
+- **Cart Value Conditions**
+- **Cart Quantity Conditions**
+- **Cart Associations Conditions**
+- **Cart value by country conditions**
 
-**F3: Kann ich unterschiedliche Bedingungen für verschiedene Sprachen/Länder festlegen?**
-**A3:**
+Die Installation leert den Shop-Cache nicht.
 
-- **Länderspezifische Bedingungen:** Ja, verwenden Sie den Bildschirm „Länderbedingungen verwalten“, um Regeln festzulegen, die nur für Kunden aus bestimmten Ländern gelten.
-- **Mehrsprachige Nachrichten:** Beim Bearbeiten einer Bedingung hat das Feld „Nachricht“ normalerweise einen Sprachwähler (ein Flaggensymbol). Klicken Sie darauf, um Übersetzungen für Ihre Nachricht in allen aktiven Sprachen Ihres Shops bereitzustellen.
+Die Deinstallation entfernt diese fünf Menüeinträge und hängt das Modul aus. Gespeicherte Regeln, die Ausschlussliste, die Verfügbarkeitseinstellung und die Update-Einstellung bleiben. Eine erneute Installation bringt das Menü zurück, und die alten Regeln sind noch da.
 
-**F4: Ich möchte ein bestimmtes Produkt von ALLEN Bedingungen ausschließen. Wie mache ich das?**
-**A4:**
+## 3. Konfiguration und tägliche Arbeit
 
-- Auf der Hauptmodulkonfigurationsseite (Back Office > Module > Konfigurieren > Warenkorb-Bedingungen Pro) verwenden Sie die Einstellung „Produkte von Bedingungen ausschließen“. Sie können die spezifischen Produkte suchen und auswählen, die Sie ausnehmen möchten.
+Der Kunde füllt den Warenkorb. Auf der Warenkorbseite listet der Shop jede verletzte Regel in einem roten Hinweis. Geht der Kunde zur Zahlung weiter, schickt der Shop ihn zum Warenkorb zurück, bis jede aktive Regel erfüllt ist. Ein Kunde unter **Exclude customers from conditions** überspringt jede Regel und kann bestellen.
 
-**F5: Das Modul blockiert den Checkout, aber ich kann nicht herausfinden, welche Bedingung dies verursacht.**
-**A5:**
+Bereiten Sie den Shop in dieser Reihenfolge vor:
 
-- **Alle Bedingungen überprüfen:** Gehen Sie die Bildschirme „Bedingungen verwalten“, „Länderbedingungen verwalten“, „Mengenbedingungen verwalten“ und „Wertbedingungen verwalten“ einzeln durch. Überprüfen Sie den Status „Aktiv“ jeder Bedingung und deren Kriterien.
-- **Systematisch testen:** Wenn Sie viele Bedingungen haben, versuchen Sie, diese einzeln (oder in Gruppen) zu deaktivieren und den Warenkorb zu testen, bis Sie den Übeltäter identifiziert haben. Aktivieren Sie sie dann wieder und passen Sie die problematische Bedingung an.
-- **Kundengruppe überprüfen:** Stellen Sie sicher, dass Ihr Testkunde nicht Teil einer ausgeschlossenen Kundengruppe ist.
+1. Öffnen Sie **Configure** und legen Sie fest, wen und welche Produkte die Regeln ignorieren.
+2. Legen Sie fest, ob künftige Verfügbarkeitsdaten gemischt werden dürfen.
+3. Öffnen Sie jede Liste unter **Katalog**, klicken Sie **Add new**, füllen Sie das Formular, setzen Sie **Active** auf **On** und klicken Sie **Save**.
+4. Legen Sie eine Testbestellung mit einem normalen Kunden und mit einem ausgeschlossenen Kunden an.
 
-## 4. Entwickler- & Webmaster-Handbuch (Technische Architektur & Code-Map)
+Ein neues Formular öffnet sich mit **Active** auf **Off**. **Save** speichert die Zeile, und der Warenkorb ignoriert sie, bis Sie **On** setzen. Die Konfigurationsseite antwortet **Saved**. Die Regellisten zeigen die übliche Back-Office-Bestätigung nach **Save**.
 
-### 4.1 Architekturübersicht
+Der blaue Hinweis auf **Configure** lautet: "Management of this module is located under Price Rules menu." Die fünf Links in diesem Hinweis und die Einträge unter **Katalog** öffnen die Listen. Einen Price-Rules-Eintrag gibt es für dieses Modul nicht.
 
-Das Modul „Warenkorb-Bedingungen Pro“ folgt dem Standard-PrestaShop-MVC-Muster (Model-View-Controller), wobei es hauptsächlich `Module` für seine Hauptkonfiguration und `AdminController` für dedizierte Verwaltungsoberflächen erweitert. Es nutzt das PrestaShop-Hook-System, um Logik einzufügen und Nachrichten an kritischen Stellen im Front-Office (Warenkorb, Zahlung) anzuzeigen, und verwendet implizit `ObjectModel` zur Verwaltung seiner verschiedenen Bedingungsentitäten. Das Modul stützt sich auf benutzerdefinierte Datenbanktabellen, um seine komplexen Bedingungsregeln zu speichern.
+Die Bildschirme in diesem Handbuch sind das englische Back Office. Schaltflächen und Felder heißen so, wie sie dort stehen.
 
-### 4.2 Controller (`controllers/`)
+![Links auf der Konfigurationsseite](https://mypresta.eu/docs/images/docs/cartcon-configure-links.webp)
 
-#### Front-Office-Controller
+### 3.1 Konfigurationsseite
 
-Das bereitgestellte Inventar scheint keine dedizierten Front-Controller zu enthalten. Die Front-Office-Logik und -Anzeige werden wahrscheinlich direkt über die Hauptmoduldatei `cartcon.php` mittels Hook-Callbacks gehandhabt.
+Öffnen Sie **Module**, **Module Manager**, suchen Sie **Cart Conditions** und klicken Sie **Configure**.
 
-#### Back-Office-Admin-Controller
+#### Kunden und Produkte ausschließen
 
-Alle Admin-Controller erweitern `ModuleAdminController` (oder `AdminController` in älteren PrestaShop-Versionen) und sind für die Verwaltung der verschiedenen Bedingungstypen verantwortlich.
+![Ausschlussformular](https://mypresta.eu/docs/images/docs/cartcon-configure-exclude.webp)
 
-- `cartcon/controllers/admin/AdminCartAssociationsConditionController.php`
+Suchen Sie einen Kunden, klicken Sie das Ergebnis, und die Person steht auf der Ausschlussliste. Entfernen Sie eine Person aus derselben Liste, bevor Sie speichern. Ausgeschlossene Kunden überspringen jede Warenkorbregel, auch die Verfügbarkeitsprüfung.
 
-  - **Klassenname:** `AdminCartAssociationsConditionController`
-  - **Elternklasse:** `ModuleAdminController`
-  - **Verantwortlichkeit:** Verwaltet die Zuordnungen (Produkte, Kategorien), die mit einer spezifischen allgemeinen Warenkorb-Bedingung verknüpft sind. Dieser Controller bietet die Schnittstelle zum Suchen und Auswählen von Produkten/Kategorien, die Teil der Kriterien einer Bedingung sind. Er interagiert mit der Tabelle `cartcon_ass`.
-- `cartcon/controllers/admin/AdminCartConditionController.php`
+| Feld | Startwert | Wirkung |
+|---|---|---|
+| **Exclude customers from conditions** | leer | Kunden auf dieser Liste bestellen ohne Warenkorbregel. **Save** speichert die Liste. |
+| **Exclude products from conditions** | **Do not exclude products** | **Exclude selected products** lässt die Regeln die gewählten Produkte und Kategorien aus. **Do not exclude products** zählt jedes Produkt. |
+| **Categories** | nichts markiert | Markierte Kategorien werden ausgelassen, wenn der Schalter oben **Exclude selected products** ist. |
+| **Save** | - | Speichert Kunden, Schalter, Produkte und Kategorien. Die Seite zeigt **Saved**. |
 
-  - **Klassenname:** `AdminCartConditionController`
-  - **Elternklasse:** `ModuleAdminController`
-  - **Verantwortlichkeit:** Verwaltet die Haupt-, allgemeinen Warenkorb-Bedingungen. Dies ist die primäre Schnittstelle zum Erstellen, Bearbeiten und Löschen von Bedingungen basierend auf Produkt-/Kategoriepräsenz, Menge oder Wert. Er interagiert mit der Tabelle `cartcon`.
-- `cartcon/controllers/admin/AdminCartCountryConditionController.php`
+Produktsuche und Kategoriebaum stehen auf demselben Formular. Ein Produkt wählen Sie wie einen Kunden: suchen, dann das Ergebnis klicken.
 
-  - **Klassenname:** `AdminCartCountryConditionController`
-  - **Elternklasse:** `ModuleAdminController`
-  - **Verantwortlichkeit:** Verwaltet Warenkorb-Bedingungen, die speziell an Kundenländer gebunden sind. Er ermöglicht die Definition von Regeln, die nur gelten, wenn das Versandland des Kunden mit einem angegebenen Land übereinstimmt. Er interagiert mit der Tabelle `cartcon_country`.
-- `cartcon/controllers/admin/AdminCartQuantityConditionController.php`
+#### Globale Bedingungen
 
-  - **Klassenname:** `AdminCartQuantityConditionController`
-  - **Elternklasse:** `ModuleAdminController`
-  - **Verantwortlichkeit:** Verwaltet Bedingungen basierend auf der Gesamtmenge der Artikel im Warenkorb oder der Menge spezifischer Produkte/Kategorien. Er interagiert mit der Tabelle `cartcon_quantity`.
-- `cartcon/controllers/admin/AdminCartValueConditionController.php`
+![Vergleich der Verfügbarkeit](https://mypresta.eu/docs/images/docs/cartcon-configure-availability.webp)
 
-  - **Klassenname:** `AdminCartValueConditionController`
-  - **Elternklasse:** `ModuleAdminController`
-  - **Verantwortlichkeit:** Verwaltet Bedingungen basierend auf dem gesamten Geldwert des Warenkorbs. Er interagiert mit der Tabelle `cartcon_value`.
-- `cartcon/controllers/admin/index.php`
+Die Prüfung sieht nur Produkte ohne Lagerbestand, deren **Availability date** noch in der Zukunft liegt. Produkte auf Lager, mit leerem oder vergangenem Datum, und ausgeschlossene Produkte bleiben außen vor. Ein künftiges Datum im Warenkorb blockiert nicht. Zwei oder mehr verschiedene Werte blockieren.
 
-  - **Verantwortlichkeit:** Standard-PrestaShop-Sicherheitsdatei zur Verhinderung der Verzeichnisauflistung. Sie leitet zum übergeordneten Verzeichnis um.
+| Feld | Startwert | Wirkung |
+|---|---|---|
+| **Block order of products with Various availabiltiy date** | **Off** | **On** blockiert den Warenkorb, wenn diese künftigen Daten nicht zum Vergleich unten passen. **Off** überspringt die Prüfung. PrestaShop erlaubt bereits die Bestellung eines später verfügbaren Produkts. Dieser Schalter entscheidet, ob verschiedene Daten in einem Warenkorb stehen dürfen. |
+| **How to compare availability dates** | **Exact date** | **Exact date** blockiert, wenn die künftigen Daten nicht derselbe Tag sind. **Same calendar month** erlaubt verschiedene Tage im selben Monat und Jahr und blockiert, wenn Monat oder Jahr abweicht. Der 5. November 2026 und der 20. November 2026 gehen durch. Der 2. Dezember 2026 nicht. Der 5. November 2027 nicht. |
+| **Save** | - | Speichert Schalter und Vergleich. Die Seite zeigt **Saved**. Diese Schaltfläche legt keine Katalogregel an. |
 
-### 4.3 Kernklassen & Modelle (`classes/`)
+Warenkorbtext für **Exact date**: "Availability dates of products in your cart are different. You cant place an order." Für **Same calendar month**: "Availability months of products in your cart are different. You cant place an order."
 
-Das bereitgestellte Inventar listet keine expliziten Dateien in einem `classes/`-Verzeichnis auf. Dies deutet darauf hin, dass die Kernlogik des Moduls und die `ObjectModel`-Definitionen (falls vorhanden) entweder in der Hauptdatei `cartcon.php` oder in den Admin-Controller-Dateien selbst eingebettet sind, was ein gängiges Muster für einfachere Module oder ältere PrestaShop-Versionen ist. Wenn `ObjectModel`s verwendet werden, würden ihre `$definition`-Arrays innerhalb der jeweiligen Controller- oder Hauptmodulklasse gefunden werden.
+#### MyPresta-Updates
 
-### 4.4 JavaScript-Assets (`views/js/`)
+![Update-Prüfung](https://mypresta.eu/docs/images/docs/cartcon-configure-updates.webp)
 
-- `cartcon/lib/searchTool/views/js/autocomplete.js`
+| Feld | Startwert | Wirkung |
+|---|---|---|
+| **Check updates** / **Check now** | - | Fragt MyPresta, ob eine neuere Datei existiert. **Module is up to date!** bedeutet, diese Datei ist aktuell. **New version available!** bedeutet, eine neuere Datei ist veröffentlicht. Die Schaltfläche installiert sie nicht. |
+| **Updates notifications** | **Disable** | **Enable** zeigt eine Back-Office-Warnung, wenn eine neuere Version erscheint. **Disable** bleibt still. **Save** speichert die Wahl. |
+| **Module page** | Link | Öffnet die Modulseite mit der Änderungsliste. |
+| **Save** | - | Speichert die Benachrichtigung. |
 
-  - **Geltungsbereich:** Back-Office.
-  - **Verantwortlichkeit:** Bietet Autocomplete-Funktionalität für die Suche nach Produkten, Kategorien oder Kunden in den Admin-Formularen (z. B. beim Einrichten von Ausschlüssen oder Bedingungszuordnungen). Es bindet wahrscheinlich an Eingabefelder, sendet AJAX-Anfragen an einen Such-Endpunkt und zeigt Vorschläge an.
-- `cartcon/views/js/cartcon.js`
+### 3.2 Cart Conditions
 
-  - **Geltungsbereich:** Front-Office und potenziell Back-Office.
-  - **Verantwortlichkeit:**
-    - **Front-Office:** Verwaltet die dynamische Anzeige von Warenkorb-Bedingungsnachrichten, das Deaktivieren/Aktivieren der Schaltfläche „Zur Kasse gehen“ basierend auf AJAX-Antworten vom Server bezüglich der Warenkorb-Gültigkeit. Es könnte auf Warenkorb-Updates (`prestashop.on('updateCart', ...)` oder ähnliche Ereignisse) hören, um Bedingungen neu zu bewerten.
-    - **Back-Office:** Könnte Logik für Formularvalidierung, dynamische Feldsichtbarkeit oder andere UI-Verbesserungen enthalten, die spezifisch für die Konfigurationsseiten des Moduls sind.
+Öffnen Sie **Katalog**, dann **Cart Conditions**. Diese Regeln gelten für jeden Kunden, der nicht ausgeschlossen ist. Ein Kundengruppenfeld gibt es auf dieser Liste nicht.
 
-### 4.5 CSS-Stylesheets (`views/css/`)
+![Liste Cart Conditions](https://mypresta.eu/docs/images/docs/cartcon-conditions-list.webp)
 
-- `cartcon/lib/searchTool/views/css/autocomplete.css`
+Spalten: **ID**, **Cart condition**, **Target type**, **Target item**, **Active**. Ein leerer Shop zeigt **No records found**. Filter stehen über den Spalten. Zeilenaktionen: Bearbeiten, Löschen, Symbol **Active**. Sammelaktion: Löschen. **Add new** öffnet das Formular.
 
-  - **Geltungsbereich:** Back-Office.
-  - **Verantwortlichkeit:** Gestaltet die Autocomplete-Vorschlags-Dropdowns und Such-Eingabefelder, die in den Admin-Formularen verwendet werden, um ein konsistentes und benutzerfreundliches Sucherlebnis zu gewährleisten.
-- `cartcon/views/css/cartcon.css`
+![Neue Cart-Conditions-Regel](https://mypresta.eu/docs/images/docs/cartcon-conditions-form.webp)
 
-  - **Geltungsbereich:** Front-Office und Back-Office.
-  - **Verantwortlichkeit:**
-    - **Front-Office:** Gestaltet die Benachrichtigungsmeldungen, die auf der Warenkorbseite, Zahlungsseite oder Produktseite angezeigt werden, wenn Bedingungen nicht erfüllt sind. Es definiert das Aussehen der Warnfelder, des Textes und möglicherweise den deaktivierten Zustand der Checkout-Schaltfläche.
-    - **Back-Office:** Bietet Styling für die Konfigurationsformulare und Listen-Tabellen des Moduls, um sicherzustellen, dass sie gut in das PrestaShop-Back-Office-Theme integriert sind.
-  - **Wichtige CSS-Klassenselektoren, die Entwickler überschreiben können:** Suchen Sie in dieser Datei nach Klassen wie `.cartcon-alert`, `.cartcon-message`, `.cartcon-disabled-button` oder ähnlichen, um die Front-Office-Ausgabe des Moduls anzupassen.
+| Feld | Startwert | Wirkung |
+|---|---|---|
+| **Condition** | **Must have** | **Must have** verlangt das Ziel. **Can't have** blockiert es. |
+| **Target type** | **Category** | **Category** ist eine Kategorie-ID. **Product** ist eine Produkt-ID. **More than defined number of products** ist eine Stückzahl des ganzen Warenkorbs. |
+| **Target item** | leer | Kategorie-ID, Produkt-ID oder Stückzahl. Der Hinweis verlangt eine ID oder eine Produktzahl. |
+| **Active** | **Off** | **On** prüft die Zeile. **Off** behält die Zeile und überspringt sie. |
+| **Save** | - | Speichert die Regel. |
 
-### 4.6 Smarty-Template-Struktur (`views/templates/`)
+Was der Kunde sieht:
 
-#### Hook-Templates (`views/templates/hook/`)
+- **Must have** und **Category**: "To place an order you must order product from category: ...".
+- **Can't have** und **Category**: "Your cart contains product from forbidden category: .... To continue order please remove it from cart."
+- **Must have** und **Product**: "To place an order you must order product: ...".
+- **Can't have** und **Product**: "Your cart contains forbidden product: .... To continue order please remove it from cart."
+- **Must have** und Stückzahl: "Your cart contains less products than required (...). To continue order please increase quantity of products in your cart".
+- **Can't have** und Stückzahl: "Your cart contains more products than allowed (...). To continue order please decrease quantity of products in your cart".
 
-Die Front-Office-Anzeigelogik des Moduls ist wahrscheinlich direkt in den Hook-Methoden der Hauptdatei `cartcon.php` eingebettet, die dann diese Templates rendern.
+Die Stückzahl ist die Summe der Mengen im Warenkorb nach Abzug ausgeschlossener Produkte. **Must have** verlangt, dass der Warenkorb diese Zahl erreicht. **Can't have** blockiert einen Warenkorb über dieser Zahl.
 
-- `cartcon/views/templates/front/displayShoppingCart.tpl`
+### 3.3 Cart Value Conditions
 
-  - **Gerendert im Hook:** `displayShoppingCart`
-  - **Zweck:** Zeigt die Warenkorb-Bedingungsnachrichten an und deaktiviert möglicherweise die Checkout-Schaltfläche auf der Haupt-Warenkorbseite, wenn die Bedingungen nicht erfüllt sind. Es empfängt Variablen von der `hookDisplayShoppingCart`-Methode des Moduls, die die Gültigkeit des Warenkorbs und die anzuzeigende Nachricht angeben.
-- `cartcon/views/templates/front/displayShoppingCartEmpty.tpl`
+Öffnen Sie **Katalog**, dann **Cart Value Conditions**. Jede Zeile ist eine Kundengruppe, eine Kategorie und ein Mindestbetrag.
 
-  - **Gerendert im Hook:** Potenziell `displayShoppingCart` oder ein verwandter Hook, wenn der Warenkorb leer ist.
-  - **Zweck:** Bietet ein spezifisches Template zum Anzeigen von Nachrichten oder alternativen Inhalten, wenn der Warenkorb leer ist, möglicherweise im Zusammenhang mit Mindestbestellanforderungen.
-- `cartcon/views/templates/front/productActions.tpl`
+![Werteliste](https://mypresta.eu/docs/images/docs/cartcon-value-list.webp)
 
-  - **Gerendert im Hook:** `displayProductActions` (typischerweise in der Nähe der Schaltfläche „In den Warenkorb“ auf der Produktseite).
-  - **Zweck:** Kann verwendet werden, um subtile Hinweise oder Warnungen direkt auf der Produktseite anzuzeigen, wenn das Hinzufügen des Produkts eine Warenkorb-Bedingung verletzen würde oder wenn das Produkt den Kauf anderer Artikel erfordert.
+Spalten: **ID**, **Customer group**, **Cart condition**, **Target**, **Value**, **Active**. Leere Liste: **No records found**. Zeilenaktionen: Bearbeiten, Löschen, Symbol **Active**. Sammelaktion: Löschen. **Add new** öffnet das Formular.
 
-#### Admin-Templates (`views/templates/admin/`)
+![Neue Wertregel](https://mypresta.eu/docs/images/docs/cartcon-value-form.webp)
 
-- `cartcon/lib/searchTool/views/scripts.tpl`
+| Feld | Startwert | Wirkung |
+|---|---|---|
+| **Customer Group** | erste Gruppe im Shop (Visitor in einem Standardshop) | Geprüft werden nur Käufer dieser Gruppe. Ein angemeldeter Kunde wird in jeder seiner Gruppen geprüft. |
+| **Condition** | **Must order from selected category** | Das ist die einzige Wahl. Die Regel läuft, wenn der Warenkorb diese Kategorie schon enthält. |
+| **Target item** | leer | Kategorie-ID. |
+| **Value** | leer | Mindestsumme brutto der Produkte aus dieser Kategorie. Tragen Sie sie in der Standardwährung des Shops ein. Das Währungszeichen ist die Shop-Währung. |
+| **Active** | **Off** | **On** wendet die Zeile an. **Off** speichert sie ungenutzt. |
+| **Save** | - | Speichert die Regel. |
 
-  - **Zweck:** Enthält wahrscheinlich JavaScript-Abhängigkeiten oder initialisiert die Autocomplete-Skripte für die Admin-Formulare.
-- `cartcon/views/templates/admin/AdminCartAssociationsCondition.tpl`
+Fehlt die Kategorie im Warenkorb, bleibt die Regel still. Ist sie da und liegt die Bruttosumme unter **Value**, zeigt der Warenkorb: "To place an order you must order for: ... from category: ...".
 
-  - **Zweck:** Das Haupttemplate für den `AdminCartAssociationsConditionController`, das die Oberfläche zur Verwaltung von Produkt-/Kategoriezuordnungen für eine Bedingung anzeigt. Dies würde Suchfelder, Listen ausgewählter Artikel und Speicher-Schaltflächen umfassen.
-- `cartcon/views/templates/admin/adminSearchCustomer.tpl`
+### 3.4 Cart Quantity Conditions
 
-  - **Zweck:** Template für die Kundensuchoberfläche, die beim Ausschließen von Kunden von Bedingungen verwendet wird.
-- `cartcon/views/templates/admin/script.tpl`
+Öffnen Sie **Katalog**, dann **Cart Quantity Conditions**.
 
-  - **Zweck:** Allgemeines Admin-Skript-Template, das möglicherweise modulspezifisches JavaScript oder Konfigurationsvariablen für das Back Office enthält.
-- `cartcon/views/templates/admin/search-attribute-value-result.tpl`
+![Mengenliste](https://mypresta.eu/docs/images/docs/cartcon-quantity-list.webp)
 
-  - **Zweck:** Template zum Anzeigen der Ergebnisse einer Attribut-/Wertsuche innerhalb des Admin-Panels, wahrscheinlich in Verbindung mit Produktsuchen verwendet.
-- `cartcon/views/templates/admin/search-attribute-value.tpl`
+Spalten: **ID**, **Customer group**, **Cart condition**, **Target**, **Quantity**, **Active**. Leere Liste: **No records found**. Zeilenaktionen: Bearbeiten, Löschen, Symbol **Active**. Sammelaktion: Löschen.
 
-  - **Zweck:** Template für das Such-Eingabefeld und zugehörige UI-Elemente zum Suchen von Produktattributen/-werten im Admin.
-- `cartcon/views/templates/admin/selectedProducts.tpl`
+![Neue Mengenregel](https://mypresta.eu/docs/images/docs/cartcon-quantity-form.webp)
 
-  - **Zweck:** Template zum Anzeigen der Liste der Produkte, die in den Admin-Formularen ausgewählt und einer bestimmten Bedingung zugeordnet wurden.
+| Feld | Startwert | Wirkung |
+|---|---|---|
+| **Customer Group** | erste Gruppe im Shop | Nur diese Gruppe wird geprüft. |
+| **Condition** | **Must order at least X products from selected category** | Wählen Sie das Limit. Die volle Liste steht unten. |
+| **Target country** | erstes Land im Shop | Nur für die zwei Regeln "from Y category". Bei jeder anderen Bedingung verbirgt die Seite diese Liste. |
+| **Target item** | leer | Kategorie-, Produkt-, Hersteller-ID oder Attributwert, je nach **Condition**. Der Hinweis verlangt die ID des Ziels. Bei ganzen Warenkorbregeln setzt die Seite das Wort Cart und sperrt das Feld. |
+| **Quantity** | leer | Die Zahl X der gewählten Bedingung. |
+| **Accept only multiplied qty** | **Off** | **On** akzeptiert nur Vielfache von **Quantity**, zum Beispiel 6, 12, 18, 24 bei **Quantity** 6. **Off** akzeptiert jede Zahl, die die Regel erfüllt. |
+| **Active** | **Off** | **On** wendet die Zeile an. |
+| **Save** | - | Speichert die Regel. |
 
-### 4.7 Datenbankschema & Hooks-Map
+**Condition** in der Reihenfolge des Formulars:
 
-#### Datenbanktabellen
+- **Must order at least X products from selected category**
+- **Can't more than X products from selected category**
+- **Must order at least X products from selected manufacturer**
+- **Can't more than X products from selected manufacturer**
+- **Must order at least X quantity of selected product**
+- **Can't order more than X quantity of selected product**
+- **Must order at least X quantity of each product**
+- **Can't order more than X quantity of each product**
+- **Can't order more than X products with the same attribute value**
+- **Cart must have at least X products**
+- **Cart can't have more than X products**
+- **Cart must have at least X different products**
+- **Cart can't have more than X different products**
+- **Cart of user from selected country must have more than X products**
+- **Cart of user from selected country can't have more than X products**
+- **Cart of user from selected country must have more than X products from Y category**
+- **Cart of user from selected country can't have more than X products from Y category**
 
-Das Modul erstellt benutzerdefinierte Tabellen, um seine verschiedenen Bedingungen und Zuordnungen zu speichern. Diese Tabellen sind typischerweise mit `ps_cartcon_` oder `cartcon_` präfixiert.
+Bei den letzten beiden setzen Sie **Target country** und tragen die Kategorie-ID in **Target item** ein. Bei den zwei Länderregeln ohne Kategorie verbirgt die Seite **Target country**, ein Land wählen Sie dort also nicht. Für ein Geldbetragslimit nutzen Sie **Cart value by country conditions**. Für eine Stückzahl aus einer Kategorie nutzen Sie die letzten beiden Mengenregeln.
 
-- `ps_cartcon`: Speichert allgemeine Warenkorb-Bedingungen (Name, Nachricht, aktiver Status usw.).
-- `ps_cartcon_ass`: Speichert Zuordnungen zwischen Bedingungen und spezifischen Produkten/Kategorien.
-- `ps_cartcon_country`: Speichert länderspezifische Bedingungen.
-- `ps_cartcon_quantity`: Speichert mengenbasierte Bedingungen.
-- `ps_cartcon_value`: Speichert wertbasierte Bedingungen.
-- `ps_configuration`: Moduleinstellungen wie `CARTCON_CUSTOMERS`, `ccon_visibility_rule`, `CARTCON_FUTURE` usw. werden hier gespeichert.
+**Search for attribute value** erscheint nur bei **Can't order more than X products with the same attribute value**. Suchen Sie, klicken Sie einen Wert, und er wird **Target item**.
 
-#### Registrierte Hooks-Tabelle
+Der Warenkorbtext folgt der Wahl. Kategorie- und Herstellerregeln sagen "at least" oder "can't order more than" und nennen Kategorie oder Hersteller. Eine Produktregel nennt die aktuelle Menge. Eine Warenkorbregel sagt "you must order more than" oder "you can't order more than" und nennt die aktuelle Menge. Mit **Accept only multiplied qty** auf **On** ergänzt der Warenkorb: "We accept only multiplied quantity...".
 
-| Hook-Name | Ausführungszeitpunkt | Technischer Zweck |
-| --- | --- | --- |
-| `displayHeader` | Im `<head>`-Bereich jeder Seite. | Wird zum Laden der CSS- und JavaScript-Assets des Moduls für Front-Office und Back-Office verwendet. |
-| `displayPaymentTop` | Oben auf der Zahlungsauswahlseite während des Checkouts. | Entscheidend für die Neubewertung der Warenkorb-Bedingungen kurz vor der Zahlung und gegebenenfalls deren Blockierung. |
-| `displayShoppingCart` | Auf der Haupt-Warenkorbseite. | Primärer Hook zum Anzeigen von Bedingungsnachrichten und zum Deaktivieren der Checkout-Schaltfläche. |
-| `actionAdminControllerSetMedia` | Wenn ein Admin-Controller geladen wird und seine Medien (JS/CSS) gesetzt werden. | Wird zum Laden spezifischer JS/CSS-Assets für die Back-Office-Konfigurationsseiten des Moduls verwendet. |
-| `displayProductActions` | Typischerweise in der Nähe der Schaltfläche „In den Warenkorb“ auf der Produktseite. | Kann verwendet werden, um produktspezifische Bedingungshinweise oder Warnungen anzuzeigen. |
-| `actionCartSave` | Nachdem ein Warenkorb gespeichert wurde (z. B. Produkt hinzugefügt/entfernt, Menge geändert). | (Implizit/Wahrscheinlich) Das Modul würde wahrscheinlich einen `actionCartSave` oder ähnlichen Hook verwenden, um die Neubewertung der Warenkorb-Bedingungen auf Serverseite auszulösen, die dann das Front-Office-JS informiert. |
+Auf der Produktseite kann das Theme "You must order at least: ... quantity of this product" zeigen, für **Must order at least X quantity of selected product**, wenn dieses Produkt das Ziel ist und der Besucher zur Gruppe passt. Das ist ein Hinweis. Die Sperre geschieht im Warenkorb.
 
-## 5. Offizieller Support & Updates
+### 3.5 Cart Associations Conditions
 
-Für die neuesten Updates, Fehlerbehebungen und professionellen Support für das Modul „Warenkorb-Bedingungen Pro“ besuchen Sie bitte Ihr Kundenkonto unter [MyPresta.eu](https://mypresta.eu/my-account/orders/). Unser Team ist bestrebt, sicherzustellen, dass das Modul optimal mit Ihrem PrestaShop-Shop funktioniert.
+Öffnen Sie **Katalog**, dann **Cart Associations Conditions**. Eine Zeile verbindet ein Element mit einem anderen für eine Kundengruppe. Die Regel startet erst, wenn das erste Element schon im Warenkorb liegt.
+
+![Zuordnungsliste](https://mypresta.eu/docs/images/docs/cartcon-associations-list.webp)
+
+Spalten: **ID**, **Customer group**, **Cart condition**, **Target item (1)**, **Associated item (2)**, **Active**. Leere Liste: **No records found**. Zeilenaktionen: Bearbeiten, Löschen, Symbol **Active**. Sammelaktion: Löschen.
+
+![Neue Zuordnung](https://mypresta.eu/docs/images/docs/cartcon-associations-form.webp)
+
+| Feld | Startwert | Wirkung |
+|---|---|---|
+| **Active** | **Off** | **On** wendet die Zeile an. |
+| **Type of condition** | **Associations between product and product** | **Associations between product and category** oder **Associations between category and category** ändert die Bedeutung der beiden IDs. |
+| **For what customer group** | erste Gruppe im Shop | Nur diese Gruppe wird geprüft. |
+| **Target item (1)** | leer | Produkt- oder Kategorie-ID. Die Regel läuft, wenn der Kunde dieses Objekt in den Warenkorb legt. |
+| **Condition** | **If customer will add to cart Target item (1) then it must order Associated item (2)** | Die Wahlmöglichkeiten stehen unten. |
+| **Associated item (2)** | leer | Die verlangte oder verbotene Produkt- oder Kategorie-ID. |
+| **Save** | - | Speichert das Paar. |
+
+Wahlmöglichkeiten von **Condition**:
+
+- **If customer will add to cart Target item (1) then it must order Associated item (2)**. Warenkorbtext: "If your cart has a product: ... you must order also product: ..." oder das Kategorie-Gegenstück.
+- **If customer will add to cart Target item (1) then cart must have at least one different product**. Nur bei Produkt und Produkt sichtbar. Die Warenkorbprüfung zeigt für diese Wahl keinen Text. Nutzen Sie eine andere Wahl, wenn der Warenkorb sperren soll.
+- **If customer will add to cart Target item (1) then it will be forbidden to order Associated item (2)**. Text: "If your cart has a product: ... you can't place an order for: ...".
+- **If customer will add to cart Target item (1) then it will be forbidden to add any other product to cart**. Die Seite verbirgt **Associated item (2)**. Text: "If your cart has a product: ... you can't place an order for any other product."
+- **If customer will add to cart Target item (1) then it will be forbidden to add products from categories other than Target item (1)**. Nur bei Kategorie und Kategorie. Die Seite verbirgt **Associated item (2)**.
+
+Das Formular enthält auch **Include subcategories of Target item (1)** und **Include subcategories of Associated item (2)**. Die Seite verbirgt beide Schalter bei jedem Typ. Die Regel nutzt die IDs, die Sie eintragen.
+
+### 3.6 Cart value by country conditions
+
+Öffnen Sie **Katalog**, dann **Cart value by country conditions**. Die Regel nutzt das Land der Lieferadresse.
+
+![Länderbeträge](https://mypresta.eu/docs/images/docs/cartcon-country-list.webp)
+
+Spalten: **ID**, **Customer group**, **Condition**, **Country**, **Value**, **Active**. Leere Liste: **No records found**. Zeilenaktionen: Bearbeiten, Löschen, Symbol **Active**. Sammelaktion: Löschen.
+
+![Neuer Länderbetrag](https://mypresta.eu/docs/images/docs/cartcon-country-form.webp)
+
+| Feld | Startwert | Wirkung |
+|---|---|---|
+| **Customer Group** | erste Gruppe im Shop | Nur diese Gruppe wird geprüft. |
+| **Target country** | erstes Land im Shop | Die Regel läuft, wenn die Lieferadresse dieses Land hat. Die Liste ist die Länderliste des Shops. |
+| **Condition** | **Cart must be worth at least ...** | **Cart can't be worth more than ...** ist das Maximum. |
+| **Condition tax** | **Tax included** | **Tax excluded** vergleicht die Summe ohne Steuer. Der Warenkorbtext wiederholt die gewählte Steuerbezeichnung. |
+| **Cart value type** | **Products + shipping** | **Products** lässt den Versand aus der verglichenen Summe. |
+| **Value** | leer | Der Betrag in der Standardwährung des Shops. |
+| **Active** | **Off** | **On** wendet die Zeile an. |
+| **Save** | - | Speichert die Regel. |
+
+Unter dem Minimum zeigt der Warenkorb: "To place an order from country: ... your cart must be worth at least ..., while you cart is worth ...". Über dem Maximum: "To place an order from country: ... your cart can't be worth more than ..., while you cart is worth ...".
+
+## 4. Shop-Frontend
+
+Der Kunde öffnet keine eigene Seite. Das Modul spricht auf der Produktseite und im Warenkorb.
+
+Auf der Produktseite, und nur bei einer aktiven Regel **Must order at least X quantity of selected product** für dieses Produkt, kann das Theme zeigen: "You must order at least: ... quantity of this product". Das Theme muss den Produktaktionsbereich ausgeben. Dieses Handbuch hat kein Shop-Bild, weil diese Zeile im Test-Theme nicht bestätigt wurde.
+
+Im Warenkorb ist jede verletzte Regel eine Zeile eines roten Hinweises. Namen verlangter oder verbotener Produkte und Kategorien sind Links. Öffnet der Kunde die Zahlung bei einer verletzten Regel, kehrt der Shop zum Warenkorb zurück und zeigt denselben Hinweis.
+
+Ein Kunde auf der Ausschlussliste sieht keine dieser Meldungen und wird nicht zurückgeschickt.
+
+Eine Front-Adresse zum Kopieren gibt es nicht. Ein Formular, in dem der Kunde eine Regel annimmt oder ablehnt, gibt es nicht.
+
+## 5. Probleme
+
+**Die fünf Einträge fehlen unter Katalog.** Das Modul ist nicht installiert oder wurde deinstalliert. Installieren Sie es im **Module Manager** erneut. Alte Regeln kommen mit.
+
+**Der blaue Hinweis sagt Price Rules, und unter Price Rules gibt es keinen Cart-Conditions-Eintrag.** Nutzen Sie die fünf Links im Hinweis oder **Katalog**. Der Menüelternteil ist Katalog.
+
+**Eine gespeicherte Regel tut nichts.** **Active** ist **Off**, der Kunde steht auf der Ausschlussliste, oder er ist nicht in der gewählten Gruppe. Ein nicht angemeldeter Besucher wird als Gruppe Visitor geprüft. Öffnen Sie die Zeile, setzen Sie **Active** auf **On** und testen Sie mit einem Kunden dieser Gruppe.
+
+**Eine Wertregel bleibt still.** Die Kategorie fehlt im Warenkorb. Legen Sie ein Produkt aus dieser Kategorie hinein. Die verglichene Summe ist brutto.
+
+**Zwei Ländermengenregeln ignorieren das Land.** **Target country** ist verborgen, solange **Condition** nicht eine der zwei Zeilen "from Y category" ist. Wählen Sie eine davon, oder nutzen Sie **Cart value by country conditions** für ein Geldbetragslimit.
+
+**Same calendar month blockiert November und November.** Die Jahre unterscheiden sich. Der 5. November 2026 und der 5. November 2027 sind verschieden. Das Produkt muss außerdem ohne Bestand und mit künftigem **Availability date** sein. Produkte auf Lager werden nicht verglichen.
+
+**Check now zeigt nichts, oder die Warnung erscheint nie.** Der Shop-Server kann die entfernte MyPresta-Adresse nicht öffnen. **Check now** meldet nur eine Version. Es lädt die Datei nicht herunter und installiert sie nicht. Öffnen Sie **Module page** und holen Sie die neue Datei dort.
+
+**Der Warenkorbhinweis fehlt, und die Zahlung kehrt trotzdem zum Warenkorb zurück.** Das Theme gibt den Warenkorbblock nicht aus. Die Rückkehr zum Warenkorb läuft trotzdem. Überschreiben Sie die Warenkorbvorlage im Theme oder prüfen Sie, ob das Theme den Warenkorb-Hook ausgibt.
+
+**Die Deinstallation hat das Menü entfernt, und eine spätere Installation zeigt die alten Regeln.** So arbeitet die Deinstallation. Löschen Sie die Zeilen in den Listen vor der Deinstallation, wenn das Modul danach leer sein soll.
+
+## 6. Für Entwickler
+
+### 6.1 Überblick
+
+Hauptklasse `cartcon`, Version 2.1.9, Listenname **Cart Conditions**, Autor MyPresta.eu, Tab `advertising_marketing`. `cartconPrestashopNewCompatibility` erweitert `cartcon` für die Preisformatierung und ist nicht die Modulinstanz. `psversion()` bildet Major 8 und höher auf den 1.7-Zweig für einige Back-Office-Markup-Entscheidungen ab. Es gibt kein `enable()`- oder `disable()`-Override.
+
+`getRestrictions()` liest aktive Zeilen des aktuellen Shops, überspringt Kunden aus `CARTCON_CUSTOMERS` und füllt `errors_cartcon`. `hookDisplayShoppingCart` gibt diese Liste aus. `hookDisplayPaymentTop` leitet zum Warenkorb mit `cartcon=show` um, wenn die Liste nicht leer ist. `hookDisplayProductActions` gibt eine Mindestmenge nur für `cartcon_quantity.c_type = 2` dieser Produkt-ID aus.
+
+### 6.2 Dateien
+
+- `cartcon.php` - Installation, Konfigurationsformulare, Prüfungen, Hooks.
+- `lib/prestashop9compatibility.php` - `cartconPrestashopNewCompatibility`.
+- `controllers/admin/AdminCartConditionController.php` - Must-have und Can't-have.
+- `controllers/admin/AdminCartValueConditionController.php` - Kategoriemindestbetrag.
+- `controllers/admin/AdminCartQuantityConditionController.php` - Mengenregeln.
+- `controllers/admin/AdminCartAssociationsConditionController.php` - Paare.
+- `controllers/admin/AdminCartCountryConditionController.php` - Länderbeträge.
+- `models/CartCondition.php`, `CartValueCondition.php`, `CartQuantityCondition.php`, `CartAssociationsCondition.php`, `CartCountryCondition.php` - Objektmodelle.
+- `views/templates/front/displayShoppingCart.tpl` - roter Hinweis.
+- `views/templates/front/productActions.tpl` - Mindestmenge auf der Produktseite.
+- `views/templates/admin/script.tpl` - Verhalten des Mengenformulars.
+- `views/templates/admin/search-attribute-value.tpl` - Attributsuche, sichtbar bei Mengentyp 7.
+- `lib/searchTool/searchTool.php` - `initTool()` injiziert nur Skripte. Es rendert kein Panel.
+
+### 6.3 Controller
+
+Alle fünf Admin-Controller erweitern `ModuleAdminController`. `createMenu()` legt je Sprache einen Tab mit englischem Namen an, Elternteil `AdminCatalog` (`Sell > Catalog` unter PrestaShop 9). Klassen: `AdminCartCondition`, `AdminCartValueCondition`, `AdminCartQuantityCondition`, `AdminCartAssociationsCondition`, `AdminCartCountryCondition`. Einen Front-Controller gibt es nicht. Das einzige Front-Flag, das das Modul liest, ist `cartcon=show`, gesetzt von der Zahlungsweiterleitung.
+
+`script.tpl` deaktiviert **Target item** und setzt den Wert auf das Wort `Cart` für Mengentypen 4, 5, 8, 9, 15 und 16. Die Länderauswahl wird für Typen 8 und 9 gezeigt und vom nächsten Block verborgen, außer der Typ ist 10 oder 11. Sichtbares Ergebnis: ein Länderfeld nur für Typen 10 und 11. Typ 7 zeigt `.searchAttributeValue`.
+
+Das Zuordnungsskript verbirgt `.subcatt` und `.subcata` bei jedem Typ. Bedingungs-ID 4 ist nur für Kategorie-Kategorie (Typ 3) aktiv. ID 5 ist nur für Produkt-Produkt (Typ 1) sichtbar. IDs 3, 4 und 5 verbergen **Associated item (2)**. `getRestrictions()` vergleicht Zuordnungs-`c_value` 1, 2, 3 und 4. Es vergleicht `c_value` 5 nicht.
+
+### 6.4 Hooks
+
+- `displayHeader` - Front-CSS und JS sowie der Ajax-Aufruf `getCartConditions`.
+- `displayShoppingCart` - Hinweisliste.
+- `displayProductActions` - Hinweis zur Mindestmenge.
+- `displayPaymentTop` - Rückkehr zum Warenkorb, wenn ein Fehler existiert.
+- `actionAdminControllerSetMedia` - Admin-Assets.
+
+Das Modul registriert keine eigenen Hooks.
+
+### 6.5 Overrides
+
+Keine. Kein Klassen- oder Controller-Override.
+
+### 6.6 Datenbank
+
+Tabellen mit Shop-Präfix. `inconsistency()` / `maybeUpdateDatabase()` ergänzen fehlende Spalten in `installdb()` und über die Update-Schaltfläche. Sie laufen nicht bei jedem Aufruf der Konfiguration. Die Deinstallation löscht die Tabellen nicht.
+
+| Tabelle | Inhalt |
+|---|---|
+| `cartcon` | `id_cartcon`, `c_type`, `c_value`, `c_option`, `active` Standard 1, `id_shop` später ergänzt. Keine Kundengruppe. |
+| `cartcon_value` | `id_cartcon_value`, `c_type`, `c_target`, `c_value`, `active`, `c_only_if_in_cart` Standard 0, `c_group`, `id_shop`. `c_only_if_in_cart` steht nicht im Formular. |
+| `cartcon_quantity` | `id_cartcon_quantity`, `c_type`, `c_target`, `c_value`, `active`, `c_only_if_in_cart` Standard 0, `c_group`, `id_shop`, `multiply` Standard 0, `c_country` Standard 0. |
+| `cartcon_ass` | `id_cartcon_ass`, `c_type`, `c_target1`, `c_target2`, `c_value`, `active`, `c_group`, `id_shop`, `subcatt` Standard 0, `subcata` Standard 0. Die Kategoriezuordnung liest `subcatt` und `subcata`, wenn sie 1 sind. Das Formular verbirgt beide Schalter. |
+| `cartcon_country` | `id_cartcon_country`, `c_type`, `c_target`, `c_value`, `active`, `c_group`, `id_shop`, `c_tax` Standard 1, `c_cartValueType` Standard 1. |
+
+Neue HelperForm-Masken senden **Active** als 0, weil Off gewählt ist. Der Spaltenstandard 1 gilt nur, wenn die Spalte weggelassen wird.
+
+### 6.7 Schlüssel und Übersetzungen
+
+| Schlüssel | Wenn er fehlt |
+|---|---|
+| `CARTCON_CUSTOMERS` | leer. Kunden-IDs, durch Komma getrennt. Diese Kunden verlassen `getRestrictions()` sofort. |
+| `ccon_visibility_rule` | `0` heißt nicht ausschließen. `1` überspringt gewählte Produkte und Kategorien. |
+| `ccon_visibility_products` | leere Produkt-ID-Liste. |
+| `ccon_visibility_cat` | leere Kategorie-ID-Liste. |
+| `CARTCON_FUTURE` | nicht gesetzt, gilt als aus. `1` startet den Datumsvergleich. |
+| `CARTCON_FUTURE_MODE` | fehlend wird zu `0` (**Exact date**). `1` gruppiert mit `date('Y-m')`. Verglichene Produkte brauchen `stock_quantity <= 0` und `available_date` strikt in der Zukunft. Mehr als ein verschiedener Schlüssel blockiert die Bestellung. |
+| `mypresta_updates` | `0` schaltet die automatische Warnung aus. `1` schaltet sie ein. |
+| `update_cartcon` | Zeitstempel der letzten Prüfung. |
+| `updatev_cartcon` | Versionsstring der letzten Prüfung. |
+
+Die Prüfung nutzt `allow_url_fopen` und `file_get_contents` gegen `dev.mypresta.eu`. Shop-Übersetzungen liegen in `translations/{iso}.php`. Menünamen schreibt `createMenu()` auf Englisch für jede Sprache, sie laufen nicht über eine Übersetzungsdatei. Feldbeschreibungen stehen in den `l()`-Aufrufen der Controller und in den HelperForm-`desc`-Zeichenketten in `cartcon.php`. `getCustomerGroups()` bildet Warenkorb `id_customer` 0 auf Gruppen-ID 1 ab. Der Gastzweig läuft nur, wenn `id_customer` nicht gesetzt ist.
+
+### 6.8 Erweitern
+
+Überschreiben Sie aus dem Theme `views/templates/front/displayShoppingCart.tpl` und `views/templates/front/productActions.tpl`. Ruft das Theme `displayShoppingCart` oder `displayProductActions` nie auf, gibt es nichts zu überschreiben, und der Kunde sieht den Hinweis nicht. Die Zahlungsweiterleitung läuft weiter.
+
+## 7. Hilfe
+
+Modulseite: [Cart Conditions Pro](https://mypresta.eu/modules/ordering-process/cart-conditions-pro.html).
+
+Schreiben Sie zu diesem Modul, indem Sie sich im Kundenkonto auf mypresta.eu anmelden, das Kontaktformular öffnen und **Support for paid modules** wählen. Das Formular sagt, dass für kostenpflichtige Module eine Anmeldung nötig ist. Nach der Anmeldung wählen Sie dieses Modul aus der Kaufhistorie.
