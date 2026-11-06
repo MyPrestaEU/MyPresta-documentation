@@ -1,8 +1,8 @@
 ---
-title: "Zahlungsmethoden nach Produkten - Händlerhandbuch & Konfigurationsanleitung"
-description: "Vollständiges Benutzerhandbuch, schrittweise Einrichtungsanleitung und Entwicklerreferenz für das PrestaShop-Modul 'Zahlungsmethoden nach Produkten' von MyPresta.eu."
+title: "Zahlungsarten nach Produkt - Dokumentation und Anleitung für Händler"
+description: "Diese Anleitung zeigt, wie Sie Zahlungsarten je Produkt setzen, sie im Warenkorb zusammenführen und eine Kasse korrigieren, die noch die falsche Methode anzeigt."
 sidebar:
-  label: "Zahlungsmethoden nach Produkten - Händlerhandbuch & Konfigurationsanleitung"
+  label: "Zahlungsarten nach Produkt - Dokumentation und Anleitung für Händler"
 ---
 
 > ⚠️ **Notice:** This is the offizielle Dokumentation für das PrestaShop-Modul.
@@ -12,182 +12,259 @@ sidebar:
 > ---
 
 
-# Zahlungsmethoden nach Produkten
+## 1. Anforderungen
 
-## 1. Anforderungen & Kompatibilität
+Prüfen Sie diese Punkte vor der Installation.
 
-- **Unterstützte PrestaShop-Versionen**: PrestaShop 1.7.x, 8.x
-- **PHP-Kompatibilität**: PHP 7.1 - 8.5
-- **Hosting-Anforderungen**: Standard-PHP-Erweiterungen (cURL, JSON, OpenSSL) werden typischerweise von PrestaShop selbst benötigt und sind für dieses Modul ausreichend.
+- Verwenden Sie PrestaShop 1.7.0.0 oder neuer, einschließlich PrestaShop 8 und 9. Das Modul akzeptiert Shopversionen bis 9.99.99.
+- Behalten Sie die PHP-Version, die diese PrestaShop-Version verlangt. Der Installer prüft PHP nicht extra.
+- Aktivieren Sie die PHP-Erweiterung cURL, wenn die Update-Prüfung MyPresta.eu erreichen soll. Fehlt cURL, versucht die Prüfung die Adresse über die Server-Einstellung für entfernte Lesezugriffe. Die Zahlungsregeln selbst brauchen kein cURL.
+- Es ist kein weiteres PrestaShop-Modul nötig. Die Methodenliste kommt aus den bereits installierten Zahlungsmodulen. Ohne installiertes Modul sind die Kontrollkästchen leer.
+- Installieren und aktivieren Sie mindestens ein Zahlungsmodul, wenn eine Methode an der Kasse erscheinen soll.
+- Das Modul verlangt kein externes Konto.
 
-## 2. Vollständige Konfigurationsanleitung (Jede Einstellung nach Bildschirm gruppiert)
+Die Modultexte im Backoffice sind Englisch. Nur Polnisch wird mitgeliefert. Die Namen in dieser Anleitung sind die deutschen Bezeichnungen der englischen Beschriftung.
 
-Dieses Modul verfügt über zwei Hauptkonfigurationsbereiche: die anfängliche Modulkonfigurationsseite und einen dedizierten Verwaltungsbildschirm zum Erstellen von Produkt-Zahlungs-Assoziationen.
+## 2. Installation
 
-### 2.1 Modulkonfigurationsseite (Back Office > Module > Konfigurieren > Zahlungsmethoden nach Produkten)
+1. Öffnen Sie **Module**, dann **Modul-Manager**.
+2. Klicken Sie auf **Modul hochladen** und laden Sie die ZIP-Datei hoch.
+3. Klicken Sie bei **Payment options by products** auf **Installieren**.
 
-Nach dem Klicken auf „Konfigurieren“ nach der Installation gelangen Sie zur Hauptkonfigurationsseite des Moduls. Diese Seite enthält typischerweise allgemeine Einstellungen für das Modul.
+Die Installation bewirkt Folgendes:
 
-**Derzeit sind auf dieser Hauptkonfigurationsseite keine spezifischen Einstellungen über die Standardmodulinformationen hinaus erkannt worden. Die Kernfunktionalität wird über den dedizierten Bildschirm „Zahlung - Produktassoziationen“ verwaltet.**
+- Sie legt **Payment - Product associations** unter **Verbessern**, dann **Zahlung** an. Fehlt dieses Menü, liegt der Eintrag unter **Verbessern**.
+- Sie legt die Tabelle an. Eine Zeile ist ein Produkt, ein Zahlungsmodul, ein Shop und ein Land.
+- Sie registriert den Kassenfilter und den Reiter auf der Produktseite.
+- Sie kopiert die Kassen-Überschreibung. PrestaShop muss Überschreibungen erlauben. Sind sie aus, laufen der Produktreiter und der Kassenfilter trotzdem. Der gelbe Hinweis auf der Konfigurationsseite sagt das.
+- Sie leert den Shop-Cache nicht. Leeren Sie ihn unter **Erweiterte Parameter**, **Leistung**, nur wenn ein alter Bildschirm sichtbar bleibt.
+- Sie legt keine Produktregel an. Die Kasse bleibt unverändert, bis Sie eine Regel speichern.
 
-Sollten zukünftige Versionen hier Einstellungen einführen, würden diese als Schalter, Eingabefelder oder Dropdowns erscheinen. Vorerst können Sie direkt zum dedizierten Verwaltungsbildschirm übergehen.
+**Konfigurieren** im **Modul-Manager** öffnet die Einstellungen. Der Menüpunkt **Payment - Product associations** öffnet die Regelliste.
 
-### 2.2 Dedizierter Admin-Bildschirm: Zahlung - Produktassoziationen (Back Office > Module > Zahlungsmethoden nach Produkten > Zahlung - Produktassoziationen)
+Deinstallation:
 
-Dies ist die zentrale Anlaufstelle für die Verwaltung Ihrer Produkt-Zahlungsbeschränkungen. Sie finden diesen Bildschirm, indem Sie zu **Module > Modul-Manager** navigieren, „Zahlungsmethoden nach Produkten“ finden, auf „Konfigurieren“ klicken und dann nach einem Tab oder Link mit der Bezeichnung „Zahlung - Produktassoziationen“ suchen (oder ähnlich, je nach Navigation des Moduls).
+- Entfernt den Menüpunkt **Payment - Product associations**.
+- Entfernt die Kassen-Überschreibung und die registrierten Hooks.
+- Entfernt die gespeicherte Modulversion der Aktualisierung.
+- Löscht die gespeicherten Produktregeln nicht. Eine neue Installation liest diese Zeilen wieder.
+- Schaltet die shopweiten Update-Hinweise anderer MyPresta-Module nicht ab.
+- Lässt den Modulordner stehen, bis Sie ihn im **Modul-Manager** oder auf dem Server löschen.
 
-**Bildschirmname & Menüpfad:**
+Wenn Sie das Modul im **Modul-Manager** deaktivieren, stoppt der Kassenfilter. Die Regeln bleiben in der Datenbank.
 
-- **Menüpfad:** Back Office > Module > Modul-Manager > Zahlungsmethoden nach Produkten > Konfigurieren > **Zahlung - Produktassoziationen** (oder ein ähnlicher Tab/Link auf der Konfigurationsseite).
-- Dieser Bildschirm ermöglicht es Ihnen, Assoziationen zwischen Produkten und Zahlungsmethoden anzuzeigen, hinzuzufügen, zu bearbeiten und zu löschen.
+## 3. Konfiguration und Arbeit im Backoffice
 
-**Verfügbare Aktionen & Einstellungen:**
+Eine Regel ist eine Liste von Zahlungsarten für ein Produkt, im Shop, den Sie bearbeiten, für ein Lieferland oder für alle Länder.
 
-#### 2.2.1 Die Listenansicht „Zahlung - Produktassoziationen“
+So gehen Sie vor:
 
-Diese Ansicht präsentiert eine Tabelle aller bestehenden Produkt-Zahlungsbeschränkungen, die Sie eingerichtet haben.
+1. Öffnen Sie **Konfigurieren** und wählen Sie, wie mehrere eingeschränkte Produkte in einem Warenkorb zusammenkommen. Klicken Sie auf **Save**. Dieser Schritt ist optional. Bis Sie speichern, behält der Shop jede Methode, die mindestens ein eingeschränktes Produkt erlaubt.
+2. Öffnen Sie ein Produkt und den Reiter **Payment methods**, oder **Verbessern**, **Zahlung**, **Payment - Product associations**, und legen Sie eine Zeile an.
+3. Markieren Sie die Methoden, die bleiben sollen, wenn dieses Produkt im Warenkorb liegt. Wählen Sie **All countries** oder ein Land. Speichern Sie.
+4. An der Kasse liest der Shop die Lieferadresse und blendet Methoden aus, die die Regeln nicht erlauben.
 
-| Spaltenname | Zweck & Auswirkung |
-| --- | --- |
-| **ID** | Eine eindeutige Kennung für jede Assoziation. |
-| **Produkt** | Der Name des Produkts, das in der Beschränkung enthalten ist. |
-| **Zahlung** | Der Name der Zahlungsmethode, die für dieses Produkt eingeschränkt oder erlaubt ist. |
-| **Land** | (Falls zutreffend) Das Land, für das diese Beschränkung gilt. Wenn leer gelassen, gilt sie global. |
-| **Aktionen** | Symbole zum **Bearbeiten** (Bleistiftsymbol) oder **Löschen** (Mülleimersymbol) einer bestehenden Assoziation. |
+Ein Produkt ohne gespeicherte Regel entfernt keine Zahlungsarten. **Free order** bleibt, wenn es die einzige Methode bei einem Warenkorb mit Summe null ist.
 
-**Empfohlener Workflow für die tägliche Shop-Verwaltung:**
+Es gibt keinen Bestellstatus. Das Ergebnis ist die Zahlungsliste auf der Kassenseite.
 
-- **Bestehende Regeln überprüfen:** Überprüfen Sie diese Liste regelmäßig, um sicherzustellen, dass Ihre Beschränkungen mit Ihrem Produktkatalog und Ihren Geschäftsanforderungen übereinstimmen.
-- **Konflikte identifizieren:** Suchen Sie nach überlappenden oder widersprüchlichen Regeln, insbesondere wenn Sie viele Produkte und Zahlungsmethoden haben.
-- **Suche/Filter verwenden:** Wenn die Liste groß wird, verwenden Sie alle verfügbaren Such- oder Filteroptionen, um schnell spezifische Produkt- oder Zahlungsbeschränkungen zu finden.
+Die Aufnahmen in diesem Kapitel zeigen das englische Backoffice. Die Bildunterschrift nennt den Namen aus dieser Anleitung.
 
-#### 2.2.2 Hinzufügen oder Bearbeiten einer „Zahlung - Produktassoziation“
+### 3.1 Modulkonfiguration
 
-Um eine neue Beschränkung hinzuzufügen, finden Sie in der Listenansicht typischerweise eine Schaltfläche „Neu hinzufügen“. Beim Bearbeiten klicken Sie auf das Bleistiftsymbol neben einem bestehenden Eintrag. Dadurch wird ein Formular mit den folgenden Feldern geöffnet:
+Öffnen Sie **Module**, **Modul-Manager**, **Payment options by products**, **Konfigurieren**.
 
-| Formularfeld | Was diese Einstellung bewirkt | Auswirkung einer Änderung dieser Einstellung | Empfohlener Wert | Händlerszenario / Beispiel |
-| --- | --- | --- | --- | --- |
-| **ID Produkt** | Dieses Feld ermöglicht Ihnen die Auswahl des spezifischen Produkts, das Sie mit Zahlungsbeschränkungen verknüpfen möchten. | Wenn Sie ein Produkt auswählen, wendet das Modul die gewählten Zahlungsbeschränkungen an, sobald dieses Produkt im Warenkorb eines Kunden liegt. | Wählen Sie das genaue Produkt aus Ihrem Katalog. Verwenden Sie die Suchfunktion, wenn Sie viele Produkte haben. | Sie verkaufen „Digitales E-Book: Marketing-Leitfaden“. Sie möchten sicherstellen, dass es nur über PayPal oder Kreditkarte bezahlt werden kann, nicht per Nachnahme. Sie wählen dieses Produkt hier aus. |
-| **Zahlungsmethoden** | Dies ist eine Liste aller aktiven Zahlungsmethoden in Ihrem PrestaShop-Shop. Sie wählen aus, welche Zahlungsmethoden für das ausgewählte Produkt **erlaubt** sind. | - *Wenn Sie eine oder mehrere Zahlungsmethoden auswählen:* Nur diese ausgewählten Methoden sind an der Kasse verfügbar, wenn das zugehörige Produkt im Warenkorb liegt. Alle anderen Zahlungsmethoden werden ausgeblendet.   - *Wenn Sie KEINE Zahlungsmethoden auswählen:* Dies bedeutet effektiv, dass das Produkt nicht gekauft werden kann, oder es erbt Regeln von anderen Produkten im Warenkorb. Es wird im Allgemeinen nicht empfohlen, dieses Feld leer zu lassen, es sei denn, Sie haben einen sehr spezifischen Anwendungsfall. | Wählen Sie alle Zahlungsmethoden aus, die für das ausgewählte Produkt akzeptabel sind. | Für „Digitales E-Book: Marketing-Leitfaden“ aktivieren Sie „PayPal“ und „Kreditkarte“. Wenn ein Kunde dieses E-Book kauft, erscheinen an der Kasse nur diese beiden Optionen. |
-| **Land** | (Optional) Dieses Feld ermöglicht Ihnen die Angabe eines Landes, für das diese spezielle Produkt-Zahlungsbeschränkung gilt. | - *Wenn ein Land ausgewählt ist:* Die Beschränkung (Produkt + erlaubte Zahlungen) gilt nur, wenn die Lieferadresse des Kunden in dem ausgewählten Land liegt.   - *Wenn leer gelassen:* Die Beschränkung gilt global, unabhängig vom Land des Kunden. | Lassen Sie es für globale Anwendung leer oder wählen Sie ein bestimmtes Land aus, wenn die Beschränkung geografisch begrenzt ist. | Sie verkaufen „Zerbrechliche Glasskulptur“, die aufgrund von Versandversicherungsanforderungen in Frankreich nur per „Banküberweisung“ bezahlt werden kann. Sie wählen die Skulptur, „Banküberweisung“ und „Frankreich“ aus. Für Kunden außerhalb Frankreichs könnten für dieses Produkt (wenn keine anderen globalen Regeln gelten) weiterhin andere Zahlungsmethoden verfügbar sein. |
-| **Speichern** | Diese Schaltfläche speichert Ihre neue oder aktualisierte Produkt-Zahlungsassoziation. | Die Änderungen werden sofort auf den Checkout-Prozess Ihres Shops angewendet. | Klicken Sie immer auf „Speichern“, nachdem Sie Änderungen vorgenommen haben. | Nachdem Sie die Regeln für Ihr „Digitales E-Book“ eingerichtet haben, klicken Sie auf „Speichern“, um sie zu aktivieren. |
+Oben stehen zwei Hinweise. Der erste Link öffnet **Payment - Product associations**. Der zweite verweist auf den Reiter **Payment methods** am Produkt. Keiner der Hinweise speichert eine Regel.
 
-### 2.3 Konfigurations-Kurzübersichtstabelle
+Sind Überschreibungen aus, sagt der gelbe Hinweis: „Overrides are disabled. Checkout filtering still runs through the payment options hook.“ Lassen Sie sie aus, wenn Sie nur PrestaShop 8 oder 9 nutzen. Schalten Sie sie unter **Erweiterte Parameter**, **Leistung** ein, nur wenn Sie auch die ältere Kassen-Überschreibung brauchen.
 
-| Bildschirm / Ansicht | Einstellung / Option | Standard / Empfohlen | Zweck & Auswirkung |
-| --- | --- | --- | --- |
-| Modulkonfigurationsseite | (Keine spezifischen Einstellungen erkannt) | N/A | Allgemeine Modulinformationen. |
-| Zahlung - Produktassoziationen (Liste) | ID | N/A | Eindeutige Kennung für die Assoziation. |
-| Zahlung - Produktassoziationen (Liste) | Produkt | N/A | Name des Produkts in der Assoziation. |
-| Zahlung - Produktassoziationen (Liste) | Zahlung | N/A | Name der Zahlungsmethode in der Assoziation. |
-| Zahlung - Produktassoziationen (Liste) | Land | N/A | Land, für das die Beschränkung gilt (falls vorhanden). |
-| Zahlung - Produktassoziationen (Hinzufügen/Bearbeiten-Formular) | ID Produkt | Ein Produkt auswählen | Gibt das Produkt an, für das Zahlungsmethoden eingeschränkt werden. |
-| Zahlung - Produktassoziationen (Hinzufügen/Bearbeiten-Formular) | Zahlungsmethoden | Alle akzeptablen Methoden auswählen | Definiert, welche Zahlungsmethoden für das ausgewählte Produkt **erlaubt** sind. |
-| Zahlung - Produktassoziationen (Hinzufügen/Bearbeiten-Formular) | Land | Für globale Anwendung leer lassen oder spezifisches auswählen | Begrenzt die Beschränkung auf ein bestimmtes Land. |
+Das Panel **Settings** erklärt die Landesregel und den Kombinationsmodus. Der Text über der Auswahl speichert nichts.
 
-## 3. Händler-Fehlerbehebung & Häufig gestellte Fragen (FAQ)
+![Settings](https://mypresta.eu/docs/images/docs/pobp-configure-settings.webp)
 
-**F: Ich habe eine Beschränkung eingerichtet, aber an der Kasse werden immer noch alle Zahlungsmethoden angezeigt. Was ist falsch?**
-A:
+**Konfigurieren**, Panel **Settings**. Der blaue Text erklärt die Länder. Die Auswahl ist **How to get available payment methods?**.
 
-1.  **Cache:** Leeren Sie immer Ihren PrestaShop-Cache, nachdem Sie Änderungen vorgenommen haben. Gehen Sie zu **Erweiterte Einstellungen > Leistung** und klicken Sie auf „Cache leeren“ (oder „Smarty-Cache leeren“ in älteren Versionen).
-2.  **Produkt im Warenkorb:** Stellen Sie sicher, dass das spezifische Produkt, das Sie eingeschränkt haben, beim Testen tatsächlich im Warenkorb des Kunden liegt. Das Modul wendet Regeln nur an, wenn das Produkt vorhanden ist.
-3.  **Zahlungsmethode aktiviert:** Überprüfen Sie nochmals, ob die Zahlungsmethoden, die Sie *erwarten* zu sehen, tatsächlich unter **Module > Zahlung > Zahlungsmethoden** aktiviert sind. Dieses Modul filtert *aktivierte* Methoden, es aktiviert sie nicht selbst.
-4.  **Widersprüchliche Regeln:** Wenn Sie mehrere Produkte im Warenkorb haben und jedes Beschränkungen aufweist, zeigt das Modul nur Zahlungsmethoden an, die von *allen* eingeschränkten Produkten erlaubt sind. Wenn es keine gemeinsame erlaubte Methode gibt, kann es so aussehen, als ob keine Methoden angezeigt werden. Überprüfen Sie Ihre Assoziationen sorgfältig.
+| Feld | Beim Start | Wirkung |
+|---|---|---|
+| **How to get available payment methods?** | **Show all payment methods from products**, bis Sie eine andere Wahl speichern | **Show the same payment methods available for all products in cart** behält eine Methode nur, wenn jedes eingeschränkte Produkt im Warenkorb sie erlaubt. **Show all payment methods from products** behält eine Methode, wenn mindestens ein eingeschränktes Produkt sie erlaubt. Ein Produkt ohne Regel entfernt keine Methode. |
+| **Save** | — | Speichert nur diese Wahl. Es ändert keine Produktregel. Die Seite lädt mit dem gewählten Wert neu. |
 
-**F: Ich habe eine Beschränkung eingerichtet, und jetzt werden an der Kasse KEINE Zahlungsmethoden angezeigt!**
-A: Dies geschieht normalerweise, wenn:
+### 3.2 Payment - Product associations
 
-1.  **Keine gemeinsamen Methoden:** Sie haben mehrere eingeschränkte Produkte im Warenkorb, und es gibt keine Zahlungsmethoden, die von *allen* erlaubt sind. Zum Beispiel erlaubt Produkt A PayPal, Produkt B erlaubt Kreditkarte. Wenn beide im Warenkorb sind, wird keines angezeigt. Sie müssen sicherstellen, dass es mindestens eine gemeinsame erlaubte Methode gibt.
-2.  **Leere erlaubte Liste:** Sie haben eine Assoziation für ein Produkt erstellt, aber *keine* Zahlungsmethoden als erlaubt ausgewählt. Das Modul blendet dann alle Methoden für dieses Produkt aus. Bearbeiten Sie die Assoziation und wählen Sie die entsprechenden Zahlungsmethoden aus.
+Öffnen Sie **Verbessern**, **Zahlung**, **Payment - Product associations**. Der Hinweis oben wiederholt, dass dieselbe Regel am Produkt im Reiter **Payment methods** liegt.
 
-**F: Beeinflusst dieses Modul Zahlungsmethoden für Produkte, die NICHT in einer Assoziation enthalten sind?**
-A: Nein. Wenn ein Produkt nicht Teil einer „Zahlung - Produktassoziation“ ist, werden keine Beschränkungen auferlegt. Das Modul wirkt nur auf Produkte, für die Sie explizit Regeln definiert haben. Wenn ein Warenkorb nur uneingeschränkte Produkte enthält, werden alle standardmäßigen, aktivierten Zahlungsmethoden Ihres Shops angezeigt.
+Die Liste zeigt eine Zeile je Produkt im aktuellen Shop.
 
-**F: Wie interagiert dieses Modul mit anderen Zahlungsbeschränkungsmodulen (z. B. nach Kundengruppe, nach Gesamtbetrag)?**
-A: Dieses Modul funktioniert typischerweise, indem es die Kernklasse `PaymentOptionsFinder` von PrestaShop überschreibt (wie im `override`-Ordner zu sehen). Das bedeutet, es hat Vorrang oder integriert sich auf einer grundlegenden Ebene. Im Allgemeinen gilt die restriktivste Regel. Wenn ein anderes Modul eine Zahlungsmethode einschränkt und dieses Modul sie für ein Produkt erlaubt, wird die Zahlungsmethode wahrscheinlich immer noch durch das andere Modul eingeschränkt. Es ist entscheidend, gründlich zu testen, wenn Sie mehrere Beschränkungsmodule verwenden.
+![Payment - Product associations](https://mypresta.eu/docs/images/docs/pobp-associations-list.webp)
 
-**F: Kann ich Zahlungsmethoden nach Land einschränken, ohne sie nach Produkt einzuschränken?**
-A: Die Hauptfunktion dieses Moduls ist die produktbasierte Beschränkung. Obwohl es ein Feld „Land“ hat, gilt es *für die Produkt-Zahlungsassoziation*. Wenn Sie rein länderspezifische Zahlungsbeschränkungen benötigen (unabhängig vom Produkt), benötigen Sie möglicherweise ein separates Modul, das dafür entwickelt wurde, oder prüfen Sie, ob Ihre Zahlungsgateways direkte Länderbeschränkungen anbieten.
+**Payment - Product associations** ohne Zeilen. Die Spalten sind **ID**, **Product**, **Payment** und **Country**. Das Plus ist **Add new**.
 
-## 4. Entwickler- & Webmaster-Handbuch (Technische Architektur & Code-Map)
+| Spalte | Inhalt |
+|---|---|
+| **ID** | Die Zeilennummer. Das ist nicht die Produktnummer. |
+| **Product** | Produktnummer und Name. |
+| **Payment** | Jede für dieses Produkt gespeicherte Methode, untereinander. |
+| **Country** | **All countries** oder das gespeicherte Lieferland. Der Spaltentext sagt: Ein gewähltes Land gilt nur bei einer Lieferadresse in diesem Land. **All countries** gilt bei jeder Lieferadresse. |
 
-Dieser Abschnitt bietet einen technischen Einblick in das Modul „Zahlungsmethoden nach Produkten“ für Entwickler und Webmaster.
+**Add new** öffnet ein leeres Formular. **Edit** öffnet das Formular dieses Produkts. **Delete** löscht diese eine Datenbankzeile, nicht jede Methode in der Spalte **Payment**. **Delete selected** macht dasselbe für die markierten Zeilen. Eine leere Auswahl speichert dieses Formular nicht. Löschen Sie die übrigen Zeilen, oder leeren Sie die Regel im Produktreiter, wo eine leere Auswahl erlaubt ist.
 
-### 4.1 Architekturübersicht
+Suche und Filter der Liste sind die üblichen Backoffice-Filter dieser Spalten.
 
-Das Modul erweitert hauptsächlich den Kernmechanismus zur Ermittlung von Zahlungsoptionen in PrestaShop. Es nutzt einen `override`, um die Klasse `PaymentOptionsFinder` zu modifizieren, die für die Bestimmung der verfügbaren Zahlungsmethoden während des Checkouts verantwortlich ist. Dies ermöglicht es dem Modul, seine produktbasierte Filterlogik direkt in den Prozess der Zahlungsoptionsabfrage einzuschleusen und so eine nahtlose Integration in den PrestaShop-Checkout-Flow zu gewährleisten.
-Das Modul folgt einem standardmäßigen PrestaShop MVC-Muster für seine Back-Office-Verwaltung und verwendet einen AdminController zur Verwaltung der `pobp`-Entität (Produkt-Zahlungs-Assoziation).
+### 3.3 Formular der Zuordnung
 
-### 4.2 Controller (`controllers/`)
+Bei **Add new** oder **Edit**:
 
-- **Front-Office-Controller**: Keine. Die Front-Office-Funktionalität des Moduls wird über einen Override einer Kernklasse und nicht über einen dedizierten Front-Controller abgewickelt.
-- **Back-Office-Admin-Controller**:
+![Zuordnungsformular](https://mypresta.eu/docs/images/docs/pobp-associations-form.webp)
 
-  - `pobp/controllers/admin/AdminPobpController.php`
-    - **Klassenname & Elternklasse**: `AdminPobpController` erweitert `ModuleAdminController`.
-    - **Tab-Name**: Dieser Controller verwaltet die Entität „Zahlung - Produktassoziationen“. Er ist wahrscheinlich als Unter-Tab unter der Hauptkonfiguration des Moduls registriert.
-    - **Verantwortlichkeit**: Dies ist der Haupt-CRUD-Controller (Create, Read, Update, Delete) für die Produkt-Zahlungsassoziationen. Er verwaltet:
-      - Die Anzeige der Liste der bestehenden Assoziationen (ID, Produkt, Zahlung, Land).
-      - Die Bereitstellung des Formulars zum Hinzufügen neuer Assoziationen oder zum Bearbeiten bestehender.
-      - Die Verarbeitung von Formularübermittlungen zum Speichern neuer oder aktualisierter Assoziationen in der Datenbank.
-      - Die Handhabung des Löschens von Assoziationen.
-      - Die Formularfelder „ID Produkt“, „Zahlungsmethoden“ und „Land“ werden hier verwaltet.
-  - `pobp/controllers/admin/index.php`
-    - Diese Datei ist typischerweise ein leerer Platzhalter oder enthält grundlegende Sicherheitsmaßnahmen (z. B. `<?php header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT"); header("Cache-Control: no-store, no-cache, must-revalidate"); header("Cache-Control: post-check=0, pre-check=0", false); header("Pragma: no-cache"); header("Location: ../"); exit;`). Sie stellt keine funktionale Controller-Ansicht selbst dar, sondern stellt sicher, dass der direkte Zugriff auf das Verzeichnis `controllers/admin` umgeleitet wird.
+**Add new**, für dieses Bild ausgefüllt und nicht gespeichert. **ID Product** ist 1. **Payment methods** und **Country** (**All countries**) stehen auf diesem Formular.
 
-### 4.3 Kernklassen & Modelle (`classes/`)
+| Feld | Beim Start | Wirkung |
+|---|---|---|
+| **ID Product** | Leer bei einer neuen Zeile. Gefüllt bei der Bearbeitung. | Tragen Sie die Produktnummer ein oder nutzen Sie **Search**. Der Hilfetext sagt: Suche nach Name, ID oder Referenz. **Save** ohne Produkt zeigt „Product is required.“ und schreibt keine Regel. |
+| **Payment methods** | Bei einer neuen Zeile nicht markiert. Bei der Bearbeitung sind die bereits gespeicherten Methoden markiert. | Markieren Sie die Methoden, die an der Kasse bleiben, wenn der Warenkorb dieses Produkt enthält und das Lieferland zum Land darunter passt. Die Beschriftung zeigt den Namen des Zahlungsmoduls. |
+| **Country** | **All countries** | Wenn Sie ein Land wählen, gelten die markierten Methoden nur, wenn die Lieferadresse des Kunden in diesem Land liegt. **All countries** gilt bei jeder Lieferadresse. |
+| **Save** | — | Ersetzt alle für dieses Produkt in diesem Shop gespeicherten Methoden durch die Markierungen und das Land dieses Formulars. Ist nichts markiert, zeigt die Seite „There was a problem with form. No payment method selected“ und die alten Zeilen bleiben. |
 
-- `pobp/override/classes/checkout/PaymentOptionsFinder.php`
-  - **Zweck**: Dies ist eine kritische Override-Datei. Sie modifiziert die PrestaShop-Kernklasse, die für das Finden und Zurückgeben verfügbarer Zahlungsoptionen während des Checkouts verantwortlich ist.
-  - **Klassenname & Elternklasse**: `PaymentOptionsFinder` (überschreibt die ursprüngliche `PaymentOptionsFinder`-Klasse).
-  - **Schlüssellogik**: Die überschriebene Methode `getPaymentOptions()` (oder eine ähnliche Methode) enthält die Kernlogik des Moduls.
-    - Sie ruft die Produkte ab, die sich derzeit im Warenkorb des Kunden befinden.
-    - Für jedes Produkt prüft sie, ob in der Datenbank des Moduls „Zahlung - Produktassoziationen“ definiert sind.
-    - Anschließend filtert sie die anfänglich verfügbaren Zahlungsoptionen (die von der übergeordneten `getPaymentOptions()`-Methode zurückgegeben werden) basierend auf diesen Assoziationen.
-    - Die Filterlogik stellt sicher, dass nur Zahlungsmethoden zurückgegeben werden, die für *alle* eingeschränkten Produkte im Warenkorb explizit erlaubt sind. Wenn ein Produkt keine Assoziation hat, schränkt es nichts ein. Wenn mehrere Produkte Assoziationen haben, wird die Schnittmenge der erlaubten Zahlungsmethoden verwendet.
-  - **Datenbankinteraktion**: Diese Klasse fragt die benutzerdefinierte Datenbanktabelle des Moduls (wahrscheinlich `ps_pobp` oder ähnlich) ab, um die Produkt-Zahlungsassoziationen abzurufen.
+Ein Produkt hat ein Land. Ein erneutes Speichern ersetzt die vorherigen Methoden dieses Produkts in diesem Shop. Regeln in einem anderen Shop bleiben. Wechseln Sie den Shop-Kontext, bevor Sie dort bearbeiten.
 
-### 4.4 JavaScript-Assets (`views/js/`)
+### 3.4 Produktseite
 
-Es wurden keine spezifischen JavaScript-Dateien im bereitgestellten Inventar erkannt. Jedes dynamische Verhalten im Back Office (wie die Produktsuche im Assoziationsformular) wird wahrscheinlich durch PrestaShops Kern-JS oder ein minimales Inline-Skript gehandhabt.
+Öffnen Sie **Katalog**, **Produkte**, die Bearbeitung, dann den Reiter **Payment methods**.
 
-### 4.5 CSS-Stylesheets (`views/css/`)
+![Payment methods am Produkt](https://mypresta.eu/docs/images/docs/pobp-product-tab.webp)
 
-Es wurden keine spezifischen CSS-Dateien im bereitgestellten Inventar erkannt. Die Formatierung für die Back-Office-Formulare und -Listen wird wahrscheinlich vom Standard-Admin-Theme von PrestaShop geerbt.
+Produkt Hummingbird printed t-shirt, Reiter **Payment methods**. Hier stehen **Country** und **Available payment methods**. Die Häkchen sind nur auf diesem Bild. Das Produkt wurde nicht gespeichert.
 
-### 4.6 Smarty-Template-Struktur (`views/templates/`)
+| Feld | Beim Start | Wirkung |
+|---|---|---|
+| **Country** | **All countries**, wenn das Produkt keine Regel hat. Sonst das bereits gespeicherte Land. | Wenn Sie ein Land wählen, gelten die markierten Zahlungsarten nur bei einer Lieferadresse in diesem Land. **All countries** gilt bei jeder Lieferadresse. |
+| **Available payment methods** | Nicht markiert, wenn keine Regel existiert. Sonst sind die gespeicherten Methoden markiert. | Markierte Methoden bleiben an der Kasse, wenn der Warenkorb dieses Produkt enthält und das Lieferland zum Land darüber passt. Nichts markiert hebt die Einschränkung für dieses Produkt auf. |
 
-- **Hook-Templates (`views/templates/hook/`)**: Keine explizit aufgeführt, da das Modul über einen Override und nicht über direkte Hook-Wiedergabe im Front Office arbeitet.
-- **Admin-Templates (`views/templates/admin/`)**:
-  - `pobp/lib/searchTool/views/scripts.tpl`
-    - **Zweck**: Dieses Template enthält wahrscheinlich JavaScript- oder Smarty-Logik, die sich auf ein Suchwerkzeug im Back Office bezieht, möglicherweise zum Suchen von Produkten beim Erstellen oder Bearbeiten einer Assoziation. Es könnte AJAX-Aufrufe oder dynamische Filterung für die Produktauswahl beinhalten.
-- **Front-Office-Templates (`views/templates/front/`)**: Keine.
+Klicken Sie am Produkt auf **Save**. PrestaShop bestätigt die Produktspeicherung. Die Zahlungsregel wird mit dieser Speicherung für den bearbeiteten Shop geschrieben. Eine leere Auswahl löscht die Regel dieses Produkts in diesem Shop. Das Zuordnungsformular verweigert dagegen das Speichern, wenn nichts markiert ist.
 
-### 4.7 Datenbankschema & Hooks-Map
+Dieselben Daten stehen in **Payment - Product associations**.
 
-- **Datenbanktabellen**:
+### 3.5 MyPresta-Updates
 
-  - Das Modul erstellt während seiner `install()`-Methode (definiert in `pobp/index.php`) mindestens eine benutzerdefinierte Tabelle.
-  - **`ps_pobp` (oder ähnlicher Name, z. B. `ps_payment_by_product_association`)**:
-    - Diese Tabelle speichert die tatsächlichen Produkt-Zahlungsassoziationen.
-    - Erwartete Spalten:
-      - `id_pobp` (Primärschlüssel, INT)
-      - `id_product` (INT, Fremdschlüssel zu `ps_product`)
-      - `id_payment_module` (INT, Fremdschlüssel zu `ps_module` oder `ps_payment_module`, falls eine solche Tabelle existiert, oder speichert einfach den Namen/die ID des Moduls)
-      - `id_country` (INT, Fremdschlüssel zu `ps_country`, nullable für globale Regeln)
-      - Weitere potenzielle Spalten für Einstellungen oder Zeitstempel.
-  - Konfigurationswerte (falls in `getContent()` vorhanden) würden in `ps_configuration` gespeichert.
-- **Registrierte Hooks-Tabelle**:
-  Die Kernfunktionalität des Moduls basiert auf dem `override`-Mechanismus und nicht auf der direkten Hook-Ausführung für seine primäre Filterung. Für seine Back-Office-Integration und potenziell für zukünftige Funktionen könnte es jedoch Standard-Hooks registrieren.
+Unter den Einstellungen auf **Konfigurieren** prüft **MyPresta Updates**, ob eine neuere Datei existiert. Es installiert sie nicht.
 
-  | Hook-Name | Ausführungszeitpunkt | Technischer Zweck |
-  | --- | --- | --- |
-  | `displayAdminProductsExtra` | Auf der Produktbearbeitungsseite im Back Office. | Könnte verwendet werden, um einen Schnelllink oder eine Zusammenfassung der Zahlungsbeschränkungen für das aktuelle Produkt anzuzeigen. (Nicht explizit erkannt, aber ein häufiger Integrationspunkt). |
-  | `actionPaymentOptionsModifier` | Während des Abrufvorgangs der Zahlungsoptionen. | Dieser Hook ist speziell für Module konzipiert, um die Liste der Zahlungsoptionen zu ändern. Der Override von `PaymentOptionsFinder` erzielt effektiv ein ähnliches Ergebnis auf einer niedrigeren Ebene. |
-  | `actionModuleInstall` | Wenn das Modul installiert wird. | Zum Erstellen von Datenbanktabellen und Registrieren notwendiger Hooks. |
-  | `actionModuleUninstall` | Wenn das Modul deinstalliert wird. | Zum Bereinigen von Datenbanktabellen und Deregistrieren von Hooks. |
+![MyPresta Updates](https://mypresta.eu/docs/images/docs/pobp-updates.webp)
 
-## 5. Offizieller Support & Updates
+**MyPresta Updates**, unter den Einstellungen auf **Konfigurieren**.
 
-Für offizielle Updates, technischen Support und um sicherzustellen, dass Sie die neueste kompatible Version des Moduls „Zahlungsmethoden nach Produkten“ haben, besuchen Sie bitte Ihr Kundenkonto unter [MyPresta.eu](https://mypresta.eu/my-account/orders/). Unser Support-Team steht Ihnen bei allen Problemen oder Fragen bezüglich der Funktionalität und Integration des Moduls zur Verfügung.
+| Feld | Beim Start | Wirkung |
+|---|---|---|
+| **Check updates** | — | **Check now** fragt MyPresta.eu, ob eine neuere Datei existiert. Die Zeile über der Schaltfläche zeigt eine neue Version oder dass das Modul aktuell ist. Es lädt die Datei nicht herunter und installiert sie nicht. |
+| **Updates notifications** | Aktiv, bis Sie **Disable** speichern | **Enable** zeigt eine Backoffice-Warnung, wenn eine neuere Version erscheint. **Disable** stoppt diese automatische Prüfung. **Save** speichert die Wahl und zeigt „Update settings saved.“ |
+| **Module page** | — | Öffnet die Modulseite auf MyPresta.eu mit dem Changelog. Es speichert keine Einstellung. |
+| **Save** | — | Speichert nur **Updates notifications**. |
+
+## 4. Shop-Frontend
+
+Das Modul fügt keinen Block, keine Seite und keine Meldung auf Produkt, Warenkorb oder Kundenkonto hinzu. Dort gibt es nichts im Theme zu ändern.
+
+Der Kunde sieht die Wirkung im Zahlungsschritt der Kasse. Methoden, die die Regeln nicht erlauben, fehlen in der Liste. Methoden ohne Regel und **Free order**, wenn es die einzige Wahl ist, bleiben.
+
+Das Land ist das Land der Lieferadresse. Bevor eine Lieferadresse existiert, gelten nur Regeln mit **All countries**. Eine Regel für ein Land wartet, bis die Lieferadresse in diesem Land liegt.
+
+## 5. Probleme
+
+**Die Zahlungsliste hat sich nicht geändert.** Das Produkt hat keine gespeicherte Regel, oder kein Produkt im Warenkorb hat eine. Öffnen Sie das Produkt, **Payment methods**, markieren Sie die Methoden und speichern Sie das Produkt. Ein Produkt ohne Markierung begrenzt die Kasse nicht.
+
+**Eine Methode fehlt nur für ein Land.** Das Regelland ist nicht **All countries**, und die Lieferadresse liegt in diesem Land. Setzen Sie **All countries**, wenn die Regel bei jeder Lieferadresse gelten soll.
+
+**Eine Methode wird weiter angeboten.** Ein anderes Produkt im Warenkorb erlaubt sie, und **How to get available payment methods?** steht auf **Show all payment methods from products**. Wechseln Sie auf **Show the same payment methods available for all products in cart**, wenn jedes eingeschränkte Produkt die Methode erlauben muss. Ein Produkt ohne Regel blockiert sie nicht.
+
+**Auf der Konfiguration steht „Overrides are disabled…“, und Sie wissen nicht, ob gefiltert wird.** In PrestaShop 8 und 9 läuft der Filter weiter. Der gelbe Text sagt, dass der Kassen-Hook filtert. Schalten Sie Überschreibungen nur ein, wenn Sie auch die ältere Überschreibungsdatei brauchen.
+
+**Save bei Payment - Product associations zeigt „Product is required.“** Das Produktfeld ist leer. Suchen Sie das Produkt oder tragen Sie die Nummer ein und klicken Sie erneut auf **Save**.
+
+**Save zeigt „There was a problem with form. No payment method selected“.** Es ist keine Methode markiert. Markieren Sie mindestens eine. Die bisherige Regel wurde nicht ersetzt. Um eine Regel ganz zu entfernen, nutzen Sie den Reiter **Payment methods** am Produkt und speichern Sie ohne Markierung.
+
+**Delete in der Liste hat nur eine Methode entfernt.** **Delete** löscht die einzelne Zeile hinter der Linie, während **Payment** jede Methode ausgibt. Öffnen Sie **Edit** und **Save**, um den ganzen Satz neu zu schreiben, oder löschen Sie, bis das Produkt aus der Liste verschwindet.
+
+**Free order ist die einzige Methode und steht nicht in der Regel.** Ein Warenkorb mit Summe null behält **Free order**. Das Modul entfernt diese einzelne Methode nicht.
+
+**Die Regel eines Shops fehlt im anderen.** Regeln werden je Shop gespeichert. Wechseln Sie den Shop in der Multishop-Kopfzeile und speichern Sie die Regel dort.
+
+## 6. Für Entwickler
+
+### 6.1 Überblick
+
+Hauptklasse `pobp`, Version `1.4.0`, Anzeigename **Payment options by products**, Autor MyPresta.eu, Tab `administration`. Kompatibilität `1.7.0.0` bis `9.99.99`.
+
+Eine Zeile in `ps_pobp` ist ein erlaubtes Zahlungsmodul für ein Produkt, einen Shop und ein Land (`id_country` `0` bedeutet jedes Land). Die Kasse liest Warenkorbprodukte und Lieferadresse in `pobp::filterPaymentOptions()`. Der Hook `actionPresentPaymentOptions` entfernt Modulschlüssel, die der Filter verworfen hat. Die Überschreibung `PaymentOptionsFinder::find()` liefert denselben Filter, wenn das Modul aktiv ist. `pobp_innerjoin` wahr bedeutet die Schnittmenge der eingeschränkten Produkte. Jeder andere Wert, auch ein fehlender Schlüssel, bedeutet die Vereinigung. Produkte ohne passende Zeilen werden ignoriert. Der Schlüssel `free_order` wird nie entfernt. Eine Liste, die nur `free_order` enthält, bleibt unverändert.
+
+### 6.2 Dateien
+
+| Datei | Aufgabe |
+|---|---|
+| `pobp.php` | Installation, Einstellungsformular, Kassenfilter, Produktreiter. |
+| `lib/updatesChecker.php` | Klasse `pobpUpdate`. Update-Prüfung und Formular MyPresta Updates. |
+| `lib/searchTool/searchTool.php` | Produktsuche im Zuordnungsformular. |
+| `models/pob.php` | ObjectModel `pob` und `replaceForProduct()`. |
+| `controllers/admin/AdminPobpController.php` | Liste und Formular der Zuordnungen. |
+| `override/classes/checkout/PaymentOptionsFinder.php` | `find()` ruft `filterPaymentOptions()` auf. |
+| `upgrade/upgrade-1.4.0.php` | Ruft `ensureModuleComplements()` auf und speichert `POBP_VERSION`. |
+| `translations/pl.php` | Polnische Texte. |
+
+Es gibt keinen Front-Controller und kein Front-Template.
+
+### 6.3 Controller
+
+`AdminPobpController` erweitert `ModuleAdminController`. Tab-Klasse `AdminPobp`, Elternteil `AdminParentPayment`, oder `IMPROVE`, wenn dieses Elternteil fehlt. Icon `credit_card`. Sichtbarer Name **Payment - Product associations**.
+
+Die Liste gruppiert mit einer Unterabfrage auf `MIN(id_pobp)` je Produkt und Shop. `processAdd()` und `processUpdate()` rufen `pob::replaceForProduct()` auf. Eine leere Methodenliste oder ein fehlendes Produkt gibt false zurück und ersetzt keine Zeilen. Texte laufen über `$this->module->l(..., 'AdminPobpController')`.
+
+Die Modulkonfiguration ist `getContent()` in `pobp`, kein eigener Controller.
+
+### 6.4 Hooks
+
+Registriert in `registerHooks()`:
+
+| Hook | Aufgabe |
+|---|---|
+| `actionPresentPaymentOptions` | Entfernt vom Filter verworfene Zahlungsmodule. Das Array wird an Ort und Stelle geändert. |
+| `actionProductFormBuilderModifier` | Fügt den Reiter `pobp` (Land und Zahlungen) am Produktformular hinzu. |
+| `actionAfterUpdateProductFormHandler` | Schreibt `form_data['pobp']` für das gespeicherte Produkt. |
+| `actionAfterCreateProductFormHandler` | Dieselbe Speicherung nach dem Anlegen eines Produkts. |
+
+Es gibt kein eigenes `enable()` oder `disable()`. Deaktivieren deregistriert die Hooks. Die Überschreibung lädt weiter und gibt die Elternliste zurück, wenn `Module::isEnabled('pobp')` falsch ist.
+
+Der erste Backoffice-Aufruf nach dem Hochladen ruft `ensureModuleComplements()` auf, wenn `POBP_VERSION` von der Dateiversion abweicht.
+
+### 6.5 Überschreibungen
+
+`override/classes/checkout/PaymentOptionsFinder.php` ersetzt nur `find()`. Es überschreibt weder `present()` noch `findFree()`.
+
+### 6.6 Datenbank
+
+| Tabelle | Inhalt |
+|---|---|
+| `ps_pobp` | `id_pobp`, `id_product`, `id_payment` (Modul-ID), `id_shop`, `id_country`. `id_country` ergänzt `inconsistency()`, wenn die Spalte fehlt. `0` bedeutet jedes Land. |
+
+Die Deinstallation löscht `ps_pobp` nicht. Die Installation nutzt `CREATE TABLE IF NOT EXISTS`, eine neue Installation behält alte Zeilen.
+
+### 6.7 Schlüssel und Übersetzungen
+
+| Schlüssel | Wenn er fehlt |
+|---|---|
+| `pobp_innerjoin` | Gilt als aus. Die Kasse nutzt die Vereinigung der eingeschränkten Produkte. |
+| `POBP_VERSION` | Die nächste Backoffice-Anfrage führt `ensureModuleComplements()` aus und speichert danach die Dateiversion. |
+| `mypresta_updates` | Gilt als an. `0` stoppt die automatische Update-Prüfung. Der Schlüssel ist mit anderen MyPresta-Modulen geteilt. |
+| `update_pobp` | Zeitstempel der letzten Prüfung. |
+| `updatev_pobp` | Versionszeichenkette des Update-Servers. |
+
+Shoptexte laufen über `$this->l()`. Das Update-Panel nutzt die Quelle `updatesChecker`. Der Zuordnungs-Controller nutzt `AdminPobpController`. Polnisch liegt in `translations/pl.php`. Eine weitere Sprache legen Sie als `translations/{iso}.php` mit derselben Schlüsselform an.
+
+`key.php` im Modulordner kann `$this->mkey` setzen. Fehlt die Datei, sendet die Prüfung `nlc`.
+
+### 6.8 Erweitern
+
+Das Frontend rendert kein Modul-Template, das Theme hat für dieses Modul nichts zu überschreiben. Für die Kassenliste bleiben Sie beim Payment-Options-Hook oder bei der Überschreibung von `PaymentOptionsFinder`. Für den Produktreiter erweitern Sie `hookActionProductFormBuilderModifier` und behalten die Formularschlüssel `pobp`, sonst ignoriert der Speicher-Hook die Daten.
+
+## 7. Hilfe
+
+Modulseite: [https://mypresta.eu/modules/payment-process/payment-methods-by-products.html](https://mypresta.eu/modules/payment-process/payment-methods-by-products.html)
+
+Schreiben Sie zu diesem Modul, indem Sie sich im Kundenkonto auf mypresta.eu anmelden, das Kontaktformular öffnen und das Thema **Support for paid modules** wählen. Das Formular sagt, dass für dieses Thema eine Anmeldung nötig ist. Nach der Anmeldung wählen Sie dieses Modul aus der Kaufhistorie.

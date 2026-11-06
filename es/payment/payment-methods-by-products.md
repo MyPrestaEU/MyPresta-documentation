@@ -1,8 +1,8 @@
 ---
-title: "Métodos de pago por productos - Manual de comerciante y guía de configuración"
-description: "Manual de usuario completo, guía de configuración pantalla por pantalla y referencia para desarrolladores del módulo de PrestaShop Métodos de pago por productos de MyPresta.eu."
+title: "Métodos de pago por producto - documentación y manual del vendedor"
+description: "Use este manual para fijar los métodos de pago por producto, combinarlos en el carrito y corregir una caja que sigue mostrando el método equivocado."
 sidebar:
-  label: "Métodos de pago por productos - Manual de comerciante y guía de configuración"
+  label: "Métodos de pago por producto - documentación y manual del vendedor"
 ---
 
 > ⚠️ **Notice:** This is the documentación oficial del módulo de PrestaShop.
@@ -12,182 +12,259 @@ sidebar:
 > ---
 
 
-# Métodos de pago por productos
+## 1. Requisitos
 
-## 1. Requisitos y compatibilidad
+Compruebe estos puntos antes de instalar.
 
-- **Versiones de PrestaShop compatibles**: PrestaShop 1.7.x, 8.x
-- **Compatibilidad con PHP**: PHP 7.1 - 8.5
-- **Requisitos de alojamiento**: Las extensiones PHP estándar (cURL, JSON, OpenSSL) suelen ser requeridas por PrestaShop y son suficientes para este módulo.
+- Use PrestaShop 1.7.0.0 o posterior, incluidos PrestaShop 8 y 9. El módulo acepta versiones de tienda hasta 9.99.99.
+- Mantenga la versión de PHP que exige esa versión de PrestaShop. El instalador no comprueba PHP aparte.
+- Active la extensión PHP cURL si la comprobación de actualizaciones debe contactar con MyPresta.eu. Si falta cURL, la comprobación intenta abrir la dirección con el ajuste del servidor que permite lecturas remotas. Las reglas de pago no necesitan cURL.
+- No hace falta ningún otro módulo de PrestaShop. La lista de métodos sale de los módulos de pago ya instalados. Si no hay ninguno, las casillas están vacías.
+- Instale y active al menos un módulo de pago si quiere que un método aparezca en la caja.
+- El módulo no pide una cuenta externa.
 
-## 2. Recorrido completo por la configuración (Cada grupo de ajustes por pantalla)
+Los textos del módulo en el back office están en inglés. Solo se entrega el polaco. Los nombres de esta guía son las denominaciones en español de esas etiquetas inglesas.
 
-Este módulo tiene dos áreas de configuración principales: la página de configuración inicial del módulo y una pantalla de gestión dedicada para crear asociaciones producto-pago.
+## 2. Instalación
 
-### 2.1 Página de configuración del módulo (Back Office > Módulos > Configurar > Métodos de pago por productos)
+1. Abra **Módulos** y luego **Gestor de módulos**.
+2. Pulse **Subir un módulo** y suba el archivo ZIP.
+3. Pulse **Instalar** en **Payment options by products**.
 
-Al hacer clic en "Configurar" después de la instalación, accederá a la página de configuración principal del módulo. Esta página suele contener ajustes generales para el módulo.
+La instalación hace lo siguiente:
 
-**Actualmente, no se han detectado ajustes específicos en esta página de configuración principal más allá de la información estándar del módulo. La funcionalidad principal se gestiona a través de la pantalla dedicada "Asociaciones de pago - producto".**
+- Añade **Payment - Product associations** en **Mejorar**, luego **Pago**. Si falta ese menú, la entrada queda bajo **Mejorar**.
+- Crea la tabla. Una fila es un producto, un módulo de pago, una tienda y un país.
+- Registra el filtro de la caja y la pestaña de la ficha de producto.
+- Copia la sobrescritura de la caja. PrestaShop debe permitir sobrescrituras. Si están apagadas, la pestaña del producto y el filtro de la caja siguen funcionando. El aviso amarillo de la configuración lo dice.
+- No vacía la caché de la tienda. Vacíela en **Parámetros avanzados**, **Rendimiento**, solo si queda una pantalla antigua.
+- No crea ninguna regla. La caja no cambia hasta que guarde una regla.
 
-Si futuras versiones introducen ajustes aquí, aparecerían como interruptores, campos de entrada o desplegables. Por ahora, puede proceder directamente a la pantalla de gestión dedicada.
+**Configurar** en el **Gestor de módulos** abre los ajustes. La entrada **Payment - Product associations** abre la lista de reglas.
 
-### 2.2 Pantalla de administración dedicada: Asociaciones de pago - producto (Back Office > Módulos > Métodos de pago por productos > Asociaciones de pago - producto)
+Desinstalación:
 
-Este es el centro neurálgico para gestionar sus restricciones de pago por producto. Encontrará esta pantalla navegando a **Módulos > Gestor de módulos**, buscando "Métodos de pago por productos", haciendo clic en "Configurar" y luego buscando una pestaña o enlace llamado "Asociaciones de pago - producto" (o similar, dependiendo de la navegación del módulo).
+- Quita la entrada **Payment - Product associations**.
+- Quita la sobrescritura de la caja y los hooks registrados.
+- Quita la versión guardada que usa la actualización.
+- No borra las reglas de producto. Una instalación posterior vuelve a leer esas filas.
+- No apaga los avisos de actualización compartidos con otros módulos de MyPresta.
+- Deja la carpeta del módulo hasta que la borre en el **Gestor de módulos** o en el servidor.
 
-**Nombre de la pantalla y ubicación del menú:**
+Desactivar el módulo en el **Gestor de módulos** detiene el filtro de la caja. Las reglas siguen en la base de datos.
 
-- **Ruta del menú:** Back Office > Módulos > Gestor de módulos > Métodos de pago por productos > Configurar > **Asociaciones de pago - producto** (o una pestaña/enlace similar en la página de configuración).
-- Esta pantalla le permite ver, añadir, editar y eliminar asociaciones entre productos y métodos de pago.
+## 3. Configuración y trabajo en el back office
 
-**Acciones y ajustes disponibles:**
+Una regla es una lista de métodos de pago para un producto, en la tienda que está editando, para un país de entrega o para todos los países.
 
-#### 2.2.1 Vista de lista "Asociaciones de pago - producto"
+Siga este orden:
 
-Esta vista presenta una tabla de todas las restricciones de pago por producto existentes que ha configurado.
+1. Abra **Configurar** y elija cómo se combinan varios productos restringidos en un mismo carrito. Pulse **Save**. Este paso es opcional. Hasta que guarde, la tienda conserva cada método permitido por al menos un producto restringido.
+2. Abra un producto y la pestaña **Payment methods**, o **Mejorar**, **Pago**, **Payment - Product associations**, y añada una fila.
+3. Marque los métodos que deben seguir disponibles cuando ese producto está en el carrito. Elija **All countries** o un país. Guarde.
+4. En la caja, la tienda lee la dirección de entrega y oculta los métodos que las reglas no permiten.
 
-| Nombre de la columna | Propósito e impacto |
-| --- | --- |
-| **ID** | Un identificador único para cada asociación. |
-| **Producto** | El nombre del producto involucrado en la restricción. |
-| **Pago** | El nombre del método de pago que está restringido o permitido para este producto. |
-| **País** | (Si aplica) El país para el que se aplica esta restricción. Si se deja vacío, se aplica globalmente. |
-| **Acciones** | Iconos para **Editar** (icono de lápiz) o **Eliminar** (icono de papelera) una asociación existente. |
+Un producto sin regla guardada no quita métodos de pago. **Free order** permanece cuando es el único método de un carrito a cero.
 
-**Flujo de trabajo recomendado para la gestión diaria de la tienda:**
+No hay un estado de pedido. El resultado es la lista de pago en la página de caja.
 
-- **Revisar reglas existentes:** Revise regularmente esta lista para asegurarse de que sus restricciones estén actualizadas con su catálogo de productos y necesidades comerciales.
-- **Identificar conflictos:** Busque cualquier regla superpuesta o conflictiva, especialmente si tiene muchos productos y métodos de pago.
-- **Usar búsqueda/filtro:** Si la lista crece mucho, use cualquier opción de búsqueda o filtro disponible para encontrar rápidamente restricciones de productos o pagos específicos.
+Las capturas de este capítulo muestran el back office en inglés. El pie usa el nombre de este manual.
 
-#### 2.2.2 Añadir o editar una "Asociación de pago - producto"
+### 3.1 Configuración del módulo
 
-Para añadir una nueva restricción, normalmente encontrará un botón "Añadir nuevo" en la vista de lista. Al editar, haga clic en el icono de lápiz junto a una entrada existente. Esto abrirá un formulario con los siguientes campos:
+Abra **Módulos**, **Gestor de módulos**, **Payment options by products**, **Configurar**.
 
-| Campo del formulario | Qué hace este ajuste | Efecto de cambiar este ajuste | Valor recomendado | Escenario / ejemplo de comerciante |
-| --- | --- | --- | --- | --- |
-| **ID Producto** | Este campo le permite seleccionar el producto específico que desea asociar con restricciones de pago. | Cuando selecciona un producto, el módulo aplicará las restricciones de pago elegidas cada vez que este producto esté en el carrito de un cliente. | Seleccione el producto exacto de su catálogo. Utilice la función de búsqueda si tiene muchos productos. | Vende "Ebook Digital: Guía de Marketing". Quiere asegurarse de que solo se pague a través de PayPal o Tarjeta de Crédito, no contra reembolso. Selecciona este producto aquí. |
-| **Métodos de pago** | Esta es una lista de todos los métodos de pago activos en su tienda PrestaShop. Selecciona qué métodos de pago están **permitidos** para el producto elegido. | - *Cuando selecciona uno o más métodos de pago:* Solo estos métodos seleccionados estarán disponibles en la caja si el producto asociado está en el carrito. Todos los demás métodos de pago se ocultarán.   - *Cuando no selecciona NINGÚN método de pago:* Esto significa efectivamente que el producto no se puede comprar, o heredará reglas de otros productos en el carrito. Generalmente no se recomienda dejarlo vacío a menos que tenga un caso de uso muy específico. | Seleccione todos los métodos de pago que sean aceptables para el producto elegido. | Para "Ebook Digital: Guía de Marketing", marca "PayPal" y "Tarjeta de Crédito". Si un cliente compra este ebook, solo estas dos opciones aparecerán en la caja. |
-| **País** | (Opcional) Este campo le permite especificar un país para el que se aplica esta restricción particular de pago por producto. | - *Cuando se selecciona un país:* La restricción (producto + pagos permitidos) solo se aplicará si la dirección de envío del cliente está en el país seleccionado.   - *Cuando se deja vacío:* La restricción se aplica globalmente, independientemente del país del cliente. | Deje vacío para aplicación global, o seleccione un país específico si la restricción está limitada geográficamente. | Vende "Escultura de Cristal Frágil" que solo se puede pagar mediante "Transferencia Bancaria" en Francia debido a los requisitos del seguro de envío. Selecciona la escultura, "Transferencia Bancaria" y "Francia". Para clientes fuera de Francia, otros métodos de pago podrían seguir estando disponibles para este producto (si no se aplican otras reglas globales). |
-| **Guardar** | Este botón guarda su asociación de pago por producto nueva o actualizada. | Los cambios se aplican inmediatamente al proceso de pago de su tienda. | Siempre haga clic en "Guardar" después de realizar cualquier cambio. | Después de configurar las reglas para su "Ebook Digital", hace clic en "Guardar" para activarlas. |
+Arriba hay dos notas. El primer enlace abre **Payment - Product associations**. La segunda indica la pestaña **Payment methods** del producto. Ninguna guarda una regla.
 
-### 2.3 Tabla de referencia rápida de configuración
+Si las sobrescrituras están apagadas, el aviso amarillo dice: «Overrides are disabled. Checkout filtering still runs through the payment options hook.» Déjelas apagadas si solo usa PrestaShop 8 o 9. Actívelas en **Parámetros avanzados**, **Rendimiento**, solo si también necesita la sobrescritura antigua de la caja.
 
-| Pantalla / Vista | Ajuste / Opción | Predeterminado / Recomendado | Propósito e impacto |
-| --- | --- | --- | --- |
-| Página de configuración del módulo | (No se detectaron ajustes específicos) | N/A | Información general del módulo. |
-| Asociaciones de pago - producto (Lista) | ID | N/A | Identificador único para la asociación. |
-| Asociaciones de pago - producto (Lista) | Producto | N/A | Nombre del producto en la asociación. |
-| Asociaciones de pago - producto (Lista) | Pago | N/A | Nombre del método de pago en la asociación. |
-| Asociaciones de pago - producto (Lista) | País | N/A | País para el que se aplica la restricción (si la hay). |
-| Asociaciones de pago - producto (Formulario Añadir/Editar) | ID Producto | Seleccione un producto | Especifica el producto para el que se restringirán los métodos de pago. |
-| Asociaciones de pago - producto (Formulario Añadir/Editar) | Métodos de pago | Seleccione todos los métodos aceptables | Define qué métodos de pago están **permitidos** para el producto seleccionado. |
-| Asociaciones de pago - producto (Formulario Añadir/Editar) | País | Dejar vacío para global, o seleccionar específico | Limita la restricción a un país específico. |
+El panel **Settings** explica la regla de país y el modo de combinación. El texto encima del desplegable no guarda nada por sí solo.
 
-## 3. Solución de problemas del comerciante y preguntas frecuentes (FAQ)
+![Settings](https://mypresta.eu/docs/images/docs/pobp-configure-settings.webp)
 
-**P: He configurado una restricción, pero todos los métodos de pago siguen apareciendo en la caja. ¿Qué está mal?**
-R:
+**Configurar**, panel **Settings**. El texto azul explica los países. La lista es **How to get available payment methods?**.
 
-1. **Caché:** Siempre borre la caché de PrestaShop después de realizar cambios. Vaya a **Parámetros avanzados > Rendimiento** y haga clic en "Borrar caché" (o "Borrar caché de Smarty" en versiones anteriores).
-2. **Producto en el carrito:** Asegúrese de que el producto específico que ha restringido esté realmente en el carrito de compras del cliente al realizar la prueba. El módulo solo aplica las reglas si el producto está presente.
-3. **Método de pago habilitado:** Verifique que los métodos de pago que *espera* ver estén realmente habilitados en **Módulos > Pago > Métodos de pago**. Este módulo filtra los métodos *habilitados*, no los habilita por sí mismo.
-4. **Reglas en conflicto:** Si tiene varios productos en el carrito, y cada uno tiene restricciones, el módulo solo mostrará los métodos de pago que estén permitidos por *todos* los productos restringidos. Si no hay un método permitido común, podría parecer que no se muestran métodos. Revise sus asociaciones cuidadosamente.
+| Campo | Al inicio | Qué hace |
+|---|---|---|
+| **How to get available payment methods?** | **Show all payment methods from products**, hasta que guarde otra opción | **Show the same payment methods available for all products in cart** conserva un método solo si cada producto restringido del carrito lo permite. **Show all payment methods from products** lo conserva si al menos un producto restringido lo permite. Un producto sin regla no quita métodos. |
+| **Save** | — | Guarda solo esa elección. No edita una regla de producto. La página se recarga con el valor elegido. |
 
-**P: He configurado una restricción, ¡y ahora NO se muestran métodos de pago en la caja!**
-R: Esto suele ocurrir si:
+### 3.2 Payment - Product associations
 
-1. **No hay métodos comunes:** Tiene varios productos restringidos en el carrito, y no hay métodos de pago que estén permitidos por *todos* ellos. Por ejemplo, el Producto A permite PayPal, el Producto B permite Tarjeta de Crédito. Si ambos están en el carrito, ninguno se mostrará. Debe asegurarse de que haya al menos un método permitido común.
-2. **Lista de permitidos vacía:** Creó una asociación para un producto pero no seleccionó *ningún* método de pago como permitido. El módulo ocultará entonces todos los métodos para ese producto. Edite la asociación y seleccione los métodos de pago apropiados.
+Abra **Mejorar**, **Pago**, **Payment - Product associations**. La nota superior repite que la misma regla está en el producto, en la pestaña **Payment methods**.
 
-**P: ¿Este módulo afecta a los métodos de pago para productos que NO están en ninguna asociación?**
-R: No. Si un producto no forma parte de ninguna "Asociación de pago - producto", no impone ninguna restricción. El módulo solo actúa sobre los productos para los que ha definido reglas explícitamente. Si un carrito contiene solo productos sin restricciones, se mostrarán todos los métodos de pago estándar habilitados de su tienda.
+La lista muestra una línea por producto en la tienda actual.
 
-**P: ¿Cómo interactúa este módulo con otros módulos de restricción de pago (por ejemplo, por grupo de clientes, por importe total)?**
-R: Este módulo suele funcionar anulando la clase principal `PaymentOptionsFinder` de PrestaShop (como se ve en la carpeta `override`). Esto significa que tiene prioridad o se integra a un nivel fundamental. Generalmente, se aplicará la regla más restrictiva. Si otro módulo restringe un método de pago, y este módulo lo permite para un producto, el método de pago probablemente seguirá estando restringido por el otro módulo. Es crucial realizar pruebas exhaustivas si utiliza varios módulos de restricción.
+![Payment - Product associations](https://mypresta.eu/docs/images/docs/pobp-associations-list.webp)
 
-**P: ¿Puedo restringir los métodos de pago por país sin restringir por producto?**
-R: La función principal de este módulo es la restricción basada en productos. Aunque tiene un campo "País", se aplica *a la asociación producto-pago*. Si necesita restricciones de pago puramente basadas en el país (independientemente del producto), es posible que necesite un módulo separado diseñado para eso, o verificar si sus pasarelas de pago ofrecen restricciones por país directamente.
+**Payment - Product associations** sin filas. Las columnas son **ID**, **Product**, **Payment** y **Country**. El signo más es **Add new**.
 
-## 4. Guía para desarrolladores y webmasters (Arquitectura técnica y mapa de código)
+| Columna | Qué se ve |
+|---|---|
+| **ID** | El número de fila. No es el número de producto. |
+| **Product** | Número y nombre del producto. |
+| **Payment** | Cada método guardado para ese producto, uno debajo de otro. |
+| **Country** | **All countries**, o el país de entrega guardado. El texto de la columna dice que un país elegido se aplica solo si la dirección de entrega está en ese país, y que **All countries** se aplica a cualquier dirección. |
 
-Esta sección proporciona una inmersión técnica profunda en el módulo "Métodos de pago por productos" para desarrolladores y webmasters.
+**Add new** abre un formulario vacío. **Edit** abre el formulario de ese producto. **Delete** borra esa única fila de la base, no cada método listado en **Payment**. **Delete selected** hace lo mismo con las líneas marcadas. Este formulario rechaza una selección vacía. Borre las filas que queden, o quite la regla en la pestaña del producto, donde una selección vacía sí está permitida.
 
-### 4.1 Resumen de la arquitectura
+La búsqueda y los filtros de la lista son los filtros habituales del back office para estas columnas.
 
-El módulo extiende principalmente el mecanismo de descubrimiento de opciones de pago principal de PrestaShop. Aprovecha una `override` para modificar la clase `PaymentOptionsFinder`, que es responsable de determinar los métodos de pago disponibles durante el proceso de compra. Esto permite que el módulo inyecte su lógica de filtrado basada en productos directamente en el proceso de recuperación de opciones de pago, asegurando una integración perfecta con el flujo de compra de PrestaShop.
-El módulo sigue un patrón MVC estándar de PrestaShop para su gestión en el Back Office, utilizando un AdminController para gestionar la entidad `pobp` (Asociación Producto-Pago).
+### 3.3 Formulario de asociación
 
-### 4.2 Controladores (`controllers/`)
+En **Add new** o **Edit**:
 
-- **Controladores del Front-Office**: Ninguno. La funcionalidad del front-office del módulo se gestiona mediante una anulación de una clase principal, no un controlador frontal dedicado.
-- **Controladores de administración del Back-Office**:
+![Formulario de asociación](https://mypresta.eu/docs/images/docs/pobp-associations-form.webp)
 
-  - `pobp/controllers/admin/AdminPobpController.php`
-    - **Nombre de la clase y clase padre**: `AdminPobpController` extiende `ModuleAdminController`.
-    - **Nombre de la pestaña**: Este controlador gestiona la entidad "Asociaciones de pago - producto". Es probable que esté registrado como una subpestaña bajo la configuración principal del módulo.
-    - **Responsabilidad**: Este es el controlador principal CRUD (Crear, Leer, Actualizar, Eliminar) para las asociaciones producto-pago. Maneja:
-      - Mostrar la lista de asociaciones existentes (ID, Producto, Pago, País).
-      - Proporcionar el formulario para añadir nuevas asociaciones o editar las existentes.
-      - Procesar los envíos de formularios para guardar asociaciones nuevas o actualizadas en la base de datos.
-      - Manejar la eliminación de asociaciones.
-      - Los campos del formulario "ID Producto", "Métodos de pago" y "País" se gestionan aquí.
-  - `pobp/controllers/admin/index.php`
-    - Este archivo suele ser un marcador de posición vacío o contiene medidas de seguridad básicas (por ejemplo, `<?php header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT"); header("Cache-Control: no-store, no-cache, must-revalidate"); header("Cache-Control: post-check=0, pre-check=0", false); header("Pragma: no-cache"); header("Location: ../"); exit;`). No representa una vista de controlador funcional en sí mismo, sino que asegura que el acceso directo al directorio `controllers/admin` sea redirigido.
+**Add new**, rellenado para esta imagen y sin guardar. **ID Product** es 1. En el formulario están **Payment methods** y **Country** (**All countries**).
 
-### 4.3 Clases y modelos principales (`classes/`)
+| Campo | Al inicio | Qué hace |
+|---|---|---|
+| **ID Product** | Vacío en una fila nueva. Relleno al editar. | Escriba el número de producto o use **Search**. La ayuda dice que busque por nombre, ID o referencia. **Save** sin producto muestra «Product is required.» y no escribe una regla. |
+| **Payment methods** | Sin marcar en una fila nueva. Al editar, están marcados los métodos ya guardados. | Marque los métodos que siguen en la caja cuando el carrito contiene este producto y el país de entrega coincide con el país de abajo. La etiqueta muestra el nombre del módulo de pago. |
+| **Country** | **All countries** | Si elige un país, los métodos marcados se aplican solo cuando la dirección de entrega del cliente está en ese país. **All countries** los aplica a cualquier dirección. |
+| **Save** | — | Sustituye todos los métodos guardados de este producto en la tienda actual por las marcas y el país de este formulario. Si no hay ninguno marcado, la página muestra «There was a problem with form. No payment method selected» y las filas anteriores se quedan. |
 
-- `pobp/override/classes/checkout/PaymentOptionsFinder.php`
-  - **Propósito**: Este es un archivo de anulación crítico. Modifica la clase principal de PrestaShop responsable de encontrar y devolver las opciones de pago disponibles durante el proceso de compra.
-  - **Nombre de la clase y clase padre**: `PaymentOptionsFinder` (anula la clase original `PaymentOptionsFinder`).
-  - **Lógica clave**: El método `getPaymentOptions()` anulado (o un método similar) contendrá la lógica principal del módulo.
-    - Recupera los productos actualmente en el carrito del cliente.
-    - Para cada producto, comprueba si hay alguna "Asociación de pago - producto" definida en la base de datos del módulo.
-    - Luego filtra las opciones de pago inicialmente disponibles (devueltas por el método `getPaymentOptions()` padre) basándose en estas asociaciones.
-    - La lógica de filtrado garantiza que solo se devuelvan los métodos de pago explícitamente permitidos para *todos* los productos restringidos en el carrito. Si un producto no tiene asociación, no restringe nada. Si varios productos tienen asociaciones, se utiliza la intersección de los métodos de pago permitidos.
-  - **Interacción con la base de datos**: Esta clase consultará la tabla de base de datos personalizada del módulo (probablemente `ps_pobp` o similar) para obtener las asociaciones producto-pago.
+Un producto tiene un país. Guardar de nuevo sustituye los métodos anteriores de ese producto en esta tienda. Las reglas de otra tienda no cambian. Cambie el contexto de tienda antes de editar allí.
 
-### 4.4 Activos JavaScript (`views/js/`)
+### 3.4 Ficha de producto
 
-No se detectaron archivos JavaScript específicos en el inventario proporcionado. Cualquier comportamiento dinámico en el Back Office (como la búsqueda de productos en el formulario de asociación) es probable que sea manejado por el JS principal de PrestaShop o un script en línea mínimo.
+Abra **Catálogo**, **Productos**, edite el producto y abra la pestaña **Payment methods**.
 
-### 4.5 Hojas de estilo CSS (`views/css/`)
+![Payment methods en el producto](https://mypresta.eu/docs/images/docs/pobp-product-tab.webp)
 
-No se detectaron archivos CSS específicos en el inventario proporcionado. El estilo para los formularios y listas del Back Office probablemente se hereda del tema de administración predeterminado de PrestaShop.
+Producto Hummingbird printed t-shirt, pestaña **Payment methods**. Ahí están **Country** y **Available payment methods**. Las marcas están solo en la imagen. El producto no se guardó.
 
-### 4.6 Estructura de plantillas Smarty (`views/templates/`)
+| Campo | Al inicio | Qué hace |
+|---|---|---|
+| **Country** | **All countries** si el producto no tiene regla. Si no, el país ya guardado. | Si elige un país, los métodos marcados se aplican solo cuando la dirección de entrega está en ese país. **All countries** los aplica a cualquier dirección. |
+| **Available payment methods** | Sin marcar si no hay regla. Si no, están marcados los métodos ya guardados. | Los métodos marcados siguen en la caja cuando el carrito contiene este producto y el país de entrega coincide con el país de arriba. No marcar ninguno quita la restricción de este producto. |
 
-- **Plantillas de hook (`views/templates/hook/`)**: Ninguna explícitamente listada, ya que el módulo opera a través de una anulación en lugar de una renderización directa de hook en el front office.
-- **Plantillas de administración (`views/templates/admin/`)**:
-  - `pobp/lib/searchTool/views/scripts.tpl`
-    - **Propósito**: Esta plantilla probablemente contiene lógica JavaScript o Smarty relacionada con una herramienta de búsqueda utilizada dentro del Back Office, posiblemente para buscar productos al crear o editar una asociación. Podría incluir llamadas AJAX o filtrado dinámico para la selección de productos.
-- **Plantillas del front-office (`views/templates/front/`)**: Ninguna.
+Pulse **Save** en el producto. PrestaShop confirma el guardado del producto. La regla de pago se guarda con ese mismo guardado, para la tienda que está editando. Una selección vacía borra la regla de este producto en esta tienda. El formulario de asociaciones, en cambio, no guarda si no hay nada marcado.
 
-### 4.7 Esquema de la base de datos y mapa de hooks
+Los mismos datos aparecen en **Payment - Product associations**.
 
-- **Tablas de la base de datos**:
+### 3.5 Actualizaciones de MyPresta
 
-  - El módulo creará al menos una tabla personalizada durante su método `install()` (definido en `pobp/index.php`).
-  - **`ps_pobp` (o nombre similar, por ejemplo, `ps_payment_by_product_association`)**:
-    - Esta tabla almacena las asociaciones reales de producto-pago.
-    - Columnas esperadas:
-      - `id_pobp` (Clave primaria, INT)
-      - `id_product` (INT, clave externa a `ps_product`)
-      - `id_payment_module` (INT, clave externa a `ps_module` o `ps_payment_module` si existe tal tabla, o simplemente almacena el nombre/ID del módulo)
-      - `id_country` (INT, clave externa a `ps_country`, anulable para reglas globales)
-      - Otras columnas potenciales para configuraciones o marcas de tiempo.
-  - Los valores de configuración (si los hubiera en `getContent()`) se almacenarían en `ps_configuration`.
-- **Tabla de Hooks registrados**:
-  La funcionalidad principal del módulo se basa en el mecanismo `override` en lugar de la ejecución directa de hooks para su filtrado primario. Sin embargo, para su integración en el Back Office y potencialmente para futuras características, podría registrar hooks estándar.
+En **Configurar**, debajo de los ajustes, **MyPresta Updates** comprueba si hay un archivo más nuevo. No lo instala.
 
-  | Nombre del Hook | Momento de ejecución | Propósito técnico |
-  | --- | --- | --- |
-  | `displayAdminProductsExtra` | En la página de edición de productos en el Back Office. | Podría usarse para mostrar un enlace rápido o un resumen de las restricciones de pago para el producto actual. (No detectado explícitamente, pero un punto de integración común). |
-  | `actionPaymentOptionsModifier` | Durante el proceso de recuperación de opciones de pago. | Este hook está diseñado específicamente para que los módulos modifiquen la lista de opciones de pago. La anulación de `PaymentOptionsFinder` logra efectivamente un resultado similar a un nivel inferior. |
-  | `actionModuleInstall` | Cuando se instala el módulo. | Para crear tablas de base de datos y registrar los hooks necesarios. |
-  | `actionModuleUninstall` | Cuando se desinstala el módulo. | Para limpiar las tablas de la base de datos y anular el registro de los hooks. |
+![MyPresta Updates](https://mypresta.eu/docs/images/docs/pobp-updates.webp)
 
-## 5. Soporte oficial y actualizaciones
+**MyPresta Updates**, debajo de los ajustes en **Configurar**.
 
-Para obtener actualizaciones oficiales, soporte técnico y para asegurarse de tener la última versión compatible del módulo "Métodos de pago por productos", consulte su cuenta de cliente en [MyPresta.eu](https://mypresta.eu/my-account/orders/). Nuestro equipo de soporte está disponible para ayudar con cualquier problema o pregunta relacionada con la funcionalidad e integración del módulo.
+| Campo | Al inicio | Qué hace |
+|---|---|---|
+| **Check updates** | — | **Check now** pregunta a MyPresta.eu si existe un archivo más nuevo. La línea sobre el botón muestra que hay una versión nueva o que el módulo está al día. No descarga ni instala el archivo. |
+| **Updates notifications** | Activadas, hasta que guarde **Disable** | **Enable** muestra un aviso en el back office cuando se publica una versión más nueva. **Disable** detiene esa comprobación automática. **Save** guarda la elección y muestra «Update settings saved.» |
+| **Module page** | — | Abre la página del módulo en MyPresta.eu, donde está el registro de cambios. No guarda ningún ajuste. |
+| **Save** | — | Guarda solo **Updates notifications**. |
+
+## 4. Frente de la tienda
+
+El módulo no añade un bloque, una página ni un mensaje en el producto, el carrito o la cuenta del cliente. En esas páginas el tema no tiene nada que cambiar.
+
+El cliente ve el efecto en el paso de pago de la caja. Los métodos que las reglas no permiten no están en la lista. Los métodos sin regla, y **Free order** cuando es la única opción, se quedan.
+
+El país es el de la dirección de entrega. Antes de que exista una dirección, solo se aplican las reglas en **All countries**. Una regla de un país espera a que la dirección esté en ese país.
+
+## 5. Problemas
+
+**La lista de pago no cambió.** El producto no tiene regla, o ningún producto del carrito la tiene. Abra el producto, **Payment methods**, marque los métodos y guarde el producto. Un producto sin marcas no limita la caja.
+
+**Un método desapareció solo para un país.** El país de la regla no es **All countries** y la dirección de entrega está en ese país. Ponga **All countries** si la regla debe valer para cualquier dirección.
+
+**Un método sigue ofreciéndose.** Otro producto del carrito lo permite y **How to get available payment methods?** está en **Show all payment methods from products**. Cámbielo a **Show the same payment methods available for all products in cart** si cada producto restringido debe permitir el método. Un producto sin regla no lo bloquea.
+
+**En la configuración se lee «Overrides are disabled…» y no sabe si el filtro funciona.** En PrestaShop 8 y 9 el filtro sigue. El texto amarillo dice que filtra el hook de la caja. Active las sobrescrituras solo si también depende del archivo antiguo.
+
+**Save en Payment - Product associations muestra «Product is required.»** El campo de producto está vacío. Busque el producto o escriba su número y pulse **Save** otra vez.
+
+**Save muestra «There was a problem with form. No payment method selected».** No hay ningún método marcado. Marque al menos uno. La regla anterior no se sustituyó. Para quitar una regla por completo, use la pestaña **Payment methods** del producto y guarde sin marcas.
+
+**Delete en la lista quitó solo un método.** **Delete** borra la fila de esa línea, mientras **Payment** lista todos los métodos. Abra **Edit** y **Save** para reescribir el conjunto, o borre hasta que el producto desaparezca de la lista.
+
+**Free order es el único método y la regla no lo incluye.** Un carrito a cero conserva **Free order**. El módulo no quita ese único método.
+
+**La regla de una tienda no está en otra.** Las reglas se guardan por tienda. Cambie de tienda en la cabecera multitienda y guarde la regla allí.
+
+## 6. Para el desarrollador
+
+### 6.1 Visión general
+
+Clase principal `pobp`, versión `1.4.0`, nombre **Payment options by products**, autor MyPresta.eu, pestaña `administration`. Compatibilidad de `1.7.0.0` a `9.99.99`.
+
+Una fila de `ps_pobp` es un módulo de pago permitido para un producto, una tienda y un país (`id_country` `0` significa todos los países). La caja lee los productos del carrito y la dirección de entrega en `pobp::filterPaymentOptions()`. El hook `actionPresentPaymentOptions` quita las claves que el filtro descartó. La sobrescritura `PaymentOptionsFinder::find()` devuelve el mismo filtro si el módulo está activo. `pobp_innerjoin` verdadero significa la intersección de los productos restringidos. Cualquier otro valor, incluido un clave ausente, significa la unión. Los productos sin filas coincidentes se ignoran. La clave `free_order` nunca se quita. Una lista que solo contiene `free_order` se devuelve igual.
+
+### 6.2 Archivos
+
+| Archivo | Función |
+|---|---|
+| `pobp.php` | Instalación, formulario de ajustes, filtro de caja, pestaña de producto. |
+| `lib/updatesChecker.php` | Clase `pobpUpdate`. Comprobación de actualización y formulario MyPresta Updates. |
+| `lib/searchTool/searchTool.php` | Búsqueda de producto en el formulario de asociación. |
+| `models/pob.php` | ObjectModel `pob` y `replaceForProduct()`. |
+| `controllers/admin/AdminPobpController.php` | Lista y formulario de asociaciones. |
+| `override/classes/checkout/PaymentOptionsFinder.php` | `find()` llama a `filterPaymentOptions()`. |
+| `upgrade/upgrade-1.4.0.php` | Llama a `ensureModuleComplements()` y guarda `POBP_VERSION`. |
+| `translations/pl.php` | Textos en polaco. |
+
+No hay controlador ni plantilla de frente.
+
+### 6.3 Controladores
+
+`AdminPobpController` extiende `ModuleAdminController`. Clase de pestaña `AdminPobp`, padre `AdminParentPayment`, o `IMPROVE` si falta ese padre. Icono `credit_card`. Nombre visible **Payment - Product associations**.
+
+La lista agrupa con una subconsulta de `MIN(id_pobp)` por producto y tienda. `processAdd()` y `processUpdate()` llaman a `pob::replaceForProduct()`. Un conjunto vacío de métodos o un producto ausente devuelve false y no sustituye filas. Los textos usan `$this->module->l(..., 'AdminPobpController')`.
+
+La configuración del módulo es `getContent()` de `pobp`, no un controlador aparte.
+
+### 6.4 Hooks
+
+Registrados en `registerHooks()`:
+
+| Hook | Función |
+|---|---|
+| `actionPresentPaymentOptions` | Quita los módulos de pago descartados por el filtro. El array se modifica en el sitio. |
+| `actionProductFormBuilderModifier` | Añade la pestaña `pobp` (país y pagos) al formulario de producto. |
+| `actionAfterUpdateProductFormHandler` | Escribe `form_data['pobp']` del producto guardado. |
+| `actionAfterCreateProductFormHandler` | La misma escritura después de crear un producto. |
+
+No hay `enable()` ni `disable()` propios. Desactivar el módulo quita los hooks. La sobrescritura sigue cargándose y devuelve la lista padre cuando `Module::isEnabled('pobp')` es falso.
+
+La primera carga del back office tras subir archivos llama a `ensureModuleComplements()` si `POBP_VERSION` difiere de la versión del archivo.
+
+### 6.5 Sobrescrituras
+
+`override/classes/checkout/PaymentOptionsFinder.php` sustituye solo `find()`. No sobrescribe `present()` ni `findFree()`.
+
+### 6.6 Base de datos
+
+| Tabla | Contenido |
+|---|---|
+| `ps_pobp` | `id_pobp`, `id_product`, `id_payment` (id del módulo), `id_shop`, `id_country`. `inconsistency()` añade `id_country` si falta la columna. `0` significa todos los países. |
+
+La desinstalación no borra `ps_pobp`. La instalación usa `CREATE TABLE IF NOT EXISTS`, así que una instalación nueva conserva las filas antiguas.
+
+### 6.7 Claves y traducciones
+
+| Clave | Si falta |
+|---|---|
+| `pobp_innerjoin` | Se trata como apagada. La caja usa la unión de los productos restringidos. |
+| `POBP_VERSION` | La siguiente petición del back office ejecuta `ensureModuleComplements()` y luego guarda la versión del archivo. |
+| `mypresta_updates` | Se trata como encendida. `0` detiene la comprobación automática. La clave es compartida con otros módulos de MyPresta. |
+| `update_pobp` | Marca de tiempo de la última comprobación. |
+| `updatev_pobp` | Cadena de versión devuelta por el servidor de actualizaciones. |
+
+Los textos de la tienda pasan por `$this->l()`. El panel de actualizaciones usa la fuente `updatesChecker`. El controlador de asociaciones usa `AdminPobpController`. El polaco está en `translations/pl.php`. Añada otro idioma como `translations/{iso}.php` con la misma forma de clave.
+
+`key.php` en la carpeta del módulo puede fijar `$this->mkey`. Si falta el archivo, la comprobación envía `nlc`.
+
+### 6.8 Ampliación
+
+El frente no renderiza una plantilla del módulo, así que el tema no tiene nada que sobrescribir. Para cambiar la lista de la caja, siga con el hook de opciones de pago o con la sobrescritura de `PaymentOptionsFinder`. Para cambiar la pestaña del producto, amplíe `hookActionProductFormBuilderModifier` y conserve las claves del formulario `pobp`; si no, el hook de guardado ignora los datos.
+
+## 7. Ayuda
+
+Página del módulo: [https://mypresta.eu/modules/payment-process/payment-methods-by-products.html](https://mypresta.eu/modules/payment-process/payment-methods-by-products.html)
+
+Para escribir sobre este módulo, inicie sesión en su cuenta de cliente en mypresta.eu, abra el formulario de contacto y elija el tema **Support for paid modules**. El formulario indica que el inicio de sesión es obligatorio para ese tema. Después de entrar, elija este módulo en el historial de compras.

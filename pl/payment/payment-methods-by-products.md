@@ -1,8 +1,8 @@
 ---
-title: "Metody płatności według produktów - Instrukcja dla Sprzedawcy i Przewodnik Konfiguracji"
-description: "Kompletna instrukcja obsługi, przewodnik konfiguracji krok po kroku oraz odniesienie dla programistów dla modułu PrestaShop „Metody płatności według produktów” od MyPresta.eu."
+title: "Metody płatności dla produktów - dokumentacja i instrukcja sprzedawcy"
+description: "Instrukcja ustawienia metod płatności przy produkcie, łączenia ich w koszyku i naprawy listy płatności, która nadal pokazuje złą metodę."
 sidebar:
-  label: "Metody płatności według produktów - Instrukcja dla Sprzedawcy i Przewodnik Konfiguracji"
+  label: "Metody płatności dla produktów - dokumentacja i instrukcja sprzedawcy"
 ---
 
 > ⚠️ **Notice:** This is the oficjalna dokumentacja modułu PrestaShop.
@@ -12,182 +12,257 @@ sidebar:
 > ---
 
 
-# Metody płatności według produktów
+## 1. Wymagania
 
-## 1. Wymagania i kompatybilność
+Sprawdź to przed instalacją.
 
-- **Obsługiwane wersje PrestaShop**: PrestaShop 1.7.x, 8.x
-- **Kompatybilność z PHP**: PHP 7.1 - 8.5
-- **Wymagania hostingowe**: Standardowe rozszerzenia PHP (cURL, JSON, OpenSSL) są zazwyczaj wymagane przez sam PrestaShop i są wystarczające dla tego modułu.
+- PrestaShop 1.7.0.0 lub nowszy, także PrestaShop 8 i 9. Moduł przyjmuje wersje sklepu do 9.99.99.
+- Zostaw wersję PHP wymaganą przez tę wersję PrestaShop. Instalator nie sprawdza PHP osobno.
+- Włącz rozszerzenie PHP cURL, jeśli sprawdzanie aktualizacji ma łączyć się z MyPresta.eu. Gdy cURL nie ma, sprawdzenie próbuje otworzyć adres ustawieniem serwera do odczytu zdalnych stron. Same reguły płatności cURL nie potrzebują.
+- Żaden inny moduł PrestaShop nie jest wymagany. Lista metod powstaje z modułów płatności już zainstalowanych w sklepie. Gdy nie ma żadnego, pola wyboru są puste.
+- Zainstaluj i włącz co najmniej jeden moduł płatności, jeśli metoda ma być widoczna przy kasie.
+- Moduł nie wymaga konta w zewnętrznym serwisie.
 
-## 2. Kompletny przewodnik konfiguracji (każda grupa ustawień pogrupowana według ekranu)
+## 2. Instalacja
 
-Ten moduł ma dwa główne obszary konfiguracji: początkową stronę konfiguracji modułu i dedykowany ekran zarządzania do tworzenia powiązań produkt-płatność.
+1. Otwórz **Moduły**, potem **Menedżer modułów**.
+2. Kliknij **Załaduj moduł** i wgraj plik ZIP.
+3. Kliknij **Zainstaluj** przy **Metody płatności dla produktów**.
 
-### 2.1 Strona konfiguracji modułu (Panel administracyjny > Moduły > Konfiguruj > Metody płatności według produktów)
+Instalacja robi tyle:
 
-Po kliknięciu „Konfiguruj” po instalacji, znajdziesz się na głównej stronie konfiguracji modułu. Ta strona zazwyczaj zawiera ogólne ustawienia modułu.
+- Dodaje **Produkt - Płatność - Powiązania** w **Ulepszenia**, potem **Płatność**. Gdy menu Płatność nie istnieje, pozycja trafia pod **Ulepszenia**.
+- Tworzy tabelę: jeden wiersz to produkt, moduł płatności, sklep i kraj.
+- Rejestruje filtr kasy i zakładkę na karcie produktu.
+- Kopiuje nadpisanie kasy. PrestaShop musi pozwalać na nadpisania. Gdy są wyłączone, zakładka produktu i filtr kasy i tak działają. Żółte ostrzeżenie na stronie konfiguracji o tym mówi.
+- Nie czyści pamięci podręcznej sklepu. Wyczyść ją w **Zaawansowane**, **Wydajność**, tylko gdy stary ekran zostaje na stronie.
+- Nie tworzy żadnej reguły. Kasa zostaje bez zmian, dopóki nie zapiszesz reguły.
 
-**Obecnie na tej głównej stronie konfiguracji nie wykryto żadnych konkretnych ustawień poza standardowymi informacjami o module. Podstawowa funkcjonalność jest zarządzana za pośrednictwem dedykowanego ekranu „Powiązania płatności z produktami”.**
+**Konfiguruj** w **Menedżerze modułów** otwiera ustawienia. Pozycja **Produkt - Płatność - Powiązania** otwiera listę reguł.
 
-Jeśli przyszłe wersje wprowadzą tutaj ustawienia, pojawią się one jako przełączniki, pola wprowadzania lub listy rozwijane. Na razie możesz przejść bezpośrednio do dedykowanego ekranu zarządzania.
+Odinstalowanie:
 
-### 2.2 Dedykowany ekran administracyjny: Powiązania płatności z produktami (Panel administracyjny > Moduły > Metody płatności według produktów > Powiązania płatności z produktami)
+- Usuwa pozycję menu **Produkt - Płatność - Powiązania**.
+- Usuwa nadpisanie kasy i zarejestrowane hooki.
+- Usuwa zapisaną wersję modułu używaną przy aktualizacji.
+- Nie kasuje zapisanych reguł produktów. Kolejna instalacja czyta te wiersze znowu.
+- Nie wyłącza powiadomień o aktualizacjach wspólnych dla innych modułów MyPresta.
+- Zostawia katalog modułu, dopóki nie usuniesz go w **Menedżerze modułów** albo z serwera.
 
-To jest centralne miejsce do zarządzania ograniczeniami płatności dla produktów. Ten ekran znajdziesz, przechodząc do **Moduły > Menedżer modułów**, znajdując „Metody płatności według produktów”, klikając „Konfiguruj”, a następnie szukając zakładki lub linku oznaczonego „Powiązania płatności z produktami” (lub podobnego, w zależności od nawigacji modułu).
+Wyłączenie modułu w **Menedżerze modułów** zatrzymuje filtr kasy. Zapisane reguły zostają w bazie.
 
-**Nazwa ekranu i lokalizacja w menu:**
+## 3. Konfiguracja i praca w zapleczu
 
-- **Ścieżka menu:** Panel administracyjny > Moduły > Menedżer modułów > Metody płatności według produktów > Konfiguruj > **Powiązania płatności z produktami** (lub podobna zakładka/link na stronie konfiguracji).
-- Ten ekran umożliwia przeglądanie, dodawanie, edytowanie i usuwanie powiązań między produktami a metodami płatności.
+Reguła to lista metod płatności dla jednego produktu, w sklepie, który edytujesz, dla jednego kraju dostawy albo dla wszystkich krajów.
 
-**Dostępne działania i ustawienia:**
+Kolejność pracy:
 
-#### 2.2.1 Widok listy „Powiązania płatności z produktami”
+1. Otwórz **Konfiguruj** i wybierz, jak łączyć kilka ograniczonych produktów w jednym koszyku. Kliknij **Zapisz**. Ten krok jest opcjonalny. Zanim zapiszesz, sklep zostawia każdą metodę dozwoloną przez co najmniej jeden ograniczony produkt.
+2. Otwórz produkt i zakładkę **Metody płatności** albo **Ulepszenia**, **Płatność**, **Produkt - Płatność - Powiązania** i dodaj wiersz.
+3. Zaznacz metody, które mają zostać, gdy ten produkt jest w koszyku. Wybierz **Wszystkie kraje** albo jeden kraj. Zapisz.
+4. Przy kasie sklep czyta adres dostawy i chowa metody, których reguły nie dopuszczają.
 
-Ten widok przedstawia tabelę wszystkich istniejących ograniczeń płatności dla produktów, które ustawiłeś.
+Produkt bez zapisanej reguły nie usuwa metod płatności. **Darmowe zamówienie** zostaje, gdy jest jedyną metodą przy koszyku za zero.
 
-| Nazwa kolumny | Cel i wpływ |
-| --- | --- |
-| **ID** | Unikalny identyfikator dla każdego powiązania. |
-| **Produkt** | Nazwa produktu objętego ograniczeniem. |
-| **Płatność** | Nazwa metody płatności, która jest ograniczona lub dozwolona dla tego produktu. |
-| **Kraj** | (Jeśli dotyczy) Kraj, dla którego obowiązuje to ograniczenie. Jeśli pozostawione puste, obowiązuje globalnie. |
-| **Działania** | Ikony do **Edycji** (ikona ołówka) lub **Usunięcia** (ikona kosza) istniejącego powiązania. |
+W tym module nie ma statusu zamówienia. Wynikiem jest lista płatności na stronie kasy.
 
-**Zalecany przepływ pracy dla codziennego zarządzania sklepem:**
+Zrzuty w tym rozdziale pokazują angielskie zaplecze. Podpisy używają nazw z tej instrukcji.
 
-- **Przeglądaj istniejące zasady:** Regularnie sprawdzaj tę listę, aby upewnić się, że Twoje ograniczenia są aktualne z katalogiem produktów i potrzebami biznesowymi.
-- **Identyfikuj konflikty:** Szukaj wszelkich nakładających się lub sprzecznych zasad, zwłaszcza jeśli masz wiele produktów i metod płatności.
-- **Użyj wyszukiwania/filtrowania:** Jeśli lista stanie się długa, użyj dostępnych opcji wyszukiwania lub filtrowania, aby szybko znaleźć konkretne ograniczenia dotyczące produktów lub płatności.
+### 3.1 Konfiguracja modułu
 
-#### 2.2.2 Dodawanie lub edytowanie „Powiązania płatności z produktami”
+Otwórz **Moduły**, **Menedżer modułów**, **Metody płatności dla produktów**, **Konfiguruj**.
 
-Aby dodać nowe ograniczenie, zazwyczaj znajdziesz przycisk „Dodaj nowe” w widoku listy. Podczas edycji klikasz ikonę ołówka obok istniejącego wpisu. Spowoduje to otwarcie formularza z następującymi polami:
+Na górze są dwie informacje. Pierwszy link otwiera **Produkt - Płatność - Powiązania**. Drugi mówi, że to samo ustawisz na karcie produktu, w zakładce **Metody płatności**. Żadna z nich nie zapisuje reguły.
 
-| Pole formularza | Co robi to ustawienie | Efekt zmiany tego ustawienia | Zalecana wartość | Scenariusz/przykład sprzedawcy |
-| --- | --- | --- | --- | --- |
-| **ID Produktu** | To pole pozwala wybrać konkretny produkt, który chcesz powiązać z ograniczeniami płatności. | Po wybraniu produktu moduł zastosuje wybrane ograniczenia płatności, gdy ten produkt znajdzie się w koszyku klienta. | Wybierz dokładny produkt z katalogu. Użyj funkcji wyszukiwania, jeśli masz wiele produktów. | Sprzedajesz „Ebook cyfrowy: Przewodnik marketingowy”. Chcesz mieć pewność, że jest on opłacany tylko przez PayPal lub kartę kredytową, a nie za pobraniem. Wybierasz ten produkt tutaj. |
-| **Metody płatności** | To jest lista wszystkich aktywnych metod płatności w Twoim sklepie PrestaShop. Wybierasz, które metody płatności są **dozwolone** dla wybranego produktu. | - *Gdy wybierzesz jedną lub więcej metod płatności:* Tylko te wybrane metody będą dostępne przy kasie, jeśli powiązany produkt znajduje się w koszyku. Wszystkie inne metody płatności zostaną ukryte.   - *Gdy nie wybierzesz ŻADNYCH metod płatności:* Oznacza to, że produktu nie można kupić, lub odziedziczy on zasady z innych produktów w koszyku. Ogólnie nie zaleca się pozostawiania tego pola pustego, chyba że masz bardzo specyficzny przypadek użycia. | Wybierz wszystkie metody płatności, które są akceptowalne dla wybranego produktu. | Dla „Ebooka cyfrowego: Przewodnik marketingowy” zaznaczasz „PayPal” i „Karta kredytowa”. Jeśli klient kupi ten ebook, przy kasie pojawią się tylko te dwie opcje. |
-| **Kraj** | (Opcjonalnie) To pole pozwala określić kraj, dla którego obowiązuje to konkretne ograniczenie produkt-płatność. | - *Gdy kraj jest wybrany:* Ograniczenie (produkt + dozwolone płatności) będzie obowiązywać tylko wtedy, gdy adres wysyłki klienta znajduje się w wybranym kraju.   - *Gdy pozostawione puste:* Ograniczenie obowiązuje globalnie, niezależnie od kraju klienta. | Pozostaw puste dla zastosowania globalnego lub wybierz konkretny kraj, jeśli ograniczenie jest geograficznie ograniczone. | Sprzedajesz „Kruchą szklaną rzeźbę”, którą można opłacić tylko „Przelewem bankowym” we Francji ze względu na wymagania ubezpieczenia przesyłki. Wybierasz rzeźbę, „Przelew bankowy” i „Francja”. Dla klientów spoza Francji inne metody płatności mogą być nadal dostępne dla tego produktu (jeśli nie obowiązują inne globalne zasady). |
-| **Zapisz** | Ten przycisk zapisuje Twoje nowe lub zaktualizowane powiązanie produkt-płatność. | Zmiany są natychmiast stosowane w procesie realizacji zamówienia w Twoim sklepie. | Zawsze kliknij „Zapisz” po dokonaniu jakichkolwiek zmian. | Po ustawieniu zasad dla Twojego „Ebooka cyfrowego” klikasz „Zapisz”, aby je aktywować. |
+Gdy nadpisania są wyłączone, żółte ostrzeżenie mówi: „Override są wyłączone. Filtrowanie płatności w kasie nadal działa przez hook opcji płatności.” Zostaw nadpisania wyłączone, jeśli używasz tylko PrestaShop 8 lub 9. Włącz je w **Zaawansowane**, **Wydajność**, tylko gdy potrzebujesz też starszego nadpisania kasy.
 
-### 2.3 Tabela szybkiego odniesienia konfiguracji
+Panel **Ustawienia** opisuje regułę kraju i sposób łączenia metod. Tekst nad listą wyboru to opis modułu. Sam nic nie zapisuje.
 
-| Ekran / Widok | Ustawienie / Opcja | Domyślne / Zalecane | Cel i wpływ |
-| --- | --- | --- | --- |
-| Strona konfiguracji modułu | (Nie wykryto żadnych konkretnych ustawień) | N/A | Ogólne informacje o module. |
-| Powiązania płatności z produktami (Lista) | ID | N/A | Unikalny identyfikator powiązania. |
-| Powiązania płatności z produktami (Lista) | Produkt | N/A | Nazwa produktu w powiązaniu. |
-| Powiązania płatności z produktami (Lista) | Płatność | N/A | Nazwa metody płatności w powiązaniu. |
-| Powiązania płatności z produktami (Lista) | Kraj | N/A | Kraj, dla którego obowiązuje ograniczenie (jeśli istnieje). |
-| Powiązania płatności z produktami (Formularz dodawania/edycji) | ID Produktu | Wybierz produkt | Określa produkt, dla którego metody płatności zostaną ograniczone. |
-| Powiązania płatności z produktami (Formularz dodawania/edycji) | Metody płatności | Wybierz wszystkie akceptowalne metody | Definiuje, które metody płatności są **dozwolone** dla wybranego produktu. |
-| Powiązania płatności z produktami (Formularz dodawania/edycji) | Kraj | Pozostaw puste dla globalnego lub wybierz konkretny | Ogranicza ograniczenie do konkretnego kraju. |
+![Ustawienia](https://mypresta.eu/docs/images/docs/pobp-configure-settings.webp)
 
-## 3. Rozwiązywanie problemów dla sprzedawców i często zadawane pytania (FAQ)
+**Konfiguruj**, panel **Ustawienia**. Niebieski tekst opisuje kraje. Lista to **Jak ustalić metody płatności?**.
 
-**P: Ustawiłem ograniczenie, ale wszystkie metody płatności nadal wyświetlają się przy kasie. Co jest nie tak?**
-O:
+| Pole | Na starcie | Co robi |
+|---|---|---|
+| **Jak ustalić metody płatności?** | **Pokaż wszystkie metody płatności z produktów które są w koszyku**, dopóki nie zapiszesz innego wyboru | **Pokaż tylko wspólne metody płatności dla produktów, które są w koszyku** zostawia metodę tylko wtedy, gdy pozwala na nią każdy ograniczony produkt. **Pokaż wszystkie metody płatności z produktów które są w koszyku** zostawia metodę, gdy pozwala na nią co najmniej jeden ograniczony produkt. Produkt bez zapisanej reguły nie usuwa metod. |
+| **Zapisz** | — | Zapisuje tylko ten wybór. Nie edytuje reguły produktu. Strona wraca z zaznaczoną wartością. |
 
-1. **Pamięć podręczna:** Zawsze wyczyść pamięć podręczną PrestaShop po wprowadzeniu zmian. Przejdź do **Zaawansowane > Wydajność** i kliknij „Wyczyść pamięć podręczną” (lub „Wyczyść pamięć podręczną Smarty” w starszych wersjach).
-2. **Produkt w koszyku:** Upewnij się, że konkretny produkt, który ograniczyłeś, faktycznie znajduje się w koszyku klienta podczas testowania. Moduł stosuje zasady tylko wtedy, gdy produkt jest obecny.
-3. **Włączona metoda płatności:** Sprawdź dwukrotnie, czy metody płatności, które *oczekujesz* zobaczyć, są faktycznie włączone w **Moduły > Płatność > Metody płatności**. Ten moduł filtruje *włączone* metody, sam ich nie włącza.
-4. **Konfliktujące zasady:** Jeśli masz wiele produktów w koszyku, a każdy z nich ma ograniczenia, moduł wyświetli tylko te metody płatności, które są dozwolone przez *wszystkie* ograniczone produkty. Jeśli nie ma wspólnej dozwolonej metody, może się wydawać, że żadne metody nie są wyświetlane. Dokładnie przejrzyj swoje powiązania.
+### 3.2 Produkt - Płatność - Powiązania
 
-**P: Ustawiłem ograniczenie, a teraz ŻADNE metody płatności nie wyświetlają się przy kasie!**
-O: Zazwyczaj dzieje się tak, jeśli:
+Otwórz **Ulepszenia**, **Płatność**, **Produkt - Płatność - Powiązania**. Notka na górze powtarza, że ta sama reguła jest na produkcie, w zakładce **Metody płatności**.
 
-1. **Brak wspólnych metod:** Masz wiele ograniczonych produktów w koszyku i nie ma metod płatności, które są dozwolone przez *wszystkie* z nich. Na przykład, Produkt A pozwala na PayPal, Produkt B pozwala na kartę kredytową. Jeśli oba są w koszyku, żadne z nich się nie wyświetli. Musisz upewnić się, że istnieje co najmniej jedna wspólna dozwolona metoda.
-2. **Pusta lista dozwolonych:** Utworzyłeś powiązanie dla produktu, ale nie wybrałeś *żadnych* metod płatności jako dozwolonych. Moduł ukryje wtedy wszystkie metody dla tego produktu. Edytuj powiązanie i wybierz odpowiednie metody płatności.
+Lista pokazuje jedną linijkę na produkt w bieżącym sklepie.
 
-**P: Czy ten moduł wpływa na metody płatności dla produktów, które NIE są w żadnym powiązaniu?**
-O: Nie. Jeśli produkt nie jest częścią żadnego „Powiązania płatności z produktami”, nie nakłada żadnych ograniczeń. Moduł działa tylko na produkty, dla których wyraźnie zdefiniowałeś zasady. Jeśli koszyk zawiera tylko nieograniczone produkty, wszystkie standardowe włączone metody płatności Twojego sklepu zostaną wyświetlone.
+![Produkt - Płatność - Powiązania](https://mypresta.eu/docs/images/docs/pobp-associations-list.webp)
 
-**P: Jak ten moduł współdziała z innymi modułami ograniczeń płatności (np. według grupy klientów, według całkowitej kwoty)?**
-O: Ten moduł zazwyczaj działa poprzez nadpisywanie podstawowej klasy PrestaShop `PaymentOptionsFinder` (jak widać w folderze `override`). Oznacza to, że ma pierwszeństwo lub integruje się na fundamentalnym poziomie. Ogólnie rzecz biorąc, zastosowana zostanie najbardziej restrykcyjna zasada. Jeśli inny moduł ogranicza metodę płatności, a ten moduł zezwala na nią dla produktu, metoda płatności prawdopodobnie nadal będzie ograniczona przez inny moduł. Kluczowe jest dokładne testowanie, jeśli używasz wielu modułów ograniczeń.
+**Produkt - Płatność - Powiązania** bez wierszy. Kolumny to **ID**, **Produkt**, **Płatność** i **Kraj**. Plus to **Dodaj nowy**.
 
-**P: Czy mogę ograniczyć metody płatności na podstawie kraju bez ograniczania ich według produktu?**
-O: Główną funkcją tego modułu jest ograniczenie oparte na produkcie. Chociaż ma pole „Kraj”, dotyczy ono *powiązania produkt-płatność*. Jeśli potrzebujesz czysto krajowych ograniczeń płatności (niezależnie od produktu), możesz potrzebować oddzielnego modułu zaprojektowanego do tego celu lub sprawdzić, czy Twoje bramki płatności oferują bezpośrednie ograniczenia krajowe.
+| Kolumna | Co widać |
+|---|---|
+| **ID** | Numer wiersza. To nie jest numer produktu. |
+| **Produkt** | Numer i nazwa produktu. |
+| **Płatność** | Każda metoda zapisana dla tego produktu, jedna pod drugą. |
+| **Kraj** | **Wszystkie kraje** albo kraj dostawy zapisany w wierszu. Opis kolumny mówi, że wybrany kraj działa tylko przy adresie dostawy w tym kraju, a **Wszystkie kraje** działają przy każdym adresie. |
 
-## 4. Przewodnik dla programistów i webmasterów (Architektura techniczna i mapa kodu)
+**Dodaj nowy** otwiera pusty formularz. **Edytuj** otwiera formularz tego produktu. **Usuń** kasuje ten jeden wiersz bazy, nie każdą metodę wypisaną w kolumnie **Płatność**. **Usuń wybrane** robi to samo dla zaznaczonych linii. Tu nie da się zdjąć całej reguły przez odznaczenie wszystkiego: formularz odrzuca pusty zapis. Skasuj pozostałe wiersze albo wyczyść regułę na karcie produktu, gdzie puste zaznaczenie jest dozwolone.
 
-Ta sekcja zawiera szczegółową analizę techniczną modułu „Metody płatności według produktów” dla programistów i webmasterów.
+Wyszukiwanie i filtry listy to standardowe filtry zaplecza dla tych kolumn.
 
-### 4.1 Przegląd architektury
+### 3.3 Formularz powiązania
 
-Moduł przede wszystkim rozszerza podstawowy mechanizm wykrywania opcji płatności w PrestaShop. Wykorzystuje `override` do modyfikacji klasy `PaymentOptionsFinder`, która jest odpowiedzialna za określanie dostępnych metod płatności podczas realizacji zamówienia. Pozwala to modułowi wstrzyknąć logikę filtrowania opartą na produkcie bezpośrednio do procesu pobierania opcji płatności, zapewniając bezproblemową integrację z przepływem realizacji zamówienia w PrestaShop.
-Moduł stosuje standardowy wzorzec MVC PrestaShop dla zarządzania w Panelu administracyjnym, używając `AdminController` do zarządzania encją `pobp` (Powiązanie Produkt-Płatność).
+Na **Dodaj nowy** albo **Edytuj**:
 
-### 4.2 Kontrolery (`controllers/`)
+![Formularz powiązania](https://mypresta.eu/docs/images/docs/pobp-associations-form.webp)
 
-- **Kontrolery Front-Office**: Brak. Funkcjonalność front-office modułu jest obsługiwana poprzez nadpisanie klasy podstawowej, a nie dedykowany kontroler front-office.
-- **Kontrolery administracyjne Back-Office**:
+**Dodaj nowy**, wypełniony na potrzeby zdjęcia i niezapisany. **ID produktu** to 1. Na formularzu są **Metody płatności** i **Kraj** (**Wszystkie kraje**).
 
-  - `pobp/controllers/admin/AdminPobpController.php`
-    - **Nazwa klasy i klasa nadrzędna**: `AdminPobpController` rozszerza `ModuleAdminController`.
-    - **Nazwa zakładki**: Ten kontroler zarządza encją „Powiązania płatności z produktami”. Prawdopodobnie jest zarejestrowany jako podzakładka pod główną konfiguracją modułu.
-    - **Odpowiedzialność**: Jest to główny kontroler CRUD (Create, Read, Update, Delete) dla powiązań produkt-płatność. Obsługuje:
-      - Wyświetlanie listy istniejących powiązań (ID, Produkt, Płatność, Kraj).
-      - Udostępnianie formularza do dodawania nowych powiązań lub edytowania istniejących.
-      - Przetwarzanie przesłanych formularzy w celu zapisania nowych lub zaktualizowanych powiązań w bazie danych.
-      - Obsługę usuwania powiązań.
-      - Pola formularza „ID Produktu”, „Metody płatności” i „Kraj” są zarządzane tutaj.
-  - `pobp/controllers/admin/index.php`
-    - Ten plik jest zazwyczaj pustym miejscem lub zawiera podstawowe środki bezpieczeństwa (np. `<?php header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT"); header("Cache-Control: no-store, no-cache, must-revalidate"); header("Cache-Control: post-check=0, pre-check=0", false); header("Pragma: no-cache"); header("Location: ../"); exit;`). Nie reprezentuje on samej funkcjonalnej widoku kontrolera, ale zapewnia, że bezpośredni dostęp do katalogu `controllers/admin` jest przekierowywany.
+| Pole | Na starcie | Co robi |
+|---|---|---|
+| **ID produktu** | Puste na nowym wierszu. Wypełnione przy edycji. | Wpisz numer produktu albo użyj **Wyszukaj**, żeby go uzupełnić. Podpowiedź mówi, żeby szukać po nazwie, ID albo referencji. **Zapisz** bez produktu pokazuje „Produkt jest wymagany.” i nie zapisuje reguły. |
+| **Metody płatności** | Odznaczone na nowym wierszu. Przy edycji zaznaczone są metody już zapisane dla tego produktu. | Zaznacz metody, które zostają przy kasie, gdy koszyk zawiera ten produkt, a kraj dostawy zgadza się z krajem poniżej. Etykieta pokazuje nazwę modułu płatności. |
+| **Kraj** | **Wszystkie kraje** | Jeśli wskażesz kraj, zaznaczone metody obowiązują tylko wtedy, gdy adres dostawy klienta jest w tym kraju. **Wszystkie kraje** oznaczają, że metody obowiązują przy każdym adresie dostawy. |
+| **Zapisz** | — | Zamienia wszystkie metody zapisane dla tego produktu w bieżącym sklepie na zaznaczenia i kraj z tego formularza. Gdy nic nie jest zaznaczone, strona pokazuje „Problem z zapisem. Żadna metoda płatności nie została wybrana.” i poprzednie wiersze zostają. |
 
-### 4.3 Klasy podstawowe i modele (`classes/`)
+Jeden produkt ma jeden kraj. Kolejny zapis zastępuje poprzednie metody tego produktu w tym sklepie. Reguły w innym sklepie zostają. Przełącz kontekst sklepu, zanim edytujesz tamten sklep.
 
-- `pobp/override/classes/checkout/PaymentOptionsFinder.php`
-  - **Cel**: Jest to krytyczny plik nadpisujący. Modyfikuje podstawową klasę PrestaShop odpowiedzialną za znajdowanie i zwracanie dostępnych opcji płatności podczas realizacji zamówienia.
-  - **Nazwa klasy i klasa nadrzędna**: `PaymentOptionsFinder` (nadpisuje oryginalną klasę `PaymentOptionsFinder`).
-  - **Kluczowa logika**: Nadpisana metoda `getPaymentOptions()` (lub podobna metoda) będzie zawierać podstawową logikę modułu.
-    - Pobiera produkty aktualnie znajdujące się w koszyku klienta.
-    - Dla każdego produktu sprawdza, czy w bazie danych modułu istnieją zdefiniowane „Powiązania płatności z produktami”.
-    - Następnie filtruje początkowo dostępne opcje płatności (zwracane przez nadrzędną metodę `getPaymentOptions()`) na podstawie tych powiązań.
-    - Logika filtrowania zapewnia, że zwracane są tylko metody płatności wyraźnie dozwolone dla *wszystkich* ograniczonych produktów w koszyku. Jeśli produkt nie ma powiązania, niczego nie ogranicza. Jeśli wiele produktów ma powiązania, używane jest przecięcie dozwolonych metod płatności.
-  - **Interakcja z bazą danych**: Ta klasa będzie wysyłać zapytania do niestandardowej tabeli bazy danych modułu (prawdopodobnie `ps_pobp` lub podobnej), aby pobrać powiązania produkt-płatność.
+### 3.4 Karta produktu
 
-### 4.4 Zasoby JavaScript (`views/js/`)
+Otwórz **Katalog**, **Produkty**, edycję produktu, potem zakładkę **Metody płatności**.
 
-W dostarczonym inwentarzu nie wykryto żadnych konkretnych plików JavaScript. Wszelkie dynamiczne zachowania w Panelu administracyjnym (takie jak wyszukiwanie produktów w formularzu powiązania) są prawdopodobnie obsługiwane przez podstawowy JS PrestaShop lub minimalny skrypt inline.
+![Metody płatności na karcie produktu](https://mypresta.eu/docs/images/docs/pobp-product-tab.webp)
 
-### 4.5 Arkusze stylów CSS (`views/css/`)
+Produkt Hummingbird printed t-shirt, zakładka **Metody płatności**. Widać **Kraj** i **Dostępne metody płatności**. Zaznaczenia są tylko na zdjęciu. Produkt nie został zapisany.
 
-W dostarczonym inwentarzu nie wykryto żadnych konkretnych plików CSS. Stylizacja formularzy i list w Panelu administracyjnym jest prawdopodobnie dziedziczona z domyślnego motywu administracyjnego PrestaShop.
+| Pole | Na starcie | Co robi |
+|---|---|---|
+| **Kraj** | **Wszystkie kraje**, gdy produkt nie ma reguły. W przeciwnym razie kraj już zapisany. | Jeśli wskażesz kraj, zaznaczone metody płatności obowiązują tylko wtedy, gdy adres dostawy klienta jest w tym kraju. **Wszystkie kraje** oznaczają, że metody obowiązują przy każdym adresie dostawy. |
+| **Dostępne metody płatności** | Odznaczone, gdy produkt nie ma reguły. W przeciwnym razie zaznaczone są metody już zapisane. | Zaznaczone metody pozostają dostępne przy kasie, gdy koszyk zawiera ten produkt, a kraj dostawy zgadza się z krajem powyżej. Odznacz wszystkie, aby zdjąć ograniczenie dla tego produktu. |
 
-### 4.6 Struktura szablonów Smarty (`views/templates/`)
+Kliknij **Zapisz** na produkcie. PrestaShop potwierdza zapis produktu. Reguła płatności zapisuje się razem z nim, dla sklepu, który edytujesz. Puste zaznaczenie kasuje regułę tego produktu w tym sklepie. To różni się od formularza powiązań, który nie zapisze się, gdy nic nie jest zaznaczone.
 
-- **Szablony hooków (`views/templates/hook/`)**: Brak wyraźnie wymienionych, ponieważ moduł działa poprzez nadpisanie, a nie bezpośrednie renderowanie hooków w front-office.
-- **Szablony administracyjne (`views/templates/admin/`)**:
-  - `pobp/lib/searchTool/views/scripts.tpl`
-    - **Cel**: Ten szablon prawdopodobnie zawiera logikę JavaScript lub Smarty związaną z narzędziem wyszukiwania używanym w Panelu administracyjnym, być może do wyszukiwania produktów podczas tworzenia lub edytowania powiązania. Może zawierać wywołania AJAX lub dynamiczne filtrowanie do wyboru produktu.
-- **Szablony front-office (`views/templates/front/`)**: Brak.
+Te same dane widać na liście **Produkt - Płatność - Powiązania**.
 
-### 4.7 Schemat bazy danych i mapa hooków
+### 3.5 Aktualizacje MyPresta
 
-- **Tabele bazy danych**:
+Na **Konfiguruj**, pod ustawieniami, panel **Aktualizacje MyPresta** sprawdza, czy jest nowszy plik. Nie instaluje go.
 
-  - Moduł utworzy co najmniej jedną niestandardową tabelę podczas swojej metody `install()` (zdefiniowanej w `pobp/index.php`).
-  - **`ps_pobp` (lub podobna nazwa, np. `ps_payment_by_product_association`)**:
-    - Ta tabela przechowuje rzeczywiste powiązania produkt-płatność.
-    - Oczekiwane kolumny:
-      - `id_pobp` (klucz główny, INT)
-      - `id_product` (INT, klucz obcy do `ps_product`)
-      - `id_payment_module` (INT, klucz obcy do `ps_module` lub `ps_payment_module`, jeśli taka tabela istnieje, lub po prostu przechowuje nazwę/ID modułu)
-      - `id_country` (INT, klucz obcy do `ps_country`, może być null dla zasad globalnych)
-      - Inne potencjalne kolumny dla ustawień lub znaczników czasu.
-  - Wartości konfiguracyjne (jeśli były obecne w `getContent()`) byłyby przechowywane w `ps_configuration`.
-- **Tabela zarejestrowanych hooków**:
-  Podstawowa funkcjonalność modułu opiera się na mechanizmie `override`, a nie na bezpośrednim wykonywaniu hooków dla jego głównego filtrowania. Jednak dla integracji z Panelu administracyjnym i potencjalnie dla przyszłych funkcji, może rejestrować standardowe hooki.
+![Aktualizacje MyPresta](https://mypresta.eu/docs/images/docs/pobp-updates.webp)
 
-  | Nazwa hooka | Czas wykonania | Cel techniczny |
-  | --- | --- | --- |
-  | `displayAdminProductsExtra` | Na stronie edycji produktu w Panelu administracyjnym. | Może być używany do wyświetlania szybkiego linku lub podsumowania ograniczeń płatności dla bieżącego produktu. (Nie wykryto wyraźnie, ale jest to wspólny punkt integracji). |
-  | `actionPaymentOptionsModifier` | Podczas procesu pobierania opcji płatności. | Ten hook jest specjalnie zaprojektowany dla modułów do modyfikowania listy opcji płatności. Nadpisanie `PaymentOptionsFinder` skutecznie osiąga podobny rezultat na niższym poziomie. |
-  | `actionModuleInstall` | Podczas instalacji modułu. | Do tworzenia tabel bazy danych i rejestrowania niezbędnych hooków. |
-  | `actionModuleUninstall` | Podczas deinstalacji modułu. | Do czyszczenia tabel bazy danych i wyrejestrowywania hooków. |
+**Aktualizacje MyPresta**, pod ustawieniami na **Konfiguruj**.
 
-## 5. Oficjalne wsparcie i aktualizacje
+| Pole | Na starcie | Co robi |
+|---|---|---|
+| **Sprawdź aktualizacje** | — | **Sprawdź teraz** pyta MyPresta.eu, czy jest nowszy plik. Linia nad przyciskiem pokazuje, że jest nowa wersja, albo że moduł jest aktualny. Nie pobiera i nie instaluje pliku. |
+| **Notyfikacje** | Włączone, dopóki nie zapiszesz **Wyłącz** | **Włącz** pokazuje ostrzeżenie w zapleczu, gdy wyjdzie nowsza wersja. **Wyłącz** zatrzymuje to automatyczne sprawdzanie. **Zapisz** zapisuje wybór i pokazuje „Ustawienia aktualizacji zostały zapisane.” |
+| **Strona modułu** | — | Otwiera stronę modułu na MyPresta.eu, gdzie jest changelog. Nie zapisuje ustawienia. |
+| **Zapisz** | — | Zapisuje tylko **Notyfikacje**. |
 
-W celu uzyskania oficjalnych aktualizacji, wsparcia technicznego i zapewnienia posiadania najnowszej kompatybilnej wersji modułu „Metody płatności według produktów”, prosimy o zapoznanie się z kontem klienta na [MyPresta.eu](https://mypresta.eu/my-account/orders/). Nasz zespół wsparcia jest dostępny, aby pomóc w przypadku wszelkich problemów lub pytań dotyczących funkcjonalności i integracji modułu.
+## 4. Front sklepu
+
+Moduł nie dodaje bloku, strony ani komunikatu na produkcie, w koszyku ani na koncie klienta. Na tych stronach nie ma czego zmieniać w motywie.
+
+Klient widzi skutek na kroku płatności przy kasie. Metod, których reguły nie dopuszczają, nie ma na liście. Metody bez reguły oraz **Darmowe zamówienie**, gdy jest jedynym wyborem, zostają.
+
+Kraj to kraj adresu dostawy. Zanim adres dostawy istnieje, działają tylko reguły ustawione na **Wszystkie kraje**. Reguła dla jednego kraju czeka, aż adres dostawy będzie w tym kraju.
+
+## 5. Problemy
+
+**Lista płatności się nie zmieniła.** Produkt nie ma zapisanej reguły albo żaden produkt w koszyku jej nie ma. Otwórz produkt, **Metody płatności**, zaznacz metody i zapisz produkt. Produkt bez zaznaczenia nie ogranicza kasy.
+
+**Metoda zniknęła tylko dla jednego kraju.** Kraj reguły to nie **Wszystkie kraje**, a adres dostawy jest w wybranym kraju. Ustaw **Wszystkie kraje**, jeśli reguła ma działać przy każdym adresie dostawy.
+
+**Metoda nadal jest oferowana.** Inny produkt w koszyku ją dopuszcza, a **Jak ustalić metody płatności?** jest ustawione na **Pokaż wszystkie metody płatności z produktów które są w koszyku**. Przełącz na **Pokaż tylko wspólne metody płatności dla produktów, które są w koszyku**, jeśli metoda ma być dozwolona przez każdy ograniczony produkt. Produkt bez reguły jej nie blokuje.
+
+**Na konfiguracji widać „Override są wyłączone…” i nie wiadomo, czy filtr działa.** W PrestaShop 8 i 9 filtr nadal działa. Żółty tekst mówi, że filtrowanie idzie przez hook kasy. Włącz nadpisania tylko wtedy, gdy polegasz też na starszym pliku nadpisania.
+
+**Zapis na Produkt - Płatność - Powiązania pokazuje „Produkt jest wymagany.”** Pole produktu jest puste. Wyszukaj produkt albo wpisz jego numer i kliknij **Zapisz** jeszcze raz.
+
+**Zapis pokazuje „Problem z zapisem. Żadna metoda płatności nie została wybrana.”** Żadna metoda nie jest zaznaczona. Zaznacz co najmniej jedną. Poprzednia reguła nie została podmieniona. Żeby zdjąć regułę całkowicie, użyj zakładki **Metody płatności** na produkcie i zapisz bez zaznaczeń.
+
+**Usuń na liście skasowało tylko jedną metodę.** **Usuń** kasuje pojedynczy wiersz tej linii, a kolumna **Płatność** wypisuje wszystkie metody. Otwórz **Edytuj** i **Zapisz**, żeby zapisać cały zestaw, albo usuwaj, aż produkt zniknie z listy.
+
+**Darmowe zamówienie jest jedyną metodą, a reguła go nie zawiera.** Koszyk za zero zostawia **Darmowe zamówienie**. Moduł nie usuwa tej jedynej metody.
+
+**Reguła zapisana w jednym sklepie nie ma jej w drugim.** Reguły są zapisane osobno dla sklepu. Przełącz sklep w nagłówku multisklepu i zapisz regułę tam.
+
+## 6. Dla developera
+
+### 6.1 Przegląd
+
+Klasa `pobp`, wersja `1.4.0`, nazwa na liście **Metody płatności dla produktów**, autor MyPresta.eu, zakładka `administration`. Zgodność od `1.7.0.0` do `9.99.99`.
+
+Wiersz w `ps_pobp` to jeden dozwolony moduł płatności dla jednego produktu, jednego sklepu i jednego kraju (`id_country` `0` oznacza każdy kraj). Kasa czyta produkty koszyka i adres dostawy w `pobp::filterPaymentOptions()`. Hook `actionPresentPaymentOptions` usuwa klucze modułów, które filtr odrzucił. Nadpisanie `PaymentOptionsFinder::find()` zwraca ten sam filtr, gdy moduł jest włączony, więc starsza kasa wołająca `find()`, a nie hook, dostaje tę samą listę. `pobp_innerjoin` ustawione na prawdę oznacza część wspólną ograniczonych produktów. Każda inna wartość, także brak klucza, oznacza sumę. Produkty bez pasujących wierszy są pomijane. Klucz `free_order` nigdy nie jest usuwany, a lista zawierająca tylko `free_order` wraca bez zmian.
+
+### 6.2 Pliki
+
+| Plik | Rola |
+|---|---|
+| `pobp.php` | Instalacja, formularz ustawień, filtr kasy, zakładka produktu. |
+| `lib/updatesChecker.php` | Klasa `pobpUpdate`. Sprawdzanie aktualizacji i formularz Aktualizacje MyPresta. |
+| `lib/searchTool/searchTool.php` | Wyszukiwanie produktu na formularzu powiązań. |
+| `models/pob.php` | ObjectModel `pob` i `replaceForProduct()`. |
+| `controllers/admin/AdminPobpController.php` | Lista i formularz powiązań. |
+| `override/classes/checkout/PaymentOptionsFinder.php` | `find()` woła `filterPaymentOptions()`. |
+| `upgrade/upgrade-1.4.0.php` | Woła `ensureModuleComplements()` i zapisuje `POBP_VERSION`. |
+| `translations/pl.php` | Polskie napisy. |
+
+Nie ma kontrolera frontu ani szablonu frontu.
+
+### 6.3 Kontrolery
+
+`AdminPobpController` rozszerza `ModuleAdminController`. Klasa zakładki `AdminPobp`, rodzic `AdminParentPayment`, albo `IMPROVE`, gdy tego rodzica nie ma. Ikona `credit_card`. Nazwa **Produkt - Płatność - Powiązania**.
+
+Lista grupuje podzapytaniem `MIN(id_pobp)` na produkt i sklep, więc widać jedną linię. `processAdd()` i `processUpdate()` wołają `pob::replaceForProduct()`. Pusty zestaw metod albo brak produktu zwraca false i nie podmienia wierszy. Napisy idą przez `$this->module->l(..., 'AdminPobpController')`.
+
+Konfiguracja modułu to `getContent()` w `pobp`, nie osobny kontroler.
+
+### 6.4 Hooki
+
+Rejestruje je `registerHooks()`:
+
+| Hook | Rola |
+|---|---|
+| `actionPresentPaymentOptions` | Usuwa moduły płatności odrzucone przez filtr. Tablica jest zmieniana w miejscu. |
+| `actionProductFormBuilderModifier` | Dodaje zakładkę `pobp` (kraj i płatności) na formularzu produktu. |
+| `actionAfterUpdateProductFormHandler` | Zapisuje `form_data['pobp']` dla zapisanego produktu. |
+| `actionAfterCreateProductFormHandler` | Ten sam zapis po utworzeniu produktu. |
+
+Nie ma własnych `enable()` ani `disable()`. Wyłączenie modułu wyrejestrowuje hooki. Nadpisanie nadal się ładuje i zwraca listę rodzica, gdy `Module::isEnabled('pobp')` jest fałszem.
+
+Pierwsze wejście do zaplecza po wgraniu plików woła `ensureModuleComplements()`, gdy `POBP_VERSION` różni się od wersji w pliku. To odświeża tabelę, hooki, menu i nadpisanie.
+
+### 6.5 Nadpisania
+
+`override/classes/checkout/PaymentOptionsFinder.php` podmienia tylko `find()`. Nie nadpisuje `present()` ani `findFree()`.
+
+### 6.6 Baza
+
+| Tabela | Zawartość |
+|---|---|
+| `ps_pobp` | `id_pobp`, `id_product`, `id_payment` (id modułu), `id_shop`, `id_country`. Kolumnę `id_country` dopisuje `inconsistency()`, gdy jej nie ma. `0` oznacza każdy kraj. |
+
+Odinstalowanie nie kasuje `ps_pobp`. Instalacja używa `CREATE TABLE IF NOT EXISTS`, więc nowa instalacja zostawia stare wiersze.
+
+### 6.7 Klucze i tłumaczenia
+
+| Klucz | Gdy go nie ma |
+|---|---|
+| `pobp_innerjoin` | Traktowany jako wyłączony. Kasa używa sumy ograniczonych produktów. |
+| `POBP_VERSION` | Następne żądanie zaplecza uruchamia `ensureModuleComplements()` i potem zapisuje wersję z pliku. |
+| `mypresta_updates` | Traktowany jako włączony. Ustaw `0`, żeby zatrzymać automatyczne sprawdzanie. Klucz jest wspólny z innymi modułami MyPresta. |
+| `update_pobp` | Czas ostatniego sprawdzenia. |
+| `updatev_pobp` | Wersja zwrócona przez serwer aktualizacji. |
+
+Napisy sklepu idą przez `$this->l()`. Panel aktualizacji używa źródła `updatesChecker`. Kontroler powiązań używa źródła `AdminPobpController`. Polski jest w `translations/pl.php`. Kolejny język dodaj jako `translations/{iso}.php` z tym samym kształtem klucza.
+
+`key.php` w katalogu modułu może ustawić `$this->mkey`. Gdy pliku nie ma, sprawdzenie aktualizacji wysyła `nlc`.
+
+### 6.8 Rozszerzanie
+
+Front nie renderuje szablonu modułu, więc motyw nie ma czego nadpisać dla tego modułu. Żeby zmienić listę kasy, zostań przy hooku opcji płatności albo nadpisaniu `PaymentOptionsFinder`. Żeby zmienić zakładkę produktu, rozszerz `hookActionProductFormBuilderModifier` i zostaw klucze formularza `pobp`, inaczej hook zapisu pominie dane.
+
+## 7. Pomoc
+
+Strona modułu: [https://mypresta.eu/modules/payment-process/payment-methods-by-products.html](https://mypresta.eu/modules/payment-process/payment-methods-by-products.html)
+
+W sprawie tego modułu zaloguj się na konto klienta na mypresta.eu, otwórz kontakt i wybierz temat **Support for paid modules**. Formularz podaje, że przy tym temacie logowanie jest wymagane. Po zalogowaniu wybierz ten moduł z historii zakupów.

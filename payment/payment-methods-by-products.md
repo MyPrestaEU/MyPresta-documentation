@@ -1,8 +1,8 @@
 ---
-title: "Payment methods by products - Merchant Manual & Configuration Guide"
-description: "Complete user manual, screen-by-screen setup guide, and developer reference for the Payment methods by products PrestaShop module by MyPresta.eu."
+title: "Payment options by products - documentation and user manual"
+description: "Use this manual to set payment methods per product, combine them in the cart, and fix a checkout list that still shows the wrong methods."
 sidebar:
-  label: "Payment methods by products - Merchant Manual & Configuration Guide"
+  label: "Payment options by products - documentation and user manual"
 ---
 
 > ⚠️ **Notice:** This is the official documentation for the PrestaShop module.
@@ -12,182 +12,255 @@ sidebar:
 > ---
 
 
-# Payment methods by products
+## 1. Requirements
 
-## 1. Requirements & Compatibility
+Check these points before you install the module.
 
-- **Supported PrestaShop Versions**: PrestaShop 1.7.x, 8.x
-- **PHP Compatibility**: PHP 7.1 - 8.5
-- **Hosting Requirements**: Standard PHP extensions (cURL, JSON, OpenSSL) are typically required by PrestaShop itself and are sufficient for this module.
+- Use PrestaShop 1.7.0.0 or newer, including PrestaShop 8 and 9. The module accepts shop versions up to 9.99.99.
+- Keep the PHP version required by that PrestaShop release. The installer does not add a separate PHP version check.
+- Enable PHP cURL if you want the update check to call MyPresta.eu. When cURL is missing, the check tries to open the address with the server setting that allows remote reads. The payment rules themselves do not need cURL.
+- No other PrestaShop module is required. The method list is built from the payment modules already installed in the shop. With none installed, the checkboxes are empty.
+- Have at least one payment module installed and enabled if you want a method to appear at checkout.
+- The module does not ask for an external account.
 
-## 2. Complete Configuration Walkthrough (Every Setting Grouped by Screen)
+## 2. Installation
 
-This module has two main configuration areas: the initial module configuration page and a dedicated management screen for creating product-payment associations.
+1. Open **Modules**, then **Module Manager**.
+2. Click **Upload a module** and upload the ZIP file.
+3. Click **Install** on **Payment options by products**.
 
-### 2.1 Module Configuration Page (Back Office > Modules > Configure > Payment methods by products)
+Installation does the following:
 
-Upon clicking “Configure” after installation, you will land on the module’s main configuration page. This page typically contains general settings for the module.
+- Adds **Payment - Product associations** under **Improve**, then **Payment**. If that Payment menu is missing, the entry is placed under **Improve**.
+- Creates the table that stores one row per product, payment module, shop and country.
+- Registers the checkout filter and the product-page tab.
+- Copies the checkout override. PrestaShop must allow overrides. If they are off, the product tab and the checkout hook still run. The yellow warning on the configuration page says so.
+- Does not clear the shop cache. Clear it under **Advanced Parameters**, then **Performance**, only if an old screen stays visible.
+- Does not create any product rule. Checkout stays unchanged until you save a rule.
 
-**Currently, there are no specific settings detected on this main configuration page beyond the standard module information. The core functionality is managed through the dedicated “Payment - Product associations” screen.**
+**Configure** in **Module Manager** opens the module settings. The menu entry **Payment - Product associations** opens the list of rules.
 
-If future versions introduce settings here, they would appear as switches, input fields, or dropdowns. For now, you can proceed directly to the dedicated management screen.
+Uninstall:
 
-### 2.2 Dedicated Admin Screen: Payment - Product associations (Back Office > Modules > Payment methods by products > Payment - Product associations)
+- Removes the menu entry **Payment - Product associations**.
+- Removes the checkout override and the registered hooks.
+- Removes the stored module version used by the upgrade.
+- Does not delete the saved product rules. A later install reads those rows again.
+- Does not turn off the shop-wide update notices used by other MyPresta modules.
+- Leaves the module folder in place until you delete it from **Module Manager** or from the server.
 
-This is the central hub for managing your product-payment restrictions. You’ll find this screen by navigating to **Modules > Module Manager**, finding “Payment methods by products”, clicking “Configure”, and then looking for a tab or link labeled “Payment - Product associations” (or similar, depending on the module’s navigation).
+Turning the module off under **Module Manager** stops the checkout filter. The saved rules stay in the database.
 
-**Screen Name & Menu Location:**
+## 3. Configuration and back-office work
 
-- **Menu Path:** Back Office > Modules > Module Manager > Payment methods by products > Configure > **Payment - Product associations** (or a similar tab/link on the configuration page).
-- This screen allows you to view, add, edit, and delete associations between products and payment methods.
+A rule is a list of payment methods for one product, in the shop you are editing, for one delivery country or for every country.
 
-**Available Actions & Settings:**
+Follow this process:
 
-#### 2.2.1 The “Payment - Product associations” List View
+1. Open **Configure** and choose how several restricted products in one cart combine. Click **Save**. This step is optional. Until you save, the shop keeps every method allowed by at least one restricted product.
+2. Open a product and use the **Payment methods** tab, or open **Improve**, **Payment**, **Payment - Product associations** and add a row.
+3. Tick the methods that must stay available when that product is in the cart. Choose **All countries** or one country. Save.
+4. At checkout, the shop reads the delivery address and hides the methods the rules do not allow.
 
-This view presents a table of all existing product-payment restrictions you have set up.
+A product with no saved rule does not remove payment methods. **Free order** stays available when it is the only method on a zero-total cart.
 
-| Column Name | Purpose & Impact |
-| --- | --- |
-| **ID** | A unique identifier for each association. |
-| **Product** | The name of the product involved in the restriction. |
-| **Payment** | The name of the payment method that is restricted or allowed for this product. |
-| **Country** | (If applicable) The country for which this restriction applies. If left empty, it applies globally. |
-| **Actions** | Icons to **Edit** (pencil icon) or **Delete** (trash can icon) an existing association. |
+There is no order status in this module. The result is the payment list on the checkout page.
 
-**Recommended workflow for daily store management:**
+### 3.1 Module configuration
 
-- **Review existing rules:** Regularly check this list to ensure your restrictions are up-to-date with your product catalog and business needs.
-- **Identify conflicts:** Look for any overlapping or conflicting rules, especially if you have many products and payment methods.
-- **Use search/filter:** If the list grows large, use any available search or filter options to quickly find specific product or payment restrictions.
+Open **Modules**, **Module Manager**, **Payment options by products**, **Configure**.
 
-#### 2.2.2 Adding or Editing a “Payment - Product association”
+Two notes sit at the top. The first link opens **Payment - Product associations**. The second tells you to use the **Payment methods** tab on the product. Neither note saves a rule.
 
-To add a new restriction, you’ll typically find an “Add new” button on the list view. When editing, you click the pencil icon next to an existing entry. This will open a form with the following fields:
+If overrides are disabled, a yellow warning says: “Overrides are disabled. Checkout filtering still runs through the payment options hook.” Leave overrides off if you only need PrestaShop 8 or 9. Turn them on under **Advanced Parameters**, **Performance**, only if you also need the older checkout override.
 
-| Form Field | What this setting does | Effect of changing this setting | Recommended value | Merchant scenario / example |
-| --- | --- | --- | --- | --- |
-| **ID Product** | This field allows you to select the specific product you want to associate with payment restrictions. | When you select a product, the module will apply the chosen payment restrictions whenever this product is in a customer’s cart. | Select the exact product from your catalog. Use the search functionality if you have many products. | You sell “Digital Ebook: Marketing Guide”. You want to ensure it’s only paid via PayPal or Credit Card, not Cash on Delivery. You select this product here. |
-| **Payment methods** | This is a list of all active payment methods in your PrestaShop store. You select which payment methods are **allowed** for the chosen product. | - *When you select one or more payment methods:* Only these selected methods will be available at checkout if the associated product is in the cart. All other payment methods will be hidden.   - *When you select NO payment methods:* This effectively means the product cannot be purchased, or it will inherit rules from other products in the cart. It’s generally not recommended to leave this empty unless you have a very specific use case. | Select all payment methods that are acceptable for the chosen product. | For “Digital Ebook: Marketing Guide”, you check “PayPal” and “Credit Card”. If a customer buys this ebook, only these two options will appear at checkout. |
-| **Country** | (Optional) This field allows you to specify a country for which this particular product-payment restriction applies. | - *When a country is selected:* The restriction (product + allowed payments) will only apply if the customer’s shipping address is in the selected country.   - *When left empty:* The restriction applies globally, regardless of the customer’s country. | Leave empty for global application, or select a specific country if the restriction is geographically limited. | You sell “Fragile Glass Sculpture” which can only be paid via “Bank Transfer” in France due to shipping insurance requirements. You select the sculpture, “Bank Transfer”, and “France”. For customers outside France, other payment methods might still be available for this product (if no other global rules apply). |
-| **Save** | This button saves your new or updated product-payment association. | The changes are immediately applied to your store’s checkout process. | Always click “Save” after making any changes. | After setting up the rules for your “Digital Ebook”, you click “Save” to activate them. |
+The **Settings** panel explains the country rule and the combine mode. The text above the select is the description of the module. It does not save anything by itself.
 
-### 2.3 Configuration Quick Reference Table
+![Settings](https://mypresta.eu/docs/images/docs/pobp-configure-settings.webp)
 
-| Screen / View | Setting / Option | Default / Recommended | Purpose & Impact |
-| --- | --- | --- | --- |
-| Module Configuration Page | (No specific settings detected) | N/A | General module information. |
-| Payment - Product associations (List) | ID | N/A | Unique identifier for the association. |
-| Payment - Product associations (List) | Product | N/A | Name of the product in the association. |
-| Payment - Product associations (List) | Payment | N/A | Name of the payment method in the association. |
-| Payment - Product associations (List) | Country | N/A | Country for which the restriction applies (if any). |
-| Payment - Product associations (Add/Edit Form) | ID Product | Select a product | Specifies the product for which payment methods will be restricted. |
-| Payment - Product associations (Add/Edit Form) | Payment methods | Select all acceptable methods | Defines which payment methods are **allowed** for the selected product. |
-| Payment - Product associations (Add/Edit Form) | Country | Leave empty for global, or select specific | Limits the restriction to a specific country. |
+**Configure**, panel **Settings**. The blue text explains countries. The select is **How to get available payment methods?**.
 
-## 3. Merchant Troubleshooting & Frequently Asked Questions (FAQ)
+| Field | On a new install | What it does |
+|---|---|---|
+| **How to get available payment methods?** | **Show all payment methods from products**, until you save another choice | **Show the same payment methods available for all products in cart** keeps a method only when every restricted product in the cart allows it. **Show all payment methods from products** keeps a method when at least one restricted product allows it. A product without a saved restriction does not remove methods. |
+| **Save** | — | Writes that choice only. It does not edit a product rule. The page reloads with the selected value. |
 
-**Q: I’ve set up a restriction, but all payment methods are still showing at checkout. What’s wrong?**
-A:
+### 3.2 Payment - Product associations
 
-1. **Cache:** Always clear your PrestaShop cache after making changes. Go to **Advanced Parameters > Performance** and click “Clear cache” (or “Clear Smarty cache” in older versions).
-2. **Product in Cart:** Ensure the specific product you’ve restricted is actually in the customer’s shopping cart when testing. The module only applies rules if the product is present.
-3. **Payment Method Enabled:** Double-check that the payment methods you *expect* to see are actually enabled in **Modules > Payment > Payment Methods**. This module filters *enabled* methods, it doesn’t enable them itself.
-4. **Conflicting Rules:** If you have multiple products in the cart, and each has restrictions, the module will only show payment methods that are allowed by *all* restricted products. If there’s no common allowed method, it might appear as if no methods are showing. Review your associations carefully.
+Open **Improve**, **Payment**, **Payment - Product associations**. A note at the top repeats that the same rule is on the product, in the **Payment methods** tab.
 
-**Q: I’ve set up a restriction, and now NO payment methods are showing at checkout!**
-A: This usually happens if:
+The list shows one line per product in the current shop.
 
-1. **No Common Methods:** You have multiple restricted products in the cart, and there are no payment methods that are allowed by *all* of them. For example, Product A allows PayPal, Product B allows Credit Card. If both are in the cart, neither will show. You need to ensure there’s at least one common allowed method.
-2. **Empty Allowed List:** You created an association for a product but didn’t select *any* payment methods as allowed. The module will then hide all methods for that product. Edit the association and select the appropriate payment methods.
+![Payment - Product associations](https://mypresta.eu/docs/images/docs/pobp-associations-list.webp)
 
-**Q: Does this module affect payment methods for products that are NOT in any association?**
-A: No. If a product is not part of any “Payment - Product association,” it does not impose any restrictions. The module only acts on products for which you have explicitly defined rules. If a cart contains only unrestricted products, all your store’s standard enabled payment methods will be displayed.
+**Payment - Product associations** with no rows. The columns are **ID**, **Product**, **Payment** and **Country**. The plus icon is **Add new**.
 
-**Q: How does this module interact with other payment restriction modules (e.g., by customer group, by total amount)?**
-A: This module typically works by overriding PrestaShop’s core `PaymentOptionsFinder` class (as seen in the `override` folder). This means it takes precedence or integrates at a fundamental level. Generally, the most restrictive rule will apply. If another module restricts a payment method, and this module allows it for a product, the payment method will likely still be restricted by the other module. It’s crucial to test thoroughly if you use multiple restriction modules.
+| Column | What you see |
+|---|---|
+| **ID** | The row number. It is not the product ID. |
+| **Product** | Product number and name. |
+| **Payment** | Every method saved for that product, one under another. |
+| **Country** | **All countries**, or the delivery country stored on the row. The column note says a selected country applies only when the delivery address is in that country, and **All countries** applies the rule to every delivery address. |
 
-**Q: Can I restrict payment methods based on country without restricting by product?**
-A: This module’s primary function is product-based restriction. While it has a “Country” field, it applies *to the product-payment association*. If you need purely country-based payment restrictions (regardless of product), you might need a separate module designed for that, or check if your payment gateways offer country restrictions directly.
+**Add new** opens a blank form. **Edit** opens the form for that product. **Delete** removes that one database row, not every method listed in the **Payment** column. **Delete selected** does the same for the ticked lines. To remove the whole rule, open **Edit**, untick every method is not allowed here: this form rejects an empty selection. Delete the remaining rows, or clear the rule from the product tab, where an empty selection is allowed.
 
-## 4. Developer & Webmaster Guide (Technical Architecture & Code Map)
+Search and filters on the list are the standard back-office filters for these columns.
 
-This section provides a technical deep dive into the “Payment methods by products” module for developers and webmasters.
+### 3.3 Association form
 
-### 4.1 Architecture Overview
+On **Add new** or **Edit**:
 
-The module primarily extends PrestaShop’s core payment option discovery mechanism. It leverages an `override` to modify the `PaymentOptionsFinder` class, which is responsible for determining available payment methods during checkout. This allows the module to inject its product-based filtering logic directly into the payment option retrieval process, ensuring seamless integration with PrestaShop’s checkout flow.
-The module follows a standard PrestaShop MVC pattern for its Back Office management, using an AdminController to manage the `pobp` entity (Product-Payment Association).
+![Association form](https://mypresta.eu/docs/images/docs/pobp-associations-form.webp)
 
-### 4.2 Controllers (`controllers/`)
+**Add new**, filled for this picture and not saved. **ID Product** is 1. **Payment methods** and **Country** (**All countries**) are on this form.
 
-- **Front-Office Controllers**: None. The module’s front-office functionality is handled via an override of a core class, not a dedicated front controller.
-- **Back-Office Admin Controllers**:
+| Field | On a new install | What it does |
+|---|---|---|
+| **ID Product** | Empty on a new row. Filled on edit. | Type the product number, or use **Search** to fill it. The help says to search by name, ID or reference. **Save** without a product shows “Product is required.” and does not write a rule. |
+| **Payment methods** | Unticked on a new row. On edit, the methods already saved for this product are ticked. | Tick the methods that stay available at checkout when the cart contains this product and the delivery country matches the country below. The label shows the payment module name. |
+| **Country** | **All countries** | If you select a country, the ticked methods apply only when the customer delivery address is in that country. **All countries** applies them to every delivery address. |
+| **Save** | — | Replaces every method stored for this product in the current shop with the ticks and the country on this form. If no method is ticked, the page shows “There was a problem with form. No payment method selected” and the previous rows stay. |
 
-  - `pobp/controllers/admin/AdminPobpController.php`
-    - **Class Name & Parent Class**: `AdminPobpController` extends `ModuleAdminController`.
-    - **Tab Name**: This controller manages the “Payment - Product associations” entity. It’s likely registered as a sub-tab under the module’s main configuration.
-    - **Responsibility**: This is the main CRUD (Create, Read, Update, Delete) controller for the product-payment associations. It handles:
-      - Displaying the list of existing associations (ID, Product, Payment, Country).
-      - Providing the form for adding new associations or editing existing ones.
-      - Processing form submissions to save new or updated associations to the database.
-      - Handling deletion of associations.
-      - The form fields “ID Product”, “Payment methods”, and “Country” are managed here.
-  - `pobp/controllers/admin/index.php`
-    - This file is typically an empty placeholder or contains basic security measures (e.g., `<?php header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT"); header("Cache-Control: no-store, no-cache, must-revalidate"); header("Cache-Control: post-check=0, pre-check=0", false); header("Pragma: no-cache"); header("Location: ../"); exit;`). It does not represent a functional controller view itself but ensures direct access to the `controllers/admin` directory is redirected.
+One product has one country. Saving again replaces the previous methods for that product in this shop. Rules in another shop are left as they are. Switch the shop context before you edit that shop.
 
-### 4.3 Core Classes & Models (`classes/`)
+### 3.4 Product page
 
-- `pobp/override/classes/checkout/PaymentOptionsFinder.php`
-  - **Purpose**: This is a critical override file. It modifies the core PrestaShop class responsible for finding and returning available payment options during checkout.
-  - **Class Name & Parent Class**: `PaymentOptionsFinder` (overrides the original `PaymentOptionsFinder` class).
-  - **Key Logic**: The overridden `getPaymentOptions()` method (or a similar method) will contain the module’s core logic.
-    - It retrieves the products currently in the customer’s cart.
-    - For each product, it checks if there are any defined “Payment - Product associations” in the module’s database.
-    - It then filters the initially available payment options (returned by the parent `getPaymentOptions()` method) based on these associations.
-    - The filtering logic ensures that only payment methods explicitly allowed for *all* restricted products in the cart are returned. If a product has no association, it doesn’t restrict anything. If multiple products have associations, the intersection of allowed payment methods is used.
-  - **Database Interaction**: This class will query the module’s custom database table (likely `ps_pobp` or similar) to fetch the product-payment associations.
+Open **Catalog**, **Products**, edit the product, then the **Payment methods** tab.
 
-### 4.4 JavaScript Assets (`views/js/`)
+![Payment methods on the product](https://mypresta.eu/docs/images/docs/pobp-product-tab.webp)
 
-No specific JavaScript files were detected in the provided inventory. Any dynamic behavior in the Back Office (like product search in the association form) is likely handled by PrestaShop’s core JS or a minimal inline script.
+Product Hummingbird printed t-shirt, tab **Payment methods**. **Country** and **Available payment methods** are here. The ticks are only on this picture. The product was not saved.
 
-### 4.5 CSS Stylesheets (`views/css/`)
+| Field | On a new install | What it does |
+|---|---|---|
+| **Country** | **All countries** when the product has no rule. Otherwise the country already saved. | If you select a country, the checked payment methods apply only when the customer delivery address is in that country. **All countries** applies them to every delivery address. |
+| **Available payment methods** | Unticked when the product has no rule. Otherwise the methods already saved are ticked. | Checked methods stay available at checkout when the cart contains this product and the delivery country matches the country above. Leave all unchecked to remove the restriction for this product. |
 
-No specific CSS files were detected in the provided inventory. Styling for the Back Office forms and lists is likely inherited from PrestaShop’s default admin theme.
+Click **Save** on the product. PrestaShop confirms the product save. The payment rule is stored with that save, for the shop you are editing. An empty set of ticks deletes the rule for this product in this shop. That is different from the association form, which refuses to save when nothing is ticked.
 
-### 4.6 Smarty Template Structure (`views/templates/`)
+The same data is what **Payment - Product associations** lists.
 
-- **Hook templates (`views/templates/hook/`)**: None explicitly listed, as the module operates via an override rather than direct hook rendering in the front office.
-- **Admin templates (`views/templates/admin/`)**:
-  - `pobp/lib/searchTool/views/scripts.tpl`
-    - **Purpose**: This template likely contains JavaScript or Smarty logic related to a search tool used within the Back Office, possibly for searching products when creating or editing an association. It might include AJAX calls or dynamic filtering for product selection.
-- **Front-office templates (`views/templates/front/`)**: None.
+### 3.5 MyPresta updates
 
-### 4.7 Database Schema & Hooks Map
+On **Configure**, under the settings, the **MyPresta Updates** panel checks for a newer file. It does not install it.
 
-- **Database Tables**:
+![MyPresta Updates](https://mypresta.eu/docs/images/docs/pobp-updates.webp)
 
-  - The module will create at least one custom table during its `install()` method (defined in `pobp/index.php`).
-  - **`ps_pobp` (or similar name, e.g., `ps_payment_by_product_association`)**:
-    - This table stores the actual product-payment associations.
-    - Expected columns:
-      - `id_pobp` (Primary Key, INT)
-      - `id_product` (INT, foreign key to `ps_product`)
-      - `id_payment_module` (INT, foreign key to `ps_module` or `ps_payment_module` if such a table exists, or simply stores the module’s name/ID)
-      - `id_country` (INT, foreign key to `ps_country`, nullable for global rules)
-      - Other potential columns for settings or timestamps.
-  - Configuration values (if any were present in `getContent()`) would be stored in `ps_configuration`.
-- **Registered Hooks Table**:
-  The module’s core functionality relies on the `override` mechanism rather than direct hook execution for its primary filtering. However, for its Back Office integration and potentially for future features, it might register standard hooks.
+**MyPresta Updates**, under the settings on **Configure**.
 
-  | Hook Name | Execution Timing | Technical Purpose |
-  | --- | --- | --- |
-  | `displayAdminProductsExtra` | On the product edit page in the Back Office. | Could be used to display a quick link or a summary of payment restrictions for the current product. (Not explicitly detected but a common integration point). |
-  | `actionPaymentOptionsModifier` | During the payment options retrieval process. | This hook is specifically designed for modules to modify the list of payment options. The override of `PaymentOptionsFinder` effectively achieves a similar result at a lower level. |
-  | `actionModuleInstall` | When the module is installed. | To create database tables and register necessary hooks. |
-  | `actionModuleUninstall` | When the module is uninstalled. | To clean up database tables and unregister hooks. |
+| Field | On a new install | What it does |
+|---|---|---|
+| **Check updates** | — | **Check now** asks MyPresta.eu whether a newer file exists. The line above the button shows that a new version is available, or that the module is up to date. It does not download or install the file. |
+| **Updates notifications** | Enabled, until you save **Disable** | **Enable** shows a back-office warning when a newer version is published. **Disable** stops that automatic check. **Save** stores the choice and shows “Update settings saved.” |
+| **Module page** | — | Opens the module page on MyPresta.eu, where the changelog is published. It does not save a setting. |
+| **Save** | — | Stores **Updates notifications** only. |
 
-## 5. Official Support & Updates
+## 4. Shop front
 
-For official updates, technical support, and to ensure you have the latest compatible version of the “Payment methods by products” module, please refer to your customer account at [MyPresta.eu](https://mypresta.eu/my-account/orders/). Our support team is available to assist with any issues or questions regarding the module’s functionality and integration.
+The module does not add a block, a page or a message on the product, the cart or the customer account. There is nothing to theme on those pages.
+
+The customer sees the effect on the checkout payment step. Methods that the rules do not allow are missing from the list. Methods with no rule, and **Free order** when it is the only choice, stay.
+
+The country is the country of the delivery address. Before a delivery address exists, only rules set to **All countries** apply. A rule for one country waits until the delivery address is in that country.
+
+## 5. Problems
+
+**The payment list did not change.** The product has no saved rule, or every product in the cart has no rule. Open the product, **Payment methods**, tick the methods, and save the product. A product with nothing ticked does not limit checkout.
+
+**A method disappeared for one country only.** The rule country is not **All countries**, and the delivery address is in the selected country. Set **All countries** if the rule must apply to every delivery address.
+
+**A method is still offered.** Another product in the cart allows it, and **How to get available payment methods?** is **Show all payment methods from products**. Switch to **Show the same payment methods available for all products in cart** if the method must be allowed by every restricted product. A product with no rule does not block it.
+
+**Checkout shows “Overrides are disabled…” on the configuration page, and you are not sure filtering runs.** On PrestaShop 8 and 9 the filter still runs. The yellow text says the checkout hook does the filtering. Turn overrides on only if you also rely on the older override file.
+
+**Save on Payment - Product associations shows “Product is required.”** The product field is empty. Search for the product or type its number, then click **Save** again.
+
+**Save on Payment - Product associations shows “There was a problem with form. No payment method selected”.** No method is ticked. Tick at least one. The previous rule was not replaced. To remove a rule completely, use the product **Payment methods** tab and save with nothing ticked.
+
+**Delete on the list removed only one method.** **Delete** removes the single row behind that line, while the **Payment** column prints every method. Open **Edit** and **Save** to rewrite the full set, or delete until the product disappears from the list.
+
+**Free order is the only method and the rule does not list it.** A zero-total cart keeps **Free order**. The module does not remove that single method.
+
+**The rule saved in one shop is missing in another.** Rules are stored per shop. Switch the shop in the multistore header and save the rule there.
+
+## 6. For the developer
+
+### 6.1 Overview
+
+Main class `pobp`, version `1.4.0`, display name **Payment options by products**, author MyPresta.eu, tab `administration`. Compliancy `1.7.0.0` to `9.99.99`.
+
+A row in `ps_pobp` is one allowed payment module for one product, one shop and one country (`id_country` `0` means every country). Checkout reads the cart products and the delivery address in `pobp::filterPaymentOptions()`. The hook `actionPresentPaymentOptions` unsets module keys that the filter removed. The override `PaymentOptionsFinder::find()` returns the same filter when the module is enabled, so older checkouts that call `find()` and not the hook get the same list. `pobp_innerjoin` truthy means the intersection of restricted products. Any other value, including a missing key, means the union. Products with no matching rows are ignored. The key `free_order` is never removed, and a payment list that contains only `free_order` is returned unchanged.
+
+### 6.2 Files
+
+| File | Role |
+|---|---|
+| `pobp.php` | Install, settings form, checkout filter, product-form tab. |
+| `lib/updatesChecker.php` | Class `pobpUpdate`. Update check and the MyPresta Updates form. |
+| `lib/searchTool/searchTool.php` | Product search on the association form. |
+| `models/pob.php` | ObjectModel `pob` and `replaceForProduct()`. |
+| `controllers/admin/AdminPobpController.php` | Association list and form. |
+| `override/classes/checkout/PaymentOptionsFinder.php` | `find()` delegates to `filterPaymentOptions()`. |
+| `upgrade/upgrade-1.4.0.php` | Calls `ensureModuleComplements()` and stores `POBP_VERSION`. |
+| `translations/pl.php` | Polish strings. |
+
+There is no front controller and no front template.
+
+### 6.3 Controllers
+
+`AdminPobpController` extends `ModuleAdminController`. Tab class `AdminPobp`, parent `AdminParentPayment`, or `IMPROVE` when that parent is missing. Icon `credit_card`. Visible name **Payment - Product associations**.
+
+The list groups with a subquery on `MIN(id_pobp)` per product and shop, so one line is shown. `processAdd()` and `processUpdate()` call `pob::replaceForProduct()`. An empty payment set or a missing product returns false and does not replace rows. Strings use `$this->module->l(..., 'AdminPobpController')`.
+
+The module configuration is `getContent()` on `pobp`, not a separate controller.
+
+### 6.4 Hooks
+
+Registered in `registerHooks()`:
+
+| Hook | Role |
+|---|---|
+| `actionPresentPaymentOptions` | Unsets payment modules removed by the filter. The array is edited in place. |
+| `actionProductFormBuilderModifier` | Adds the `pobp` tab (country and payments) on the product form. |
+| `actionAfterUpdateProductFormHandler` | Writes `form_data['pobp']` for the saved product. |
+| `actionAfterCreateProductFormHandler` | Same write after a product is created. |
+
+There is no custom `enable()` or `disable()`. Disabling the module unregisters the hooks. The override still loads and returns the parent list when `Module::isEnabled('pobp')` is false.
+
+The first back-office load after an upload calls `ensureModuleComplements()` when `POBP_VERSION` differs from the file version. That refreshes the table, the hooks, the menu and the override.
+
+### 6.5 Overrides
+
+`override/classes/checkout/PaymentOptionsFinder.php` replaces `find()` only. It does not override `present()` or `findFree()`.
+
+### 6.6 Database
+
+| Table | Contents |
+|---|---|
+| `ps_pobp` | `id_pobp`, `id_product`, `id_payment` (module id), `id_shop`, `id_country`. `id_country` is added by `inconsistency()` when the column is missing. `0` means every country. |
+
+Uninstall does not drop `ps_pobp`. Install uses `CREATE TABLE IF NOT EXISTS`, so a new install keeps old rows.
+
+### 6.7 Keys and translations
+
+| Key | When missing |
+|---|---|
+| `pobp_innerjoin` | Treated as off. Checkout uses the union of restricted products. |
+| `POBP_VERSION` | The next back-office request runs `ensureModuleComplements()` and then stores the file version. |
+| `mypresta_updates` | Treated as on. Set to `0` to stop the automatic update check. Shared with other MyPresta modules. |
+| `update_pobp` | Last check timestamp. |
+| `updatev_pobp` | Version string returned by the update server. |
+
+Shop strings go through `$this->l()`. The updates panel uses the source `updatesChecker`. The association controller uses the source `AdminPobpController`. Polish is `translations/pl.php`. Add another language as `translations/{iso}.php` with the same key shape.
+
+`key.php` in the module folder may set `$this->mkey`. If the file is missing, the update check sends `nlc`.
+
+### 6.8 Extending
+
+The front office does not render a module template, so the theme has nothing to override for this module. To change the checkout list, keep using the payment-option hook or the `PaymentOptionsFinder` override. To change the product tab, extend `hookActionProductFormBuilderModifier` and keep the `pobp` form keys, or the save hook will ignore the post.
+
+## 7. Help
+
+Module page: [https://mypresta.eu/modules/payment-process/payment-methods-by-products.html](https://mypresta.eu/modules/payment-process/payment-methods-by-products.html)
+
+To write about this module, log in to your customer account on mypresta.eu, open the contact form and choose **Support for paid modules**. The form says that login is required for that topic. After you log in, choose this module from your purchase history.
