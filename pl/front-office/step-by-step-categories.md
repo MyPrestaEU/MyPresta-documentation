@@ -1,8 +1,8 @@
 ---
-title: "Krok po kroku - kategorie - Podręcznik Sprzedawcy i Przewodnik Konfiguracji"
-description: "Kompletny podręcznik użytkownika, przewodnik konfiguracji krok po kroku oraz odniesienie dla programistów dla modułu PrestaShop „Krok po kroku - kategorie” od MyPresta.eu."
+title: Filtr kategorii krok po kroku - dokumentacja i instrukcja użytkownika
 sidebar:
-  label: "Krok po kroku - kategorie - Podręcznik Sprzedawcy i Przewodnik Konfiguracji"
+  label: Filtr kategorii krok po kroku - dokumentacja i instrukcja użytkownika
+description: Instrukcja konfiguracji i rozwiązywania problemów dla sklepów, które mają już filtr kategorii krok po kroku.
 ---
 
 > ⚠️ **Notice:** This is the oficjalna dokumentacja modułu PrestaShop.
@@ -12,159 +12,234 @@ sidebar:
 > ---
 
 
-# Krok po kroku - kategorie
+## 1. Wymagania
 
-## 1. Wymagania i kompatybilność
+Moduł działa w PrestaShop. Nie potrzebuje innego modułu ani konta w zewnętrznym serwisie.
 
-- **Obsługiwane wersje PrestaShop**: PrestaShop 1.5.x, 1.6.x, 1.7.x, 8.x, 9.x
-- **Kompatybilność z PHP**: PHP 5.6 - 8.5
-- **Wymagania hostingowe**: Standardowe rozszerzenia PHP (cURL, JSON, OpenSSL) są zazwyczaj wystarczające. Brak specjalnych wymagań serwerowych poza standardowym środowiskiem hostingowym PrestaShop.
+- PrestaShop od 1.6.0.0 wzwyż, w tym PrestaShop 8 i 9.
+- PHP w wersji wymaganej przez tę wersję PrestaShop. Sprawdzenie aktualizacji używa cURL, gdy PHP je ma, a w przeciwnym razie pobiera odpowiedź zwykłym odczytem adresu. Do list rozwijanych nie instalujesz osobnego rozszerzenia.
+- Żaden inny moduł nie jest wymagany.
+- W multisklepie blok może należeć do jednego sklepu albo do wszystkich sklepów.
 
-## 2. Kompletny przewodnik konfiguracji (każde ustawienie pogrupowane według ekranu)
+## 2. Instalacja
 
-### 2.1 Strona konfiguracji modułu (Panel administracyjny > Moduły > Konfiguruj)
+1. W zapleczu otwórz **Moduły**, potem **Menedżer modułów**.
+2. Wgraj paczkę zip i kliknij **Zainstaluj**.
+3. Otwórz **Konfiguruj** przy **Step By Step - categories tree**. Na stronie są **Blocks**, **Settings** i **Updates**. **Blocks** to lista zestawów list. Pierwsze wejście tworzy ukrytą stronę tej listy. Nie pojawia się ona jako własna pozycja w lewym menu.
+4. Instalacja nie czyści cache osobnym krokiem. Gdy po aktualizacji sklep dalej pokazuje stary układ, wyczyść cache w **Zaawansowane**, **Wydajność**.
 
-Po instalacji kliknięcie „Konfiguruj” przeniesie Cię do głównego ekranu konfiguracji modułu „Krok po kroku - kategorie”. Tutaj kontrolujesz, jak moduł działa i wygląda w Twoim sklepie.
+Odinstalowanie usuwa tę ukrytą stronę. Bloki, tytuły, etykiety i dwa przełączniki globalne zostają w bazie. Po ponownej instalacji te same bloki są dostępne. Wejdź raz w **Konfiguruj**, żeby strona listy została zarejestrowana.
 
-| Ustawienie / Opcja | Co robi to ustawienie | Efekt zmiany tego ustawienia | Zalecana wartość | Scenariusz / przykład dla sprzedawcy |
-| --- | --- | --- | --- | --- |
-| **Wyświetl blok w nagłówku** | Kontroluje, czy nawigacja kategorii krok po kroku pojawia się w sekcji nagłówka Twojego sklepu. | *Gdy włączone:* Rozwijane listy kategorii będą widoczne na górze Twojej strony internetowej, często w pobliżu logo lub głównej nawigacji. Zapewnia to natychmiastowy dostęp do filtrowania kategorii. *Gdy wyłączone:* Blok nie pojawi się w nagłówku. | **TAK** (jeśli chcesz widocznej nawigacji) | Chcesz, aby klienci łatwo znajdowali produkty z dowolnej strony, więc umieszczenie go w nagłówku sprawia, że jest zawsze dostępny. |
-| **Wyświetl blok w lewej kolumnie** | Kontroluje, czy nawigacja kategorii krok po kroku pojawia się w lewym pasku bocznym Twojego sklepu. | *Gdy włączone:* Rozwijane listy kategorii będą widoczne w lewej kolumnie Twojej strony internetowej (jeśli Twój motyw obsługuje lewą kolumnę). Jest to tradycyjne umiejscowienie dla filtrów kategorii. *Gdy wyłączone:* Blok nie pojawi się w lewej kolumnie. | **TAK** (jeśli Twój motyw ma lewą kolumnę i chcesz nawigacji w pasku bocznym) | Twój motyw ma lewy pasek boczny, a Ty wolisz, aby elementy nawigacji były tam uporządkowane, podobnie jak standardowe drzewo kategorii. |
-| **Wyświetl blok w prawej kolumnie** | Kontroluje, czy nawigacja kategorii krok po kroku pojawia się w prawym pasku bocznym Twojego sklepu. | *Gdy włączone:* Rozwijane listy kategorii będą widoczne w prawej kolumnie Twojej strony internetowej (jeśli Twój motyw obsługuje prawą kolumnę). *Gdy wyłączone:* Blok nie pojawi się w prawej kolumnie. | **NIE** (chyba że Twój motyw specjalnie używa prawej kolumny do nawigacji) | Twój motyw używa prawej kolumny do informacji uzupełniających, a Ty chcesz umieścić tam nawigację kategorii zamiast w lewej. |
-| **Wyświetl blok w stopce** | Kontroluje, czy nawigacja kategorii krok po kroku pojawia się w sekcji stopki Twojego sklepu. | *Gdy włączone:* Rozwijane listy kategorii będą widoczne na dole Twojej strony internetowej. Jest to mniej powszechne dla głównej nawigacji, ale może być przydatne dla dodatkowego dostępu. *Gdy wyłączone:* Blok nie pojawi się w stopce. | **NIE** (chyba że z konkretnych powodów projektowych) | Masz bardzo minimalistyczny nagłówek i kolumny, a chcesz zaoferować nawigację kategorii w stopce jako alternatywę dla użytkowników, którzy przewijają w dół. |
-| **Wyświetl blok na stronie produktu** | Kontroluje, czy nawigacja kategorii krok po kroku pojawia się na poszczególnych stronach produktów. | *Gdy włączone:* Rozwijane listy kategorii będą widoczne na stronach szczegółów produktu. Może to pomóc klientom w eksploracji innych kategorii lub powiązanych produktów. *Gdy wyłączone:* Blok nie pojawi się na stronach produktów. | **NIE** (chyba że masz konkretną potrzebę, aby tam był) | Chcesz zachęcić klientów przeglądających produkt do łatwego przechodzenia do innych kategorii bez opuszczania strony produktu, być może w celu porównania przedmiotów. |
-| **Pokaż przycisk „Idź”** | Określa, czy przycisk „Idź” lub „Szukaj” jest wyświetlany obok ostatniej rozwijanej listy kategorii. | *Gdy włączone:* Pojawi się przycisk. Klienci muszą kliknąć ten przycisk, aby zostać przekierowani na wybraną stronę kategorii. *Gdy wyłączone:* Klienci są automatycznie przekierowywani na wybraną stronę kategorii, gdy tylko dokonają ostatecznego wyboru w ostatniej rozwijanej liście. | **TAK** (dla większej kontroli) | Chcesz, aby klienci potwierdzili swój wybór kategorii przed przekierowaniem, dając im szansę na przejrzenie swojego wyboru. |
-| **Liczba rozwijanych list** | Ustawia maksymalną liczbę poziomów kategorii (głębokość), które będą wyświetlane jako rozwijane listy. | *Gdy ustawione na 1:* Tylko kategorie najwyższego poziomu pojawią się w jednej rozwijanej liście. *Gdy ustawione na 3:* Wyświetlone zostaną do trzech poziomów kategorii (np. Kategoria główna > Podkategoria 1 > Podkategoria 2) w oddzielnych rozwijanych listach. | **3** (lub w zależności od głębokości Twoich kategorii) | Twój sklep ma kategorie zagnieżdżone do 3 lub 4 poziomów głębokości, a Ty chcesz, aby klienci mogli efektywnie drążyć w dół. |
-| **Kategoria główna** | Określa punkt początkowy dla nawigacji kategorii. Wyświetlane będą tylko kategorie w ramach tej kategorii głównej. | *Gdy ustawione na „Strona główna”:* Dostępne będą wszystkie kategorie, począwszy od samego szczytu Twojego katalogu. *Gdy ustawione na „Elektronika”:* W rozwijanych listach będą wyświetlane tylko kategorie pod „Elektroniką” (np. „Laptopy”, „Smartfony”). | **Strona główna** (chyba że chcesz ograniczyć nawigację) | Chcesz oferować nawigację krok po kroku tylko dla konkretnej części swojego katalogu, takiej jak „Odzież”, i wykluczyć inne sekcje, takie jak „Dom i ogród”. |
+Poza zwykłym wyłącznikiem modułu w **Menedżerze modułów** nie ma osobnej akcji włączania. Wyłączenie modułu chowa listy na sklepie i zostawia zapisane bloki.
 
-### 2.2 Tabela szybkiego odniesienia do konfiguracji
+## 3. Konfiguracja i praca w zapleczu
 
-| Ekran / Widok | Ustawienie / Opcja | Domyślne / Zalecane | Cel i wpływ |
-| --- | --- | --- | --- |
-| Konfiguracja modułu | Wyświetl blok w nagłówku | TAK | Pokazuje rozwijane listy kategorii w nagłówku sklepu dla widocznej nawigacji. |
-| Konfiguracja modułu | Wyświetl blok w lewej kolumnie | TAK | Pokazuje rozwijane listy kategorii w lewym pasku bocznym dla tradycyjnej nawigacji. |
-| Konfiguracja modułu | Wyświetl blok w prawej kolumnie | NIE | Pokazuje rozwijane listy kategorii w prawym pasku bocznym. |
-| Konfiguracja modułu | Wyświetl blok w stopce | NIE | Pokazuje rozwijane listy kategorii w stopce sklepu. |
-| Konfiguracja modułu | Wyświetl blok na stronie produktu | NIE | Pokazuje rozwijane listy kategorii na stronach szczegółów produktu. |
-| Konfiguracja modułu | Pokaż przycisk „Idź” | TAK | Wymaga od klientów kliknięcia przycisku, aby przejść do wybranej kategorii. |
-| Konfiguracja modułu | Liczba rozwijanych list | 3 | Ustawia maksymalną głębokość wyświetlanych poziomów kategorii. |
-| Konfiguracja modułu | Kategoria główna | Strona główna | Definiuje punkt początkowy dla nawigacji kategorii. |
+Tworzysz blok, ustawiasz głębokość drzewa i miejsce na sklepie. Klient wybiera kategorię. Kolejna lista ładuje jej dzieci. **ok** otwiera wybraną kategorię albo produkt, gdy lista produktów jest włączona.
 
-## 3. Rozwiązywanie problemów dla sprzedawców i często zadawane pytania (FAQ)
+### 3.1 Strona konfiguracji modułu
 
-**P1: Moduł jest zainstalowany, ale nie widzę rozwijanych list w moim sklepie.**
-O1:
+Wejdź w **Moduły**, **Menedżer modułów**, **Step By Step - categories tree**, **Konfiguruj**.
 
-- **Sprawdź konfigurację:** Przejdź do **Moduły > Menedżer modułów > Krok po kroku - kategorie > Konfiguruj**. Upewnij się, że co najmniej jedna opcja „Wyświetl blok w…” (np. „Wyświetl blok w nagłówku”, „Wyświetl blok w lewej kolumnie”) jest ustawiona na **TAK**.
-- **Wyczyść pamięć podręczną:** PrestaShop często buforuje zawartość. Przejdź do **Zaawansowane > Wydajność** i kliknij „Wyczyść pamięć podręczną” (lub „Wyczyść pamięć podręczną Smarty” w starszych wersjach).
-- **Kompatybilność z motywem:** Niektóre wysoce spersonalizowane motywy mogą wymagać drobnych dostosowań. Jeśli wyczyszczenie pamięci podręcznej nie pomoże, spróbuj tymczasowo przełączyć się na domyślny motyw PrestaShop, aby sprawdzić, czy moduł się pojawi. Jeśli tak, Twój motyw może nadpisywać standardowe pozycje haków.
+Zrzuty w tym rozdziale są z angielskiego zaplecza. Napisy na ekranie zostają po angielsku.
 
-**P2: Rozwijane listy pojawiają się, ale nie aktualizują się po wybraniu kategorii.**
-O2:
+![Ustawienia](https://mypresta.eu/docs/images/docs/stepbystep-configure-settings.webp)
 
-- **Problemy z AJAX:** Zazwyczaj wskazuje to na błąd JavaScript. Otwórz konsolę programisty przeglądarki (F12) i sprawdź, czy w zakładce „Konsola” nie ma żadnych błędów.
-- **Konfliktujący JavaScript:** Inny moduł lub JavaScript Twojego motywu może powodować zakłócenia. Spróbuj wyłączyć inne moduły front-office jeden po drugim, aby zidentyfikować konflikty.
-- **Pliki modułu:** Upewnij się, że wszystkie pliki modułu zostały poprawnie przesłane i nie są uszkodzone. Ponowne przesłanie modułu może rozwiązać ten problem.
+Na górze są **Blocks**, **Settings** i **Updates**. **Blocks** wychodzi z tej strony i otwiera listę bloków. **Settings** jest zakładką startową. Pod paskiem jest zdanie, że te opcje dotyczą każdego bloku, a same bloki edytuje się w **Blocks**.
 
-**P3: Jak zmienić styl (kolory, czcionki, rozmiar) rozwijanych list?**
-O3:
+Ekran zaplecza jest po angielsku. Nazwy poniżej są z tego ekranu.
 
-- Moduł używa standardowego CSS. Będziesz potrzebować podstawowej wiedzy o CSS lub pomocy webmastera.
-- Pliki CSS modułu (np. `sbs-block.css`, `sbs-header.css`) definiują domyślne style.
-- **Najlepsza praktyka:** NIE modyfikuj bezpośrednio plików CSS modułu, ponieważ Twoje zmiany zostaną utracone podczas aktualizacji. Zamiast tego użyj niestandardowego pliku CSS swojego motywu (często znajdującego się w `themes/yourtheme/assets/css/custom.css` lub podobnym), aby nadpisać style modułu. Użyj inspektora przeglądarki (F12), aby zidentyfikować klasy CSS używane przez rozwijane listy.
+| Pole | Na starcie | Co robi |
+|---|---|---|
+| **Reset search fields** | No | Yes czyści listy po wyszukaniu. No zostawia kategorie wybrane przez odwiedzającego. Przeglądarka trzyma ten wybór przez 30 minut. |
+| **Include Select2 library** | No | Yes ładuje dodatkowy skrypt i arkusz używany przez **Search inside dropdown** na bloku. No zostawia zwykłe listy. |
 
-**P4: Moje kategorie są bardzo głębokie, ale widzę tylko kilka rozwijanych list.**
-O4:
+Kliknij **Save**. Strona pokazuje **Settings saved.**
 
-- **Ustawienie „Liczba rozwijanych list”:** Przejdź do **Moduły > Menedżer modułów > Krok po kroku - kategorie > Konfiguruj** i dostosuj ustawienie „Liczba rozwijanych list”. Zwiększ tę wartość, aby odpowiadała maksymalnej głębokości kategorii, które chcesz wyświetlić. Pamiętaj, że wyświetlanie zbyt wielu rozwijanych list może zaśmiecić interfejs.
+![Aktualizacje](https://mypresta.eu/docs/images/docs/stepbystep-configure-updates.webp)
 
-**P5: Moduł pokazuje kategorie, których nie chcę uwzględniać w nawigacji krok po kroku.**
-O5:
+**Updates** to formularz **MyPresta updates**.
 
-- **Ustawienie „Kategoria główna”:** W konfiguracji modułu użyj ustawienia „Kategoria główna”. Wybierz konkretną kategorię nadrzędną, od której chcesz rozpocząć nawigację krok po kroku. Wyświetlane będą tylko kategorie i podkategorie pod wybraną kategorią główną.
+| Pole | Na starcie | Co robi |
+|---|---|---|
+| **Manual check** | przycisk **Check now** | Pyta MyPresta, czy jest nowsze wydanie. **New version available!** prowadzi do listy zmian. **Module is up to date!** znaczy, że ta instalacja jest zgodna z opublikowanym wydaniem. Przycisk nie wgrywa zipa. |
+| **Automatic notifications** | Enabled | Enabled powtarza to sprawdzenie mniej więcej co 3 dni, gdy pracujesz w zapleczu. Disabled je pomija. |
+| **Product page** | link do strony modułu | Otwiera stronę Step by Step na mypresta.eu. |
 
-## 4. Przewodnik dla programistów i webmasterów (architektura techniczna i mapa kodu)
+**Save** pokazuje **Update settings saved.** Nowy zip wgrywasz w **Menedżerze modułów**, gdy pojawi się nowsze wydanie.
 
-### 4.1 Przegląd architektury
+### 3.2 Lista bloków
 
-Moduł „Krok po kroku - kategorie” to przede wszystkim funkcja front-office wykorzystująca architekturę modułów PrestaShop. Wykorzystuje standardową klasę `Module` do instalacji i konfiguracji oraz klasy `ModuleFrontController` do obsługi żądań AJAX do dynamicznego ładowania kategorii. Nie wprowadza niestandardowych klas `ObjectModel` ani tabel baz danych, polegając na natywnym obiekcie `Category` PrestaShop do danych. Moduł intensywnie wykorzystuje szablony Smarty do renderowania i JavaScript do interaktywnej funkcjonalności AJAX.
+Otwórz **Blocks**. Pod paskiem jest zdanie, że każdy blok to jeden zestaw list.
 
-### 4.2 Kontrolery (`controllers/`)
+![Lista bloków](https://mypresta.eu/docs/images/docs/stepbystep-blocks-list.webp)
 
-- **Kontrolery Front-Office**:
-  - `controllers/front/ajaxload.php`
-    - Nazwa klasy: `StepbystepAjaxloadModuleFrontController`
-    - Klasa nadrzędna: `ModuleFrontController`
-    - Odpowiedzialność: Ten kontroler jest rdzeniem funkcjonalności AJAX. Odpowiada na żądania z JavaScriptu front-office w celu pobrania podkategorii na podstawie ID kategorii nadrzędnej. Zazwyczaj zwraca dane JSON zawierające nazwy i ID kategorii do wypełniania kolejnych rozwijanych list.
-  - `controllers/front/index.php`
-    - Nazwa klasy: `StepbystepIndexModuleFrontController`
-    - Klasa nadrzędna: `ModuleFrontController`
-    - Odpowiedzialność: Ten kontroler prawdopodobnie służy jako domyślny punkt wejścia lub rezerwowy dla routingu front-office modułu, chociaż jego główna funkcja może być minimalna, biorąc pod uwagę charakter oparty na AJAX. Może obsługiwać początkową logikę wyświetlania lub przekierowania, gdyby moduł miał dedykowaną stronę.
-  - `controllers/front/tree.php`
-    - Nazwa klasy: `StepbystepTreeModuleFrontController`
-    - Klasa nadrzędna: `ModuleFrontController`
-    - Odpowiedzialność: Ten kontroler może być odpowiedzialny za renderowanie pełnej struktury drzewa kategorii, potencjalnie do debugowania lub alternatywnej metody wyświetlania, chociaż główną cechą modułu są rozwijane listy. Może być również używany do generowania początkowych danych dla pierwszej rozwijanej listy.
+| Pole | Na starcie | Co robi |
+|---|---|---|
+| **ID** | nadawane przy zapisie | Numer bloku. Służy do odróżnienia wierszy. |
+| **Title** | Block i numer, dopóki nie wpiszesz tytułu | Nagłówek w języku zaplecza. |
+| **Depth** | 3 przy nowym bloku | Ile list blok rysuje. |
+| **Root category** | kategoria główna sklepu przy nowym bloku | Rodzic pierwszej listy, pokazany jako numer i nazwa. |
+| **Hook** | Top przy nowym bloku | Miejsce bloku na sklepie. |
+| **Active** | Yes | Ikona włącza albo wyłącza blok. Wyłączony wiersz zostaje, a listy znikają ze sklepu. |
+| **Position** | kolejna wolna pozycja | Przeciągnij wiersz, żeby zmienić kolejność bloków na tym samym haku. |
 
-### 4.3 Klasy podstawowe i modele (`classes/`)
+Akcje wiersza to **Edit** i **Delete**. **Bulk actions** ma **Enable selection**, **Disable selection** i **Delete selected**. Potwierdzenie usuwania pyta **Delete selected blocks?**
 
-Moduł nie zawiera żadnych niestandardowych klas w katalogu `classes/`. Bezpośrednio wykorzystuje podstawową klasę `Category` PrestaShop i inne funkcje pomocnicze do pobierania danych kategorii.
+**Add new** otwiera pusty formularz. Nowy blok jest aktywny, ma głębokość 3, korzeń w kategorii głównej, sortowanie po ID rosnąco, licznik produktów wyłączony, przycisk po ostatniej liście, produkty wyłączone, auto submit wyłączony, szukanie w liście wyłączone, etykietę wewnątrz listy, hak Top i bieżący sklep. Zapisz go. Formularz otwiera się ponownie, żeby uzupełnić etykiety. Etykiet nie ma na formularzu, dopóki blok nie istnieje.
 
-### 4.4 Zasoby JavaScript (`views/js/`)
+Lista pokazuje bloki sklepu, w którym jesteś, oraz bloki ustawione na **All shops**.
 
-- `stepbystep/js/advajax.js`
-  - Zakres: Front-office
-  - Jest to główny plik JavaScript odpowiedzialny za interaktywne zachowanie modułu.
-  - Wiąże słuchaczy zdarzeń z elementami `<select>` rozwijanych list kategorii.
-  - Po dokonaniu wyboru w rozwijanej liście, wyzwala żądanie AJAX (prawdopodobnie do `ajaxload.php`) w celu pobrania następnego poziomu podkategorii.
-  - Dynamicznie tworzy i wypełnia kolejne rozwijane listy otrzymanymi danymi.
-  - Obsługuje przekierowanie do końcowej strony kategorii po dokonaniu wyboru lub kliknięciu przycisku „Idź”.
-  - Zarządza widocznością i stanem rozwijanych list na podstawie interakcji użytkownika i konfiguracji modułu (np. „Liczba rozwijanych list”).
+### 3.3 Formularz bloku
 
-### 4.5 Arkusze stylów CSS (`views/css/`)
+Otwórz wiersz przez **Edit** albo użyj **Add new** i ekranu edycji po pierwszym zapisie.
 
-- `stepbystep/css/sbs-block.css`
-  - Zakres: Stylizacja klienta front-office
-  - Stylizuje ogólny wygląd bloku kategorii krok po kroku, w tym dopełnienie, marginesy i ogólny układ, gdy jest umieszczony w kolumnach lub innych pozycjach przypominających bloki.
-  - Kluczowe selektory: `.sbs-block`, `.sbs-category-select-wrapper`
-- `stepbystep/css/sbs-header.css`
-  - Zakres: Stylizacja klienta front-office
-  - Specjalnie stylizuje moduł, gdy jest podłączony do pozycji `displayHeader`, potencjalnie dostosowując się do układów nagłówka (np. wyświetlanie w linii, określone szerokości).
-  - Kluczowe selektory: `.sbs-header-container`
-- `stepbystep/css/sbs-top.css`
-  - Zakres: Stylizacja klienta front-office
-  - Prawdopodobnie stylizuje moduł, gdy jest podłączony do `displayTop` lub podobnych pozycji na górze strony, podobnie do `sbs-header.css`, ale dla różnych kontekstów wizualnych.
-  - Kluczowe selektory: `.sbs-top-container`
-- `stepbystep/css.css`
-  - Zakres: Stylizacja klienta front-office
-  - Ogólny arkusz stylów, który może zawierać wspólne style mające zastosowanie we wszystkich miejscach docelowych lub style zastępcze.
-  - Kluczowe selektory: `.sbs-select`, `.sbs-go-button`
+![Formularz bloku, góra](https://mypresta.eu/docs/images/docs/stepbystep-block-form.webp)
 
-### 4.6 Struktura szablonów Smarty (`views/templates/`)
+![Formularz bloku, etykiety i pozycja](https://mypresta.eu/docs/images/docs/stepbystep-block-form-bottom.webp)
 
-- **Szablony haków (`views/templates/hook/`)**:
+| Pole | Na starcie | Co robi |
+|---|---|---|
+| **Block title** | puste | Nagłówek nad listami. Osobne pole na każdy język sklepu. |
+| **Depth** | 3 | Ile list blok rysuje. Zapisz blok i wejdź w edycję ponownie, żeby uzupełnić etykietę każdego poziomu. Formularz pokazuje najwyżej 30 pól etykiet. |
+| **Root category** | kategoria główna | Pierwsza lista pokazuje dzieci tej kategorii. |
+| **Sort method** | By ID | By ID, By name albo By position. Position to kolejność kategorii w katalogu. |
+| **Sort direction** | Ascending | Ascending albo Descending. |
+| **Products counter** | No | Yes dopisuje liczbę produktów w nawiasie za nazwą kategorii. |
+| **Submit button** | After last select box | After each select box pokazuje **ok** przy kroku, na którym jest klient. After last select box pokazuje jedno **ok** dla całego zestawu. |
+| **Include products** | No | Yes pokazuje listę produktów z ostatniej wybranej kategorii. |
+| **Auto submit** | No | Yes wysyła formularz, gdy wybrana jest ostatnia dostępna kategoria. Sklep otwiera tę kategorię. Działa, gdy **Include products** jest wyłączone. Gdy wybrana kategoria nie ma dzieci, sklep też ją otwiera. |
+| **Search inside dropdown** | No | Yes włącza szukanie w listach. W **Settings** musi być też włączone **Include Select2 library**. |
+| **Exclude categories** | puste | Numery kategorii, które nie mają się pojawić na listach. Rozdziel je przecinkami, na przykład 1,2,3,4,5,6. Szukajka obok pola znajduje kategorię i dopisuje jej numer. |
+| **Show on category pages** | puste | Puste pokazuje blok na każdej stronie, na której jest jego hak. Numery kategorii, rozdzielone przecinkami, pokazują go tylko na tych stronach kategorii. |
+| **Label position** | Inside select box | Inside select box wstawia etykietę jako pierwszą opcję. Outside select box drukuje etykietę nad polem. |
+| **Label 1**, **Label 2** i dalej | puste | Jedno pole na krok i na język. Pojawiają się dopiero po zapisaniu bloku. Zmień **Depth** i zapisz, gdy potrzebujesz ich więcej albo mniej. |
+| **Module position** | Top | Top, displaySearch, TopColumn, Left column, Right column, Home albo displaySbs. |
+| **Position top settings** | Blocks | Blocks układa listy jedna pod drugą. Wide horizontal bar układa je w rzędzie. Szeroki pasek jest używany na Top i displaySearch. Pozostałe miejsca zostają w kolumnie. Na szerokim pasku **ok** stoi za ostatnią listą i schodzi do następnego wiersza, gdy brakuje miejsca. |
+| **Shop** | sklep, który edytujesz | Jeden sklep albo **All shops**. **All shops** zostawia blok w każdym sklepie. |
+| **Active** | Yes | No chowa blok na sklepie. |
 
-  - `block.tpl`: Ten szablon jest prawdopodobnie używany, gdy moduł jest podłączony do `displayLeftColumn` lub `displayRightColumn`. Renderuje rozwijane listy krok po kroku w standardowej strukturze bloku PrestaShop.
-  - `blockSbs.tpl`: Może to być alternatywny lub bardziej ogólny szablon bloku, potencjalnie używany dla innych haków kolumn lub specyficznych niestandardowych miejsc docelowych.
-  - `displaySearch.tpl`: Ten szablon może być przeznaczony do integracji w pobliżu paska wyszukiwania lub jako część haka związanego z wyszukiwaniem, dostarczając rozwijane listy jako narzędzie do doprecyzowania wyszukiwania.
-  - `header.tpl`: Ten szablon jest używany, gdy moduł jest podłączony do `displayHeader`. Renderuje rozwijane listy w sekcji nagłówka sklepu.
-  - `top.tpl`: Ten szablon jest używany, gdy moduł jest podłączony do `displayTop`. Podobnie jak `header.tpl`, ale dla haka `displayTop`, który jest często używany dla głównego paska nawigacji.
-- **Szablony administracyjne (`views/templates/admin/`)**: Brak zidentyfikowanych. Konfiguracja jest obsługiwana bezpośrednio w `getContent()`.
-- **Szablony front-office (`views/templates/front/`)**: Brak zidentyfikowanych jako samodzielne strony.
+Kliknij **Save**. PrestaShop pokazuje swoje zwykłe potwierdzenie. Usunięcie bloku kasuje też jego tytuł, wybór szerokiego paska i etykiety kroków.
 
-### 4.7 Schemat bazy danych i mapa haków
+Żeby pokazać blok w pliku szablonu bez gotowego haka, wstaw hak displaySbs i ustaw **Module position** na displaySbs. Pozostałe pozycje podepnij w **Wygląd**, **Pozycje**, jeśli szablon ich sam nie wyświetla.
 
-- **Tabele baz danych**: Moduł nie tworzy żadnych niestandardowych tabel SQL. Przechowuje swoje ustawienia konfiguracyjne w tabeli `ps_configuration` PrestaShop, używając kluczy takich jak `STEPMYSTEP_HEADER`, `STEPMYSTEP_LEFT`, `STEPMYSTEP_RIGHT`, `STEPMYSTEP_FOOTER`, `STEPMYSTEP_PRODUCT`, `STEPMYSTEP_GO_BUTTON`, `STEPMYSTEP_DROPDOWNS`, `STEPMYSTEP_ROOT_CATEGORY`.
-- **Tabela zarejestrowanych haków**:
+## 4. Front sklepu
 
-| Nazwa haka | Czas wykonania | Cel techniczny |
-| --- | --- | --- |
-| `displayHeader` | Renderuje zawartość w sekcji `<head>` HTML lub na samym początku `<body>` przed inną zawartością. | Wstrzykuje zasoby CSS/JS i potencjalnie strukturę HTML modułu, jeśli skonfigurowano dla wyświetlania w nagłówku. |
-| `displayLeftColumn` | Renderuje zawartość w lewym pasku bocznym sklepu. | Wyświetla rozwijane listy kategorii krok po kroku w lewej kolumnie. |
-| `displayRightColumn` | Renderuje zawartość w prawym pasku bocznym sklepu. | Wyświetla rozwijane listy kategorii krok po kroku w prawej kolumnie. |
-| `displayFooter` | Renderuje zawartość w sekcji stopki sklepu. | Wyświetla rozwijane listy kategorii krok po kroku w stopce. |
-| `displayProductAdditionalInfo` (lub podobny hak strony produktu) | Renderuje zawartość na stronie produktu, często poniżej opisu produktu lub w określonym bloku. | Wyświetla rozwijane listy kategorii krok po kroku na stronach produktów. |
-| `displayTop` | Renderuje zawartość w górnej sekcji strony, zazwyczaj powyżej lub w ramach głównej nawigacji. | Wyświetla rozwijane listy kategorii krok po kroku w górnym pasku. |
+Klient widzi tytuł bloku i listy.
 
-## 5. Oficjalne wsparcie i aktualizacje
+1. Pierwsza lista pokazuje dzieci kategorii głównej bloku. Dalsze listy są nieaktywne, dopóki poprzedni krok nie ma kategorii.
+2. Klient wybiera kategorię. Na bloku pojawia się spinner. Następna lista wypełnia się dziećmi. Spinner znika, gdy lista jest gotowa, i także wtedy, gdy żądanie się nie uda.
+3. Wykluczonych numerów kategorii na tych listach nie ma.
+4. Przy **Submit button** ustawionym na after each select box **ok** jest przy bieżącym kroku. Przy after last select box jest jedno **ok** dla zestawu.
+5. **ok** otwiera wybraną kategorię.
+6. Przy włączonym **Include products** ostatni krok dodaje listę produktów. Pierwsza opcja to **- Select Product -**. **ok** używa wtedy wybranego produktu.
+7. Przy włączonym **Auto submit** i wyłączonym **Include products** wybór ostatniej kategorii otwiera ją bez **ok**. To samo przekierowanie jest, gdy wybrana kategoria nie ma dzieci.
+8. Przy wyłączonym **Reset search fields** kolejna wizyta może pokazać te same kategorie. Przeglądarka trzyma je 30 minut. Przy włączonej opcji listy startują puste.
+9. Gdy **Search inside dropdown** i **Include Select2 library** są włączone, klient może pisać w liście.
 
-Aby uzyskać najnowsze aktualizacje, poprawki błędów i oficjalne wsparcie dla modułu „Krok po kroku - kategorie”, zapoznaj się ze swoim kontem klienta na [MyPresta.eu](https://mypresta.eu/my-account/orders/). Nasz zespół wsparcia jest dostępny, aby pomóc w przypadku wszelkich problemów lub pytań.
+W lewej i prawej kolumnie kroki są jeden pod drugim, a tytuł jest wielkimi literami, jak w Classic. Na szerokim pasku kroki stoją w rzędzie. Na wąskim ekranie szeroki pasek składa się w kolumnę. Kolory, ramki i przycisk **ok** biorą się z szablonu, także Hummingbird i Classic w PrestaShop 9.
+
+Blok z wypełnionym **Show on category pages** nie pojawia się na innych stronach. Nieaktywny blok się nie pojawia. Blok innego sklepu też nie.
+
+## 5. Problemy
+
+**Bloku nie ma na sklepie.** Otwórz blok i sprawdź **Active**, **Module position** i **Shop**. Puste **Show on category pages** pokazuje go na każdej stronie tego haka. Wypełniona lista pokazuje go tylko na tych stronach kategorii. W **Wygląd**, **Pozycje** sprawdź, czy hak jest na stronach, o które chodzi. Przy własnym miejscu szablon musi wołać displaySbs, a blok musi mieć tę pozycję.
+
+**Następna lista się nie wypełnia albo spinner zostaje.** Wyczyść cache sklepu, żeby sklep wziął bieżący arkusz i skrypt. Spinner ma znikać po zakończeniu żądania, także gdy odpowiedzi nie da się zastosować. Gdy sklep dalej pokazuje stary gif, w cache jest poprzedni CSS.
+
+**Szukanie w liście nic nie robi.** Włącz **Include Select2 library** w **Settings** i **Search inside dropdown** na bloku. Zapisz oba. Wyczyść cache.
+
+**Na nowym bloku nie ma etykiet.** Zapisz blok raz. Otwórz go ponownie. **Label 1** i reszta pojawiają się dopiero, gdy blok istnieje, i tylko do zapisanej wartości **Depth**.
+
+**Kategorii, której szukasz, nie ma na liście.** Usuń jej numer z **Exclude categories**. Sprawdź, czy jest dzieckiem wybranego rodzica i czy jest aktywna w katalogu.
+
+**Szeroki pasek dalej układa pola w kolumnie.** **Wide horizontal bar** działa na Top i displaySearch. Lewa, prawa, strona główna, TopColumn i displaySbs zostają w kolumnie. Na telefonie szeroki pasek składa się w kolumnę celowo.
+
+**Po aktualizacji nie ma strony Blocks.** Wejdź raz w **Konfiguruj**. Ta wizyta rejestruje stronę. Nie odinstalowuj modułu, jeśli chcesz dalej używać istniejących wierszy. Odinstalowanie usuwa stronę i zostawia wiersze.
+
+**Na starej stronie konfiguracji nie ma ikony kosza.** To poprzednie wydanie. Wgraj bieżący zip z konta klienta. W bieżącym wydaniu blok usuwasz z listy **Blocks**, przyciskiem **Delete** w wierszu albo **Delete selected**.
+
+## 6. Dla developera
+
+### 6.1 Przegląd
+
+Nazwa techniczna `stepbystep`, klasa `Stepbystep`, wersja 1.9.0, autor MyPresta.eu, zakładka `front_office_features`. Nazwa w zapleczu to **Step By Step - categories tree**.
+
+`AdminStepbystepBlocksController` zapisuje wiersze w `sbs_block` oraz tytuły, etykiety i flagę szerokiego paska w `Configuration`. Hooki sklepu czytają aktywne wiersze bieżącego sklepu albo z `id_shop = 0`. `controllers/front/tree.php` zwraca skrypt, który wypełnia następną listę.
+
+### 6.2 Pliki
+
+| Plik | Rola |
+|---|---|
+| `stepbystep.php` | Instalacja, hooki, formularz ustawień, HTML list, skrypt sklepu. |
+| `controllers/admin/AdminStepbystepBlocksController.php` | Lista bloków i formularz bloku. |
+| `models/SbsBlock.php` | Model obiektu `sbs_block`. |
+| `controllers/front/tree.php` | Kontroler frontu, który zwraca skrypt następnego poziomu. |
+| `views/templates/hook/front.tpl` | Znacznik sklepu dla każdego haka. |
+| `views/templates/hook/header.tpl` | Wypisuje skrypt w nagłówku. |
+| `views/templates/admin/configure.tpl` | Pasek Blocks, Settings, Updates. |
+| `css/sbs-front.css` | Układ sklepu, zmienne szablonu, spinner. |
+| `js/advajax.js` | Żądanie używane przez listy. |
+| `lib/updatesChecker.php` | Sprawdzenie aktualizacji. Klasa `stepbystepUpdate`. |
+| `lib/searchTool/searchTool.php` | Szukanie numeru kategorii w formularzu. Klasa `searchToolstepbystep`. |
+| `lib/prestashop9compatibility.php` | Klasa `stepbystepPrestashopNewCompatibility`. |
+| `views/css/admin.css` | Pasek zaplecza. |
+
+`tree.php` w katalogu głównym modułu to starsza kopia kontrolera frontu. Link sklepu używa `controllers/front/tree.php`. `views/templates/hook/block.tpl`, `blockSbs.tpl`, `top.tpl` i `displaySearch.tpl` nie są renderowane. `css/sbs-block.css` i `css/sbs-top.css` nie są dokładane do strony.
+
+### 6.3 Kontrolery
+
+`AdminStepbystepBlocksController` rozszerza `ModuleAdminController`. `class_name` to `AdminStepbystepBlocks`. `id_parent` to `-1`, więc strona jest ukryta w menu. Identyfikator listy to `id`. Przeciąganie pozycji woła `ajaxProcessUpdatePositions`. Filtr listy to `id_shop` sklepu z kontekstu albo `0`.
+
+`stepbysteptreeModuleFrontController` to kontroler frontu `tree`. `initContent` ustawia `ajax` i nie woła `parent::initContent`. Czyta `sbs_block`, `sbs_pid`, `sbs_lvl`, a przy zatwierdzeniu `sbs_blockid` i `sbs_cidlink`. Treść odpowiedzi to JavaScript. Brak bloku kończy odpowiedź.
+
+### 6.4 Hooki
+
+Zarejestrowane hooki: `displayHeader`, `displayLeftColumn`, `displayRightColumn`, `displayTop`, `displaySearch`, `displayHome`, `displaySbs`, `displayBackOfficeHeader`. Od PrestaShop 1.6 także `displaytopColumn`.
+
+| Hook | Wartość pozycji bloku | Układ |
+|---|---|---|
+| `displayTop` | 1 | góra, szeroki pasek gdy `sbs_top_type{id}` wynosi 1 |
+| `displayLeftColumn` | 2 | kolumna |
+| `displayRightColumn` | 3 | kolumna |
+| `displayHome` | 4 | kolumna |
+| `displaytopColumn` | 5 | kolumna |
+| `displaySearch` | 6 | góra, szeroki pasek gdy `sbs_top_type{id}` wynosi 1 |
+| `displaySbs` | 7 | kolumna |
+
+`displayHeader` ładuje `js/advajax.js` i `css/sbs-front.css`. Gdy `SBS_SELECT2` wynosi 1, ładuje też Select2. Nie ma nadpisania `enable()` ani `disable()`.
+
+### 6.5 Nadpisania
+
+Moduł nie nadpisuje klasy ani kontrolera PrestaShop.
+
+### 6.6 Baza
+
+| Tabela | Zawartość |
+|---|---|
+| `ps_sbs_block` | `id`, `depth`, `root`, `orderby`, `orderway`, `counter`, `each_submit`, `lbl_position`, `block_position`, `position`, `active`, `products`, `last_submit`, `search_inside`, `exclude`, `id_shop`, `on_cat_only`, `id_categories`. |
+
+Prefiks jest taki jak w sklepie. Odinstalowanie nie kasuje tabeli. `inconsistency()` dopisuje brakującą kolumnę z tej listy przy wejściu w konfigurację albo listę bloków. `on_cat_only` zostaje i nie jest na formularzu. Sklep używa `id_categories`.
+
+### 6.7 Klucze i tłumaczenia
+
+| Klucz | Gdy go nie ma |
+|---|---|
+| `SBS_RESET` | Traktowany jako 0. Wybory są pamiętane 30 minut w ciasteczkach `sbs_selectbox_{block}_{level}`. |
+| `SBS_SELECT2` | Traktowany jako 0. Select2 nie jest ładowany. |
+| `sbs_title{id}` | Wielojęzyczny tytuł bloku. |
+| `{id}sbs_lbl_{n}` | Wielojęzyczna etykieta kroku `n`, od 1 do głębokości, najwyżej 30. |
+| `sbs_top_type{id}` | 0 kolumna, 1 szeroki pasek. |
+
+Instalacja zapisuje też `sbs_depth`, `sbs_counter`, `sbs_each_submit`, `sbs_position`, `sbs_lbl_position` i `sbs_root`. Formularz bloku tych kluczy nie czyta. Nowe bloki biorą wartości z `prepareObjectDefaults()`.
+
+Tłumaczenia są w `translations/{iso}.php`. Napisy kontrolera bloków mają źródło `AdminStepbystepBlocksController`. Tekst przycisku to napis modułu `ok`. Placeholder produktu to `- Select Product -`.
+
+### 6.8 Rozszerzanie
+
+Nadpisz `views/templates/hook/front.tpl` w szablonie jako `themes/{theme}/modules/stepbystep/views/templates/hook/front.tpl`. Tak samo nadpisz `css/sbs-front.css`, gdy szablon ma zastąpić układ. Pozycja przycisku na szerokim pasku jest w kolejności flex w tym arkuszu: widoczne `.sbs__actions` idzie za listami i zawija się z wierszem.
+
+## 7. Pomoc
+
+Strona modułu: [Step by Step categories](https://mypresta.eu/modules/front-office-features/step-by-step-categories.html).
+
+Żeby napisać w sprawie tego modułu, zaloguj się na konto klienta na [mypresta.eu](https://mypresta.eu), przejdź do kontaktu i wybierz temat **Support for paid modules**. Przy tym temacie formularz podaje, że logowanie jest wymagane. Po zalogowaniu wybierz ten moduł z historii zakupów.

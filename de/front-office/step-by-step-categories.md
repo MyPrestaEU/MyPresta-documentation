@@ -1,8 +1,8 @@
 ---
-title: "Schritt für Schritt - Kategorien - Händlerhandbuch & Konfigurationsanleitung"
-description: "Vollständiges Benutzerhandbuch, Bildschirm-für-Bildschirm-Einrichtungsanleitung und Entwicklerreferenz für das PrestaShop-Modul „Schritt für Schritt - Kategorien“ von MyPresta.eu."
+title: Step by Step - Dokumentation und Benutzerhandbuch
 sidebar:
-  label: "Schritt für Schritt - Kategorien - Händlerhandbuch & Konfigurationsanleitung"
+  label: Step by Step - Dokumentation und Benutzerhandbuch
+description: Anleitung zur Einrichtung und zur Fehlersuche für Shops, die den Kategoriefilter Step by Step bereits haben.
 ---
 
 > ⚠️ **Notice:** This is the offizielle Dokumentation für das PrestaShop-Modul.
@@ -12,159 +12,232 @@ sidebar:
 > ---
 
 
-# Schritt für Schritt - Kategorien
+## 1. Anforderungen
 
-## 1. Anforderungen & Kompatibilität
+Das Modul läuft in PrestaShop. Es braucht kein weiteres Modul und kein externes Konto.
 
-- **Unterstützte PrestaShop-Versionen**: PrestaShop 1.5.x, 1.6.x, 1.7.x, 8.x, 9.x
-- **PHP-Kompatibilität**: PHP 5.6 - 8.5
-- **Hosting-Anforderungen**: Standard-PHP-Erweiterungen (cURL, JSON, OpenSSL) sind in der Regel ausreichend. Keine speziellen Serveranforderungen über eine Standard-PrestaShop-Hosting-Umgebung hinaus.
+- PrestaShop ab 1.6.0.0, einschließlich PrestaShop 8 und 9.
+- PHP in der Version, die diese PrestaShop-Version verlangt. Die Update-Prüfung nutzt cURL, wenn PHP es hat, sonst einen normalen Abruf der Adresse. Für die Dropdowns installieren Sie keine extra PHP-Erweiterung.
+- Kein anderes Modul ist nötig.
+- Im Multishop kann ein Block zu einem Shop oder zu allen Shops gehören.
 
-## 2. Vollständige Konfigurationsanleitung (Jede Einstellung nach Bildschirm gruppiert)
+## 2. Installation
 
-### 2.1 Modul-Konfigurationsseite (Back Office > Module > Konfigurieren)
+1. Öffnen Sie im Backoffice **Module**, dann **Modul-Manager**.
+2. Laden Sie die Zip-Datei hoch und klicken Sie auf **Installieren**.
+3. Öffnen Sie **Konfigurieren** bei **Step By Step - categories tree**. Die Seite hat **Blocks**, **Settings** und **Updates**. **Blocks** ist die Liste der Dropdown-Sätze. Der erste Besuch legt die versteckte Seite dieser Liste an. Sie erscheint nicht als eigener Punkt im linken Menü.
+4. Die Installation leert den Cache nicht in einem eigenen Schritt. Wenn der Shop nach einem Update noch das alte Layout zeigt, leeren Sie den Cache unter **Erweiterte Parameter**, **Leistung**.
 
-Nach der Installation gelangen Sie durch Klicken auf „Konfigurieren“ zum Hauptkonfigurationsbildschirm für „Schritt für Schritt - Kategorien“. Hier steuern Sie, wie sich das Modul verhält und in Ihrem Shop angezeigt wird.
+Die Deinstallation entfernt diese versteckte Seite. Blöcke, Titel, Beschriftungen und die beiden globalen Schalter bleiben in der Datenbank. Nach einer erneuten Installation sind dieselben Blöcke da. Öffnen Sie einmal **Konfigurieren**, damit die Listenseite wieder eingetragen wird.
 
-| Einstellung / Option | Was diese Einstellung bewirkt | Auswirkung der Änderung dieser Einstellung | Empfohlener Wert | Händlerszenario / Beispiel |
-| --- | --- | --- | --- | --- |
-| **Block im Header anzeigen** | Steuert, ob die Schritt-für-Schritt-Kategorienavigation im Header-Bereich Ihres Shops angezeigt wird. | *Wenn aktiviert:* Die Kategorie-Dropdowns sind oben auf Ihrer Website sichtbar, oft in der Nähe des Logos oder der Hauptnavigation. Dies bietet sofortigen Zugriff auf die Kategoriefilterung. *Wenn deaktiviert:* Der Block wird nicht im Header angezeigt. | **JA** (wenn Sie eine prominente Navigation wünschen) | Sie möchten, dass Kunden Produkte von jeder Seite aus leicht finden können, daher macht die Platzierung im Header sie immer zugänglich. |
-| **Block in linker Spalte anzeigen** | Steuert, ob die Schritt-für-Schritt-Kategorienavigation in der linken Seitenleiste Ihres Shops angezeigt wird. | *Wenn aktiviert:* Die Kategorie-Dropdowns sind in der linken Spalte Ihrer Website sichtbar (sofern Ihr Theme eine linke Spalte unterstützt). Dies ist eine traditionelle Platzierung für Kategoriefilter. *Wenn deaktiviert:* Der Block wird nicht in der linken Spalte angezeigt. | **JA** (wenn Ihr Theme eine linke Spalte hat und Sie eine Seitenleisten-Navigation wünschen) | Ihr Theme hat eine linke Seitenleiste, und Sie bevorzugen es, Navigationselemente dort zu organisieren, ähnlich einem Standard-Kategoriebaum. |
-| **Block in rechter Spalte anzeigen** | Steuert, ob die Schritt-für-Schritt-Kategorienavigation in der rechten Seitenleiste Ihres Shops angezeigt wird. | *Wenn aktiviert:* Die Kategorie-Dropdowns sind in der rechten Spalte Ihrer Website sichtbar (sofern Ihr Theme eine rechte Spalte unterstützt). *Wenn deaktiviert:* Der Block wird nicht in der rechten Spalte angezeigt. | **NEIN** (es sei denn, Ihr Theme verwendet speziell eine rechte Spalte für die Navigation) | Ihr Theme verwendet die rechte Spalte für ergänzende Informationen, und Sie möchten die Kategorienavigation dort anstelle der linken platzieren. |
-| **Block im Footer anzeigen** | Steuert, ob die Schritt-für-Schritt-Kategorienavigation im Footer-Bereich Ihres Shops angezeigt wird. | *Wenn aktiviert:* Die Kategorie-Dropdowns sind am unteren Rand Ihrer Website sichtbar. Dies ist weniger üblich für die primäre Navigation, kann aber für den sekundären Zugriff nützlich sein. *Wenn deaktiviert:* Der Block wird nicht im Footer angezeigt. | **NEIN** (es sei denn, aus spezifischen Designgründen) | Sie haben einen sehr minimalistischen Header und Spalten, und Sie möchten die Kategorienavigation im Footer als Alternative für Benutzer anbieten, die nach unten scrollen. |
-| **Block auf Produktseite anzeigen** | Steuert, ob die Schritt-für-Schritt-Kategorienavigation auf einzelnen Produktseiten angezeigt wird. | *Wenn aktiviert:* Die Kategorie-Dropdowns sind auf Produktdetailseiten sichtbar. Dies kann Kunden helfen, andere Kategorien oder verwandte Produkte zu erkunden. *Wenn deaktiviert:* Der Block wird nicht auf Produktseiten angezeigt. | **NEIN** (es sei denn, Sie haben einen spezifischen Bedarf dafür) | Sie möchten Kunden, die ein Produkt ansehen, ermutigen, einfach zu anderen Kategorien zu springen, ohne die Produktseite zu verlassen, vielleicht um Artikel zu vergleichen. |
-| **„Go“-Button anzeigen** | Bestimmt, ob ein „Go“- oder „Suchen“-Button neben dem letzten Kategorie-Dropdown angezeigt wird. | *Wenn aktiviert:* Ein Button wird angezeigt. Kunden müssen diesen Button klicken, um zur ausgewählten Kategorieseite weitergeleitet zu werden. *Wenn deaktiviert:* Kunden werden automatisch zur ausgewählten Kategorieseite weitergeleitet, sobald sie die endgültige Auswahl im letzten Dropdown treffen. | **JA** (für mehr Kontrolle) | Sie möchten, dass Kunden ihre Kategorieauswahl bestätigen, bevor sie weitergeleitet werden, um ihnen die Möglichkeit zu geben, ihre Wahl zu überprüfen. |
-| **Anzahl der Dropdowns** | Legt die maximale Anzahl der Kategorieebenen (Tiefe) fest, die als Dropdowns angezeigt werden. | *Wenn auf 1 gesetzt:* Nur die Top-Level-Kategorien werden in einem Dropdown angezeigt. *Wenn auf 3 gesetzt:* Bis zu drei Kategorieebenen (z.B. Hauptkategorie > Unterkategorie 1 > Unterkategorie 2) werden in separaten Dropdowns angezeigt. | **3** (oder basierend auf Ihrer Kategorietiefe) | Ihr Shop hat Kategorien, die bis zu 3 oder 4 Ebenen tief verschachtelt sind, und Sie möchten, dass Kunden effizient tiefer gehen können. |
-| **Stammkategorie** | Gibt den Startpunkt für die Kategorienavigation an. Nur Kategorien innerhalb dieser Stammkategorie werden angezeigt. | *Wenn auf „Home“ gesetzt:* Alle Kategorien, beginnend ganz oben in Ihrem Katalog, sind verfügbar. *Wenn auf „Elektronik“ gesetzt:* Nur Kategorien unter „Elektronik“ (z.B. „Laptops“, „Smartphones“) werden in den Dropdowns angezeigt. | **Home** (es sei denn, Sie möchten die Navigation einschränken) | Sie möchten nur eine Schritt-für-Schritt-Navigation für einen bestimmten Teil Ihres Katalogs anbieten, wie z.B. „Bekleidung“, und andere Bereiche wie „Haus & Garten“ ausschließen. |
+Außer dem normalen Modulschalter im **Modul-Manager** gibt es keine eigene Aktion zum Aktivieren. Wenn Sie das Modul ausschalten, verschwinden die Dropdowns im Shop und die gespeicherten Blöcke bleiben.
 
-### 2.2 Konfigurations-Kurzübersichtstabelle
+## 3. Konfiguration und Arbeit im Backoffice
 
-| Bildschirm / Ansicht | Einstellung / Option | Standard / Empfohlen | Zweck & Auswirkung |
-| --- | --- | --- | --- |
-| Modulkonfiguration | Block im Header anzeigen | JA | Zeigt Kategorie-Dropdowns im Shop-Header für prominente Navigation an. |
-| Modulkonfiguration | Block in linker Spalte anzeigen | JA | Zeigt Kategorie-Dropdowns in der linken Seitenleiste für traditionelle Navigation an. |
-| Modulkonfiguration | Block in rechter Spalte anzeigen | NEIN | Zeigt Kategorie-Dropdowns in der rechten Seitenleiste an. |
-| Modulkonfiguration | Block im Footer anzeigen | NEIN | Zeigt Kategorie-Dropdowns im Shop-Footer an. |
-| Modulkonfiguration | Block auf Produktseite anzeigen | NEIN | Zeigt Kategorie-Dropdowns auf Produktdetailseiten an. |
-| Modulkonfiguration | „Go“-Button anzeigen | JA | Erfordert, dass Kunden einen Button klicken, um zur ausgewählten Kategorie zu navigieren. |
-| Modulkonfiguration | Anzahl der Dropdowns | 3 | Legt die maximale Tiefe der angezeigten Kategorieebenen fest. |
-| Modulkonfiguration | Stammkategorie | Home | Definiert den Startpunkt für die Kategorienavigation. |
+Sie legen einen Block an, stellen die Tiefe des Kategoriebaums ein und wählen den Platz im Shop. Der Kunde wählt eine Kategorie. Die nächste Liste lädt ihre Kinder. **ok** öffnet die gewählte Kategorie oder ein Produkt, wenn die Produktliste an ist.
 
-## 3. Händler-Fehlerbehebung & Häufig gestellte Fragen (FAQ)
+Die Bilder in diesem Kapitel zeigen das englische Backoffice. Die Beschriftungen auf dem Bildschirm bleiben Englisch.
 
-**F1: Das Modul ist installiert, aber ich sehe die Dropdowns nicht in meinem Shop.**
-A1:
+### 3.1 Konfigurationsseite des Moduls
 
-- **Konfiguration prüfen:** Gehen Sie zu **Module > Modul-Manager > Schritt für Schritt - Kategorien > Konfigurieren**. Stellen Sie sicher, dass mindestens eine Option „Block anzeigen in…“ (z.B. „Block im Header anzeigen“, „Block in linker Spalte anzeigen“) auf **JA** gesetzt ist.
-- **Cache leeren:** PrestaShop speichert Inhalte oft im Cache. Gehen Sie zu **Erweiterte Einstellungen > Performance** und klicken Sie auf „Cache leeren“ (oder „Smarty-Cache leeren“ in älteren Versionen).
-- **Theme-Kompatibilität:** Einige stark angepasste Themes erfordern möglicherweise geringfügige Anpassungen. Wenn das Leeren des Caches nicht hilft, versuchen Sie, vorübergehend zum Standard-PrestaShop-Theme zu wechseln, um zu sehen, ob das Modul erscheint. Wenn ja, überschreibt Ihr Theme möglicherweise die Standard-Hook-Positionen.
+Öffnen Sie **Module**, **Modul-Manager**, **Step By Step - categories tree**, **Konfigurieren**.
 
-**F2: Die Dropdowns erscheinen, aber sie aktualisieren sich nicht, wenn ich eine Kategorie auswähle.**
-A2:
+![Einstellungen](https://mypresta.eu/docs/images/docs/stepbystep-configure-settings.webp)
 
-- **AJAX-Probleme:** Dies deutet normalerweise auf einen JavaScript-Fehler hin. Öffnen Sie die Entwicklerkonsole Ihres Browsers (F12) und suchen Sie im Tab „Konsole“ nach Fehlern.
-- **Konfliktierendes JavaScript:** Ein anderes Modul oder das JavaScript Ihres Themes könnte stören. Versuchen Sie, andere Front-Office-Module nacheinander zu deaktivieren, um Konflikte zu identifizieren.
-- **Moduldateien:** Stellen Sie sicher, dass alle Moduldateien korrekt hochgeladen wurden und nicht beschädigt sind. Ein erneutes Hochladen des Moduls könnte dies beheben.
+Oben stehen **Blocks**, **Settings** und **Updates**. **Blocks** verlässt diese Seite und öffnet die Blockliste. **Settings** ist der Startreiter. Unter der Leiste steht, dass diese Optionen für jeden Block gelten und dass Sie Blöcke unter **Blocks** bearbeiten.
 
-**F3: Wie ändere ich das Styling (Farben, Schriftarten, Größe) der Dropdowns?**
-A3:
+| Feld | Am Anfang | Wirkung |
+|---|---|---|
+| **Reset search fields** | No | Yes leert die Listen nach einer Suche. No behält die Kategorien, die der Besucher gewählt hat. Der Browser speichert diese Wahl 30 Minuten. |
+| **Include Select2 library** | No | Yes lädt das zusätzliche Skript und Stylesheet für **Search inside dropdown** an einem Block. No lässt normale Listen. |
 
-- Das Modul verwendet Standard-CSS. Sie benötigen grundlegende CSS-Kenntnisse oder einen Webmaster.
-- Die CSS-Dateien des Moduls (z.B. `sbs-block.css`, `sbs-header.css`) definieren die Standardstile.
-- **Best Practice:** Ändern Sie die CSS-Dateien des Moduls NICHT direkt, da Ihre Änderungen bei Updates verloren gehen. Verwenden Sie stattdessen die benutzerdefinierte CSS-Datei Ihres Themes (oft in `themes/yourtheme/assets/css/custom.css` oder ähnlich zu finden), um die Stile des Moduls zu überschreiben. Verwenden Sie den Browser-Inspektor (F12), um die von den Dropdowns verwendeten CSS-Klassen zu identifizieren.
+Klicken Sie auf **Save**. Die Seite zeigt **Settings saved.**
 
-**F4: Meine Kategorien sind sehr tief, aber ich sehe nur wenige Dropdowns.**
-A4:
+![Updates](https://mypresta.eu/docs/images/docs/stepbystep-configure-updates.webp)
 
-- **Einstellung „Anzahl der Dropdowns“:** Gehen Sie zu **Module > Modul-Manager > Schritt für Schritt - Kategorien > Konfigurieren** und passen Sie die Einstellung „Anzahl der Dropdowns“ an. Erhöhen Sie diesen Wert, um die maximale Tiefe der Kategorien anzupassen, die Sie anzeigen möchten. Denken Sie daran, dass das Anzeigen von zu vielen Dropdowns die Benutzeroberfläche überladen könnte.
+**Updates** ist das Formular **MyPresta updates**.
 
-**F5: Das Modul zeigt Kategorien an, die ich nicht in die Schritt-für-Schritt-Navigation aufnehmen möchte.**
-A5:
+| Feld | Am Anfang | Wirkung |
+|---|---|---|
+| **Manual check** | Schaltfläche **Check now** | Fragt MyPresta, ob eine neuere Version existiert. **New version available!** führt zum Änderungsprotokoll. **Module is up to date!** bedeutet, dass diese Installation zur veröffentlichten Version passt. Die Schaltfläche lädt keine Zip-Datei hoch. |
+| **Automatic notifications** | Enabled | Enabled wiederholt diese Prüfung etwa alle 3 Tage, während Sie im Backoffice arbeiten. Disabled überspringt sie. |
+| **Product page** | Link zur Modulseite | Öffnet die Step-by-Step-Seite auf mypresta.eu. |
 
-- **Einstellung „Stammkategorie“:** Verwenden Sie in der Modulkonfiguration die Einstellung „Stammkategorie“. Wählen Sie eine bestimmte übergeordnete Kategorie aus, von der aus die Schritt-für-Schritt-Navigation beginnen soll. Nur Kategorien und Unterkategorien unter Ihrer gewählten Stammkategorie werden angezeigt.
+**Save** zeigt **Update settings saved.** Laden Sie eine neue Zip-Datei im **Modul-Manager** hoch, wenn eine neuere Version erscheint.
 
-## 4. Entwickler- & Webmaster-Handbuch (Technische Architektur & Code-Map)
+### 3.2 Blockliste
 
-### 4.1 Architekturübersicht
+Öffnen Sie **Blocks**. Unter der Leiste steht, dass jeder Block ein Satz von Dropdowns ist.
 
-Das Modul „Schritt für Schritt - Kategorien“ ist primär eine Front-Office-Funktion, die die PrestaShop-Modularchitektur nutzt. Es verwendet eine Standard-`Module`-Klasse für Installation und Konfiguration und `ModuleFrontController`-Klassen zur Handhabung von AJAX-Anfragen für dynamisches Laden von Kategorien. Es führt keine benutzerdefinierten `ObjectModel`-Klassen oder Datenbanktabellen ein, sondern verlässt sich auf PrestaShops natives `Category`-Objekt für Daten. Das Modul nutzt Smarty-Templates für die Darstellung und JavaScript für interaktive AJAX-Funktionalität.
+![Blockliste](https://mypresta.eu/docs/images/docs/stepbystep-blocks-list.webp)
 
-### 4.2 Controller (`controllers/`)
+| Feld | Am Anfang | Wirkung |
+|---|---|---|
+| **ID** | wird beim Speichern vergeben | Nummer des Blocks. Sie dient nur dazu, Zeilen zu unterscheiden. |
+| **Title** | Block und die Nummer, bis Sie einen Titel eintragen | Überschrift in der Sprache des Backoffice. |
+| **Depth** | 3 bei einem neuen Block | Wie viele Dropdowns der Block zeichnet. |
+| **Root category** | Home-Kategorie des Shops bei einem neuen Block | Elternteil der ersten Liste, als Nummer und Name. |
+| **Hook** | Top bei einem neuen Block | Platz des Blocks im Shop. |
+| **Active** | Yes | Das Symbol schaltet den Block an oder aus. Aus blendet die Dropdowns aus und lässt die Zeile stehen. |
+| **Position** | nächste freie Position | Ziehen Sie die Zeile, um die Reihenfolge der Blöcke am selben Hook zu ändern. |
 
-- **Front-Office-Controller**:
-  - `controllers/front/ajaxload.php`
-    - Klassenname: `StepbystepAjaxloadModuleFrontController`
-    - Übergeordnete Klasse: `ModuleFrontController`
-    - Verantwortung: Dieser Controller ist der Kern der AJAX-Funktionalität. Er reagiert auf Anfragen vom Front-Office-JavaScript, um Unterkategorien basierend auf einer übergeordneten Kategorie-ID abzurufen. Er gibt typischerweise JSON-Daten zurück, die Kategorienamen und IDs zum Füllen nachfolgender Dropdowns enthalten.
-  - `controllers/front/index.php`
-    - Klassenname: `StepbystepIndexModuleFrontController`
-    - Übergeordnete Klasse: `ModuleFrontController`
-    - Verantwortung: Dieser Controller dient wahrscheinlich als Standard-Einstiegspunkt oder Fallback für das Front-Office-Routing des Moduls, obwohl seine primäre Funktion angesichts der AJAX-gesteuerten Natur minimal sein könnte. Er könnte die anfängliche Anzeigelogik oder Weiterleitung handhaben, falls das Modul eine dedizierte Seite hätte.
-  - `controllers/front/tree.php`
-    - Klassenname: `StepbystepTreeModuleFrontController`
-    - Übergeordnete Klasse: `ModuleFrontController`
-    - Verantwortung: Dieser Controller könnte für das Rendern einer vollständigen Kategoriebaumstruktur verantwortlich sein, möglicherweise zum Debuggen oder als alternative Anzeigemethode, obwohl die Hauptfunktion des Moduls die Dropdowns sind. Er könnte auch verwendet werden, um die anfänglichen Daten für das erste Dropdown zu generieren.
+Zeilenaktionen sind **Edit** und **Delete**. **Bulk actions** hat **Enable selection**, **Disable selection** und **Delete selected**. Die Löschfrage lautet **Delete selected blocks?**
 
-### 4.3 Kernklassen & Modelle (`classes/`)
+**Add new** öffnet ein leeres Formular. Ein neuer Block ist aktiv, Tiefe 3, Wurzel ist die Home-Kategorie, Sortierung nach ID aufsteigend, Produktzähler aus, Schaltfläche nach der letzten Liste, Produkte aus, Auto-Submit aus, Suche in der Liste aus, Beschriftung in der Liste, Hook Top und der aktuelle Shop. Speichern Sie ihn. Das Formular öffnet sich wieder, damit Sie die Beschriftungen füllen. Die Beschriftungen stehen erst im Formular, wenn der Block existiert.
 
-Das Modul enthält keine benutzerdefinierten Klassen im Verzeichnis `classes/`. Es verwendet direkt die Kernklasse `Category` von PrestaShop und andere Hilfsfunktionen, um Kategoriedaten abzurufen.
+Die Liste zeigt Blöcke des Shops, in dem Sie sind, und Blöcke mit **All shops**.
 
-### 4.4 JavaScript-Assets (`views/js/`)
+### 3.3 Blockformular
 
-- `stepbystep/js/advajax.js`
-  - Geltungsbereich: Front-Office
-  - Dies ist die primäre JavaScript-Datei, die für das interaktive Verhalten des Moduls verantwortlich ist.
-  - Sie bindet Event-Listener an die `<select>`-Elemente der Kategorie-Dropdowns.
-  - Wenn eine Auswahl in einem Dropdown getroffen wird, löst sie eine AJAX-Anfrage (wahrscheinlich an `ajaxload.php`) aus, um die nächste Ebene von Unterkategorien abzurufen.
-  - Sie erstellt und füllt dynamisch nachfolgende Dropdowns mit den empfangenen Daten.
-  - Sie handhabt die Weiterleitung zur finalen Kategorieseite, wenn eine Auswahl getroffen oder der „Go“-Button geklickt wird.
-  - Sie verwaltet die Sichtbarkeit und den Zustand der Dropdowns basierend auf Benutzerinteraktion und Modulkonfiguration (z.B. „Anzahl der Dropdowns“).
+Öffnen Sie eine Zeile mit **Edit**, oder nutzen Sie **Add new** und danach den Bearbeitungsbildschirm nach dem ersten Speichern.
 
-### 4.5 CSS-Stylesheets (`views/css/`)
+![Blockformular, oben](https://mypresta.eu/docs/images/docs/stepbystep-block-form.webp)
 
-- `stepbystep/css/sbs-block.css`
-  - Geltungsbereich: Front-Office Kunden-Styling
-  - Gestaltet das allgemeine Erscheinungsbild des Schritt-für-Schritt-Kategorieblocks, einschließlich Polsterung, Rändern und des Gesamtlayouts, wenn er in Spalten oder anderen blockartigen Positionen platziert wird.
-  - Schlüssel-Selektoren: `.sbs-block`, `.sbs-category-select-wrapper`
-- `stepbystep/css/sbs-header.css`
-  - Geltungsbereich: Front-Office Kunden-Styling
-  - Gestaltet das Modul speziell, wenn es in die `displayHeader`-Position eingehängt ist, möglicherweise angepasst an Header-Layouts (z.B. Inline-Anzeige, spezifische Breiten).
-  - Schlüssel-Selektoren: `.sbs-header-container`
-- `stepbystep/css/sbs-top.css`
-  - Geltungsbereich: Front-Office Kunden-Styling
-  - Gestaltet das Modul wahrscheinlich, wenn es in `displayTop` oder ähnliche Positionen am Seitenanfang eingehängt ist, ähnlich wie `sbs-header.css`, aber für andere visuelle Kontexte.
-  - Schlüssel-Selektoren: `.sbs-top-container`
-- `stepbystep/css.css`
-  - Geltungsbereich: Front-Office Kunden-Styling
-  - Ein allgemeines Stylesheet, das gemeinsame Stile enthalten könnte, die für alle Platzierungen anwendbar sind, oder Fallback-Stile.
-  - Schlüssel-Selektoren: `.sbs-select`, `.sbs-go-button`
+![Blockformular, Beschriftungen und Position](https://mypresta.eu/docs/images/docs/stepbystep-block-form-bottom.webp)
 
-### 4.6 Smarty-Template-Struktur (`views/templates/`)
+| Feld | Am Anfang | Wirkung |
+|---|---|---|
+| **Block title** | leer | Überschrift über den Dropdowns. Ein Feld je Shop-Sprache. |
+| **Depth** | 3 | Wie viele Dropdowns der Block zeichnet. Speichern Sie den Block und öffnen Sie ihn erneut, um je Stufe eine Beschriftung zu füllen. Das Formular zeigt höchstens 30 Beschriftungsfelder. |
+| **Root category** | Home-Kategorie | Die erste Liste zeigt die Kinder dieser Kategorie. |
+| **Sort method** | By ID | By ID, By name oder By position. Position ist die Reihenfolge der Kategorie im Katalog. |
+| **Sort direction** | Ascending | Ascending oder Descending. |
+| **Products counter** | No | Yes schreibt die Produktzahl in Klammern hinter den Kategorienamen. |
+| **Submit button** | After last select box | After each select box zeigt **ok** bei der Stufe, auf der der Kunde ist. After last select box zeigt ein **ok** für den ganzen Satz. |
+| **Include products** | No | Yes zeigt eine Produktliste aus der zuletzt gewählten Kategorie. |
+| **Auto submit** | No | Yes sendet das Formular, sobald die letzte verfügbare Kategorie gewählt ist. Der Shop öffnet diese Kategorie. Das gilt, wenn **Include products** aus ist. Hat die gewählte Kategorie keine Kinder, öffnet der Shop sie ebenfalls. |
+| **Search inside dropdown** | No | Yes schaltet die Suche in den Listen ein. In **Settings** muss **Include Select2 library** ebenfalls an sein. |
+| **Exclude categories** | leer | Kategorie-IDs, die nicht in den Dropdowns erscheinen sollen. Trennen Sie sie mit Kommas, zum Beispiel 1,2,3,4,5,6. Die Suche neben dem Feld findet eine Kategorie und hängt ihre ID an. |
+| **Show on category pages** | leer | Leer zeigt den Block auf jeder Seite, auf der sein Hook liegt. Kategorie-IDs, mit Kommas getrennt, zeigen ihn nur auf diesen Kategorieseiten. |
+| **Label position** | Inside select box | Inside select box setzt die Beschriftung als erste Option. Outside select box druckt sie über dem Feld. |
+| **Label 1**, **Label 2** und weiter | leer | Ein Feld je Stufe und Sprache. Sie erscheinen erst nach dem Speichern des Blocks. Ändern Sie **Depth** und speichern Sie, wenn Sie mehr oder weniger brauchen. |
+| **Module position** | Top | Top, displaySearch, TopColumn, Left column, Right column, Home oder displaySbs. |
+| **Position top settings** | Blocks | Blocks stapelt die Dropdowns. Wide horizontal bar legt sie in eine Reihe. Die breite Leiste gilt auf Top und displaySearch. Die anderen Plätze bleiben gestapelt. Auf der breiten Leiste steht **ok** hinter dem letzten Dropdown und rutscht in die nächste Zeile, wenn kein Platz ist. |
+| **Shop** | der Shop, den Sie bearbeiten | Ein Shop oder **All shops**. **All shops** lässt den Block in jedem Shop. |
+| **Active** | Yes | No blendet den Block im Shop aus. |
 
-- **Hook-Templates (`views/templates/hook/`)**:
+Klicken Sie auf **Save**. PrestaShop zeigt seine übliche Bestätigung. Das Löschen eines Blocks löscht auch Titel, die Wahl der breiten Leiste und die Stufenbeschriftungen.
 
-  - `block.tpl`: Dieses Template wird wahrscheinlich verwendet, wenn das Modul in `displayLeftColumn` oder `displayRightColumn` eingehängt ist. Es rendert die Schritt-für-Schritt-Dropdowns innerhalb einer Standard-PrestaShop-Blockstruktur.
-  - `blockSbs.tpl`: Dies könnte ein alternatives oder ein generischeres Block-Template sein, das möglicherweise für andere Spalten-Hooks oder spezifische benutzerdefinierte Platzierungen verwendet wird.
-  - `displaySearch.tpl`: Dieses Template könnte für die Integration in der Nähe einer Suchleiste oder als Teil eines suchbezogenen Hooks gedacht sein, um die Dropdowns als Suchverfeinerungswerkzeug bereitzustellen.
-  - `header.tpl`: Dieses Template wird verwendet, wenn das Modul in `displayHeader` eingehängt ist. Es rendert die Dropdowns innerhalb des Header-Bereichs des Shops.
-  - `top.tpl`: Dieses Template wird verwendet, wenn das Modul in `displayTop` eingehängt ist. Ähnlich wie `header.tpl`, aber für den `displayTop`-Hook, der oft für die Hauptnavigationsleiste verwendet wird.
-- **Admin-Templates (`views/templates/admin/`)**: Keine identifiziert. Die Konfiguration wird direkt in `getContent()` behandelt.
-- **Front-Office-Templates (`views/templates/front/`)**: Keine als eigenständige Seiten identifiziert.
+Um einen Block in einer Theme-Datei ohne fertigen Hook zu zeigen, setzen Sie den Hook displaySbs ein und stellen Sie **Module position** auf displaySbs. Die anderen Positionen hängen Sie unter **Design**, **Positionen** ein, wenn das Theme sie nicht selbst ausgibt.
 
-### 4.7 Datenbankschema & Hooks-Map
+## 4. Shop
 
-- **Datenbanktabellen**: Das Modul erstellt keine benutzerdefinierten SQL-Tabellen. Es speichert seine Konfigurationseinstellungen in der PrestaShop-Tabelle `ps_configuration` unter Schlüsseln wie `STEPMYSTEP_HEADER`, `STEPMYSTEP_LEFT`, `STEPMYSTEP_RIGHT`, `STEPMYSTEP_FOOTER`, `STEPMYSTEP_PRODUCT`, `STEPMYSTEP_GO_BUTTON`, `STEPMYSTEP_DROPDOWNS`, `STEPMYSTEP_ROOT_CATEGORY`.
-- **Registrierte Hooks-Tabelle**:
+Der Kunde sieht den Blocktitel und die Dropdowns.
 
-| Hook-Name | Ausführungszeitpunkt | Technischer Zweck |
-| --- | --- | --- |
-| `displayHeader` | Rendert Inhalte innerhalb des `<head>`-Abschnitts des HTML oder ganz oben im `<body>` vor anderen Inhalten. | Fügt CSS/JS-Assets und möglicherweise die HTML-Struktur des Moduls ein, wenn für die Header-Anzeige konfiguriert. |
-| `displayLeftColumn` | Rendert Inhalte in der linken Seitenleiste des Shops. | Zeigt die Schritt-für-Schritt-Kategorie-Dropdowns in der linken Spalte an. |
-| `displayRightColumn` | Rendert Inhalte in der rechten Seitenleiste des Shops. | Zeigt die Schritt-für-Schritt-Kategorie-Dropdowns in der rechten Spalte an. |
-| `displayFooter` | Rendert Inhalte im Footer-Bereich des Shops. | Zeigt die Schritt-für-Schritt-Kategorie-Dropdowns im Footer an. |
-| `displayProductAdditionalInfo` (oder ähnlicher Produktseiten-Hook) | Rendert Inhalte auf der Produktseite, oft unter der Produktbeschreibung oder in einem spezifischen Block. | Zeigt die Schritt-für-Schritt-Kategorie-Dropdowns auf Produktseiten an. |
-| `displayTop` | Rendert Inhalte im oberen Bereich der Seite, typischerweise über oder innerhalb der Hauptnavigation. | Zeigt die Schritt-für-Schritt-Kategorie-Dropdowns in der oberen Leiste an. |
+1. Die erste Liste zeigt die Kinder der Wurzelkategorie. Spätere Listen bleiben inaktiv, bis die vorherige Stufe eine Kategorie hat.
+2. Der Kunde wählt eine Kategorie. Ein Spinner liegt über dem Block. Die nächste Liste füllt sich mit den Kindern. Der Spinner verschwindet, wenn die Liste fertig ist, und auch wenn die Anfrage scheitert.
+3. Ausgeschlossene Kategorie-IDs fehlen in diesen Listen.
+4. Bei **Submit button** auf after each select box steht **ok** bei der aktuellen Stufe. Bei after last select box gibt es ein **ok** für den Satz.
+5. **ok** öffnet die gewählte Kategorie.
+6. Mit **Include products** kommt auf der letzten Stufe eine Produktliste dazu. Die erste Option ist **- Select Product -**. **ok** nutzt dann das gewählte Produkt.
+7. Mit **Auto submit** an und **Include products** aus öffnet die letzte Kategorie sich ohne **ok**. Dieselbe Weiterleitung gilt, wenn die gewählte Kategorie keine Kinder hat.
+8. Mit **Reset search fields** aus kann ein späterer Besuch dieselben Kategorien zeigen. Der Browser hält sie 30 Minuten. Mit der Option an starten die Listen leer.
+9. Wenn **Search inside dropdown** und **Include Select2 library** an sind, kann der Kunde in der Liste tippen.
 
-## 5. Offizieller Support & Updates
+In der linken und rechten Spalte stehen die Stufen untereinander, der Titel in Großbuchstaben wie bei Classic. Auf der breiten Leiste stehen die Stufen in einer Reihe. Auf einem schmalen Bildschirm stapelt sich die breite Leiste. Farben, Rahmen und die Schaltfläche **ok** kommen aus dem Theme, auch Hummingbird und Classic unter PrestaShop 9.
 
-Für die neuesten Updates, Fehlerbehebungen und offiziellen Support für das Modul „Schritt für Schritt - Kategorien“ besuchen Sie bitte Ihr Kundenkonto unter [MyPresta.eu](https://mypresta.eu/my-account/orders/). Unser Support-Team steht Ihnen bei Fragen oder Problemen gerne zur Verfügung.
+Ein Block mit gefülltem **Show on category pages** fehlt auf anderen Seiten. Ein inaktiver Block fehlt. Ein Block eines anderen Shops fehlt ebenfalls.
+
+## 5. Probleme
+
+**Der Block fehlt im Shop.** Öffnen Sie den Block und prüfen Sie **Active**, **Module position** und **Shop**. Leeres **Show on category pages** zeigt ihn auf jeder Seite dieses Hooks. Eine gefüllte Liste zeigt ihn nur auf diesen Kategorieseiten. Unter **Design**, **Positionen** prüfen Sie, ob der Hook auf den erwarteten Seiten liegt. Für einen eigenen Platz muss das Template displaySbs aufrufen, und der Block muss diese Position nutzen.
+
+**Die nächste Liste füllt sich nicht, oder der Spinner bleibt.** Leeren Sie den Shop-Cache, damit der Shop das aktuelle Stylesheet und Skript nimmt. Der Spinner soll verschwinden, wenn die Anfrage endet, auch wenn die Antwort nicht angewendet werden kann. Wenn der Shop noch den alten Gif-Lader zeigt, liegt das vorherige CSS im Cache.
+
+**Die Suche in der Liste tut nichts.** Schalten Sie **Include Select2 library** in **Settings** und **Search inside dropdown** am Block ein. Speichern Sie beides. Leeren Sie den Cache.
+
+**Bei einem neuen Block fehlen die Beschriftungen.** Speichern Sie den Block einmal. Öffnen Sie ihn erneut. **Label 1** und der Rest erscheinen erst, wenn der Block existiert, und nur bis zum gespeicherten **Depth**.
+
+**Eine gewünschte Kategorie fehlt in der Liste.** Entfernen Sie ihre ID aus **Exclude categories**. Prüfen Sie, ob sie ein Kind des gewählten Elternteils ist und im Katalog aktiv ist.
+
+**Die breite Leiste stapelt die Felder weiter.** **Wide horizontal bar** gilt auf Top und displaySearch. Links, rechts, Startseite, TopColumn und displaySbs bleiben gestapelt. Auf dem Telefon stapelt sich die breite Leiste absichtlich.
+
+**Nach einem Update fehlt die Seite Blocks.** Öffnen Sie einmal **Konfigurieren**. Dieser Besuch trägt die Seite ein. Deinstallieren Sie das Modul nicht, wenn Sie die vorhandenen Zeilen weiter nutzen wollen. Die Deinstallation entfernt die Seite und lässt die Zeilen stehen.
+
+**Der alte Konfigurationsbildschirm hat kein Papierkorb-Symbol.** Das ist eine ältere Version. Laden Sie die aktuelle Zip-Datei aus dem Kundenkonto hoch. In der aktuellen Version löschen Sie einen Block in der Liste **Blocks**, mit **Delete** in der Zeile oder mit **Delete selected**.
+
+## 6. Für Entwickler
+
+### 6.1 Überblick
+
+Technischer Name `stepbystep`, Klasse `Stepbystep`, Version 1.9.0, Autor MyPresta.eu, Tab `front_office_features`. Der Name im Backoffice ist **Step By Step - categories tree**.
+
+`AdminStepbystepBlocksController` schreibt Zeilen in `sbs_block` und Titel, Beschriftungen und die Flagge der breiten Leiste in `Configuration`. Shop-Hooks lesen aktive Zeilen des aktuellen Shops oder mit `id_shop = 0`. `controllers/front/tree.php` liefert das Skript, das die nächste Liste füllt.
+
+### 6.2 Dateien
+
+| Datei | Rolle |
+|---|---|
+| `stepbystep.php` | Installation, Hooks, Einstellungsformular, Dropdown-HTML, Shop-Skript. |
+| `controllers/admin/AdminStepbystepBlocksController.php` | Blockliste und Blockformular. |
+| `models/SbsBlock.php` | Objektmodell für `sbs_block`. |
+| `controllers/front/tree.php` | Front-Controller, der das Skript der nächsten Stufe liefert. |
+| `views/templates/hook/front.tpl` | Shop-Markup für jeden Hook. |
+| `views/templates/hook/header.tpl` | Gibt das Inline-Skript aus. |
+| `views/templates/admin/configure.tpl` | Leiste Blocks, Settings, Updates. |
+| `css/sbs-front.css` | Shop-Layout, Theme-Variablen, Spinner. |
+| `js/advajax.js` | Anfrage der Dropdowns. |
+| `lib/updatesChecker.php` | Update-Prüfung. Klasse `stepbystepUpdate`. |
+| `lib/searchTool/searchTool.php` | Suche der Kategorie-ID im Blockformular. Klasse `searchToolstepbystep`. |
+| `lib/prestashop9compatibility.php` | Klasse `stepbystepPrestashopNewCompatibility`. |
+| `views/css/admin.css` | Leiste im Backoffice. |
+
+`tree.php` im Modulstamm ist die ältere Kopie des Front-Controllers. Der Shop-Link nutzt `controllers/front/tree.php`. `views/templates/hook/block.tpl`, `blockSbs.tpl`, `top.tpl` und `displaySearch.tpl` werden nicht gerendert. `css/sbs-block.css` und `css/sbs-top.css` werden nicht eingebunden.
+
+### 6.3 Controller
+
+`AdminStepbystepBlocksController` erweitert `ModuleAdminController`. `class_name` ist `AdminStepbystepBlocks`. `id_parent` ist `-1`, die Seite ist im Menü versteckt. Der Listenbezeichner ist `id`. Das Ziehen der Position ruft `ajaxProcessUpdatePositions` auf. Der Listenfilter ist `id_shop` des Kontext-Shops oder `0`.
+
+`stepbysteptreeModuleFrontController` ist der Front-Controller `tree`. `initContent` setzt `ajax` und ruft `parent::initContent` nicht auf. Er liest `sbs_block`, `sbs_pid`, `sbs_lvl`, und beim Bestätigen `sbs_blockid` und `sbs_cidlink`. Der Antwortkörper ist JavaScript. Ein fehlender Block beendet die Antwort.
+
+### 6.4 Hooks
+
+Eingetragene Hooks: `displayHeader`, `displayLeftColumn`, `displayRightColumn`, `displayTop`, `displaySearch`, `displayHome`, `displaySbs`, `displayBackOfficeHeader`. Ab PrestaShop 1.6 auch `displaytopColumn`.
+
+| Hook | Wert der Blockposition | Layout |
+|---|---|---|
+| `displayTop` | 1 | oben, breite Leiste wenn `sbs_top_type{id}` 1 ist |
+| `displayLeftColumn` | 2 | gestapelt |
+| `displayRightColumn` | 3 | gestapelt |
+| `displayHome` | 4 | gestapelt |
+| `displaytopColumn` | 5 | gestapelt |
+| `displaySearch` | 6 | oben, breite Leiste wenn `sbs_top_type{id}` 1 ist |
+| `displaySbs` | 7 | gestapelt |
+
+`displayHeader` lädt `js/advajax.js` und `css/sbs-front.css`. Wenn `SBS_SELECT2` 1 ist, lädt es auch Select2. Es gibt kein Überschreiben von `enable()` oder `disable()`.
+
+### 6.5 Overrides
+
+Das Modul überschreibt keine PrestaShop-Klasse und keinen Controller.
+
+### 6.6 Datenbank
+
+| Tabelle | Inhalt |
+|---|---|
+| `ps_sbs_block` | `id`, `depth`, `root`, `orderby`, `orderway`, `counter`, `each_submit`, `lbl_position`, `block_position`, `position`, `active`, `products`, `last_submit`, `search_inside`, `exclude`, `id_shop`, `on_cat_only`, `id_categories`. |
+
+Das Präfix folgt dem Shop. Die Deinstallation löscht die Tabelle nicht. `inconsistency()` ergänzt eine fehlende Spalte aus dieser Liste, wenn die Modulkonfiguration oder die Blockliste geöffnet wird. `on_cat_only` bleibt und steht nicht im Formular. Der Shop nutzt `id_categories`.
+
+### 6.7 Konfigurationsschlüssel und Übersetzungen
+
+| Schlüssel | Wenn er fehlt |
+|---|---|
+| `SBS_RESET` | Gilt als 0. Die Wahl bleibt 30 Minuten in Cookies `sbs_selectbox_{block}_{level}`. |
+| `SBS_SELECT2` | Gilt als 0. Select2 wird nicht geladen. |
+| `sbs_title{id}` | Mehrsprachiger Blocktitel. |
+| `{id}sbs_lbl_{n}` | Mehrsprachige Beschriftung der Stufe `n`, von 1 bis zur Tiefe, höchstens 30. |
+| `sbs_top_type{id}` | 0 gestapelt, 1 breite Leiste. |
+
+Die Installation schreibt auch `sbs_depth`, `sbs_counter`, `sbs_each_submit`, `sbs_position`, `sbs_lbl_position` und `sbs_root`. Das Blockformular liest diese Schlüssel nicht. Neue Blöcke nutzen die Vorgaben in `prepareObjectDefaults()`.
+
+Übersetzungen liegen in `translations/{iso}.php`. Texte des Block-Controllers haben die Quelle `AdminStepbystepBlocksController`. Der Schaltflächentext ist der Modultext `ok`. Der Produkt-Platzhalter ist `- Select Product -`.
+
+### 6.8 Erweitern
+
+Überschreiben Sie `views/templates/hook/front.tpl` im Theme als `themes/{theme}/modules/stepbystep/views/templates/hook/front.tpl`. Überschreiben Sie `css/sbs-front.css` auf demselben Weg, wenn das Theme das Layout ersetzen soll. Die Position der Schaltfläche auf der breiten Leiste ist die Flex-Reihenfolge in diesem Stylesheet: das sichtbare `.sbs__actions` steht hinter den Dropdowns und bricht mit der Zeile um.
+
+## 7. Hilfe
+
+Modulseite: [Step by Step categories](https://mypresta.eu/modules/front-office-features/step-by-step-categories.html).
+
+Um zu diesem Modul zu schreiben, melden Sie sich im Kundenkonto auf [mypresta.eu](https://mypresta.eu) an, öffnen Sie das Kontaktformular und wählen Sie **Support for paid modules**. Bei diesem Thema steht, dass eine Anmeldung nötig ist. Nach der Anmeldung wählen Sie dieses Modul aus der Kaufhistorie.

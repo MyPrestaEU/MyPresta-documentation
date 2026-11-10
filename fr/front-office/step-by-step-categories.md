@@ -1,8 +1,8 @@
 ---
-title: "Pas à pas - catégories - Manuel du marchand et guide de configuration"
-description: "Manuel utilisateur complet, guide de configuration écran par écran et référence développeur pour le module PrestaShop Pas à pas - catégories par MyPresta.eu."
+title: Step by Step - documentation et manuel utilisateur
 sidebar:
-  label: "Pas à pas - catégories - Manuel du marchand et guide de configuration"
+  label: Step by Step - documentation et manuel utilisateur
+description: Guide de réglage et de dépannage pour les boutiques qui ont déjà le filtre de catégories Step by Step.
 ---
 
 > ⚠️ **Notice:** This is the documentation officielle du module PrestaShop.
@@ -12,159 +12,232 @@ sidebar:
 > ---
 
 
-# Pas à pas - catégories
+## 1. Prérequis
 
-## 1. Exigences et compatibilité
+Le module tourne dans PrestaShop. Il n'a besoin d'aucun autre module ni d'un compte externe.
 
-- **Versions de PrestaShop prises en charge** : PrestaShop 1.5.x, 1.6.x, 1.7.x, 8.x, 9.x
-- **Compatibilité PHP** : PHP 5.6 - 8.5
-- **Exigences d'hébergement** : Les extensions PHP standard (cURL, JSON, OpenSSL) sont généralement suffisantes. Aucune exigence de serveur particulière au-delà d'un environnement d'hébergement PrestaShop standard.
+- PrestaShop à partir de 1.6.0.0, y compris PrestaShop 8 et 9.
+- PHP dans la version demandée par cette version de PrestaShop. La vérification des mises à jour utilise cURL si PHP l'a. Sinon, elle ouvre l'adresse par une requête ordinaire. N'installez pas d'extension PHP supplémentaire pour les listes.
+- Aucun autre module n'est nécessaire.
+- En multiboutique, un bloc peut appartenir à une boutique ou à toutes.
 
-## 2. Guide de configuration complet (chaque paramètre regroupé par écran)
+## 2. Installation
 
-### 2.1 Page de configuration du module (Back Office > Modules > Configurer)
+1. Dans le back-office, ouvrez **Modules**, puis **Gestionnaire de modules**.
+2. Envoyez le fichier zip et cliquez sur **Installer**.
+3. Ouvrez **Configurer** sur **Step By Step - categories tree**. La page a **Blocks**, **Settings** et **Updates**. **Blocks** est la liste des jeux de listes. La première visite crée la page cachée de cette liste. Elle n'apparaît pas comme entrée propre dans le menu de gauche.
+4. L'installation ne vide pas le cache dans une étape séparée. Si la boutique montre encore l'ancienne mise en page après une mise à jour, videz le cache dans **Paramètres avancés**, **Performances**.
 
-Après l'installation, cliquer sur « Configurer » vous mènera à l'écran de configuration principal pour « Pas à pas - catégories ». C'est ici que vous contrôlez le comportement et l'apparence du module sur votre boutique.
+La désinstallation retire cette page cachée. Les blocs, les titres, les libellés et les deux interrupteurs globaux restent dans la base. Après une réinstallation, les mêmes blocs sont là. Ouvrez **Configurer** une fois pour réenregistrer la page de liste.
 
-| Paramètre / Option | Ce que fait ce paramètre | Effet de la modification de ce paramètre | Valeur recommandée | Scénario / exemple marchand |
-| --- | --- | --- | --- | --- |
-| **Afficher le bloc dans l'en-tête** | Contrôle si la navigation par catégorie pas à pas apparaît dans la section d'en-tête de votre boutique. | *Lorsque activé :* Les listes déroulantes de catégories seront visibles en haut de votre site web, souvent près du logo ou de la navigation principale. Cela offre un accès immédiat au filtrage par catégorie. *Lorsque désactivé :* Le bloc n'apparaîtra pas dans l'en-tête. | **OUI** (si vous souhaitez une navigation proéminente) | Vous voulez que les clients trouvent facilement des produits depuis n'importe quelle page, donc le placer dans l'en-tête le rend toujours accessible. |
-| **Afficher le bloc dans la colonne de gauche** | Contrôle si la navigation par catégorie pas à pas apparaît dans la barre latérale gauche de votre boutique. | *Lorsque activé :* Les listes déroulantes de catégories seront visibles dans la colonne de gauche de votre site web (si votre thème prend en charge une colonne de gauche). C'est un placement traditionnel pour les filtres de catégorie. *Lorsque désactivé :* Le bloc n'apparaîtra pas dans la colonne de gauche. | **OUI** (si votre thème a une colonne de gauche et que vous souhaitez une navigation latérale) | Votre thème a une barre latérale gauche, et vous préférez y organiser les éléments de navigation, de manière similaire à une arborescence de catégories standard. |
-| **Afficher le bloc dans la colonne de droite** | Contrôle si la navigation par catégorie pas à pas apparaît dans la barre latérale droite de votre boutique. | *Lorsque activé :* Les listes déroulantes de catégories seront visibles dans la colonne de droite de votre site web (si votre thème prend en charge une colonne de droite). *Lorsque désactivé :* Le bloc n'apparaîtra pas dans la colonne de droite. | **NON** (sauf si votre thème utilise spécifiquement une colonne de droite pour la navigation) | Votre thème utilise la colonne de droite pour des informations supplémentaires, et vous souhaitez y placer la navigation par catégorie au lieu de la gauche. |
-| **Afficher le bloc dans le pied de page** | Contrôle si la navigation par catégorie pas à pas apparaît dans la section de pied de page de votre boutique. | *Lorsque activé :* Les listes déroulantes de catégories seront visibles en bas de votre site web. C'est moins courant pour la navigation principale, mais peut être utile pour un accès secondaire. *Lorsque désactivé :* Le bloc n'apparaîtra pas dans le pied de page. | **NON** (sauf pour des raisons de conception spécifiques) | Vous avez un en-tête et des colonnes très minimalistes, et vous souhaitez offrir une navigation par catégorie dans le pied de page comme alternative pour les utilisateurs qui défilent vers le bas. |
-| **Afficher le bloc sur la page produit** | Contrôle si la navigation par catégorie pas à pas apparaît sur les pages de produits individuelles. | *Lorsque activé :* Les listes déroulantes de catégories seront visibles sur les pages de détails des produits. Cela peut aider les clients à explorer d'autres catégories ou produits connexes. *Lorsque désactivé :* Le bloc n'apparaîtra pas sur les pages de produits. | **NON** (sauf si vous en avez un besoin spécifique ici) | Vous souhaitez encourager les clients qui consultent un produit à passer facilement à d'autres catégories sans quitter la page produit, peut-être pour comparer des articles. |
-| **Afficher le bouton « Aller »** | Détermine si un bouton « Aller » ou « Rechercher » est affiché à côté de la dernière liste déroulante de catégories. | *Lorsque activé :* Un bouton apparaîtra. Les clients doivent cliquer sur ce bouton pour être redirigés vers la page de la catégorie sélectionnée. *Lorsque désactivé :* Les clients sont automatiquement redirigés vers la page de la catégorie sélectionnée dès qu'ils effectuent la sélection finale dans la dernière liste déroulante. | **OUI** (pour plus de contrôle) | Vous voulez que les clients confirment leur sélection de catégorie avant d'être redirigés, leur donnant une chance de revoir leur choix. |
-| **Nombre de listes déroulantes** | Définit le nombre maximum de niveaux de catégories (profondeur) qui seront affichés sous forme de listes déroulantes. | *Lorsque défini sur 1 :* Seules les catégories de niveau supérieur apparaîtront dans une seule liste déroulante. *Lorsque défini sur 3 :* Jusqu'à trois niveaux de catégories (par exemple, Catégorie principale > Sous-catégorie 1 > Sous-catégorie 2) seront affichés dans des listes déroulantes séparées. | **3** (ou en fonction de la profondeur de vos catégories) | Votre boutique a des catégories imbriquées jusqu'à 3 ou 4 niveaux de profondeur, et vous voulez que les clients puissent descendre efficacement. |
-| **Catégorie racine** | Spécifie le point de départ de la navigation par catégorie. Seules les catégories au sein de cette racine seront affichées. | *Lorsque défini sur « Accueil » :* Toutes les catégories à partir du tout début de votre catalogue seront disponibles. *Lorsque défini sur « Électronique » :* Seules les catégories sous « Électronique » (par exemple, « Ordinateurs portables », « Smartphones ») seront affichées dans les listes déroulantes. | **Accueil** (sauf si vous souhaitez restreindre la navigation) | Vous ne souhaitez offrir une navigation pas à pas que pour une partie spécifique de votre catalogue, comme « Vêtements », et exclure d'autres sections comme « Maison et Jardin ». |
+En dehors de l'interrupteur habituel du **Gestionnaire de modules**, il n'y a pas d'action d'activation séparée. Si vous désactivez le module, les listes disparaissent de la boutique et les blocs enregistrés restent.
 
-### 2.2 Tableau de référence rapide de la configuration
+## 3. Configuration et utilisation dans le back-office
 
-| Écran / Vue | Paramètre / Option | Par défaut / Recommandé | Objectif et impact |
-| --- | --- | --- | --- |
-| Configuration du module | Afficher le bloc dans l'en-tête | OUI | Affiche les listes déroulantes de catégories dans l'en-tête de la boutique pour une navigation proéminente. |
-| Configuration du module | Afficher le bloc dans la colonne de gauche | OUI | Affiche les listes déroulantes de catégories dans la barre latérale gauche pour une navigation traditionnelle. |
-| Configuration du module | Afficher le bloc dans la colonne de droite | NON | Affiche les listes déroulantes de catégories dans la barre latérale droite. |
-| Configuration du module | Afficher le bloc dans le pied de page | NON | Affiche les listes déroulantes de catégories dans le pied de page de la boutique. |
-| Configuration du module | Afficher le bloc sur la page produit | NON | Affiche les listes déroulantes de catégories sur les pages de détails des produits. |
-| Configuration du module | Afficher le bouton « Aller » | OUI | Demande aux clients de cliquer sur un bouton pour naviguer vers la catégorie sélectionnée. |
-| Configuration du module | Nombre de listes déroulantes | 3 | Définit la profondeur maximale des niveaux de catégories affichés. |
-| Configuration du module | Catégorie racine | Accueil | Définit le point de départ de la navigation par catégorie. |
+Vous créez un bloc, vous fixez la profondeur de l'arbre de catégories et vous choisissez l'emplacement dans la boutique. Le client choisit une catégorie. La liste suivante charge ses enfants. **ok** ouvre la catégorie choisie, ou un produit si la liste de produits est active.
 
-## 3. Dépannage marchand et questions fréquemment posées (FAQ)
+Les captures de ce chapitre viennent du back-office en anglais. Les libellés à l'écran restent en anglais.
 
-**Q1 : Le module est installé, mais je ne vois pas les listes déroulantes sur ma boutique.**
-R1 :
+### 3.1 Page de configuration du module
 
-- **Vérifier la configuration :** Allez dans **Modules > Gestionnaire de modules > Pas à pas - catégories > Configurer**. Assurez-vous qu'au moins une option « Afficher le bloc dans... » (par exemple, « Afficher le bloc dans l'en-tête », « Afficher le bloc dans la colonne de gauche ») est définie sur **OUI**.
-- **Vider le cache :** PrestaShop met souvent en cache le contenu. Allez dans **Paramètres avancés > Performance** et cliquez sur « Vider le cache » (ou « Vider le cache Smarty » dans les versions antérieures).
-- **Compatibilité du thème :** Certains thèmes très personnalisés peuvent nécessiter des ajustements mineurs. Si vider le cache ne résout pas le problème, essayez de passer temporairement au thème PrestaShop par défaut pour voir si le module apparaît. Si c'est le cas, votre thème pourrait remplacer les positions de hook standard.
+Ouvrez **Modules**, **Gestionnaire de modules**, **Step By Step - categories tree**, **Configurer**.
 
-**Q2 : Les listes déroulantes apparaissent, mais elles ne se mettent pas à jour lorsque je sélectionne une catégorie.**
-R2 :
+![Réglages](https://mypresta.eu/docs/images/docs/stepbystep-configure-settings.webp)
 
-- **Problèmes AJAX :** Cela indique généralement une erreur JavaScript. Ouvrez la console de développement de votre navigateur (F12) et vérifiez s'il y a des erreurs dans l'onglet « Console ».
-- **JavaScript en conflit :** Un autre module ou le JavaScript de votre thème pourrait interférer. Essayez de désactiver d'autres modules front-office un par un pour identifier les conflits.
-- **Fichiers du module :** Assurez-vous que tous les fichiers du module ont été téléchargés correctement et ne sont pas corrompus. Re-télécharger le module pourrait résoudre ce problème.
+En haut se trouvent **Blocks**, **Settings** et **Updates**. **Blocks** quitte cette page et ouvre la liste des blocs. **Settings** est l'onglet de départ. Sous la barre, le texte dit que ces options valent pour chaque bloc et que les blocs se modifient dans **Blocks**.
 
-**Q3 : Comment modifier le style (couleurs, polices, taille) des listes déroulantes ?**
-R3 :
+| Champ | Au départ | Effet |
+|---|---|---|
+| **Reset search fields** | No | Yes vide les listes après une recherche. No garde les catégories choisies par le visiteur. Le navigateur garde ce choix 30 minutes. |
+| **Include Select2 library** | No | Yes charge le script et la feuille de style supplémentaires pour **Search inside dropdown** d'un bloc. No laisse des listes ordinaires. |
 
-- Le module utilise du CSS standard. Vous aurez besoin de connaissances CSS de base ou d'un webmaster.
-- Les fichiers CSS du module (par exemple, `sbs-block.css`, `sbs-header.css`) définissent les styles par défaut.
-- **Meilleure pratique :** NE MODIFIEZ PAS directement les fichiers CSS du module, car vos modifications seront perdues lors des mises à jour. Utilisez plutôt le fichier CSS personnalisé de votre thème (souvent trouvé dans `themes/votreetheme/assets/css/custom.css` ou similaire) pour remplacer les styles du module. Utilisez l'inspecteur de votre navigateur (F12) pour identifier les classes CSS utilisées par les listes déroulantes.
+Cliquez sur **Save**. La page affiche **Settings saved.**
 
-**Q4 : Mes catégories sont très profondes, mais je ne vois que quelques listes déroulantes.**
-R4 :
+![Mises à jour](https://mypresta.eu/docs/images/docs/stepbystep-configure-updates.webp)
 
-- **Paramètre « Nombre de listes déroulantes » :** Allez dans **Modules > Gestionnaire de modules > Pas à pas - catégories > Configurer** et ajustez le paramètre « Nombre de listes déroulantes ». Augmentez cette valeur pour qu'elle corresponde à la profondeur maximale des catégories que vous souhaitez afficher. N'oubliez pas qu'afficher trop de listes déroulantes pourrait encombrer l'interface.
+**Updates** est le formulaire **MyPresta updates**.
 
-**Q5 : Le module affiche des catégories que je ne veux pas inclure dans la navigation pas à pas.**
-R5 :
+| Champ | Au départ | Effet |
+|---|---|---|
+| **Manual check** | bouton **Check now** | Demande à MyPresta si une version plus récente existe. **New version available!** mène au journal des modifications. **Module is up to date!** signifie que cette installation correspond à la version publiée. Le bouton n'envoie pas de zip. |
+| **Automatic notifications** | Enabled | Enabled répète cette vérification environ tous les 3 jours pendant que vous travaillez dans le back-office. Disabled la saute. |
+| **Product page** | lien vers la page du module | Ouvre la page Step by Step sur mypresta.eu. |
 
-- **Paramètre « Catégorie racine » :** Dans la configuration du module, utilisez le paramètre « Catégorie racine ». Sélectionnez une catégorie parente spécifique à partir de laquelle vous souhaitez que la navigation pas à pas commence. Seules les catégories et sous-catégories sous la racine choisie seront affichées.
+**Save** affiche **Update settings saved.** Envoyez un nouveau zip depuis le **Gestionnaire de modules** lorsqu'une version plus récente est indiquée.
 
-## 4. Guide du développeur et du webmaster (Architecture technique et carte du code)
+### 3.2 Liste des blocs
 
-### 4.1 Vue d'ensemble de l'architecture
+Ouvrez **Blocks**. Sous la barre, le texte dit que chaque bloc est un jeu de listes.
 
-Le module « Pas à pas - catégories » est principalement une fonctionnalité front-office tirant parti de l'architecture des modules de PrestaShop. Il utilise une classe `Module` standard pour l'installation et la configuration, et des classes `ModuleFrontController` pour gérer les requêtes AJAX de chargement dynamique des catégories. Il n'introduit pas de classes `ObjectModel` personnalisées ni de tables de base de données, s'appuyant sur l'objet `Category` natif de PrestaShop pour les données. Le module utilise fortement les templates Smarty pour le rendu et JavaScript pour la fonctionnalité AJAX interactive.
+![Liste des blocs](https://mypresta.eu/docs/images/docs/stepbystep-blocks-list.webp)
 
-### 4.2 Contrôleurs (`controllers/`)
+| Champ | Au départ | Effet |
+|---|---|---|
+| **ID** | attribué à l'enregistrement | Numéro du bloc. Il sert à distinguer les lignes. |
+| **Title** | Block et le numéro, jusqu'à ce que vous saisissiez un titre | Titre dans la langue du back-office. |
+| **Depth** | 3 pour un bloc nouveau | Combien de listes le bloc dessine. |
+| **Root category** | catégorie Home de la boutique pour un bloc nouveau | Parent de la première liste, en numéro et en nom. |
+| **Hook** | Top pour un bloc nouveau | Emplacement du bloc dans la boutique. |
+| **Active** | Yes | L'icône active ou désactive le bloc. Off masque les listes et laisse la ligne. |
+| **Position** | prochaine position libre | Glissez la ligne pour changer l'ordre des blocs du même hook. |
 
-- **Contrôleurs Front-Office** :
-  - `controllers/front/ajaxload.php`
-    - Nom de la classe : `StepbystepAjaxloadModuleFrontController`
-    - Classe parente : `ModuleFrontController`
-    - Responsabilité : Ce contrôleur est le cœur de la fonctionnalité AJAX. Il répond aux requêtes du JavaScript front-office pour récupérer les sous-catégories en fonction d'un ID de catégorie parente. Il renvoie généralement des données JSON contenant les noms et ID des catégories pour peupler les listes déroulantes suivantes.
-  - `controllers/front/index.php`
-    - Nom de la classe : `StepbystepIndexModuleFrontController`
-    - Classe parente : `ModuleFrontController`
-    - Responsabilité : Ce contrôleur sert probablement de point d'entrée par défaut ou de repli pour le routage front-office du module, bien que sa fonction principale puisse être minimale étant donné la nature pilotée par AJAX. Il pourrait gérer la logique d'affichage initiale ou la redirection si le module devait avoir une page dédiée.
-  - `controllers/front/tree.php`
-    - Nom de la classe : `StepbystepTreeModuleFrontController`
-    - Classe parente : `ModuleFrontController`
-    - Responsabilité : Ce contrôleur pourrait être responsable du rendu d'une structure d'arborescence de catégories complète, potentiellement pour le débogage ou une méthode d'affichage alternative, bien que la fonctionnalité principale du module soit les listes déroulantes. Il pourrait également être utilisé pour générer les données initiales de la première liste déroulante.
+Les actions de ligne sont **Edit** et **Delete**. **Bulk actions** a **Enable selection**, **Disable selection** et **Delete selected**. La confirmation demande **Delete selected blocks?**
 
-### 4.3 Classes et modèles principaux (`classes/`)
+**Add new** ouvre un formulaire vide. Un bloc nouveau est actif, profondeur 3, racine la catégorie Home, tri par ID croissant, compteur de produits éteint, bouton après la dernière liste, produits éteints, envoi automatique éteint, recherche dans la liste éteinte, libellé dans la liste, hook Top et la boutique en cours. Enregistrez-le. Le formulaire se rouvre pour que vous remplissiez les libellés. Les libellés n'apparaissent dans le formulaire que lorsque le bloc existe.
 
-Le module ne contient aucune classe personnalisée dans le répertoire `classes/`. Il utilise directement la classe `Category` de PrestaShop et d'autres fonctions d'aide pour récupérer les données de catégorie.
+La liste montre les blocs de la boutique où vous êtes et les blocs avec **All shops**.
 
-### 4.4 Actifs JavaScript (`views/js/`)
+### 3.3 Formulaire du bloc
 
-- `stepbystep/js/advajax.js`
-  - Portée : Front-office
-  - C'est le fichier JavaScript principal responsable du comportement interactif du module.
-  - Il lie les écouteurs d'événements aux éléments `<select>` des listes déroulantes de catégories.
-  - Lorsqu'une sélection est effectuée dans une liste déroulante, il déclenche une requête AJAX (probablement vers `ajaxload.php`) pour récupérer le niveau suivant de sous-catégories.
-  - Il crée et peuple dynamiquement les listes déroulantes suivantes avec les données reçues.
-  - Il gère la redirection vers la page de catégorie finale lorsqu'une sélection est effectuée ou que le bouton « Aller » est cliqué.
-  - Il gère la visibilité et l'état des listes déroulantes en fonction de l'interaction de l'utilisateur et de la configuration du module (par exemple, « Nombre de listes déroulantes »).
+Ouvrez une ligne avec **Edit**, ou utilisez **Add new** puis l'écran d'édition qui suit le premier enregistrement.
 
-### 4.5 Feuilles de style CSS (`views/css/`)
+![Formulaire du bloc, haut](https://mypresta.eu/docs/images/docs/stepbystep-block-form.webp)
 
-- `stepbystep/css/sbs-block.css`
-  - Portée : Style client Front-office
-  - Style l'apparence générale du bloc de catégories pas à pas, y compris le rembourrage, les marges et la mise en page globale lorsqu'il est placé dans des colonnes ou d'autres positions de type bloc.
-  - Sélecteurs clés : `.sbs-block`, `.sbs-category-select-wrapper`
-- `stepbystep/css/sbs-header.css`
-  - Portée : Style client Front-office
-  - Style spécifiquement le module lorsqu'il est accroché à la position `displayHeader`, en l'ajustant potentiellement pour les mises en page d'en-tête (par exemple, affichage en ligne, largeurs spécifiques).
-  - Sélecteurs clés : `.sbs-header-container`
-- `stepbystep/css/sbs-top.css`
-  - Portée : Style client Front-office
-  - Style probablement le module lorsqu'il est accroché à `displayTop` ou à des positions similaires en haut de page, similaire à `sbs-header.css` mais pour des contextes visuels différents.
-  - Sélecteurs clés : `.sbs-top-container`
-- `stepbystep/css.css`
-  - Portée : Style client Front-office
-  - Une feuille de style générale qui pourrait contenir des styles communs applicables à tous les emplacements ou des styles de secours.
-  - Sélecteurs clés : `.sbs-select`, `.sbs-go-button`
+![Formulaire du bloc, libellés et position](https://mypresta.eu/docs/images/docs/stepbystep-block-form-bottom.webp)
 
-### 4.6 Structure des templates Smarty (`views/templates/`)
+| Champ | Au départ | Effet |
+|---|---|---|
+| **Block title** | vide | Titre au-dessus des listes. Un champ par langue de la boutique. |
+| **Depth** | 3 | Combien de listes le bloc dessine. Enregistrez le bloc et rouvrez-le pour remplir un libellé par niveau. Le formulaire montre au plus 30 champs de libellé. |
+| **Root category** | catégorie Home | La première liste montre les enfants de cette catégorie. |
+| **Sort method** | By ID | By ID, By name ou By position. Position est l'ordre de la catégorie dans le catalogue. |
+| **Sort direction** | Ascending | Ascending ou Descending. |
+| **Products counter** | No | Yes écrit le nombre de produits entre parenthèses après le nom de la catégorie. |
+| **Submit button** | After last select box | After each select box montre **ok** au niveau où se trouve le client. After last select box montre un **ok** pour tout le jeu. |
+| **Include products** | No | Yes montre une liste de produits de la dernière catégorie choisie. |
+| **Auto submit** | No | Yes envoie le formulaire dès que la dernière catégorie disponible est choisie. La boutique ouvre cette catégorie. Cela vaut quand **Include products** est éteint. Si la catégorie choisie n'a pas d'enfants, la boutique l'ouvre aussi. |
+| **Search inside dropdown** | No | Yes active la recherche dans les listes. Dans **Settings**, **Include Select2 library** doit aussi être allumé. |
+| **Exclude categories** | vide | Identifiants de catégorie qui ne doivent pas apparaître dans les listes. Séparez-les par des virgules, par exemple 1,2,3,4,5,6. La recherche à côté du champ trouve une catégorie et ajoute son identifiant. |
+| **Show on category pages** | vide | Vide montre le bloc sur chaque page où se trouve son hook. Des identifiants de catégorie, séparés par des virgules, le montrent seulement sur ces pages de catégorie. |
+| **Label position** | Inside select box | Inside select box met le libellé comme première option. Outside select box l'imprime au-dessus du champ. |
+| **Label 1**, **Label 2** et la suite | vide | Un champ par niveau et par langue. Ils apparaissent après l'enregistrement du bloc. Changez **Depth** et enregistrez si vous en voulez plus ou moins. |
+| **Module position** | Top | Top, displaySearch, TopColumn, Left column, Right column, Home ou displaySbs. |
+| **Position top settings** | Blocks | Blocks empile les listes. Wide horizontal bar les met sur une ligne. La barre large vaut sur Top et displaySearch. Les autres emplacements restent empilés. Sur la barre large, **ok** se place après la dernière liste et passe à la ligne suivante s'il n'y a pas de place. |
+| **Shop** | la boutique que vous modifiez | Une boutique ou **All shops**. **All shops** laisse le bloc dans chaque boutique. |
+| **Active** | Yes | No masque le bloc dans la boutique. |
 
-- **Templates de hook (`views/templates/hook/`)** :
+Cliquez sur **Save**. PrestaShop affiche sa confirmation habituelle. Supprimer un bloc supprime aussi le titre, le choix de la barre large et les libellés de niveau.
 
-  - `block.tpl` : Ce template est probablement utilisé lorsque le module est accroché à `displayLeftColumn` ou `displayRightColumn`. Il rend les listes déroulantes pas à pas dans une structure de bloc PrestaShop standard.
-  - `blockSbs.tpl` : Il pourrait s'agir d'un template de bloc alternatif ou plus générique, potentiellement utilisé pour d'autres hooks de colonne ou des placements personnalisés spécifiques.
-  - `displaySearch.tpl` : Ce template pourrait être destiné à l'intégration près d'une barre de recherche ou dans le cadre d'un hook lié à la recherche, fournissant les listes déroulantes comme outil d'affinage de la recherche.
-  - `header.tpl` : Ce template est utilisé lorsque le module est accroché à `displayHeader`. Il rend les listes déroulantes dans la section d'en-tête de la boutique.
-  - `top.tpl` : Ce template est utilisé lorsque le module est accroché à `displayTop`. Similaire à `header.tpl`, mais pour le hook `displayTop`, qui est souvent utilisé pour la barre de navigation principale.
-- **Templates d'administration (`views/templates/admin/`)** : Aucun identifié. La configuration est gérée directement dans `getContent()`.
-- **Templates Front-office (`views/templates/front/`)** : Aucun identifié comme pages autonomes.
+Pour montrer un bloc dans un fichier de thème qui n'a pas de hook déjà placé, utilisez le hook displaySbs et mettez **Module position** sur displaySbs. Les autres emplacements se branchent dans **Apparence**, **Positions**, si le thème ne les imprime pas lui-même.
 
-### 4.7 Schéma de base de données et carte des hooks
+## 4. Boutique
 
-- **Tables de base de données** : Le module ne crée aucune table SQL personnalisée. Il stocke ses paramètres de configuration dans la table `ps_configuration` de PrestaShop en utilisant des clés comme `STEPMYSTEP_HEADER`, `STEPMYSTEP_LEFT`, `STEPMYSTEP_RIGHT`, `STEPMYSTEP_FOOTER`, `STEPMYSTEP_PRODUCT`, `STEPMYSTEP_GO_BUTTON`, `STEPMYSTEP_DROPDOWNS`, `STEPMYSTEP_ROOT_CATEGORY`.
-- **Table des hooks enregistrés** :
+Le client voit le titre du bloc et les listes.
 
-| Nom du hook | Moment d'exécution | Objectif technique |
-| --- | --- | --- |
-| `displayHeader` | Rend le contenu dans la section `<head>` du HTML, ou tout en haut du `<body>` avant tout autre contenu. | Injecte les actifs CSS/JS et potentiellement la structure HTML du module si configuré pour l'affichage dans l'en-tête. |
-| `displayLeftColumn` | Rend le contenu dans la barre latérale gauche de la boutique. | Affiche les listes déroulantes de catégories pas à pas dans la colonne de gauche. |
-| `displayRightColumn` | Rend le contenu dans la barre latérale droite de la boutique. | Affiche les listes déroulantes de catégories pas à pas dans la colonne de droite. |
-| `displayFooter` | Rend le contenu dans la section de pied de page de la boutique. | Affiche les listes déroulantes de catégories pas à pas dans le pied de page. |
-| `displayProductAdditionalInfo` (ou hook de page produit similaire) | Rend le contenu sur la page produit, souvent sous la description du produit ou dans un bloc spécifique. | Affiche les listes déroulantes de catégories pas à pas sur les pages produit. |
-| `displayTop` | Rend le contenu dans la section supérieure de la page, généralement au-dessus ou dans la navigation principale. | Affiche les listes déroulantes de catégories pas à pas dans la barre supérieure. |
+1. La première liste montre les enfants de la catégorie racine. Les listes suivantes restent inactives tant que le niveau précédent n'a pas de catégorie.
+2. Le client choisit une catégorie. Un indicateur couvre le bloc. La liste suivante se remplit avec les enfants. L'indicateur disparaît quand la liste est prête, et aussi si la requête échoue.
+3. Les identifiants exclus sont absents de ces listes.
+4. Avec **Submit button** sur after each select box, **ok** est au niveau en cours. Avec after last select box, il y a un **ok** pour le jeu.
+5. **ok** ouvre la catégorie choisie.
+6. Avec **Include products**, le dernier niveau ajoute une liste de produits. La première option est **- Select Product -**. **ok** utilise alors le produit choisi.
+7. Avec **Auto submit** allumé et **Include products** éteint, la dernière catégorie s'ouvre sans **ok**. La même redirection vaut si la catégorie choisie n'a pas d'enfants.
+8. Avec **Reset search fields** éteint, une visite suivante peut montrer les mêmes catégories. Le navigateur les garde 30 minutes. Avec l'option allumée, les listes partent vides.
+9. Si **Search inside dropdown** et **Include Select2 library** sont allumés, le client peut taper dans la liste.
 
-## 5. Support officiel et mises à jour
+Dans la colonne gauche et la colonne droite, les niveaux se suivent, avec le titre en capitales comme sur Classic. Sur la barre large, les niveaux sont sur une ligne. Sur un écran étroit, la barre large s'empile. Les couleurs, le cadre et le bouton **ok** viennent du thème, y compris Hummingbird et Classic sous PrestaShop 9.
 
-Pour les dernières mises à jour, corrections de bugs et support officiel du module « Pas à pas - catégories », veuillez vous référer à votre compte client sur [MyPresta.eu](https://mypresta.eu/my-account/orders/). Notre équipe de support est disponible pour vous aider avec tout problème ou question que vous pourriez avoir.
+Un bloc dont **Show on category pages** est rempli est absent des autres pages. Un bloc inactif est absent. Un bloc d'une autre boutique est absent aussi.
+
+## 5. Problèmes
+
+**Le bloc est absent de la boutique.** Ouvrez le bloc et vérifiez **Active**, **Module position** et **Shop**. **Show on category pages** vide le montre sur chaque page de ce hook. Une liste remplie le montre seulement sur ces pages de catégorie. Dans **Apparence**, **Positions**, vérifiez que le hook est sur les pages prévues. Pour un emplacement propre, le template doit appeler displaySbs et le bloc doit utiliser cette position.
+
+**La liste suivante ne se remplit pas, ou l'indicateur reste.** Videz le cache de la boutique pour qu'elle prenne la feuille de style et le script actuels. L'indicateur doit disparaître quand la requête se termine, même si la réponse ne peut pas être appliquée. Si la boutique montre encore l'ancien chargeur gif, l'ancien CSS est en cache.
+
+**La recherche dans la liste ne fait rien.** Allumez **Include Select2 library** dans **Settings** et **Search inside dropdown** sur le bloc. Enregistrez les deux. Videz le cache.
+
+**Un bloc nouveau n'a pas de libellés.** Enregistrez le bloc une fois. Rouvrez-le. **Label 1** et la suite apparaissent quand le bloc existe, et seulement jusqu'au **Depth** enregistré.
+
+**Une catégorie attendue manque dans la liste.** Retirez son identifiant de **Exclude categories**. Vérifiez qu'elle est enfant du parent choisi et qu'elle est active dans le catalogue.
+
+**La barre large empile encore les champs.** **Wide horizontal bar** vaut sur Top et displaySearch. Gauche, droite, accueil, TopColumn et displaySbs restent empilés. Sur téléphone, la barre large s'empile exprès.
+
+**Après une mise à jour, la page Blocks manque.** Ouvrez **Configurer** une fois. Cette visite enregistre la page. Ne désinstallez pas le module si vous voulez garder les lignes déjà là. La désinstallation retire la page et laisse les lignes.
+
+**L'ancien écran de configuration n'a pas d'icône de corbeille.** C'est une version antérieure. Envoyez le zip actuel depuis le compte client. Dans la version actuelle, vous supprimez un bloc dans la liste **Blocks**, avec **Delete** sur la ligne ou avec **Delete selected**.
+
+## 6. Pour les développeurs
+
+### 6.1 Vue d'ensemble
+
+Nom technique `stepbystep`, classe `Stepbystep`, version 1.9.0, auteur MyPresta.eu, onglet `front_office_features`. Le nom dans le back-office est **Step By Step - categories tree**.
+
+`AdminStepbystepBlocksController` écrit les lignes dans `sbs_block` et le titre, les libellés et l'indicateur de barre large dans `Configuration`. Les hooks de la boutique lisent les lignes actives de la boutique en cours ou avec `id_shop = 0`. `controllers/front/tree.php` fournit le script qui remplit la liste suivante.
+
+### 6.2 Fichiers
+
+| Fichier | Rôle |
+|---|---|
+| `stepbystep.php` | Installation, hooks, formulaire de réglages, HTML des listes, script de la boutique. |
+| `controllers/admin/AdminStepbystepBlocksController.php` | Liste des blocs et formulaire du bloc. |
+| `models/SbsBlock.php` | Modèle d'objet de `sbs_block`. |
+| `controllers/front/tree.php` | Contrôleur de boutique qui fournit le script du niveau suivant. |
+| `views/templates/hook/front.tpl` | Balisage de la boutique pour chaque hook. |
+| `views/templates/hook/header.tpl` | Imprime le script en ligne. |
+| `views/templates/admin/configure.tpl` | Barre Blocks, Settings, Updates. |
+| `css/sbs-front.css` | Mise en page de la boutique, variables du thème, indicateur. |
+| `js/advajax.js` | Requête des listes. |
+| `lib/updatesChecker.php` | Vérification des mises à jour. Classe `stepbystepUpdate`. |
+| `lib/searchTool/searchTool.php` | Recherche de l'identifiant de catégorie dans le formulaire du bloc. Classe `searchToolstepbystep`. |
+| `lib/prestashop9compatibility.php` | Classe `stepbystepPrestashopNewCompatibility`. |
+| `views/css/admin.css` | Barre du back-office. |
+
+`tree.php` à la racine du module est l'ancienne copie du contrôleur de boutique. Le lien de la boutique utilise `controllers/front/tree.php`. `views/templates/hook/block.tpl`, `blockSbs.tpl`, `top.tpl` et `displaySearch.tpl` ne sont pas rendus. `css/sbs-block.css` et `css/sbs-top.css` ne sont pas chargés.
+
+### 6.3 Contrôleurs
+
+`AdminStepbystepBlocksController` étend `ModuleAdminController`. `class_name` est `AdminStepbystepBlocks`. `id_parent` est `-1`, la page est cachée dans le menu. L'identifiant de liste est `id`. Le glisser de position appelle `ajaxProcessUpdatePositions`. Le filtre de liste est `id_shop` de la boutique du contexte ou `0`.
+
+`stepbysteptreeModuleFrontController` est le contrôleur de boutique `tree`. `initContent` met `ajax` et n'appelle pas `parent::initContent`. Il lit `sbs_block`, `sbs_pid`, `sbs_lvl`, et à la confirmation `sbs_blockid` et `sbs_cidlink`. Le corps de la réponse est du JavaScript. Un bloc absent ferme la réponse.
+
+### 6.4 Hooks
+
+Hooks enregistrés : `displayHeader`, `displayLeftColumn`, `displayRightColumn`, `displayTop`, `displaySearch`, `displayHome`, `displaySbs`, `displayBackOfficeHeader`. À partir de PrestaShop 1.6, aussi `displaytopColumn`.
+
+| Hook | Valeur de position du bloc | Mise en page |
+|---|---|---|
+| `displayTop` | 1 | haut, barre large si `sbs_top_type{id}` vaut 1 |
+| `displayLeftColumn` | 2 | empilé |
+| `displayRightColumn` | 3 | empilé |
+| `displayHome` | 4 | empilé |
+| `displaytopColumn` | 5 | empilé |
+| `displaySearch` | 6 | haut, barre large si `sbs_top_type{id}` vaut 1 |
+| `displaySbs` | 7 | empilé |
+
+`displayHeader` charge `js/advajax.js` et `css/sbs-front.css`. Si `SBS_SELECT2` vaut 1, il charge aussi Select2. Il n'y a pas de surcharge de `enable()` ni de `disable()`.
+
+### 6.5 Surcharges
+
+Le module ne remplace aucune classe ni aucun contrôleur de PrestaShop.
+
+### 6.6 Base de données
+
+| Table | Contenu |
+|---|---|
+| `ps_sbs_block` | `id`, `depth`, `root`, `orderby`, `orderway`, `counter`, `each_submit`, `lbl_position`, `block_position`, `position`, `active`, `products`, `last_submit`, `search_inside`, `exclude`, `id_shop`, `on_cat_only`, `id_categories`. |
+
+Le préfixe est celui de la boutique. La désinstallation ne supprime pas la table. `inconsistency()` ajoute une colonne manquante de cette liste quand la configuration du module ou la liste des blocs s'ouvre. `on_cat_only` reste et n'est pas dans le formulaire. La boutique utilise `id_categories`.
+
+### 6.7 Clés de configuration et traductions
+
+| Clé | Si elle manque |
+|---|---|
+| `SBS_RESET` | Compte pour 0. Le choix reste 30 minutes dans les cookies `sbs_selectbox_{block}_{level}`. |
+| `SBS_SELECT2` | Compte pour 0. Select2 n'est pas chargé. |
+| `sbs_title{id}` | Titre du bloc, multilingue. |
+| `{id}sbs_lbl_{n}` | Libellé du niveau `n`, multilingue, de 1 à la profondeur, au plus 30. |
+| `sbs_top_type{id}` | 0 empilé, 1 barre large. |
+
+L'installation écrit aussi `sbs_depth`, `sbs_counter`, `sbs_each_submit`, `sbs_position`, `sbs_lbl_position` et `sbs_root`. Le formulaire du bloc ne lit pas ces clés. Les blocs nouveaux utilisent les valeurs de `prepareObjectDefaults()`.
+
+Les traductions sont dans `translations/{iso}.php`. Les textes du contrôleur de blocs ont la source `AdminStepbystepBlocksController`. Le texte du bouton est le texte du module `ok`. Le libellé produit est `- Select Product -`.
+
+### 6.8 Extension
+
+Remplacez `views/templates/hook/front.tpl` dans le thème sous `themes/{theme}/modules/stepbystep/views/templates/hook/front.tpl`. Remplacez `css/sbs-front.css` par le même chemin si le thème doit changer la mise en page. La place du bouton sur la barre large est l'ordre flex de cette feuille : le `.sbs__actions` visible se place après les listes et passe à la ligne avec elles.
+
+## 7. Aide
+
+Page du module : [Step by Step categories](https://mypresta.eu/modules/front-office-features/step-by-step-categories.html).
+
+Pour écrire au sujet de ce module, connectez-vous au compte client sur [mypresta.eu](https://mypresta.eu), ouvrez le formulaire de contact et choisissez **Support for paid modules**. Ce sujet indique qu'une connexion est nécessaire. Après la connexion, choisissez ce module dans l'historique d'achats.

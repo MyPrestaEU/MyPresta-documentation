@@ -1,8 +1,8 @@
 ---
-title: "Passo dopo passo - categorie - Manuale del commerciante e guida alla configurazione"
-description: "Manuale utente completo, guida alla configurazione schermata per schermata e riferimento per sviluppatori per il modulo PrestaShop Passo dopo passo - categorie di MyPresta.eu."
+title: Step by Step - documentazione e manuale utente
 sidebar:
-  label: "Passo dopo passo - categorie - Manuale del commerciante e guida alla configurazione"
+  label: Step by Step - documentazione e manuale utente
+description: Guida alla configurazione e alla risoluzione dei problemi per i negozi che hanno già il filtro categorie Step by Step.
 ---
 
 > ⚠️ **Notice:** This is the documentazione ufficiale per il modulo PrestaShop.
@@ -12,159 +12,232 @@ sidebar:
 > ---
 
 
-# Passo dopo passo - categorie
+## 1. Requisiti
 
-## 1. Requisiti e compatibilità
+Il modulo gira in PrestaShop. Non ha bisogno di un altro modulo né di un account esterno.
 
-- **Versioni PrestaShop supportate**: PrestaShop 1.5.x, 1.6.x, 1.7.x, 8.x, 9.x
-- **Compatibilità PHP**: PHP 5.6 - 8.5
-- **Requisiti di hosting**: Le estensioni PHP standard (cURL, JSON, OpenSSL) sono tipicamente sufficienti. Nessun requisito speciale del server oltre a un ambiente di hosting PrestaShop standard.
+- PrestaShop dalla 1.6.0.0, compresi PrestaShop 8 e 9.
+- PHP nella versione richiesta da quella versione di PrestaShop. Il controllo degli aggiornamenti usa cURL se PHP lo ha. Altrimenti apre l'indirizzo con una richiesta ordinaria. Non installi un'estensione PHP in più per gli elenchi.
+- Non serve nessun altro modulo.
+- In multishop un blocco può appartenere a un negozio o a tutti.
 
-## 2. Guida completa alla configurazione (Ogni impostazione raggruppata per schermata)
+## 2. Installazione
 
-### 2.1 Pagina di configurazione del modulo (Back Office > Moduli > Configura)
+1. Nel back office apra **Moduli**, poi **Gestione moduli**.
+2. Carichi il file zip e scelga **Installa**.
+3. Apra **Configura** su **Step By Step - categories tree**. La pagina ha **Blocks**, **Settings** e **Updates**. **Blocks** è l'elenco dei set di menu. La prima visita crea la pagina nascosta di quell'elenco. Non compare come voce propria nel menu a sinistra.
+4. L'installazione non svuota la cache in un passo separato. Se dopo un aggiornamento il negozio mostra ancora il layout precedente, svuoti la cache in **Parametri avanzati**, **Prestazioni**.
 
-Dopo l'installazione, cliccando su "Configura" si accederà alla schermata di configurazione principale per "Passo dopo passo - categorie". Qui è dove si controlla il comportamento e l'aspetto del modulo sul tuo negozio.
+La disinstallazione toglie quella pagina nascosta. Blocchi, titoli, etichette e i due interruttori globali restano nel database. Dopo una nuova installazione gli stessi blocchi sono ancora lì. Apra **Configura** una volta per registrare di nuovo la pagina dell'elenco.
 
-| Impostazione / Opzione | Cosa fa questa impostazione | Effetto della modifica di questa impostazione | Valore consigliato | Scenario / esempio del commerciante |
-| --- | --- | --- | --- | --- |
-| **Visualizza blocco nell'intestazione** | Controlla se la navigazione per categorie passo dopo passo appare nella sezione dell'intestazione del tuo negozio. | *Quando abilitato:* I menu a discesa delle categorie saranno visibili nella parte superiore del tuo sito web, spesso vicino al logo o alla navigazione principale. Ciò fornisce un accesso immediato al filtro per categorie. *Quando disabilitato:* Il blocco non apparirà nell'intestazione. | **SÌ** (se desideri una navigazione prominente) | Vuoi che i clienti trovino facilmente i prodotti da qualsiasi pagina, quindi posizionarlo nell'intestazione lo rende sempre accessibile. |
-| **Visualizza blocco nella colonna sinistra** | Controlla se la navigazione per categorie passo dopo passo appare nella barra laterale sinistra del tuo negozio. | *Quando abilitato:* I menu a discesa delle categorie saranno visibili nella colonna sinistra del tuo sito web (se il tuo tema supporta una colonna sinistra). Questo è un posizionamento tradizionale per i filtri per categorie. *Quando disabilitato:* Il blocco non apparirà nella colonna sinistra. | **SÌ** (se il tuo tema ha una colonna sinistra e desideri la navigazione nella barra laterale) | Il tuo tema ha una barra laterale sinistra e preferisci mantenere gli elementi di navigazione organizzati lì, in modo simile a un albero di categorie standard. |
-| **Visualizza blocco nella colonna destra** | Controlla se la navigazione per categorie passo dopo passo appare nella barra laterale destra del tuo negozio. | *Quando abilitato:* I menu a discesa delle categorie saranno visibili nella colonna destra del tuo sito web (se il tuo tema supporta una colonna destra). *Quando disabilitato:* Il blocco non apparirà nella colonna destra. | **NO** (a meno che il tuo tema non utilizzi specificamente una colonna destra per la navigazione) | Il tuo tema utilizza la colonna destra per informazioni supplementari e desideri posizionare la navigazione per categorie lì invece che a sinistra. |
-| **Visualizza blocco nel piè di pagina** | Controlla se la navigazione per categorie passo dopo passo appare nella sezione del piè di pagina del tuo negozio. | *Quando abilitato:* I menu a discesa delle categorie saranno visibili nella parte inferiore del tuo sito web. Questo è meno comune per la navigazione primaria ma può essere utile per l'accesso secondario. *Quando disabilitato:* Il blocco non apparirà nel piè di pagina. | **NO** (a meno che per specifiche ragioni di design) | Hai un'intestazione e delle colonne molto minimaliste e vuoi offrire la navigazione per categorie nel piè di pagina come alternativa per gli utenti che scorrono verso il basso. |
-| **Visualizza blocco nella pagina prodotto** | Controlla se la navigazione per categorie passo dopo passo appare nelle singole pagine prodotto. | *Quando abilitato:* I menu a discesa delle categorie saranno visibili nelle pagine dei dettagli del prodotto. Questo può aiutare i clienti a esplorare altre categorie o prodotti correlati. *Quando disabilitato:* Il blocco non apparirà nelle pagine prodotto. | **NO** (a meno che tu non abbia una necessità specifica) | Vuoi incoraggiare i clienti che visualizzano un prodotto a passare facilmente ad altre categorie senza lasciare la pagina del prodotto, magari per confrontare gli articoli. |
-| **Mostra pulsante "Vai"** | Determina se un pulsante "Vai" o "Cerca" viene visualizzato accanto all'ultimo menu a discesa delle categorie. | *Quando abilitato:* Apparirà un pulsante. I clienti devono fare clic su questo pulsante per essere reindirizzati alla pagina della categoria selezionata. *Quando disabilitato:* I clienti vengono automaticamente reindirizzati alla pagina della categoria selezionata non appena effettuano la selezione finale nell'ultimo menu a discesa. | **SÌ** (per un maggiore controllo) | Vuoi che i clienti confermino la loro selezione di categoria prima di essere reindirizzati, dando loro la possibilità di rivedere la loro scelta. |
-| **Numero di menu a discesa** | Imposta il numero massimo di livelli di categoria (profondità) che verranno visualizzati come menu a discesa. | *Quando impostato su 1:* Verranno visualizzate solo le categorie di primo livello in un unico menu a discesa. *Quando impostato su 3:* Verranno visualizzati fino a tre livelli di categorie (es. Categoria principale > Sottocategoria 1 > Sottocategoria 2) in menu a discesa separati. | **3** (o in base alla profondità delle tue categorie) | Il tuo negozio ha categorie annidate fino a 3 o 4 livelli di profondità e vuoi che i clienti possano approfondire in modo efficiente. |
-| **Categoria radice** | Specifica il punto di partenza per la navigazione per categorie. Verranno visualizzate solo le categorie all'interno di questa radice. | *Quando impostato su "Home":* Tutte le categorie a partire dalla cima del tuo catalogo saranno disponibili. *Quando impostato su "Elettronica":* Verranno mostrate nei menu a discesa solo le categorie sotto "Elettronica" (es. "Laptop", "Smartphone"). | **Home** (a meno che tu non voglia limitare la navigazione) | Vuoi offrire la navigazione passo dopo passo solo per una parte specifica del tuo catalogo, come "Abbigliamento", ed escludere altre sezioni come "Casa e Giardino". |
+Oltre all'interruttore normale di **Gestione moduli** non c'è un'azione di attivazione separata. Se disattiva il modulo, gli elenchi spariscono dal negozio e i blocchi salvati restano.
 
-### 2.2 Tabella di riferimento rapido della configurazione
+## 3. Configurazione e uso nel back office
 
-| Schermata / Vista | Impostazione / Opzione | Predefinito / Consigliato | Scopo e impatto |
-| --- | --- | --- | --- |
-| Configurazione modulo | Visualizza blocco nell'intestazione | SÌ | Mostra i menu a discesa delle categorie nell'intestazione del negozio per una navigazione prominente. |
-| Configurazione modulo | Visualizza blocco nella colonna sinistra | SÌ | Mostra i menu a discesa delle categorie nella barra laterale sinistra per la navigazione tradizionale. |
-| Configurazione modulo | Visualizza blocco nella colonna destra | NO | Mostra i menu a discesa delle categorie nella barra laterale destra. |
-| Configurazione modulo | Visualizza blocco nel piè di pagina | NO | Mostra i menu a discesa delle categorie nel piè di pagina del negozio. |
-| Configurazione modulo | Visualizza blocco nella pagina prodotto | NO | Mostra i menu a discesa delle categorie nelle pagine dei dettagli del prodotto. |
-| Configurazione modulo | Mostra pulsante "Vai" | SÌ | Richiede ai clienti di fare clic su un pulsante per navigare alla categoria selezionata. |
-| Configurazione modulo | Numero di menu a discesa | 3 | Imposta la profondità massima dei livelli di categoria visualizzati. |
-| Configurazione modulo | Categoria radice | Home | Definisce il punto di partenza per la navigazione per categorie. |
+Crei un blocco, fissi la profondità dell'albero categorie e scelga il posto nel negozio. Il cliente sceglie una categoria. L'elenco successivo carica le figlie. **ok** apre la categoria scelta, o un prodotto se l'elenco prodotti è attivo.
 
-## 3. Risoluzione dei problemi del commerciante e domande frequenti (FAQ)
+Le immagini di questo capitolo sono del back office in inglese. Le scritte sullo schermo restano in inglese.
 
-**D1: Il modulo è installato, ma non vedo i menu a discesa nel mio negozio.**
-R1:
+### 3.1 Pagina di configurazione del modulo
 
-- **Controlla la configurazione:** Vai su **Moduli > Gestione moduli > Passo dopo passo - categorie > Configura**. Assicurati che almeno un'opzione "Visualizza blocco in..." (es. "Visualizza blocco nell'intestazione", "Visualizza blocco nella colonna sinistra") sia impostata su **SÌ**.
-- **Svuota la cache:** PrestaShop spesso memorizza i contenuti nella cache. Vai su **Parametri avanzati > Prestazioni** e fai clic su "Svuota cache" (o "Svuota cache Smarty" nelle versioni precedenti).
-- **Compatibilità del tema:** Alcuni temi altamente personalizzati potrebbero richiedere piccole modifiche. Se svuotare la cache non aiuta, prova a passare temporaneamente al tema PrestaShop predefinito per vedere se il modulo appare. Se lo fa, il tuo tema potrebbe sovrascrivere le posizioni degli hook standard.
+Apra **Moduli**, **Gestione moduli**, **Step By Step - categories tree**, **Configura**.
 
-**D2: I menu a discesa appaiono, ma non si aggiornano quando seleziono una categoria.**
-R2:
+![Impostazioni](https://mypresta.eu/docs/images/docs/stepbystep-configure-settings.webp)
 
-- **Problemi AJAX:** Questo di solito indica un errore JavaScript. Apri la console per sviluppatori del tuo browser (F12) e controlla eventuali errori nella scheda "Console".
-- **JavaScript in conflitto:** Un altro modulo o il JavaScript del tuo tema potrebbero interferire. Prova a disabilitare altri moduli del front-office uno per uno per identificare i conflitti.
-- **File del modulo:** Assicurati che tutti i file del modulo siano stati caricati correttamente e non siano danneggiati. Ricaricare il modulo potrebbe risolvere il problema.
+In alto ci sono **Blocks**, **Settings** e **Updates**. **Blocks** esce da questa pagina e apre l'elenco dei blocchi. **Settings** è la scheda iniziale. Sotto la barra c'è scritto che queste opzioni valgono per ogni blocco e che i blocchi si modificano da **Blocks**.
 
-**D3: Come posso modificare lo stile (colori, caratteri, dimensioni) dei menu a discesa?**
-R3:
+| Campo | All'inizio | Effetto |
+|---|---|---|
+| **Reset search fields** | No | Yes svuota gli elenchi dopo una ricerca. No tiene le categorie scelte dal visitatore. Il browser tiene quella scelta 30 minuti. |
+| **Include Select2 library** | No | Yes carica lo script e il foglio di stile aggiuntivi per **Search inside dropdown** di un blocco. No lascia elenchi normali. |
 
-- Il modulo utilizza CSS standard. Avrai bisogno di conoscenze CSS di base o di un webmaster.
-- I file CSS del modulo (es. `sbs-block.css`, `sbs-header.css`) definiscono gli stili predefiniti.
-- **Migliore pratica:** NON modificare direttamente i file CSS del modulo, poiché le tue modifiche andranno perse durante gli aggiornamenti. Invece, usa il file CSS personalizzato del tuo tema (spesso trovato in `themes/yourtheme/assets/css/custom.css` o simile) per sovrascrivere gli stili del modulo. Usa l'ispettore del tuo browser (F12) per identificare le classi CSS utilizzate dai menu a discesa.
+Scelga **Save**. La pagina mostra **Settings saved.**
 
-**D4: Le mie categorie sono molto profonde, ma vedo solo pochi menu a discesa.**
-R4:
+![Aggiornamenti](https://mypresta.eu/docs/images/docs/stepbystep-configure-updates.webp)
 
-- **Impostazione "Numero di menu a discesa":** Vai su **Moduli > Gestione moduli > Passo dopo passo - categorie > Configura** e regola l'impostazione "Numero di menu a discesa". Aumenta questo valore per corrispondere alla profondità massima delle categorie che desideri visualizzare. Ricorda che visualizzare troppi menu a discesa potrebbe ingombrare l'interfaccia.
+**Updates** è il modulo **MyPresta updates**.
 
-**D5: Il modulo mostra categorie che non voglio includere nella navigazione passo dopo passo.**
-R5:
+| Campo | All'inizio | Effetto |
+|---|---|---|
+| **Manual check** | pulsante **Check now** | Chiede a MyPresta se esiste una versione più recente. **New version available!** porta al registro delle modifiche. **Module is up to date!** significa che questa installazione coincide con la versione pubblicata. Il pulsante non carica uno zip. |
+| **Automatic notifications** | Enabled | Enabled ripete quel controllo circa ogni 3 giorni mentre lavora nel back office. Disabled lo salta. |
+| **Product page** | link alla pagina del modulo | Apre la pagina Step by Step su mypresta.eu. |
 
-- **Impostazione "Categoria radice":** Nella configurazione del modulo, usa l'impostazione "Categoria radice". Seleziona una categoria padre specifica da cui desideri che inizi la navigazione passo dopo passo. Verranno visualizzate solo le categorie e le sottocategorie sotto la radice scelta.
+**Save** mostra **Update settings saved.** Carichi un nuovo zip da **Gestione moduli** quando compare una versione più recente.
 
-## 4. Guida per sviluppatori e webmaster (Architettura tecnica e mappa del codice)
+### 3.2 Elenco dei blocchi
 
-### 4.1 Panoramica dell'architettura
+Apra **Blocks**. Sotto la barra c'è scritto che ogni blocco è un set di elenchi.
 
-Il modulo "Passo dopo passo - categorie" è principalmente una funzionalità di front-office che sfrutta l'architettura dei moduli di PrestaShop. Utilizza una classe `Module` standard per l'installazione e la configurazione, e classi `ModuleFrontController` per gestire le richieste AJAX per il caricamento dinamico delle categorie. Non introduce classi `ObjectModel` o tabelle di database personalizzate, basandosi sull'oggetto `Category` nativo di PrestaShop per i dati. Il modulo utilizza ampiamente i template Smarty per il rendering e JavaScript per la funzionalità AJAX interattiva.
+![Elenco dei blocchi](https://mypresta.eu/docs/images/docs/stepbystep-blocks-list.webp)
 
-### 4.2 Controller (`controllers/`)
+| Campo | All'inizio | Effetto |
+|---|---|---|
+| **ID** | assegnato al salvataggio | Numero del blocco. Serve a distinguere le righe. |
+| **Title** | Block e il numero, finché non scrive un titolo | Intestazione nella lingua del back office. |
+| **Depth** | 3 in un blocco nuovo | Quanti elenchi disegna il blocco. |
+| **Root category** | categoria Home del negozio in un blocco nuovo | Genitore del primo elenco, come numero e nome. |
+| **Hook** | Top in un blocco nuovo | Posto del blocco nel negozio. |
+| **Active** | Yes | L'icona attiva o disattiva il blocco. Off nasconde gli elenchi e lascia la riga. |
+| **Position** | prossima posizione libera | Trascini la riga per cambiare l'ordine dei blocchi dello stesso hook. |
 
-- **Controller Front-Office**:
-  - `controllers/front/ajaxload.php`
-    - Nome classe: `StepbystepAjaxloadModuleFrontController`
-    - Classe padre: `ModuleFrontController`
-    - Responsabilità: Questo controller è il cuore della funzionalità AJAX. Risponde alle richieste dal JavaScript del front-office per recuperare le sottocategorie in base a un ID di categoria padre. Tipicamente restituisce dati JSON contenenti nomi e ID di categoria per popolare i menu a discesa successivi.
-  - `controllers/front/index.php`
-    - Nome classe: `StepbystepIndexModuleFrontController`
-    - Classe padre: `ModuleFrontController`
-    - Responsabilità: Questo controller probabilmente funge da punto di ingresso predefinito o fallback per il routing del front-office del modulo, sebbene la sua funzione principale possa essere minima data la natura basata su AJAX. Potrebbe gestire la logica di visualizzazione iniziale o il reindirizzamento se il modulo dovesse avere una pagina dedicata.
-  - `controllers/front/tree.php`
-    - Nome classe: `StepbystepTreeModuleFrontController`
-    - Classe padre: `ModuleFrontController`
-    - Responsabilità: Questo controller potrebbe essere responsabile del rendering di una struttura completa dell'albero delle categorie, potenzialmente per il debug o un metodo di visualizzazione alternativo, sebbene la caratteristica principale del modulo siano i menu a discesa. Potrebbe anche essere utilizzato per generare i dati iniziali per il primo menu a discesa.
+Le azioni di riga sono **Edit** e **Delete**. **Bulk actions** ha **Enable selection**, **Disable selection** e **Delete selected**. La conferma chiede **Delete selected blocks?**
 
-### 4.3 Classi e modelli principali (`classes/`)
+**Add new** apre un modulo vuoto. Un blocco nuovo è attivo, profondità 3, radice la categoria Home, ordine per ID crescente, contatore prodotti spento, pulsante dopo l'ultimo elenco, prodotti spenti, invio automatico spento, ricerca nell'elenco spenta, etichetta dentro l'elenco, hook Top e il negozio corrente. Lo salvi. Il modulo si riapre perché compili le etichette. Le etichette compaiono nel modulo solo quando il blocco esiste.
 
-Il modulo non contiene classi personalizzate nella directory `classes/`. Utilizza direttamente la classe `Category` di PrestaShop e altre funzioni di supporto per recuperare i dati delle categorie.
+L'elenco mostra i blocchi del negozio in cui si trova e i blocchi con **All shops**.
 
-### 4.4 Risorse JavaScript (`views/js/`)
+### 3.3 Modulo del blocco
 
-- `stepbystep/js/advajax.js`
-  - Scopo: Front-office
-  - Questo è il file JavaScript principale responsabile del comportamento interattivo del modulo.
-  - Collega i listener di eventi agli elementi `<select>` dei menu a discesa delle categorie.
-  - Quando viene effettuata una selezione in un menu a discesa, attiva una richiesta AJAX (probabilmente a `ajaxload.php`) per recuperare il livello successivo di sottocategorie.
-  - Crea e popola dinamicamente i menu a discesa successivi con i dati ricevuti.
-  - Gestisce il reindirizzamento alla pagina della categoria finale quando viene effettuata una selezione o viene cliccato il pulsante "Vai".
-  - Gestisce la visibilità e lo stato dei menu a discesa in base all'interazione dell'utente e alla configurazione del modulo (es. "Numero di menu a discesa").
+Apra una riga con **Edit**, oppure usi **Add new** e poi la schermata di modifica che segue il primo salvataggio.
 
-### 4.5 Fogli di stile CSS (`views/css/`)
+![Modulo del blocco, parte alta](https://mypresta.eu/docs/images/docs/stepbystep-block-form.webp)
 
-- `stepbystep/css/sbs-block.css`
-  - Scopo: Stile del cliente del front-office
-  - Stila l'aspetto generale del blocco categorie passo dopo passo, inclusi padding, margini e layout complessivo quando posizionato in colonne o altre posizioni simili a blocchi.
-  - Selettori chiave: `.sbs-block`, `.sbs-category-select-wrapper`
-- `stepbystep/css/sbs-header.css`
-  - Scopo: Stile del cliente del front-office
-  - Stila specificamente il modulo quando è agganciato alla posizione `displayHeader`, potenzialmente adattandosi ai layout dell'intestazione (es. visualizzazione in linea, larghezze specifiche).
-  - Selettori chiave: `.sbs-header-container`
-- `stepbystep/css/sbs-top.css`
-  - Scopo: Stile del cliente del front-office
-  - Probabilmente stila il modulo quando è agganciato a `displayTop` o posizioni simili nella parte superiore della pagina, simile a `sbs-header.css` ma per contesti visivi diversi.
-  - Selettori chiave: `.sbs-top-container`
-- `stepbystep/css.css`
-  - Scopo: Stile del cliente del front-office
-  - Un foglio di stile generale che potrebbe contenere stili comuni applicabili a tutti i posizionamenti o stili di fallback.
-  - Selettori chiave: `.sbs-select`, `.sbs-go-button`
+![Modulo del blocco, etichette e posizione](https://mypresta.eu/docs/images/docs/stepbystep-block-form-bottom.webp)
 
-### 4.6 Struttura del template Smarty (`views/templates/`)
+| Campo | All'inizio | Effetto |
+|---|---|---|
+| **Block title** | vuoto | Intestazione sopra gli elenchi. Un campo per lingua del negozio. |
+| **Depth** | 3 | Quanti elenchi disegna il blocco. Salvi il blocco e lo riapra per compilare un'etichetta per livello. Il modulo mostra al massimo 30 campi etichetta. |
+| **Root category** | categoria Home | Il primo elenco mostra le figlie di questa categoria. |
+| **Sort method** | By ID | By ID, By name o By position. Position è l'ordine della categoria nel catalogo. |
+| **Sort direction** | Ascending | Ascending o Descending. |
+| **Products counter** | No | Yes scrive il numero di prodotti tra parentesi dopo il nome della categoria. |
+| **Submit button** | After last select box | After each select box mostra **ok** al livello in cui si trova il cliente. After last select box mostra un **ok** per tutto il set. |
+| **Include products** | No | Yes mostra un elenco di prodotti dell'ultima categoria scelta. |
+| **Auto submit** | No | Yes invia il modulo appena è scelta l'ultima categoria disponibile. Il negozio apre quella categoria. Vale quando **Include products** è spento. Se la categoria scelta non ha figlie, il negozio la apre lo stesso. |
+| **Search inside dropdown** | No | Yes attiva la ricerca dentro gli elenchi. In **Settings**, **Include Select2 library** deve essere acceso anche lui. |
+| **Exclude categories** | vuoto | ID di categoria che non devono comparire negli elenchi. Li separi con virgole, per esempio 1,2,3,4,5,6. La ricerca accanto al campo trova una categoria e aggiunge il suo ID. |
+| **Show on category pages** | vuoto | Vuoto mostra il blocco su ogni pagina in cui sta il suo hook. ID di categoria, separati da virgole, lo mostrano solo su quelle pagine di categoria. |
+| **Label position** | Inside select box | Inside select box mette l'etichetta come prima opzione. Outside select box la stampa sopra il campo. |
+| **Label 1**, **Label 2** e seguenti | vuoto | Un campo per livello e per lingua. Compaiono dopo il salvataggio del blocco. Cambi **Depth** e salvi se ne servono di più o di meno. |
+| **Module position** | Top | Top, displaySearch, TopColumn, Left column, Right column, Home o displaySbs. |
+| **Position top settings** | Blocks | Blocks impila gli elenchi. Wide horizontal bar li mette su una riga. La barra larga vale su Top e displaySearch. Gli altri posti restano impilati. Sulla barra larga **ok** sta dopo l'ultimo elenco e scende alla riga successiva se non c'è spazio. |
+| **Shop** | il negozio che sta modificando | Un negozio o **All shops**. **All shops** lascia il blocco in ogni negozio. |
+| **Active** | Yes | No nasconde il blocco nel negozio. |
 
-- **Template hook (`views/templates/hook/`)**:
+Scelga **Save**. PrestaShop mostra la conferma abituale. Cancellare un blocco cancella anche il titolo, la scelta della barra larga e le etichette di livello.
 
-  - `block.tpl`: Questo template è probabilmente utilizzato quando il modulo è agganciato a `displayLeftColumn` o `displayRightColumn`. Renderizza i menu a discesa passo dopo passo all'interno di una struttura di blocco standard di PrestaShop.
-  - `blockSbs.tpl`: Questo potrebbe essere un template di blocco alternativo o più generico, potenzialmente utilizzato per altri hook di colonna o posizionamenti personalizzati specifici.
-  - `displaySearch.tpl`: Questo template potrebbe essere destinato all'integrazione vicino a una barra di ricerca o come parte di un hook correlato alla ricerca, fornendo i menu a discesa come strumento di affinamento della ricerca.
-  - `header.tpl`: Questo template è utilizzato quando il modulo è agganciato a `displayHeader`. Renderizza i menu a discesa all'interno della sezione dell'intestazione del negozio.
-  - `top.tpl`: Questo template è utilizzato quando il modulo è agganciato a `displayTop`. Simile a `header.tpl`, ma per l'hook `displayTop`, che è spesso utilizzato per la barra di navigazione principale.
-- **Template di amministrazione (`views/templates/admin/`)**: Nessuno identificato. La configurazione è gestita direttamente in `getContent()`.
-- **Template front-office (`views/templates/front/`)**: Nessuno identificato come pagine autonome.
+Per mostrare un blocco in un file del tema che non ha un hook già posizionato, usi l'hook displaySbs e metta **Module position** su displaySbs. Gli altri posti si agganciano in **Design**, **Posizioni**, se il tema non li stampa da solo.
 
-### 4.7 Schema del database e mappa degli hook
+## 4. Negozio
 
-- **Tabelle del database**: Il modulo non crea tabelle SQL personalizzate. Memorizza le sue impostazioni di configurazione nella tabella `ps_configuration` di PrestaShop utilizzando chiavi come `STEPMYSTEP_HEADER`, `STEPMYSTEP_LEFT`, `STEPMYSTEP_RIGHT`, `STEPMYSTEP_FOOTER`, `STEPMYSTEP_PRODUCT`, `STEPMYSTEP_GO_BUTTON`, `STEPMYSTEP_DROPDOWNS`, `STEPMYSTEP_ROOT_CATEGORY`.
-- **Tabella degli hook registrati**:
+Il cliente vede il titolo del blocco e gli elenchi.
 
-| Nome dell'hook | Tempistica di esecuzione | Scopo tecnico |
-| --- | --- | --- |
-| `displayHeader` | Renderizza il contenuto all'interno della sezione `<head>` dell'HTML, o all'inizio del `<body>` prima di altro contenuto. | Inietta risorse CSS/JS e potenzialmente la struttura HTML del modulo se configurato per la visualizzazione nell'intestazione. |
-| `displayLeftColumn` | Renderizza il contenuto nella barra laterale sinistra del negozio. | Visualizza i menu a discesa delle categorie passo dopo passo nella colonna sinistra. |
-| `displayRightColumn` | Renderizza il contenuto nella barra laterale destra del negozio. | Visualizza i menu a discesa delle categorie passo dopo passo nella colonna destra. |
-| `displayFooter` | Renderizza il contenuto nella sezione del piè di pagina del negozio. | Visualizza i menu a discesa delle categorie passo dopo passo nel piè di pagina. |
-| `displayProductAdditionalInfo` (o hook simile per la pagina prodotto) | Renderizza il contenuto nella pagina del prodotto, spesso sotto la descrizione del prodotto o in un blocco specifico. | Visualizza i menu a discesa delle categorie passo dopo passo nelle pagine dei prodotti. |
-| `displayTop` | Renderizza il contenuto nella sezione superiore della pagina, tipicamente sopra o all'interno della navigazione principale. | Visualizza i menu a discesa delle categorie passo dopo passo nella barra superiore. |
+1. Il primo elenco mostra le figlie della categoria radice. Gli elenchi successivi restano inattivi finché il livello precedente ha una categoria.
+2. Il cliente sceglie una categoria. Un indicatore copre il blocco. L'elenco successivo si riempie con le figlie. L'indicatore sparisce quando l'elenco è pronto, e anche se la richiesta fallisce.
+3. Gli ID esclusi non compaiono in quegli elenchi.
+4. Con **Submit button** su after each select box, **ok** sta al livello corrente. Con after last select box c'è un **ok** per il set.
+5. **ok** apre la categoria scelta.
+6. Con **Include products**, l'ultimo livello aggiunge un elenco prodotti. La prima opzione è **- Select Product -**. **ok** usa allora il prodotto scelto.
+7. Con **Auto submit** acceso e **Include products** spento, l'ultima categoria si apre senza **ok**. La stessa apertura vale se la categoria scelta non ha figlie.
+8. Con **Reset search fields** spento, una visita successiva può mostrare le stesse categorie. Il browser le tiene 30 minuti. Con l'opzione accesa, gli elenchi partono vuoti.
+9. Se **Search inside dropdown** e **Include Select2 library** sono accesi, il cliente può scrivere dentro l'elenco.
 
-## 5. Supporto ufficiale e aggiornamenti
+Nella colonna sinistra e in quella destra i livelli stanno uno sotto l'altro, con il titolo in maiuscolo come su Classic. Sulla barra larga i livelli stanno su una riga. Su uno schermo stretto la barra larga si impila. Colori, bordo e pulsante **ok** arrivano dal tema, anche Hummingbird e Classic su PrestaShop 9.
 
-Per gli ultimi aggiornamenti, correzioni di bug e supporto ufficiale per il modulo "Passo dopo passo - categorie", si prega di fare riferimento al proprio account cliente su [MyPresta.eu](https://mypresta.eu/my-account/orders/). Il nostro team di supporto è disponibile per assistervi con qualsiasi problema o domanda.
+Un blocco con **Show on category pages** compilato manca sulle altre pagine. Un blocco inattivo manca. Manca anche un blocco di un altro negozio.
+
+## 5. Problemi
+
+**Il blocco manca nel negozio.** Apra il blocco e controlli **Active**, **Module position** e **Shop**. **Show on category pages** vuoto lo mostra su ogni pagina di quell'hook. Un elenco compilato lo mostra solo su quelle pagine di categoria. In **Design**, **Posizioni**, controlli che l'hook stia sulle pagine previste. Per un posto proprio il template deve chiamare displaySbs e il blocco deve usare quella posizione.
+
+**L'elenco successivo non si riempie, o l'indicatore resta.** Svuoti la cache del negozio perché prenda il foglio di stile e lo script attuali. L'indicatore deve sparire quando la richiesta finisce, anche se la risposta non si può applicare. Se il negozio mostra ancora il vecchio caricatore gif, il CSS precedente è in cache.
+
+**La ricerca nell'elenco non fa nulla.** Accenda **Include Select2 library** in **Settings** e **Search inside dropdown** sul blocco. Salvi entrambi. Svuoti la cache.
+
+**A un blocco nuovo mancano le etichette.** Salvi il blocco una volta. Lo riapra. **Label 1** e il resto compaiono quando il blocco esiste, e solo fino al **Depth** salvato.
+
+**Manca una categoria che dovrebbe stare nell'elenco.** Tolga il suo ID da **Exclude categories**. Controlli che sia figlia del genitore scelto e che sia attiva nel catalogo.
+
+**La barra larga continua a impilare i campi.** **Wide horizontal bar** vale su Top e displaySearch. Sinistra, destra, home, TopColumn e displaySbs restano impilati. Sul telefono la barra larga si impila di proposito.
+
+**Dopo un aggiornamento manca la pagina Blocks.** Apra **Configura** una volta. Quella visita registra la pagina. Non disinstalli il modulo se vuole continuare a usare le righe già presenti. La disinstallazione toglie la pagina e lascia le righe.
+
+**La vecchia schermata di configurazione non ha l'icona del cestino.** Quella è una versione precedente. Carichi lo zip attuale dall'account cliente. Nella versione attuale si cancella un blocco nell'elenco **Blocks**, con **Delete** sulla riga o con **Delete selected**.
+
+## 6. Per gli sviluppatori
+
+### 6.1 Panoramica
+
+Nome tecnico `stepbystep`, classe `Stepbystep`, versione 1.9.0, autore MyPresta.eu, scheda `front_office_features`. Il nome nel back office è **Step By Step - categories tree**.
+
+`AdminStepbystepBlocksController` scrive le righe in `sbs_block` e titolo, etichette e flag della barra larga in `Configuration`. Gli hook del negozio leggono le righe attive del negozio corrente o con `id_shop = 0`. `controllers/front/tree.php` consegna lo script che riempie l'elenco successivo.
+
+### 6.2 File
+
+| File | Ruolo |
+|---|---|
+| `stepbystep.php` | Installazione, hook, modulo impostazioni, HTML degli elenchi, script del negozio. |
+| `controllers/admin/AdminStepbystepBlocksController.php` | Elenco blocchi e modulo del blocco. |
+| `models/SbsBlock.php` | Modello oggetto di `sbs_block`. |
+| `controllers/front/tree.php` | Controller del negozio che consegna lo script del livello successivo. |
+| `views/templates/hook/front.tpl` | Markup del negozio per ogni hook. |
+| `views/templates/hook/header.tpl` | Stampa lo script inline. |
+| `views/templates/admin/configure.tpl` | Barra Blocks, Settings, Updates. |
+| `css/sbs-front.css` | Layout del negozio, variabili del tema, indicatore. |
+| `js/advajax.js` | Richiesta degli elenchi. |
+| `lib/updatesChecker.php` | Controllo aggiornamenti. Classe `stepbystepUpdate`. |
+| `lib/searchTool/searchTool.php` | Ricerca dell'ID categoria nel modulo del blocco. Classe `searchToolstepbystep`. |
+| `lib/prestashop9compatibility.php` | Classe `stepbystepPrestashopNewCompatibility`. |
+| `views/css/admin.css` | Barra del back office. |
+
+`tree.php` nella radice del modulo è la copia precedente del controller del negozio. Il link del negozio usa `controllers/front/tree.php`. `views/templates/hook/block.tpl`, `blockSbs.tpl`, `top.tpl` e `displaySearch.tpl` non vengono renderizzati. `css/sbs-block.css` e `css/sbs-top.css` non vengono caricati.
+
+### 6.3 Controller
+
+`AdminStepbystepBlocksController` estende `ModuleAdminController`. `class_name` è `AdminStepbystepBlocks`. `id_parent` è `-1`, la pagina è nascosta nel menu. L'identificatore dell'elenco è `id`. Il trascinamento della posizione chiama `ajaxProcessUpdatePositions`. Il filtro dell'elenco è `id_shop` del negozio di contesto o `0`.
+
+`stepbysteptreeModuleFrontController` è il controller del negozio `tree`. `initContent` imposta `ajax` e non chiama `parent::initContent`. Legge `sbs_block`, `sbs_pid`, `sbs_lvl` e, alla conferma, `sbs_blockid` e `sbs_cidlink`. Il corpo della risposta è JavaScript. Un blocco assente chiude la risposta.
+
+### 6.4 Hook
+
+Hook registrati: `displayHeader`, `displayLeftColumn`, `displayRightColumn`, `displayTop`, `displaySearch`, `displayHome`, `displaySbs`, `displayBackOfficeHeader`. Da PrestaShop 1.6 anche `displaytopColumn`.
+
+| Hook | Valore posizione del blocco | Layout |
+|---|---|---|
+| `displayTop` | 1 | in alto, barra larga se `sbs_top_type{id}` è 1 |
+| `displayLeftColumn` | 2 | impilato |
+| `displayRightColumn` | 3 | impilato |
+| `displayHome` | 4 | impilato |
+| `displaytopColumn` | 5 | impilato |
+| `displaySearch` | 6 | in alto, barra larga se `sbs_top_type{id}` è 1 |
+| `displaySbs` | 7 | impilato |
+
+`displayHeader` carica `js/advajax.js` e `css/sbs-front.css`. Se `SBS_SELECT2` è 1, carica anche Select2. Non c'è un override di `enable()` né di `disable()`.
+
+### 6.5 Override
+
+Il modulo non sostituisce nessuna classe né nessun controller di PrestaShop.
+
+### 6.6 Database
+
+| Tabella | Contenuto |
+|---|---|
+| `ps_sbs_block` | `id`, `depth`, `root`, `orderby`, `orderway`, `counter`, `each_submit`, `lbl_position`, `block_position`, `position`, `active`, `products`, `last_submit`, `search_inside`, `exclude`, `id_shop`, `on_cat_only`, `id_categories`. |
+
+Il prefisso è quello del negozio. La disinstallazione non cancella la tabella. `inconsistency()` aggiunge una colonna mancante di questo elenco quando si apre la configurazione del modulo o l'elenco dei blocchi. `on_cat_only` resta e non è nel modulo. Il negozio usa `id_categories`.
+
+### 6.7 Chiavi di configurazione e traduzioni
+
+| Chiave | Se manca |
+|---|---|
+| `SBS_RESET` | Vale 0. La scelta resta 30 minuti nei cookie `sbs_selectbox_{block}_{level}`. |
+| `SBS_SELECT2` | Vale 0. Select2 non viene caricato. |
+| `sbs_title{id}` | Titolo del blocco, multilingue. |
+| `{id}sbs_lbl_{n}` | Etichetta del livello `n`, multilingue, da 1 alla profondità, al massimo 30. |
+| `sbs_top_type{id}` | 0 impilato, 1 barra larga. |
+
+L'installazione scrive anche `sbs_depth`, `sbs_counter`, `sbs_each_submit`, `sbs_position`, `sbs_lbl_position` e `sbs_root`. Il modulo del blocco non legge quelle chiavi. I blocchi nuovi usano i valori di `prepareObjectDefaults()`.
+
+Le traduzioni stanno in `translations/{iso}.php`. I testi del controller dei blocchi hanno origine `AdminStepbystepBlocksController`. Il testo del pulsante è il testo del modulo `ok`. Il segnaposto prodotto è `- Select Product -`.
+
+### 6.8 Estensione
+
+Sostituisca `views/templates/hook/front.tpl` nel tema come `themes/{theme}/modules/stepbystep/views/templates/hook/front.tpl`. Sostituisca `css/sbs-front.css` per la stessa via se il tema deve cambiare il layout. Il posto del pulsante sulla barra larga è l'ordine flex di quel foglio: il `.sbs__actions` visibile sta dopo gli elenchi e va a capo con loro.
+
+## 7. Aiuto
+
+Pagina del modulo: [Step by Step categories](https://mypresta.eu/modules/front-office-features/step-by-step-categories.html).
+
+Per scrivere a proposito di questo modulo, entri nell'account cliente su [mypresta.eu](https://mypresta.eu), apra il modulo di contatto e scelga **Support for paid modules**. Quell'argomento indica che serve l'accesso. Dopo l'accesso, scelga questo modulo dalla cronologia acquisti.
