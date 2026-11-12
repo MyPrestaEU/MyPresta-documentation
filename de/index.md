@@ -42,6 +42,8 @@ Benötigen Sie Hilfe bei der Konfiguration Ihres Shops? Wählen Sie unten ein Th
 
 
 
+
+
 :::tip[Modul nicht gefunden?]
 Sie können die gesamte Dokumentation sofort über die Suchleiste in der oberen Navigation (<kbd>Strg</kbd> + <kbd>K</kbd> / <kbd>⌘</kbd> + <kbd>K</kbd>) durchsuchen oder Ihr Kundenkonto auf [MyPresta.eu](https://mypresta.eu/my-account/orders/) besuchen, um alle gekauften Module und die Bestellhistorie anzuzeigen.
 :::

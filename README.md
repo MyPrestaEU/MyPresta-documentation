@@ -13,12 +13,12 @@ Welcome to the official GitHub documentation mirror for **[MyPresta.eu](https://
 
 | Language | Hub Link | Total Articles | Description |
 | :--- | :--- | :---: | :--- |
-| 🇬🇧 **English** | [Interactive Portal](https://mypresta.eu/docs/) | 367 | Master documentation & setup guides |
-| 🇵🇱 **Polski** | [Polski Portal](https://mypresta.eu/docs/pl/) | 366 | Polska instrukcja konfiguracji i podręcznik |
-| 🇩🇪 **Deutsch** | [Deutsches Portal](https://mypresta.eu/docs/de/) | 367 | Deutsche Moduldokumentation & Anleitungen |
-| 🇫🇷 **Français** | [Portail Français](https://mypresta.eu/docs/fr/) | 367 | Documentation officielle en français |
-| 🇪🇸 **Español** | [Portal Español](https://mypresta.eu/docs/es/) | 366 | Manuales y guías de configuración en español |
-| 🇮🇹 **Italiano** | [Portale Italiano](https://mypresta.eu/docs/it/) | 367 | Documentazione e guide ufficiali in italiano |
+| 🇬🇧 **English** | [Interactive Portal](https://mypresta.eu/docs/) | 369 | Master documentation & setup guides |
+| 🇵🇱 **Polski** | [Polski Portal](https://mypresta.eu/docs/pl/) | 368 | Polska instrukcja konfiguracji i podręcznik |
+| 🇩🇪 **Deutsch** | [Deutsches Portal](https://mypresta.eu/docs/de/) | 369 | Deutsche Moduldokumentation & Anleitungen |
+| 🇫🇷 **Français** | [Portail Français](https://mypresta.eu/docs/fr/) | 369 | Documentation officielle en français |
+| 🇪🇸 **Español** | [Portal Español](https://mypresta.eu/docs/es/) | 368 | Manuales y guías de configuración en español |
+| 🇮🇹 **Italiano** | [Portale Italiano](https://mypresta.eu/docs/it/) | 369 | Documentazione e guide ufficiali in italiano |
 
 ---
 

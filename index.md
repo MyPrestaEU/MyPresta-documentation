@@ -42,6 +42,8 @@ Need help configuring your shop? Select a topic below to find user manuals, conf
 
 
 
+
+
 :::tip[Can't Find Your Module?]
 You can search the entire documentation instantly using the search bar in the top navigation (<kbd>Ctrl</kbd> + <kbd>K</kbd> / <kbd>⌘</kbd> + <kbd>K</kbd>), or visit your customer account on [MyPresta.eu](https://mypresta.eu/my-account/orders/) to view all purchased modules and order history.
 :::
