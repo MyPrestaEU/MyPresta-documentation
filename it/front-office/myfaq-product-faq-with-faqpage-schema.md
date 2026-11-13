@@ -56,6 +56,10 @@ I nomi delle tessere fornitore, i titoli delle schede dati e i testi dei pulsant
 
 ### 3.1 Visualizzazione
 
+![Visualizzazione](https://mypresta.eu/docs/images/docs/myfaq-configure-display.webp)
+
+La schermata è in inglese. In questo manuale la sezione si chiama **Visualizzazione**.
+
 **Visualizzazione** è la presentazione di tutto il negozio. Un prodotto può comunque usare un'altra collocazione.
 
 | Campo | All'inizio | Cosa fa |
@@ -70,6 +74,10 @@ I nomi delle tessere fornitore, i titoli delle schede dati e i testi dei pulsant
 Clicchi **Salva**. La pagina mostra **Salvato.**
 
 ### 3.2 Voci
+
+![Voci](https://mypresta.eu/docs/images/docs/myfaq-configure-entries.webp)
+
+La schermata è in inglese. In questo manuale la sezione si chiama **Voci**.
 
 **Voci** è un'anteprima delle domande. La riga sotto la barra dice che sono le 10 voci aggiornate più di recente, e che **Nuova voce** e **Modifica** aprono il catalogo.
 
@@ -87,6 +95,10 @@ Il numero a destra è il totale delle voci, non solo le dieci di questa anteprim
 Quando non ci sono voci, la pagina dice **Nessuna voce ancora** e spiega che il negozio non mostra nulla finché una voce attiva non è collegata a un prodotto, categoria, caratteristica, attributo, tag, marca o fornitore.
 
 ### 3.3 Catalogo
+
+![Catalogo](https://mypresta.eu/docs/images/docs/myfaq-catalogue-list.webp)
+
+La schermata è in inglese. In questo manuale la sezione si chiama **Catalogo**.
 
 Apra **Mostra elenco completo**. Il titolo della pagina è **Voci FAQ**. La nota in alto dice che la ricerca confronta domanda, nome o ID del prodotto, lingua e gli altri collegamenti. La domanda è quella nella lingua corrente del back office. Il nome del prodotto apre quel prodotto. **Modifica** apre il modulo in questa pagina. **Su** e **Giù** spostano la voce. Trascini la colonna posizione per impostare lo stesso ordine. **Elimina** chiede conferma. **Attiva** mostra o nasconde la voce. Le voci bloccate vengono conservate quando l'IA sostituisce un prodotto.
 
@@ -154,6 +166,10 @@ La riga sotto i pulsanti dice di cliccare uno shortcode per inserirlo nel cursor
 
 ### 3.4 IA
 
+![IA](https://mypresta.eu/docs/images/docs/myfaq-configure-ai.webp)
+
+La schermata è in inglese. In questo manuale la sezione si chiama **IA**.
+
 **IA** salva la connessione usata dal generatore. La riga sotto la barra dice che salvare qui non genera nulla. Usi **Generazione in blocco** per molti prodotti, oppure il blocco del prodotto per uno solo.
 
 Clicchi una tessera. La tessera in uso mostra **Attivo**. Una tessera mostra **Chiave salvata**, **Nessuna chiave**, oppure **Chiave facoltativa** sulla tessera compatibile. I nomi delle tessere restano in inglese.
@@ -204,6 +220,10 @@ Messaggi che può vedere qui:
 - **Questo modello non l'hai aggiunto tu, quindi è stato lasciato al suo posto.**
 
 ### 3.5 Generazione in blocco
+
+![Generazione in blocco](https://mypresta.eu/docs/images/docs/myfaq-configure-bulk.webp)
+
+La schermata è in inglese. In questo manuale la sezione si chiama **Generazione in blocco**.
 
 **Generazione in blocco** mette in coda molti prodotti. La riga sotto la barra dice che i filtri vuoti vengono ignorati, che **Avvia generazione** scrive una lingua per richiesta e che questa pagina mostra una barra dallo 0 % al 100 %. L'indirizzo pianificato non legge questi filtri.
 
@@ -271,6 +291,10 @@ Prima di un'esecuzione la pagina rifiuta di partire e mostra uno di questi messa
 
 ### 3.6 API
 
+![API](https://mypresta.eu/docs/images/docs/myfaq-configure-api.webp)
+
+La schermata è in inglese. In questo manuale la sezione si chiama **API**.
+
 **API** serve a un sistema fuori dal negozio. La riga sotto la barra dice che qui si genera una chiave, le si dà un'etichetta e si copia l'URL di base. **Mostra elenco completo** apre il catalogo delle chiavi. **Cronologia richieste** elenca ogni chiamata, con i parametri e la risposta. **Documentazione API** elenca ogni azione.
 
 | Campo | All'inizio | Cosa fa |
@@ -315,6 +339,10 @@ Il catalogo delle chiavi si intitola **Chiavi API**. La nota dice che il segreto
 
 ### 3.7 Aggiornamenti
 
+![Aggiornamenti](https://mypresta.eu/docs/images/docs/myfaq-configure-updates.webp)
+
+La schermata è in inglese. In questo manuale la sezione si chiama **Aggiornamenti**.
+
 **Aggiornamenti** interroga MyPresta.eu per una versione più recente. Il controllo segnala solo una versione. Installare il pacchetto resta un download manuale dalla pagina del modulo. Il titolo del modulo è **Aggiornamenti MyPresta**.
 
 | Campo | All'inizio | Cosa fa |
@@ -328,6 +356,10 @@ Clicchi **Salva**. La pagina mostra **Impostazioni di aggiornamento salvate.**
 Quando è nota una versione più recente, il back office può mostrare **È disponibile una nuova versione, controlla http://MyPresta.eu per maggiori informazioni** e un link **Maggiori dettagli nel changelog**. Carichi il nuovo zip dal **Gestore dei moduli**.
 
 ### 3.8 Un prodotto
+
+![Un prodotto](https://mypresta.eu/docs/images/docs/myfaq-product-block.webp)
+
+La schermata è in inglese. In questo manuale la sezione si chiama **Un prodotto**.
 
 Apra **Catalogo**, **Prodotti**, il prodotto, poi il blocco **MyFAQ**. Il titolo è **FAQ su questo prodotto**. Il testo sotto dice: scegli dove questo prodotto mostra le proprie domande, verifica cosa eredita dal catalogo e scrivi voci che appartengono solo qui. Se nessuna voce è attiva, oppure la collocazione è **Nascondi**, il negozio non mostra alcun blocco MyFAQ su questo prodotto.
 

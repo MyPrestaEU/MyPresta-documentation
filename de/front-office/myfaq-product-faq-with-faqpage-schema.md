@@ -54,6 +54,10 @@ Ein externes System ist optional. Unter **API** erzeugen Sie einen Schlüssel, k
 
 ### 3.1 Anzeige
 
+![Anzeige](https://mypresta.eu/docs/images/docs/myfaq-configure-display.webp)
+
+Der Bildschirm ist auf Englisch. In dieser Anleitung heißt der Abschnitt **Anzeige**.
+
 **Anzeige** ist die Darstellung für den ganzen Shop. Ein einzelnes Produkt kann eine andere Platzierung nutzen.
 
 | Feld | Am Anfang | Wirkung |
@@ -68,6 +72,10 @@ Ein externes System ist optional. Unter **API** erzeugen Sie einen Schlüssel, k
 Klicken Sie auf **Speichern**. Die Seite zeigt **Gespeichert.**
 
 ### 3.2 Einträge
+
+![Einträge](https://mypresta.eu/docs/images/docs/myfaq-configure-entries.webp)
+
+Der Bildschirm ist auf Englisch. In dieser Anleitung heißt der Abschnitt **Einträge**.
 
 **Einträge** ist eine Vorschau der Fragen. Die Zeile unter der Leiste sagt, dass dies die 10 zuletzt aktualisierten Einträge sind und dass **Neuer Eintrag** und **Bearbeiten** den Katalog öffnen.
 
@@ -85,6 +93,10 @@ Die Zahl rechts ist die Anzahl der Einträge, nicht nur der zehn in dieser Vorsc
 Gibt es keine Einträge, sagt die Seite **Noch keine Einträge** und dass der Shop nichts zeigt, bis ein aktiver Eintrag mit einem Produkt, einer Kategorie, einem Merkmal, einem Attribut, einem Schlagwort, einer Marke oder einem Lieferanten verknüpft ist.
 
 ### 3.3 Katalog
+
+![Katalog](https://mypresta.eu/docs/images/docs/myfaq-catalogue-list.webp)
+
+Der Bildschirm ist auf Englisch. In dieser Anleitung heißt der Abschnitt **Katalog**.
 
 Öffnen Sie **Vollständige Liste anzeigen**. Der Seitentitel ist **FAQ-Einträge**. Der Hinweis oben sagt, dass die Suche Frage, Produktname oder -id, Sprache und die übrigen Verknüpfungen trifft. Die Frage ist die der aktuellen Backoffice-Sprache. Der Produktname öffnet dieses Produkt. **Bearbeiten** öffnet das Formular auf dieser Seite. **Nach oben** und **Nach unten** verschieben den Eintrag. Ziehen Sie die Positionsspalte, um dieselbe Reihenfolge zu setzen. **Löschen** fragt nach Bestätigung. **Aktiv** zeigt den Eintrag oder blendet ihn aus. Gesperrte Einträge bleiben, wenn die KI ein Produkt ersetzt.
 
@@ -152,6 +164,10 @@ Die Zeile unter den Schaltflächen lautet: **Klicken Sie auf einen Shortcode, um
 
 ### 3.4 KI
 
+![KI](https://mypresta.eu/docs/images/docs/myfaq-configure-ai.webp)
+
+Der Bildschirm ist auf Englisch. In dieser Anleitung heißt der Abschnitt **KI**.
+
 **KI** speichert die Verbindung für den KI FAQ Generator PrestaShop. Die Zeile unter der Leiste sagt, dass Speichern hier nichts erzeugt. Nutzen Sie **Massengenerierung** für viele Produkte oder den Bereich **Faq** an einem Produkt für ein Produkt.
 
 Klicken Sie eine Kachel. Die genutzte Kachel zeigt **Aktiv**. Eine Kachel zeigt **Schlüssel gespeichert**, **Kein Schlüssel** oder **Schlüssel optional** auf der kompatiblen Kachel.
@@ -204,6 +220,10 @@ Meldungen, die Sie hier sehen:
 - **Dieses Modell haben Sie nicht selbst hinzugefügt, deshalb blieb es unverändert.**
 
 ### 3.5 Massengenerierung
+
+![Massengenerierung](https://mypresta.eu/docs/images/docs/myfaq-configure-bulk.webp)
+
+Der Bildschirm ist auf Englisch. In dieser Anleitung heißt der Abschnitt **Massengenerierung**.
 
 **Massengenerierung** stellt viele Produkte in die Warteschlange. Die Zeile unter der Leiste sagt, dass leere Filter ignoriert werden, **Generierung starten** eine Sprache je Anfrage schreibt und diese Seite einen Balken von 0 % bis 100 % zeigt. Die geplante Adresse liest diese Filter nicht.
 
@@ -271,6 +291,10 @@ Vor einem Lauf verweigert die Seite den Start und zeigt eine dieser Meldungen:
 
 ### 3.6 API
 
+![API](https://mypresta.eu/docs/images/docs/myfaq-configure-api.webp)
+
+Der Bildschirm ist auf Englisch. In dieser Anleitung heißt der Abschnitt **API**.
+
 **API** ist für ein System außerhalb des Shops. Die Zeile unter der Leiste sagt, dass Sie hier einen Schlüssel erzeugen, ihm eine Bezeichnung geben und die Basis-URL kopieren. **Vollständige Liste anzeigen** öffnet den Schlüsselkatalog. **Anfrageverlauf** listet jeden Aufruf, mit Parametern und Antwort. **API-Dokumentation** listet jede Aktion.
 
 | Feld | Am Anfang | Wirkung |
@@ -315,6 +339,10 @@ Der Schlüsselkatalog heißt **API-Schlüssel**. Der Hinweis sagt, dass das Gehe
 
 ### 3.7 Updates
 
+![Updates](https://mypresta.eu/docs/images/docs/myfaq-configure-updates.webp)
+
+Der Bildschirm ist auf Englisch. In dieser Anleitung heißt der Abschnitt **Updates**.
+
 **Updates** prüft bei MyPresta.eu, ob eine neuere Ausgabe vorliegt. Die Prüfung meldet nur eine Version. Das Installieren des Pakets bleibt ein manueller Download von der Modulseite. Der Formulartitel ist **MyPresta-Updates**.
 
 | Feld | Am Anfang | Wirkung |
@@ -328,6 +356,10 @@ Klicken Sie auf **Speichern**. Die Seite zeigt **Update-Einstellungen gespeicher
 Ist eine neuere Ausgabe bekannt, kann das Backoffice **Eine neue Version ist verfügbar, weitere Informationen unter http://MyPresta.eu** und den Link **Weitere Details im Changelog** zeigen. Laden Sie die neue Zip-Datei im **Modul-Manager** hoch.
 
 ### 3.8 Ein Produkt
+
+![Ein Produkt](https://mypresta.eu/docs/images/docs/myfaq-product-block.webp)
+
+Der Bildschirm ist auf Englisch. In dieser Anleitung heißt der Abschnitt **Ein Produkt**.
 
 Öffnen Sie **Katalog**, **Produkte**, das Produkt, dann den Block **MyFAQ**. Die Überschrift ist **FAQ zu diesem Produkt**. Der Text darunter sagt: Wählen Sie, wo dieses Produkt seine Fragen zeigt, prüfen Sie, was es aus dem Katalog erbt, und schreiben Sie Einträge, die nur hierher gehören. Ist kein Eintrag aktiv oder ist die Platzierung **Ausblenden**, gibt der Shop auf diesem Produkt keinen MyFAQ-Block aus.
 

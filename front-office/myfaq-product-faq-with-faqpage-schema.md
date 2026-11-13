@@ -54,6 +54,10 @@ Open **Modules**, **Module Manager**, **MyFAQ**, **Configure**. The line under t
 
 ### 3.1 Display
 
+![Display](https://mypresta.eu/docs/images/docs/myfaq-configure-display.webp)
+
+The screen is the **Display** section.
+
 **Display** is the shop-wide presentation. A single product can still use a different placement.
 
 | Field | At the start | What it does |
@@ -68,6 +72,10 @@ Open **Modules**, **Module Manager**, **MyFAQ**, **Configure**. The line under t
 Click **Save**. The page shows **Saved.**
 
 ### 3.2 Entries
+
+![Entries](https://mypresta.eu/docs/images/docs/myfaq-configure-entries.webp)
+
+The screen is the **Entries** section.
 
 **Entries** is a preview of the questions. The line under the bar says this is the 10 entries updated most recently, and that **New entry** and **Edit** open the catalogue.
 
@@ -85,6 +93,10 @@ The count on the right is the number of entries, not only the ten on this previe
 When there are no entries the page says **No entries yet** and tells you the shop shows nothing until an active entry is linked to a product, category, feature, attribute, tag, brand or supplier.
 
 ### 3.3 Catalogue
+
+![Catalogue](https://mypresta.eu/docs/images/docs/myfaq-catalogue-list.webp)
+
+The screen is the **Catalogue**.
 
 Open **See full list**. The page title is **FAQ entries**. The note at the top says search matches the question, the product name or id, the language, and the other links. The question is the one in the current back-office language. The product name opens that product. **Edit** opens the form on this page. **Up** and **Down** move the entry. Drag the position column to set the same order. **Delete** asks for confirmation. **Active** shows or hides the entry. Locked entries are kept when AI replaces a product.
 
@@ -152,6 +164,10 @@ The line under the buttons says: click a shortcode to insert it at the caret. Pr
 
 ### 3.4 AI
 
+![AI](https://mypresta.eu/docs/images/docs/myfaq-configure-ai.webp)
+
+The screen is the **AI** section.
+
 **AI** stores the connection the AI FAQ generator PrestaShop uses. The line under the bar says saving here does not generate anything. Use **Bulk generation** for many products, or the **Faq** section on a product for one product.
 
 Click a tile. The tile in use shows **Active**. A tile shows **Key stored**, **No key**, or **Key optional** on the compatible tile.
@@ -202,6 +218,10 @@ Messages you can see here:
 - **That model is not one you added, so it was left in place.**
 
 ### 3.5 Bulk generation
+
+![Bulk generation](https://mypresta.eu/docs/images/docs/myfaq-configure-bulk.webp)
+
+The screen is the **Bulk generation** section.
 
 **Bulk generation** queues many products. The line under the bar says empty filters are ignored, **Start generation** writes one language per request, and this page shows a bar from 0% to 100%. The scheduled address does not read these filters.
 
@@ -269,6 +289,10 @@ Before a run, the page refuses to start and shows one of these:
 
 ### 3.6 API
 
+![API](https://mypresta.eu/docs/images/docs/myfaq-configure-api.webp)
+
+The screen is the **API** section.
+
 **API** is for a system outside the shop. The line under the bar says you generate a key here, give it a label, and copy the base URL. **See full list** opens the key catalogue. **Request history** lists every call, with the parameters and the response. **API documentation** lists every action.
 
 | Field | At the start | What it does |
@@ -313,6 +337,10 @@ The key catalogue is titled **API keys**. The note says the secret is listed so 
 
 ### 3.7 Updates
 
+![Updates](https://mypresta.eu/docs/images/docs/myfaq-configure-updates.webp)
+
+The screen is the **Updates** section.
+
 **Updates** checks MyPresta.eu for a newer release. The check only reports a version. Installing the package stays a manual download from the module page. The form title is **MyPresta Updates**.
 
 | Field | At the start | What it does |
@@ -326,6 +354,10 @@ Click **Save**. The page shows **Update settings saved.**
 When a newer release is known, the back office can show **New version available, check http://MyPresta.eu for more informations** and a link **More details in changelog**. Upload the new zip from **Module Manager**.
 
 ### 3.8 One product
+
+![One product](https://mypresta.eu/docs/images/docs/myfaq-product-block.webp)
+
+The screen is the MyFAQ block on the product, section **One product**.
 
 Open **Catalog**, **Products**, the product, then the **MyFAQ** block. The heading is **FAQ on this product**. The text under it says: choose where this product shows its questions, review what it inherits from the catalogue, and write entries that belong only here. If no entry is active, or placement is **Hide**, the shop renders no MyFAQ block on this product.
 

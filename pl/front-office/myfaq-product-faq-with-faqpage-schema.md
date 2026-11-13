@@ -54,6 +54,10 @@ Otwórz **Moduły**, **Menedżer modułów**, **MyFAQ**, **Konfiguruj**. Linia p
 
 ### 3.1 Wyświetlanie
 
+![Wyświetlanie](https://mypresta.eu/docs/images/docs/myfaq-configure-display.webp)
+
+Ekran jest po angielsku. W tej instrukcji to sekcja **Wyświetlanie**.
+
 **Wyświetlanie** to prezentacja dla całego sklepu. Pojedynczy produkt może mieć inne umieszczenie.
 
 | Pole | Na starcie | Co robi |
@@ -68,6 +72,10 @@ Otwórz **Moduły**, **Menedżer modułów**, **MyFAQ**, **Konfiguruj**. Linia p
 Kliknij **Zapisz**. Strona pokazuje **Zapisano.**
 
 ### 3.2 Wpisy
+
+![Wpisy](https://mypresta.eu/docs/images/docs/myfaq-configure-entries.webp)
+
+Ekran jest po angielsku. W tej instrukcji to sekcja **Wpisy**.
 
 **Wpisy** to podgląd pytań. Linia pod paskiem mówi, że to 10 wpisów zaktualizowanych najpóźniej oraz że **Nowy wpis** i **Edytuj** otwierają katalog.
 
@@ -85,6 +93,10 @@ Licznik po prawej to liczba wpisów, nie tylko dziesięciu z podglądu. **Edytuj
 Gdy wpisów nie ma, strona mówi **Brak wpisów** i że sklep nic nie pokazuje, dopóki aktywny wpis nie jest powiązany z produktem, kategorią, cechą, atrybutem, tagiem, marką albo dostawcą.
 
 ### 3.3 Katalog
+
+![Katalog](https://mypresta.eu/docs/images/docs/myfaq-catalogue-list.webp)
+
+Ekran jest po angielsku. W tej instrukcji to sekcja **Katalog**.
 
 Otwórz **Pokaż pełną listę**. Tytuł strony to **Wpisy FAQ**. Notka u góry mówi, że wyszukiwanie trafia w pytanie, nazwę lub id produktu, język i pozostałe powiązania. Pytanie jest tym z bieżącego języka zaplecza. Nazwa produktu otwiera ten produkt. **Edytuj** otwiera formularz na tej stronie. **Góra** i **Dół** przesuwają wpis. Przeciągnij kolumnę pozycji, żeby ustawić tę samą kolejność. **Usuń** pyta o potwierdzenie. **Aktywny** pokazuje albo ukrywa wpis. Zablokowane wpisy zostają, gdy AI zastępuje produkt.
 
@@ -152,6 +164,10 @@ Linia pod przyciskami mówi: **Kliknij shortkod, aby wstawić go w miejscu kurso
 
 ### 3.4 AI
 
+![AI](https://mypresta.eu/docs/images/docs/myfaq-configure-ai.webp)
+
+Ekran jest po angielsku. W tej instrukcji to sekcja **AI**.
+
 **AI** trzyma połączenie. Na tej karcie ustawiasz generator FAQ AI PrestaShop. Linia pod paskiem mówi, że zapis tutaj nic nie generuje. Do wielu produktów użyj **Generowanie zbiorcze**, a do jednego produktu sekcji **Faq** przy produkcie.
 
 Kliknij kafelek. Używany kafelek pokazuje **Aktywny**. Kafelek pokazuje **Klucz zapisany**, **Brak klucza** albo **Klucz opcjonalny** na kafelku zgodnym.
@@ -202,6 +218,10 @@ Komunikaty, które tu zobaczysz:
 - **Ten model nie został dodany przez Ciebie, więc pozostał na miejscu.**
 
 ### 3.5 Generowanie zbiorcze
+
+![Generowanie zbiorcze](https://mypresta.eu/docs/images/docs/myfaq-configure-bulk.webp)
+
+Ekran jest po angielsku. W tej instrukcji to sekcja **Generowanie zbiorcze**.
 
 **Generowanie zbiorcze** ustawia w kolejce wiele produktów. Linia pod paskiem mówi, że puste filtry są pomijane, **Start generowania** pisze jeden język na żądanie, a ta strona pokazuje pasek od 0% do 100%. Adres harmonogramu nie czyta tych filtrów.
 
@@ -269,6 +289,10 @@ Przed przebiegiem strona odmawia startu i pokazuje jeden z tych komunikatów:
 
 ### 3.6 API
 
+![API](https://mypresta.eu/docs/images/docs/myfaq-configure-api.webp)
+
+Ekran jest po angielsku. W tej instrukcji to sekcja **API**.
+
 **API** jest dla systemu poza sklepem. Linia pod paskiem mówi, że generujesz tu klucz, dajesz mu etykietę i kopiujesz adres bazowy. **Pokaż pełną listę** otwiera katalog kluczy. **Historia żądań** wymienia każde wywołanie, z parametrami i odpowiedzią. **Dokumentacja API** wymienia każdą akcję.
 
 | Pole | Na starcie | Co robi |
@@ -313,6 +337,10 @@ Katalog kluczy ma tytuł **Klucze API**. Notka mówi, że sekret jest na liście
 
 ### 3.7 Aktualizacje
 
+![Aktualizacje](https://mypresta.eu/docs/images/docs/myfaq-configure-updates.webp)
+
+Ekran jest po angielsku. W tej instrukcji to sekcja **Aktualizacje**.
+
 **Aktualizacje** sprawdza na MyPresta.eu, czy jest nowsze wydanie. Sprawdzenie tylko podaje wersję. Instalacja paczki zostaje ręcznym pobraniem ze strony modułu. Tytuł formularza to **Aktualizacje MyPresta**.
 
 | Pole | Na starcie | Co robi |
@@ -326,6 +354,10 @@ Kliknij **Zapisz**. Strona pokazuje **Zapisano ustawienia aktualizacji.**
 Gdy nowsze wydanie jest znane, zaplecze może pokazać **Dostępna jest nowa wersja, sprawdź http://MyPresta.eu, aby uzyskać więcej informacji** i link **Więcej szczegółów w changelogu**. Wgraj nowy zip z **Menedżera modułów**.
 
 ### 3.8 Jeden produkt
+
+![Jeden produkt](https://mypresta.eu/docs/images/docs/myfaq-product-block.webp)
+
+Ekran jest po angielsku. W tej instrukcji to sekcja **Jeden produkt**.
 
 Otwórz **Katalog**, **Produkty**, produkt, potem blok **MyFAQ**. Nagłówek to **FAQ w tym produkcie**. Tekst pod nim mówi: wybierz, gdzie ten produkt pokazuje pytania, przejrzyj to, co dziedziczy z katalogu, i napisz wpisy, które należą tylko tutaj. Gdy żaden wpis nie jest aktywny albo umieszczenie to **Ukryj**, sklep nie renderuje bloku MyFAQ na tym produkcie.
 
