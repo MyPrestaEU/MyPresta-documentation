@@ -44,6 +44,7 @@ Potrzebujesz pomocy w konfiguracji swojego sklepu? Wybierz temat poniżej, aby z
 
 
 
+
 :::tip[Nie możesz znaleźć swojego modułu?]
 Możesz błyskawicznie przeszukać całą dokumentację, używając paska wyszukiwania w górnej nawigacji (<kbd>Ctrl</kbd> + <kbd>K</kbd> / <kbd>⌘</kbd> + <kbd>K</kbd>), lub odwiedzić swoje konto klienta na [MyPresta.eu](https://mypresta.eu/my-account/orders/), aby wyświetlić wszystkie zakupione moduły i historię zamówień.
 :::

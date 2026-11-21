@@ -44,6 +44,7 @@ Hai bisogno di aiuto per configurare il tuo negozio? Seleziona un argomento qui 
 
 
 
+
 :::tip[Non riesci a trovare il tuo modulo?]
 Puoi cercare nell'intera documentazione istantaneamente usando la barra di ricerca nella navigazione superiore (<kbd>Ctrl</kbd> + <kbd>K</kbd> / <kbd>⌘</kbd> + <kbd>K</kbd>), oppure visitare il tuo account cliente su [MyPresta.eu](https://mypresta.eu/my-account/orders/) per visualizzare tutti i moduli acquistati e la cronologia degli ordini.
 :::
